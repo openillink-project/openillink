@@ -26,10 +26,10 @@
 // essential parameters
 
 // MySQL access codes
-$configmysqldb = "openillink";
+$configmysqldb = "openillink_v2_git";
 $configmysqlhost = "localhost";
 $configmysqllogin = "root";
-$configmysqlpwd = "panamara";
+$configmysqlpwd = "";
 
 // Google Analytics code (leave blank if not applicable)
 $configanalytics = "";
@@ -122,7 +122,7 @@ require ("translations.php");
 
 
 // shibboleth authentication (0 inactive, 1 active)
-$shibboleth = 1;
+$shibboleth = 0;
 
 // shibboleth url including entityID, return URL and target (redirection to the login.php)
 $shibbolethurl = "https://wayf.www.univxyz.com/shibboleth/WAYF?entityID=https%3A%2F%2Fwww.univxyz.com%2Fshibboleth&return=http%3A%2F%2Fwww.univxyz.com%2FShibboleth.sso%2FDS%3FSAMLDS%3D1%26target%3Dhttp%3A%2F%2Fwww.univxyz.com%2Flogin.php%26action%3Dshibboleth";

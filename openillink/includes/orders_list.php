@@ -60,15 +60,6 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
     }
 
     
-    $reqBib = "SELECT code FROM units WHERE library = '$monbib'";
-    $resBib = dbquery($reqBib);
-    $nbBib = iimysqli_num_rows($resBib);
-    $bibList = '';
-    for ($l=0 ; $l<$nbBib ; $l++){
-        $currBib = iimysqli_result_fetch_array($resBib);
-        $bibList = empty($bibList)?"'".$currBib['code']."'":$bibList.",'".$currBib['code']."'";
-    }
-
     $reqServ = "SELECT code FROM units WHERE library = '$monbib'";
     $resServ = dbquery($reqServ);
     $nbServ = iimysqli_num_rows($resServ);
@@ -96,17 +87,26 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
     switch ($folder){
         case 'in':
             $conditions = "WHERE (".
-            "(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND ".
-            "(orders.localisation IN ($locList) OR orders.bibliotheque = '$monbib' OR orders.service IN ($servList))) ".
+            "(orders.stade IN ($listIn) ".
+            "OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND ".
+            "(orders.bibliotheque = '$monbib' ".
+            ($locList!=''?"OR orders.localisation IN ($locList) ":' ').
+            ($servList!=''?"OR orders.service IN ($servList) ":' ').
+            ")) ".
             "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '$monbib') ";
             break;
         case 'out':
-            $conditions = "WHERE (orders.localisation IN ($locList) OR orders.bibliotheque = '$monbib' OR orders.service IN ($servList)) AND orders.stade IN ($listOut) ";
+            $conditions = "WHERE (orders.bibliotheque = '$monbib' ".
+            ($locList!=''?"OR orders.localisation IN ($locList) ":' ').
+            ($servList!=''?"OR orders.service IN ($servList)":' ').
+            ") AND orders.stade IN ($listOut) ";
             break;
         case 'all':
             if ($monaut == "sadmin"){}
             else {
-                $conditions = "WHERE orders.bibliotheque = '$monbib' OR orders.localisation IN ($locList) OR orders.service IN ($bibList) ";
+                $conditions = "WHERE orders.bibliotheque = '$monbib'".
+                ($locList!=''?" OR orders.localisation IN ($locList)":' ').
+                ($servList!=''?" OR orders.service IN ($servList) ":' ');
             }
             break;
         case 'trash':
@@ -120,10 +120,14 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
             require_once ("search.php");
             break;
         default:
-            $conditions = "WHERE ("
-            ."(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND "
-            ."(orders.localisation IN ($locList) OR orders.bibliotheque = '$monbib' OR orders.service IN ($servList))) "
-            ."OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '$monbib') ";
+            $conditions = "WHERE (".
+            "(orders.stade IN ($listIn) ".
+            "OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND ".
+            "(orders.bibliotheque = '$monbib' ".
+            ($locList!=''?"OR orders.localisation IN ($locList) ":' ').
+            ($servList!=''?"OR orders.service IN ($servList) ":' ').
+            ")) ".
+            "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '$monbib') ";
             break;
     }
     $from = (($page * $max_results) - $max_results);

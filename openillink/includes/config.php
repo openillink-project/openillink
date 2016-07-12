@@ -32,7 +32,10 @@ $configmysqllogin = "root";
 $configmysqlpwd = "panamara";
 
 // Google Analytics code (leave blank if not applicable)
-$configanalytics = "UA-123456789";
+$configanalytics = "";
+// Add logging option: used to trace and analyse problems, allowed levels: DEV, TEST, PROD
+// any other value will be ignored
+$configdebuglogging = '';
 
 // Informations about the main library managing the ILL network
 $configlibname = "XYZ University Library";
@@ -47,8 +50,12 @@ $configliburl = "http://www.univxyz.com/library";
 
 // Name of ILL or document delivery manager
 $configillmanagername = "John Smith";
+$configillmanagerfirstname = "John";
+$configillmanagerlastname = "Smith";
 $configillmanageremail = "john.smith@univxyz.com";
 $configillmanagertel = "+12 34 567 89 01";
+$configilllibid = "library ill id";
+$configillmaxprice = 10;
 
 // e-mail address used to receive external orders
 $configemaildelivery = "docdelivery@univxyz.com";
@@ -119,6 +126,112 @@ $shibboleth = 1;
 
 // shibboleth url including entityID, return URL and target (redirection to the login.php)
 $shibbolethurl = "https://wayf.www.univxyz.com/shibboleth/WAYF?entityID=https%3A%2F%2Fwww.univxyz.com%2Fshibboleth&return=http%3A%2F%2Fwww.univxyz.com%2FShibboleth.sso%2FDS%3FSAMLDS%3D1%26target%3Dhttp%3A%2F%2Fwww.univxyz.com%2Flogin.php%26action%3Dshibboleth";
+
+// Name of the system displayed in the main menu bar and on title HTML tag
+$configname["fr"] = "OpenILLink : commande de documents à la Bibliothèque XYZ";
+$configname["en"] = "OpenILLink : Orders to the Library XYZ";
+$configname["de"] = "OpenILLink : Orders to the Library XYZ";
+$configname["it"] = "OpenILLink : Orders to the Library XYZ";
+$configname["es"] = "OpenILLink : Orders to the Library XYZ";
+
+// Main institution name
+$configinstitution["fr"] = "Bibliothèque universitaire de XYZ";
+$configinstitution["en"] = "University Library of XYZ";
+$configinstitution["de"] = "Universitätsbibliothek XYZ";
+$configinstitution["it"] = "Biblioteca universitaria XYZ";
+$configinstitution["es"] = "Biblioteca de la Universidad XYZ";
+
+// Secondary institution name
+$configinstitution2["fr"] = "Université de XYZ";
+$configinstitution2["en"] = "University of XYZ";
+$configinstitution2["de"] = "Universität XYZ";
+$configinstitution2["it"] = "Università XYZ";
+$configinstitution2["es"] = "Universidad XYZ";
+
+// Library name
+$configlibrary["fr"] = "Faculté de XYZ"; // MDV - CONFIG : title text displayed for a new order (08.12.2015)
+$configlibrary["en"] = "Faculty of XYZ";
+$configlibrary["de"] = "Fakultät für XYZ";
+$configlibrary["it"] = "Facoltà XYZ";
+$configlibrary["es"] = "Facultad XYZ";
+
+// Library address displayed on description pages and messages 
+$configadresse["fr"] = "Faculté XYZ\n"; // MDV - CONFIG : title text displayed for a new order (08.12.2015)
+$configadresse["fr"] .= "1, Central Park\n"; // MDV - CONFIG : first line of address displayed for a new order (08.12.2015)
+$configadresse["fr"] .= "CH-1000 Lausanne\n"; // MDV - CONFIG : zip and town of the address displayed for a new order (08.12.2015)
+$configadresse["fr"] .= "Tel. +12 34 567 89 00\n";
+$configadresse["fr"] .= "help@library.net\n"; // MDV - CONFIG : valeur affichÃ©e en haut de la page d'une nouvelle commande (08.12.2015)
+$configadresse["fr"] .= "http://library.net/\n";
+
+$configadresse["en"] = "Faculty XYZ\n"; // MDV - CONFIG : title text displayed for a new order (08.12.2015)
+$configadresse["en"] .= "1, Central Park\n"; // MDV - CONFIG : first line of address displayed for a new order (08.12.2015)
+$configadresse["en"] .= "CH-1000 Lausanne\n"; // MDV - CONFIG : zip and town of the address displayed for a new order (08.12.2015)
+$configadresse["en"] .= "Tel. +12 34 567 89 00\n";
+$configadresse["en"] .= "help@library.net\n"; // MDV - CONFIG : valeur affichÃ©e en haut de la page d'une nouvelle commande (08.12.2015)
+$configadresse["en"] .= "http://library.net/\n";
+
+$configadresse["de"] = "Facultät XYZ\n"; // MDV - CONFIG : title text displayed for a new order (08.12.2015)
+$configadresse["de"] .= "1, Central Park\n"; // MDV - CONFIG : first line of address displayed for a new order (08.12.2015)
+$configadresse["de"] .= "CH-1000 Lausanne\n"; // MDV - CONFIG : zip and town of the address displayed for a new order (08.12.2015)
+$configadresse["de"] .= "Tel. +12 34 567 89 00\n";
+$configadresse["de"] .= "help@library.net\n"; // MDV - CONFIG : valeur affichÃ©e en haut de la page d'une nouvelle commande (08.12.2015)
+$configadresse["de"] .= "http://library.net/\n";
+
+$configadresse["it"] = "Facoltà XYZ\n"; // MDV - CONFIG : title text displayed for a new order (08.12.2015)
+$configadresse["it"] .= "1, Central Park\n"; // MDV - CONFIG : first line of address displayed for a new order (08.12.2015)
+$configadresse["it"] .= "CH-1000 Lausanne\n"; // MDV - CONFIG : zip and town of the address displayed for a new order (08.12.2015)
+$configadresse["it"] .= "Tel. +12 34 567 89 00\n";
+$configadresse["it"] .= "help@library.net\n"; // MDV - CONFIG : valeur affichÃ©e en haut de la page d'une nouvelle commande (08.12.2015)
+$configadresse["it"] .= "http://library.net/\n";
+
+$configadresse["es"] = "Facultad XYZ\n"; // MDV - CONFIG : title text displayed for a new order (08.12.2015)
+$configadresse["es"] .= "1, Central Park\n"; // MDV - CONFIG : first line of address displayed for a new order (08.12.2015)
+$configadresse["es"] .= "CH-1000 Lausanne\n"; // MDV - CONFIG : zip and town of the address displayed for a new order (08.12.2015)
+$configadresse["es"] .= "Tel. +12 34 567 89 00\n";
+$configadresse["es"] .= "help@library.net\n"; // MDV - CONFIG : valeur affichÃ©e en haut de la page d'une nouvelle commande (08.12.2015)
+$configadresse["es"] .= "http://library.net/\n";
+
+// URL of the IT help desk
+$confighelpdeskurl["fr"] = "http://library.net/contact/";
+$confighelpdeskurl["en"] = "http://library.net/contact/";
+$confighelpdeskurl["de"] = "http://library.net/contact/";
+$confighelpdeskurl["it"] = "http://library.net/contact/";
+$confighelpdeskurl["es"] = "http://library.net/contact/";
+
+// Informations about document delivery team
+$configteam["fr"] = "<li>Renseignements (<a href=\"mailto:help@library.net\">help@library.net</a>) - <a href=\"http://library.net/contact/\" target=\"_blank\">Library name</a></li>\n";
+$configteam["en"] = "<li>Information (<a href=\"mailto:help@library.net\">help@library.net</a>) - <a href=\"http://library.net/contact/\" target=\"_blank\">Library name</a></li>\n";
+$configteam["de"] = "<li>Informationen (<a href=\"mailto:help@library.net\">help@library.net</a>) - <a href=\"http://library.net/contact/\" target=\"_blank\">Library name</a></li>\n";
+$configteam["it"] = "<li>Informazioni (<a href=\"mailto:help@library.net\">help@library.net</a>) - <a href=\"http://library.net/contact/\" target=\"_blank\">Library name</a></li>\n";
+$configteam["es"] = "<li>Informaciòn (<a href=\"mailto:help@library.net\">help@library.net</a>) - <a href=\"http://library.net/contact/\" target=\"_blank\">Library name</a></li>\n";
+
+// Name and URL of AtoZ system
+$atozname["fr"] = "AtoZ system";
+$atozname["en"] = "AtoZ system";
+$atozname["de"] = "AtoZ system";
+$atozname["it"] = "AtoZ system";
+$atozname["es"] = "AtoZ system";
+
+$atozlinkurl["fr"] = "http://atozlink.net/magazines/";
+$atozlinkurl["en"] = "http://atozlink.net/magazines/";
+$atozlinkurl["de"] = "http://atozlink.net/magazines/";
+$atozlinkurl["it"] = "http://atozlink.net/magazines/";
+$atozlinkurl["es"] = "http://atozlink.net/magazines/";
+
+// Library web site URL
+$configlibraryurl["fr"] = "http://faculty.net/";
+$configlibraryurl["en"] = "http://faculty.net/";
+$configlibraryurl["de"] = "http://faculty.net/";
+$configlibraryurl["it"] = "http://faculty.net/";
+$configlibraryurl["es"] = "http://faculty.net/";
+
+// Library email
+$configlibraryemail["fr"] = "illMail@library.net";
+$configlibraryemail["en"] = "illMail@library.net";
+$configlibraryemail["de"] = "illMail@library.net";
+$configlibraryemail["it"] = "illMail@library.net";
+$configlibraryemail["es"] = "illMail@library.net";
+
 
 
 ?>

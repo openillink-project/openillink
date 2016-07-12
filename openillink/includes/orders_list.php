@@ -25,99 +25,162 @@
 // ***************************************************************************
 // List of orders distributed in 4 folders : IN, OUT, ALL and TRASH
 // Inbox : new orders to be processed, rejected orders by the other network libraries, renewed orders (ahead of print), orders in process
+// 17.03.2016, MDV Replaced connector to db from mysql_ to mysqli_
+// 21.03.2016, MDV Input reading verification
+// 01.04.2016, MDV refactoring query to avoid duplication of query
 //
+require_once ("includes/toolkit.php");
+require_once ('connexion.php');
 $monbibr=$monbib."%";
-if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut == "guest"))
-{
-$myhtmltitle = "Commandes de " . $configinstitution[$lang] . " : liste de commandes";
-require ("connect.php");
-if(!isset($_GET['page']))
-{
-$page = 1;
-}
-else
-{ 
-$page = $_GET['page'];
-} 
+if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut == "guest")){
+    $myhtmltitle = "Commandes de " . $configinstitution[$lang] . " : liste de commandes";
+    $page = (isset($_GET['page']) && isValidInput($_GET['page'],8,'s',false))?$_GET['page']:1;
 
-// 
 // Figure out the limit for the query based on the current page number
-// 
-require ("headeradmin.php");
-require ("searchform.php");
-$madatej=date("Y-m-d");
+    if ($debugOn)
+        prof_flag("Start");
+    require_once ("headeradmin.php");
+    if ($debugOn)
+        prof_flag("After head");
+    require_once ("searchform.php");
+    if ($debugOn)
+        prof_flag("After search");
+    $madatej=date("Y-m-d");
 // Choice of folder
-$folder = $_GET['folder'];
-$pageslinksurl = "list.php?folder=".$folder;
-switch ($folder)
-{
-case 'in':
-$req2 = "SELECT orders.illinkid FROM status LEFT JOIN orders ON status.code = orders.stade WHERE ((status.in = 1 OR (status.special = 'renew' AND orders.renouveler <= '$madatej')) AND orders.localisation LIKE '$monbibr') OR (status.special = 'reject' AND orders.bibliotheque LIKE '$monbib') GROUP BY orders.illinkid";
-break;
-case 'out':
-$req2 = "SELECT orders.illinkid FROM status LEFT JOIN orders ON status.code = orders.stade WHERE (orders.localisation LIKE '$monbibr' OR orders.bibliotheque LIKE '$monbib' OR orders.service LIKE '$monbib') AND status.out = 1 GROUP BY orders.illinkid";
-break;
-case 'all':
-if ($monaut == "sadmin")
-$req2 = "SELECT orders.illinkid FROM status LEFT JOIN orders ON status.code = orders.stade WHERE orders.illinkid > 0 GROUP BY orders.illinkid";
-else
-$req2 = "SELECT orders.illinkid FROM status LEFT JOIN orders ON status.code = orders.stade WHERE orders.bibliotheque LIKE '$monbib' OR orders.localisation LIKE '$monbibr' OR orders.service LIKE '$monbib' GROUP BY orders.illinkid";
-break;
-case 'trash':
-$req2 = "SELECT orders.illinkid FROM status LEFT JOIN orders ON status.code = orders.stade WHERE status.trash = 1 AND orders.bibliotheque LIKE '$monbib' GROUP BY orders.illinkid";
-break;
-case 'guest':
-$req2 = "SELECT orders.illinkid FROM status LEFT JOIN orders ON status.code = orders.stade WHERE orders.mail LIKE '$monnom' GROUP BY orders.illinkid";
-break;
-case 'search':
-require ("search.php");
-break;
-default:
-$req2 = "SELECT orders.illinkid FROM status LEFT JOIN orders ON status.code = orders.stade WHERE ((status.in = 1 OR (status.renew = 1 AND orders.renouveler <= '$madatej')) AND orders.localisation LIKE '$monbibr') OR (status.reject = 1 AND orders.bibliotheque LIKE '$monbib') GROUP BY orders.illinkid";
+    $folder = (isset($_GET['folder']) && isValidInput($_GET['folder'],6,'s',false))?$_GET['folder']:'';
+    $pageslinksurl = "list.php?folder=".$folder;
+
+    $reqLoc = "SELECT code FROM localizations WHERE library = '$monbib'";
+    $resLoc = dbquery($reqLoc);
+    $nbLoc = iimysqli_num_rows($resLoc);
+    $locList = '';
+    for ($l=0 ; $l<$nbLoc ; $l++){
+        $currLoc = iimysqli_result_fetch_array($resLoc);
+        $locList = empty($locList)?"'".$currLoc['code']."'":$locList.",'".$currLoc['code']."'";
+    }
+
+    
+    $reqBib = "SELECT code FROM units WHERE library = '$monbib'";
+    $resBib = dbquery($reqBib);
+    $nbBib = iimysqli_num_rows($resBib);
+    $bibList = '';
+    for ($l=0 ; $l<$nbBib ; $l++){
+        $currBib = iimysqli_result_fetch_array($resBib);
+        $bibList = empty($bibList)?"'".$currBib['code']."'":$bibList.",'".$currBib['code']."'";
+    }
+
+    $reqServ = "SELECT code FROM units WHERE library = '$monbib'";
+    $resServ = dbquery($reqServ);
+    $nbServ = iimysqli_num_rows($resServ);
+    $servList = '';
+    for ($l=0 ; $l<$nbServ ; $l++){
+        $currServ = iimysqli_result_fetch_array($resServ);
+        $servList = empty($servList)?"'".$currServ['code']."'":$servList.",'".$currServ['code']."'";
+    }
+    
+
+    $codeIn = array();
+    $codeOut = array();
+    $codeTrash = array();
+    $codeSpecial = array();
+    $statusInfo = readStatus($codeIn, $codeOut,$codeTrash, $codeSpecial);
+    $listIn = "'".implode ( "','", $codeIn)."'";
+    $listOut = "'".implode (  "','", $codeOut)."'";
+    $listTrash = "'".implode (  "','", $codeTrash)."'";
+    foreach($codeSpecial as $key => $value){
+        $listSpecial[$key] = "'".implode (  "','", $codeSpecial[$key])."'";
+    }
+    
+    $req2 = "SELECT orders.illinkid FROM orders ";
+    $conditions = '';
+    switch ($folder){
+        case 'in':
+            $conditions = "WHERE (".
+            "(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND ".
+            "(orders.localisation IN ($locList) OR orders.bibliotheque = '$monbib' OR orders.service IN ($servList))) ".
+            "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '$monbib') ";
+            break;
+        case 'out':
+            $conditions = "WHERE (orders.localisation IN ($locList) OR orders.bibliotheque = '$monbib' OR orders.service IN ($servList)) AND orders.stade IN ($listOut) ";
+            break;
+        case 'all':
+            if ($monaut == "sadmin"){}
+            else {
+                $conditions = "WHERE orders.bibliotheque = '$monbib' OR orders.localisation IN ($locList) OR orders.service IN ($bibList) ";
+            }
+            break;
+        case 'trash':
+            $conditions = "WHERE orders.stade IN ($listTrash) AND orders.bibliotheque = '$monbib' ";
+            break;
+        case 'guest':
+            $mailGuest = array((isset($monnom) && isValidInput($monnom,100,'s',false))?$monnom:'');
+            $conditions = "WHERE orders.mail = '$mailGuest' ";
+            break;
+        case 'search':
+            require_once ("search.php");
+            break;
+        default:
+            $conditions = "WHERE ("
+            ."(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND "
+            ."(orders.localisation IN ($locList) OR orders.bibliotheque = '$monbib' OR orders.service IN ($servList))) "
+            ."OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '$monbib') ";
+            break;
+    }
+    $from = (($page * $max_results) - $max_results);
+    $req2 = "$req2 $conditions ORDER BY illinkid DESC LIMIT $from, $max_results";
+    if ($debugOn)
+        prof_flag("Before first query");
+    $result2 = dbquery($req2);
+    if ($debugOn)
+        prof_flag("After first query");
+
+    $reqCount = "SELECT count(illinkid) AS total FROM orders $conditions";
+    $resCount = dbquery($reqCount);
+    $count = iimysqli_result_fetch_array($resCount);
+    $total_results = $count['total'];
+
+    if($total_results > 0){
+        $total_pages = ceil($total_results / $max_results);
+        $from = (($page * $max_results) - $max_results);
+        for ($i=0 ; $i<$total_results ; $i++){
+            $currOrder = iimysqli_result_fetch_array($result2);
+            $orderListId[] = $currOrder['illinkid'];
+        }
+        $req = "SELECT orders.illinkid, orders.type_doc, orders.date, orders.stade, orders.localisation, orders.nom, orders.prenom, orders.mail, orders.code_postal, orders.adresse, orders.localite, orders.bibliotheque, orders.prepaye, orders.remarques, orders.urgent, orders.service, orders.titre_article,  orders.auteurs, orders.titre_periodique, orders.volume , orders.numero, orders.pages , orders.annee ".
+            "FROM orders ".
+            "WHERE (orders.illinkid IN ('".implode("','",$orderListId)."'))";
+        switch ($folder){
+            case 'in':
+                $req .= " ORDER BY orders.urgent, orders.illinkid DESC";
+                break;
+            case 'out': case 'all': case 'trash': case 'guest': case 'search':
+                $req .= " ORDER BY orders.illinkid DESC";
+                break;
+            default:
+                $req .= " ORDER BY orders.urgent, orders.illinkid DESC";
+                break;
+        }
+    if ($debugOn)
+        prof_flag("Before second query");
+        $result = dbquery($req);
+    if ($debugOn)
+        prof_flag("After second query");
+        $nb = iimysqli_num_rows($result);
+    }
+    else
+        $nb = 0;
+    if ($debugOn)
+        prof_flag("Before printing all");
+    require_once ("orders_results.php");
+    require_once ("footer.php");
+    if ($debugOn)
+        prof_flag("end of page printing all");
+    if ($debugOn)
+        prof_print();
 }
-
-$result2 = mysql_query($req2,$link);
-$total_results = mysql_num_rows($result2);
-$total_pages = ceil($total_results / $max_results);
-$from = (($page * $max_results) - $max_results);
-
-switch ($folder)
-{
-case 'in':
-$req = "SELECT orders.*, status.* FROM status LEFT JOIN orders ON status.code = orders.stade WHERE ((status.in = 1 OR (status.special = 'renew' AND orders.renouveler <= '$madatej')) AND orders.localisation LIKE '$monbibr') OR (status.special = 'reject' AND orders.bibliotheque LIKE '$monbib') GROUP BY orders.illinkid ORDER BY orders.urgent, orders.illinkid DESC LIMIT $from, $max_results";
-break;
-case 'out':
-$req = "SELECT orders.*, status.* FROM status LEFT JOIN orders ON status.code = orders.stade WHERE (orders.localisation LIKE '$monbibr' OR orders.bibliotheque LIKE '$monbib' OR orders.service LIKE '$monbib') AND status.out = 1 GROUP BY orders.illinkid ORDER BY orders.illinkid DESC LIMIT $from, $max_results";
-break;
-case 'all':
-if ($monaut == "sadmin")
-$req = "SELECT orders.*, status.* FROM status LEFT JOIN orders ON status.code = orders.stade WHERE orders.illinkid > 0 GROUP BY orders.illinkid ORDER BY orders.illinkid DESC LIMIT $from, $max_results";
-else
-$req = "SELECT orders.*, status.* FROM status LEFT JOIN orders ON status.code = orders.stade WHERE orders.bibliotheque LIKE '$monbib' OR orders.localisation LIKE '$monbibr' OR orders.service LIKE '$monbib' GROUP BY orders.illinkid ORDER BY orders.illinkid DESC LIMIT $from, $max_results";
-break;
-case 'trash':
-$req = "SELECT orders.*, status.* FROM status LEFT JOIN orders ON status.code = orders.stade WHERE status.trash = 1 AND orders.bibliotheque LIKE '$monbib' GROUP BY orders.illinkid ORDER BY orders.illinkid DESC LIMIT $from, $max_results";
-break;
-case 'guest':
-$req = "SELECT orders.*, status.* FROM status LEFT JOIN orders ON status.code = orders.stade WHERE orders.mail LIKE '$monnom' GROUP BY orders.illinkid ORDER BY orders.illinkid DESC LIMIT $from, $max_results";
-break;
-case 'search':
-require ("search.php");
-break;
-default:
-$req = "SELECT orders.*, status.* FROM status LEFT JOIN orders ON status.code = orders.stade WHERE ((status.in = 1 OR (status.special = 'renew' AND orders.renouveler <= '$madatej')) AND orders.localisation LIKE '$monbibr') OR (status.special = 'reject' AND orders.bibliotheque LIKE '$monbib') GROUP BY orders.illinkid ORDER BY orders.urgent, orders.illinkid DESC LIMIT $from, $max_results";
-}
-
-$result = mysql_query($req,$link);
-$nb = mysql_num_rows($result);
-
-require ("orders_results.php");
-require ("footer.php");
-}
-else
-{
-require ("header.php");
-require ("loginfail.php");
-require ("footer.php");
+else {
+    require_once ("header.php");
+    require_once ("loginfail.php");
+    require_once ("footer.php");
 }
 ?>

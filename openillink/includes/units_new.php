@@ -24,16 +24,18 @@
 // ***************************************************************************
 // ***************************************************************************
 // Units table : record creation form
+// 17.03.2016, MDV Replaced connector to db from mysql_ to mysqli_
 // 
 require ("config.php");
 require ("authcookie.php");
+require_once ("connexion.php");
 if (!empty($_COOKIE[illinkid]))
 {
 if (($monaut == "admin")||($monaut == "sadmin"))
 {
 $myhtmltitle = $configname[$lang] . " : nouvelle unité du réseau ";
 require ("headeradmin.php");
-require ("connect.php");
+
 echo "<h1>Gestion des unités : Création d'une nouvelle fiche </h1>\n";
 echo "<br /></b>";
 echo "<ul>\n";
@@ -60,20 +62,20 @@ echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
 echo "<tr><td><b>Code *</b></td><td>\n";
 echo "<input name=\"code\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
 echo "</td></tr>\n";
-echo "<tr><td class=\"odd\"><b>Nom 1 *</b></td><td class=\"odd\"><input name=\"name1\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-echo "<tr><td><b>Nom 2</b></td><td><input name=\"name2\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-echo "<tr><td class=\"odd\"><b>Nom 3</b></td><td class=\"odd\"><input name=\"name3\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-echo "<tr><td><b>Nom 4</b></td><td><input name=\"name4\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-echo "<tr><td class=\"odd\"><b>Nom 5</b></td><td class=\"odd\"><input name=\"name5\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+echo "<tr><td class=\"odd\"><b>".$guiLabelName1[$lang]." *</b></td><td class=\"odd\"><input name=\"name1\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+echo "<tr><td><b>".$guiLabelName2[$lang]."</b></td><td><input name=\"name2\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+echo "<tr><td class=\"odd\"><b>".$guiLabelName3[$lang]."</b></td><td class=\"odd\"><input name=\"name3\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+echo "<tr><td><b>".$guiLabelName4[$lang]."</b></td><td><input name=\"name4\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+echo "<tr><td class=\"odd\"><b>".$guiLabelName5[$lang]."</b></td><td class=\"odd\"><input name=\"name5\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
 echo "<tr><td><b>Bibliothèque d'attribution</b></td><td>\n";
 echo "<select name=\"library\">\n";
 $reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
 $optionslibraries="";
-$resultlibraries = mysql_query($reqlibraries,$link);
-$nblibs = mysql_num_rows($resultlibraries);
+$resultlibraries = dbquery($reqlibraries);
+$nblibs = iimysqli_num_rows($resultlibraries);
 if ($nblibs > 0)
 {
-while ($rowlibraries = mysql_fetch_array($resultlibraries))
+while ($rowlibraries = iimysqli_result_fetch_array($resultlibraries))
 {
 $codelibraries = $rowlibraries["code"];
 $namelibraries["fr"] = $rowlibraries["name1"];
@@ -87,13 +89,13 @@ $optionslibraries.=">" . $namelibraries[$lang] . "</option>\n";
 echo $optionslibraries;
 }
 echo "</select></td></tr>\n";
-echo "<tr><td class=\"odd\"><b>Département</b></td><td class=\"odd\">\n";
+echo "<tr><td class=\"odd\"><b>".$guiDepartment[$lang]."</b></td><td class=\"odd\">\n";
 echo "<select name=\"department\" id=\"department\" onchange=\"ajoutevaleur('department');\">\n";
 echo "<option value=\"\"> </option>\n";
 $reqdepartment = "SELECT department FROM units WHERE department != '' GROUP BY department ORDER BY department ASC";
 $optionsdepartment = "";
-$resultdepartment = mysql_query($reqdepartment,$link);
-while ($rowdepartment = mysql_fetch_array($resultdepartment))
+$resultdepartment = dbquery($reqdepartment);
+while ($rowdepartment = iimysqli_result_fetch_array($resultdepartment))
 {
 $codedepartment = $rowdepartment["department"];
 $optionsdepartment.="<option value=\"" . $codedepartment . "\"";
@@ -104,13 +106,13 @@ echo "<option value=\"new\">" . $addvaluemessage[$lang] . "</option>\n";
 echo "</select>\n";
 echo "&nbsp;<input name=\"departmentnew\" id=\"departmentnew\" type=\"text\" size=\"30\" value=\"\" style=\"display:none\">\n";
 echo "</td></tr>\n";
-echo "<tr><td><b>Faculté</b></td><td>\n";
+echo "<tr><td><b>".$guiFaculty[$lang]."</b></td><td>\n";
 echo "<select name=\"faculty\" id=\"faculty\" onchange=\"ajoutevaleur('faculty');\">\n";
 echo "<option value=\"\"> </option>\n";
 $reqfaculty = "SELECT faculty FROM units WHERE faculty != '' GROUP BY faculty ORDER BY faculty ASC";
 $optionsfaculty = "";
-$resultfaculty = mysql_query($reqfaculty,$link);
-while ($rowfaculty = mysql_fetch_array($resultfaculty))
+$resultfaculty = dbquery($reqfaculty);
+while ($rowfaculty = iimysqli_result_fetch_array($resultfaculty))
 {
 $codefaculty = $rowfaculty["faculty"];
 $optionsfaculty.="<option value=\"" . $codefaculty . "\"";
@@ -122,7 +124,7 @@ echo "</select>\n";
 echo "&nbsp;<input name=\"facultynew\" id=\"facultynew\" type=\"text\" size=\"30\" value=\"\" style=\"display:none\">\n";
 echo "</td></tr>\n";
 echo "<tr><td class=\"odd\"><b>Affichage selon IP</b></td><td class=\"odd\"><input name=\"ip1\" value=\"1\" type=\"checkbox\">IP interne 1 &nbsp;&nbsp;|&nbsp;&nbsp; <input name=\"ip2\" value=\"1\" type=\"checkbox\">IP interne 2 &nbsp;&nbsp;|&nbsp;&nbsp; <input name=\"ipext\" value=\"1\" type=\"checkbox\">IP externe</td></tr>\n";
-echo "<tr><td><b>A valider par la bibliothèque</b></td><td>\n";
+echo "<tr><td><b>".$guiNeedValidation[$lang]."</b></td><td>\n";
 echo "<input name=\"validation\" value=\"1\" type=\"checkbox\"></td></tr>\n";
 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
 echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer la nouvelle unité \">\n";

@@ -24,45 +24,47 @@
 // ***************************************************************************
 // ***************************************************************************
 // Record edit form (order, library, unit, etc.)
+// 29.03.2016 MDV add input validation using checkInput defined into toolkit.php
 //
-require ("includes/config.php");
-require ("includes/authcookie.php");
-if (!empty($_COOKIE[illinkid]))
-{
-// switch from table parameter
-$table = $_GET['table'];
-switch ($table)
-{
-case 'orders':
-require ("includes/orders_edit.php");
-break;
-case 'users':
-require ("includes/users_edit.php");
-break;
-case 'libraries':
-require ("includes/libraries_edit.php");
-break;
-case 'units':
-require ("includes/units_edit.php");
-break;
-case 'status':
-require ("includes/status_edit.php");
-break;
-case 'localizations':
-require ("includes/localizations_edit.php");
-break;
-case 'links':
-require ("includes/links_edit.php");
-break;
-default:
-require ("includes/orders_edit.php");
+
+require_once ("includes/config.php");
+require_once ("includes/authcookie.php");
+require_once ("includes/toolkit.php");
+
+if (!empty($_COOKIE[illinkid])){
+    // switch from table parameter
+    $table = safeSetInput($_GET['table'],20);
+    switch ($table){
+        case 'orders':
+            require ("includes/orders_edit.php");
+            break;
+        case 'users':
+            require ("includes/users_edit.php");
+            break;
+        case 'libraries':
+            require ("includes/libraries_edit.php");
+            break;
+        case 'units':
+            require ("includes/units_edit.php");
+            break;
+        case 'status':
+            require ("includes/status_edit.php");
+            break;
+        case 'localizations':
+            require ("includes/localizations_edit.php");
+            break;
+        case 'links':
+            require ("includes/links_edit.php");
+            break;
+        default:
+            require ("includes/orders_edit.php");
+            break;
 }
 // end of switch
 }
-else
-{
-require ("includes/header.php");
-require ("includes/loginfail.php");
-require ("includes/footer.php");
+else{
+    require ("includes/header.php");
+    require ("includes/loginfail.php");
+    require ("includes/footer.php");
 }
 ?>

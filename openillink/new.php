@@ -24,52 +24,54 @@
 // ***************************************************************************
 // ***************************************************************************
 // Save the new record (order, library, unit, etc.)
+// 01.04.2016, MDV, Add input verification
 //
-require ("includes/config.php");
-require ("includes/authcookie.php");
-$table = "";
-$table = $_GET['table'];
-if ($table == "")
-$table = $_POST['table'];
-if (!empty($_COOKIE[illinkid]))
-{
-// switch from table parameter
-switch ($table)
-{
-case 'orders':
-require ("includes/orders_new.php");
-break;
-case 'users':
-require ("includes/users_new.php");
-break;
-case 'libraries':
-require ("includes/libraries_new.php");
-break;
-case 'units':
-require ("includes/units_new.php");
-break;
-case 'status':
-require ("includes/status_new.php");
-break;
-case 'localizations':
-require ("includes/localizations_new.php");
-break;
-case 'links':
-require ("includes/links_new.php");
-break;
-default:
-require ("includes/orders_new.php");
+require_once ("includes/config.php");
+require_once ("includes/authcookie.php");
+require_once ("includes/toolkit.php");
+
+$validTableSet = array('orders', 'users', 'libraries', 'units', 'status', 'localizations', 'links');
+$table = (isset($_GET['table']) && isValidInput($_GET['table'],13,'s',false,$validTableSet))?addslashes($_GET['table']):NULL;
+if (!isset($table)){
+    $table = (isset($_POST['table']) && isValidInput($_POST['table'],13,'s',false,$validTableSet))?addslashes($_POST['table']):NULL;
 }
-// end of switch
+
+if (!empty($_COOKIE[illinkid])){
+    // switch from table parameter
+    switch ($table){
+        case 'orders':
+        require ("includes/orders_new.php");
+        break;
+        case 'users':
+        require ("includes/users_new.php");
+        break;
+        case 'libraries':
+        require ("includes/libraries_new.php");
+        break;
+        case 'units':
+        require ("includes/units_new.php");
+        break;
+        case 'status':
+        require ("includes/status_new.php");
+        break;
+        case 'localizations':
+        require ("includes/localizations_new.php");
+        break;
+        case 'links':
+        require ("includes/links_new.php");
+        break;
+        default:
+        require ("includes/orders_new.php");
+        break;
+    }
+    // end of switch
 }
-elseif ($table == "orders")
-{
-require ("includes/orders_new.php");
+elseif ($table == "orders"){
+    require ("includes/orders_new.php");
 }
-else
-{
-require ("includes/header.php");
-require ("includes/loginfail.php");
-require ("includes/footer.php");
+else{
+    require ("includes/header.php");
+    require ("includes/loginfail.php");
+    require ("includes/footer.php");
 }
 ?>

@@ -24,54 +24,64 @@
 // ***************************************************************************
 // ***************************************************************************
 // List of orders used in different pages : list, search results, guest, etc.
+// 15.03.2016, MDV Replaced connector to db from mysql_ to mysqli_
 
-if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut == "guest"))
-{
-// Build Page Number Hyperlinks
-require ("pages.php");
+require_once ("connexion.php");
 
-if ($total_results == 1)
-echo "<b>" . $total_results." commande trouv&eacute;e</b>\n";
-else
-echo "<b>" . $total_results." commandes trouv&eacute;es</b>\n";
-echo "<br />";
-echo "<br />";
+if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut == "guest")){
+    // Build Page Number Hyperlinks
+    require ("pages.php");
+/*
+    $statusReq = "SELECT * from status;";
+    $statusRes = dbquery($statusReq);
+    $nbSt = iimysqli_num_rows($statusRes);
+    for ($s=0 ; $s<$nbSt ; $s++){
+        $currStatus = iimysqli_result_fetch_array($statusRes);
+        $statusInfo[$currStatus['code']] = $currStatus;
+    }
+*/
+    if ($total_results == 1)
+        echo "<b>" . $total_results." commande trouv&eacute;e</b>\n";
+    else
+        echo "<b>" . $total_results." commandes trouv&eacute;es</b>\n";
+    echo "<br />";
+    echo "<br />";
 
-if ($nb > 0)
-{
-echo "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n";
-echo "<tr><td valign=\"top\" width=\"95%\">\n";
-for ($i=0 ; $i<$nb ; $i++)
-{
-$enreg = mysql_fetch_array($result);
-$id = $enreg['illinkid'];
-$type_doc = $enreg['type_doc'];
-$date = $enreg['date'];
-$stade = $enreg['stade'];
-$localisation = $enreg['localisation'];
-$nom = $enreg['nom'].', '.$enreg['prenom'];
-$mail = $enreg['mail'];
-$adresse = $enreg['adresse'].', '.$enreg['code_postal'].' '.$enreg['localite'];
-$statusname = $enreg['title1'];
-$statushelp = $enreg['help1'];
-$statusrenew = $enreg['renew'];
-$statuscolor = $enreg['color'];
-echo "<table Border=\"0\" Cellspacing=\"0\" Cellpadding=\"0\">\n";
-echo "<tr><td valign=\"top\" width=\"20\">&nbsp;</td>\n";
-echo "<td valign=\"top\" align=\"left\">\n";
-if ($monaut != "guest")
-echo "<a href=\"detail.php?table=orders&id=".$id."\" title=\"voir la notice compl&egrave;te\">\n";
-require ("ordertop.php");
-echo "<br>\n";
-echo "</td></tr>\n";
-echo "<tr><td>&nbsp;</td></tr>\n";
-echo "<tr><td>&nbsp;</td></tr>\n";
-echo "</table>\n";
-}
-echo "</td></tr>\n";
-echo "</table>\n";
-// Build Page Number Hyperlinks
-require ("pages.php");
-}
+    if ($nb > 0){
+        echo "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n";
+        echo "<tr><td valign=\"top\" width=\"95%\">\n";
+        for ($i=0 ; $i<$nb ; $i++){
+            $enreg = iimysqli_result_fetch_array($result);
+            $id = $enreg['illinkid'];
+            $type_doc = $enreg['type_doc'];
+            $date = $enreg['date'];
+            $stade = $enreg['stade'];
+            $localisation = $enreg['localisation'];
+            $nom = stripslashes($enreg['nom']).', '.stripslashes($enreg['prenom']);
+            $mail = $enreg['mail'];
+            $adresse = stripslashes($enreg['adresse']).', '.stripslashes($enreg['code_postal']).' '.stripslashes($enreg['localite']);
+            $statusname = $statusInfo[$stade]['title1'];
+            $statushelp = $statusInfo[$stade]['help1'];
+            if (isset($enreg) && isset($enreg['special']) && $enreg['special']==='renew'){
+                $statusrenew = 1;
+            }
+            $statuscolor = $statusInfo[$stade]['color'];
+            echo "<table Border=\"0\" Cellspacing=\"0\" Cellpadding=\"0\">\n";
+            echo "<tr><td valign=\"top\" width=\"20\">&nbsp;</td>\n";
+            echo "<td valign=\"top\" align=\"left\">\n";
+            if ($monaut != "guest")
+                echo "<a href=\"detail.php?table=orders&id=".$id."\" title=\"voir la notice compl&egrave;te\">\n";
+            require ("ordertop.php");
+            echo "<br>\n";
+            echo "</td></tr>\n";
+            echo "<tr><td>&nbsp;</td></tr>\n";
+            echo "<tr><td>&nbsp;</td></tr>\n";
+            echo "</table>\n";
+        }
+        echo "</td></tr>\n";
+        echo "</table>\n";
+        // Build Page Number Hyperlinks
+        require ("pages.php");
+    }
 }
 ?>

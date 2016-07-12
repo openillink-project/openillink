@@ -25,23 +25,26 @@
 // ***************************************************************************
 // Units table : List of all the units defined on the internal ILL network
 // 
+// 17.03.2016, MDV Replaced connector to db from mysql_ to mysqli_
+// 05.04.2016, MDV suppress limit on number of units displayed
+
 require ("config.php");
 require ("authcookie.php");
+require_once ("connexion.php");
 if (!empty($_COOKIE[illinkid]))
 {
 if (($monaut == "admin")||($monaut == "sadmin"))
 {
 $myhtmltitle = $configname[$lang] . " : gestion des unités";
 require ("headeradmin.php");
-require ("connect.php");
 echo "\n";
 // 
 // Localizations List
 // 
 echo "<h1>Gestion des unités du réseau</h1>\n";
-$req = "SELECT * FROM units ORDER BY id ASC LIMIT 0, 200";
-$result = mysql_query($req,$link);
-$total_results = mysql_num_rows($result);
+$req = "SELECT * FROM units ORDER BY name1 ASC, code ASC";// LIMIT 0, 200";
+$result = dbquery($req);
+$total_results = iimysqli_num_rows($result);
 $nb = $total_results;
 
 // Construction du tableau de resultats
@@ -62,25 +65,25 @@ echo "\n";
 echo "<thead>\n";
 echo "<tr>\n";
 echo "<th scope=\"col\">code</th>\n";
-echo "<th scope=\"col\">name1</th>\n";
+echo "<th scope=\"col\">".$guiLabelName1[$lang]."</th>\n";
 // echo "<th scope=\"col\">name2</th>\n";
 // echo "<th scope=\"col\">name3</th>\n";
 // echo "<th scope=\"col\">name4</th>\n";
 // echo "<th scope=\"col\">name5</th>\n";
-echo "<th scope=\"col\">library</th>\n";
-echo "<th scope=\"col\">department</th>\n";
-echo "<th scope=\"col\">faculty</th>\n";
+echo "<th scope=\"col\">".$guiLibrary[$lang]."</th>\n";
+echo "<th scope=\"col\">".$guiDepartment[$lang]."</th>\n";
+echo "<th scope=\"col\">".$guiFaculty[$lang]."</th>\n";
 echo "<th scope=\"col\">ip int.1</th>\n";
 echo "<th scope=\"col\">ip int.2</th>\n";
 echo "<th scope=\"col\">ip ext.</th>\n";
-echo "<th scope=\"col\">Need validation</th>\n";
-echo "<th scope=\"col\"></th>\n";
+echo "<th scope=\"col\">".$guiNeedValidation[$lang]."</th>\n";
+echo "<th scope=\"col\">".$guiEdit[$lang]."</th>\n";
 echo "</tr>\n";
 echo "</thead>\n";
 echo "<tbody>\n";
 for ($i=0 ; $i<$nb ; $i++)
 {
-$enreg = mysql_fetch_array($result);
+$enreg = iimysqli_result_fetch_array($result);
 $unitid = $enreg['id'];
 $unitcode = $enreg['code'];
 $unitname1 = $enreg['name1'];

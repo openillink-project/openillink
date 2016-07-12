@@ -24,7 +24,8 @@
 // ***************************************************************************
 // ***************************************************************************
 // Bloc de connexion sur la base MySQL
-
+//
+// 11.03.2016, MDV: Following method for database connexion is not safe and to be replaced with one using a safer connector, defined and implemented into connexion.php
 $link=mysql_connect("$configmysqlhost","$configmysqllogin","$configmysqlpwd");
 $db = "$configmysqldb";
 mysql_select_db($db,$link) or die("Impossible de se connecter à $db");

@@ -24,49 +24,49 @@
 // ***************************************************************************
 // ***************************************************************************
 // Record update (order, library, unit, etc.)
+// 01.04.2016, MDV Add input validation
 //
-require ("includes/config.php");
-require ("includes/authcookie.php");
-if (!empty($_COOKIE[illinkid]))
-{
-// switch from table parameter
-$tableb = "";
-$table = $_POST['table'];
-$tableb = $_GET['table'];
-if ($tableb != "")
-$table = $tableb;
-switch ($table)
-{
-case 'orders':
-require ("includes/orders_update.php");
-break;
-case 'users':
-require ("includes/users_update.php");
-break;
-case 'libraries':
-require ("includes/libraries_update.php");
-break;
-case 'units':
-require ("includes/units_update.php");
-break;
-case 'status':
-require ("includes/status_update.php");
-break;
-case 'localizations':
-require ("includes/localizations_update.php");
-break;
-case 'links':
-require ("includes/links_update.php");
-break;
-default:
-require ("includes/orders_update.php");
+require_once ("includes/config.php");
+require_once ("includes/authcookie.php");
+require_once ("includes/toolkit.php");
+
+if (!empty($_COOKIE[illinkid])){
+    // switch from table parameter
+    $validTableSet = array('orders', 'users', 'libraries', 'units', 'status', 'localizations', 'links');
+    $table = (isset($_GET['table']) && isValidInput($_GET['table'],13,'s',false,$validTableSet))?addslashes($_GET['table']):NULL;
+    if (!isset($table))
+        $table = (isset($_POST['table']) && isValidInput($_POST['table'],13,'s',false,$validTableSet))?addslashes($_POST['table']):'';
+    switch ($table){
+        case 'orders':
+        require ("includes/orders_update.php");
+        break;
+        case 'users':
+        require ("includes/users_update.php");
+        break;
+        case 'libraries':
+        require ("includes/libraries_update.php");
+        break;
+        case 'units':
+        require ("includes/units_update.php");
+        break;
+        case 'status':
+        require ("includes/status_update.php");
+        break;
+        case 'localizations':
+        require ("includes/localizations_update.php");
+        break;
+        case 'links':
+        require ("includes/links_update.php");
+        break;
+        default:
+        require ("includes/orders_update.php");
+        break;
+    }
+    // end of switch
 }
-// end of switch
-}
-else
-{
-require ("includes/header.php");
-require ("includes/loginfail.php");
-require ("includes/footer.php");
+else{
+    require ("includes/header.php");
+    require ("includes/loginfail.php");
+    require ("includes/footer.php");
 }
 ?>

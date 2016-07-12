@@ -24,45 +24,46 @@
 // ***************************************************************************
 // ***************************************************************************
 // List of values froms each table (orders, libraries, units, etc.)
+// 01.04.2016, MDV added input validation
 //
-require ("includes/config.php");
-require ("includes/authcookie.php");
-if (!empty($_COOKIE[illinkid]))
-{
-// switch from table parameter
-$table = $_GET['table'];
-switch ($table)
-{
-case 'orders':
-require ("includes/orders_list.php");
-break;
-case 'users':
-require ("includes/users_list.php");
-break;
-case 'libraries':
-require ("includes/libraries_list.php");
-break;
-case 'units':
-require ("includes/units_list.php");
-break;
-case 'status':
-require ("includes/status_list.php");
-break;
-case 'localizations':
-require ("includes/localizations_list.php");
-break;
-case 'links':
-require ("includes/links_list.php");
-break;
-default:
-require ("includes/orders_list.php");
+require_once ("includes/config.php");
+require_once ("includes/authcookie.php");
+require_once ("includes/toolkit.php");
+
+if (!empty($_COOKIE['illinkid'])){
+    // switch from table parameter
+    $validTableSet = array('orders', 'users', 'libraries', 'units', 'status', 'localizations', 'links');
+    $table = (isset($_GET['table']) && isValidInput($_GET['table'],15,'s',false,$validTableSet))?$_GET['table']:'';
+    switch ($table){
+        case 'orders':
+        require ("includes/orders_list.php");
+        break;
+        case 'users':
+        require ("includes/users_list.php");
+        break;
+        case 'libraries':
+        require ("includes/libraries_list.php");
+        break;
+        case 'units':
+        require ("includes/units_list.php");
+        break;
+        case 'status':
+        require ("includes/status_list.php");
+        break;
+        case 'localizations':
+        require ("includes/localizations_list.php");
+        break;
+        case 'links':
+        require ("includes/links_list.php");
+        break;
+        default:
+        require ("includes/orders_list.php");
+    }
+    // end of switch
 }
-// end of switch
-}
-else
-{
-require ("includes/header.php");
-require ("includes/loginfail.php");
-require ("includes/footer.php");
+else{
+    require ("includes/header.php");
+    require ("includes/loginfail.php");
+    require ("includes/footer.php");
 }
 ?>

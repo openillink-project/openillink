@@ -24,86 +24,86 @@
 // ***************************************************************************
 // ***************************************************************************
 // links table : record creation form
+// 11.03.2016, MDV Replaced connector to db from mysql_ to mysqli_
 // 
 require ("config.php");
 require ("authcookie.php");
-if (!empty($_COOKIE[illinkid]))
-{
-if (($monaut == "admin")||($monaut == "sadmin"))
-{
-$myhtmltitle = $configname[$lang] . " : nouveau lien externe ";
-require ("headeradmin.php");
-require ("connect.php");
-echo "<h1>Gestion des liens : Création d'une nouvelle fiche </h1>\n";
-echo "<br /></b>";
-echo "<ul>\n";
-echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
-echo "<input name=\"table\" type=\"hidden\" value=\"links\">\n";
-echo "<input name=\"action\" type=\"hidden\" value=\"new\">\n";
-echo "<table id=\"hor-zebra\">\n";
-echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer le nouveau lien \">\n";
-echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=links'\"></td></tr>\n";
-echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-echo "<tr><td><b>Nom *</b></td><td>\n";
-echo "<input name=\"title\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-echo "</td></tr>\n";
-echo "<tr><td class=\"odd\"><b>URL *</b></td><td class=\"odd\"><input name=\"url\" type=\"text\" size=\"50\" value=\"\">&nbsp;&nbsp;";
-echo "<input name=\"openurl\" value=\"1\" type=\"checkbox\"> OpenURL</td></tr>\n";
-echo "<tr><td><b>Lien de recherche par identifiant</b></td><td>";
-echo "<input name=\"search_issn\" value=\"1\" type=\"checkbox\">ISSN &nbsp;&nbsp;|&nbsp;&nbsp; ";
-echo "<input name=\"search_isbn\" value=\"1\" type=\"checkbox\">ISBN";
-echo "</td></tr>\n";
-echo "<tr><td class=\"odd\"><b>Lien de recherche par titre</b></td><td class=\"odd\">";
-echo "<input name=\"search_ptitle\" value=\"1\" type=\"checkbox\">de périodique &nbsp;&nbsp;|&nbsp;&nbsp; ";
-echo "<input name=\"search_btitle\" value=\"1\" type=\"checkbox\">du livre&nbsp;&nbsp;|&nbsp;&nbsp; ";
-echo "<input name=\"search_atitle\" value=\"1\" type=\"checkbox\">de l'article ou du chapitre\n";
-echo "</td></tr>\n";
-echo "<tr><td><b>Lien de commande</b></td><td>";
-echo "<input name=\"order_ext\" value=\"1\" type=\"checkbox\">Formulaire externe &nbsp;&nbsp;|&nbsp;&nbsp; ";
-echo "<input name=\"order_form\" value=\"1\" type=\"checkbox\">Formulaire interne\n";
-echo "</td></tr>\n";
-echo "<tr><td class=\"odd\"><b>Bibliothèque d'attribution</b></td><td class=\"odd\">\n";
-echo "<select name=\"library\">\n";
-$reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
-$optionslibraries="";
-$resultlibraries = mysql_query($reqlibraries,$link);
-$nblibs = mysql_num_rows($resultlibraries);
-if ($nblibs > 0)
-{
-while ($rowlibraries = mysql_fetch_array($resultlibraries))
-{
-$codelibraries = $rowlibraries["code"];
-$namelibraries["fr"] = $rowlibraries["name1"];
-$namelibraries["en"] = $rowlibraries["name2"];
-$namelibraries["de"] = $rowlibraries["name3"];
-$namelibraries["it"] = $rowlibraries["name4"];
-$namelibraries["es"] = $rowlibraries["name5"];
-$optionslibraries.="<option value=\"" . $codelibraries . "\"";
-$optionslibraries.=">" . $namelibraries[$lang] . "</option>\n";
+require_once ("connexion.php");
+
+if (!empty($_COOKIE[illinkid])){
+    if (($monaut == "admin")||($monaut == "sadmin")){
+        $myhtmltitle = $configname[$lang] . " : nouveau lien externe ";
+        require ("headeradmin.php");
+        echo "<h1>Gestion des liens : Création d'une nouvelle fiche </h1>\n";
+        echo "<br /></b>";
+        echo "<ul>\n";
+        echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
+        echo "<input name=\"table\" type=\"hidden\" value=\"links\">\n";
+        echo "<input name=\"action\" type=\"hidden\" value=\"new\">\n";
+        echo "<table id=\"hor-zebra\">\n";
+        echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer le nouveau lien \">\n";
+        echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=links'\"></td></tr>\n";
+        echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
+        echo "<tr><td><b>Nom *</b></td><td>\n";
+        echo "<input name=\"title\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+        echo "</td></tr>\n";
+        echo "<tr><td class=\"odd\"><b>URL *</b></td><td class=\"odd\"><input name=\"url\" type=\"text\" size=\"50\" value=\"\">&nbsp;&nbsp;";
+        echo "<input name=\"openurl\" value=\"1\" type=\"checkbox\"> OpenURL</td></tr>\n";
+        /* MDV - 13.05.2015 : added line to update link position in the displayed list of link  in the table*/
+        echo "<tr><td><b>Position dans la liste</b></td><td><input name=\"ordonnancement\" type=\"text\" size=\"5\" value=\"\">&nbsp;&nbsp;</td></tr>";
+        echo "<tr><td><b>Lien de recherche par identifiant</b></td><td>";
+        echo "<input name=\"search_issn\" value=\"1\" type=\"checkbox\">ISSN &nbsp;&nbsp;|&nbsp;&nbsp; ";
+        echo "<input name=\"search_isbn\" value=\"1\" type=\"checkbox\">ISBN";
+        echo "</td></tr>\n";
+        echo "<tr><td class=\"odd\"><b>Lien de recherche par titre</b></td><td class=\"odd\">";
+        echo "<input name=\"search_ptitle\" value=\"1\" type=\"checkbox\">de périodique &nbsp;&nbsp;|&nbsp;&nbsp; ";
+        echo "<input name=\"search_btitle\" value=\"1\" type=\"checkbox\">du livre&nbsp;&nbsp;|&nbsp;&nbsp; ";
+        echo "<input name=\"search_atitle\" value=\"1\" type=\"checkbox\">de l'article ou du chapitre\n";
+        echo "</td></tr>\n";
+        echo "<tr><td><b>Lien de commande</b></td><td>";
+        echo "<input name=\"order_ext\" value=\"1\" type=\"checkbox\">Formulaire externe &nbsp;&nbsp;|&nbsp;&nbsp; ";
+        echo "<input name=\"order_form\" value=\"1\" type=\"checkbox\">Formulaire interne\n";
+        echo "</td></tr>\n";
+        echo "<tr><td class=\"odd\"><b>Bibliothèque d'attribution</b></td><td class=\"odd\">\n";
+        echo "<select name=\"library\">\n";
+        $reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
+        $optionslibraries="";
+        $resultlibraries = dbquery($reqlibraries);
+        $nblibs = iimysqli_num_rows($resultlibraries);
+        if ($nblibs > 0){
+            while ($rowlibraries = iimysqli_result_fetch_array($resultlibraries)){
+                $codelibraries = $rowlibraries["code"];
+                $namelibraries["fr"] = $rowlibraries["name1"];
+                $namelibraries["en"] = $rowlibraries["name2"];
+                $namelibraries["de"] = $rowlibraries["name3"];
+                $namelibraries["it"] = $rowlibraries["name4"];
+                $namelibraries["es"] = $rowlibraries["name5"];
+                $optionslibraries.="<option value=\"" . $codelibraries . "\"";
+                $optionslibraries.=">" . $namelibraries[$lang] . "</option>\n";
+            }
+            echo $optionslibraries;
+        }
+        echo "</select></td></tr>\n";
+        echo "<tr><td><b>Effectuel un encodage des arguments de l'url</b></td>".
+        '<td><input type="checkbox"  value="1" name="url_encoded" id="url_encoded" /></td></tr>';
+        echo "<tr><td><b>Lien actif</b></td><td><input name=\"active\" value=\"1\" type=\"checkbox\" checked></td></tr>\n";
+        echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
+        echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer le nouveau lien \">\n";
+        echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=links'\"></td></tr>\n";
+        echo "</table>\n";
+        echo "</form><br /><br />\n";
+        require ("footer.php");
+    }
+    else{
+        require ("header.php");
+        echo "<center><br/><b><font color=\"red\">\n";
+        echo "Vos droits sont insuffisants pour consulter cette page</b></font></center><br /><br /><br /><br />\n";
+        require ("footer.php");
+    }
 }
-echo $optionslibraries;
-}
-echo "</select></td></tr>\n";
-echo "<tr><td><b>Lien actif</b></td><td><input name=\"active\" value=\"1\" type=\"checkbox\" checked></td></tr>\n";
-echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer le nouveau lien \">\n";
-echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=links'\"></td></tr>\n";
-echo "</table>\n";
-echo "</form><br /><br />\n";
-require ("footer.php");
-}
-else
-{
-require ("header.php");
-echo "<center><br/><b><font color=\"red\">\n";
-echo "Vos droits sont insuffisants pour consulter cette page</b></font></center><br /><br /><br /><br />\n";
-require ("footer.php");
-}
-}
-else
-{
-require ("header.php");
-require ("loginfail.php");
-require ("footer.php");
+else{
+    require ("header.php");
+    require ("loginfail.php");
+    require ("footer.php");
 }
 ?>

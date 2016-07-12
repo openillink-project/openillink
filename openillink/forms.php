@@ -24,57 +24,55 @@
 // ***************************************************************************
 // ***************************************************************************
 // Order form for the NLM
+// 29.03.2016 MDV add input validation using checkInput defined into toolkit.php
 //
-require ("includes/config.php");
-require ("includes/authcookie.php");
-if (!empty($_COOKIE[illinkid]))
-{
-if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user"))
-{
-require ("includes/connect.php");
-$id = $_GET['id'];
-$myform = $_GET['form'];
-if ($id && $myform)
-{
-$myform = "forms/" . $myform . ".php";
-$req = "select * from orders where illinkid like '$id' order by illinkid desc";
-$result = mysql_query($req,$link);
-$nb = mysql_num_rows($result);
-require ("includes/headeradmin.php");
-for ($i=0 ; $i<$nb ; $i++)
-{
-$enreg = mysql_fetch_array($result);
-$id = $enreg['illinkid'];
-// Add suppl. to issue 
-$issue2 = $enreg['numero'];
-if ($enreg['supplement']!='')
-{
-if ($enreg['numero']!='')
-$issue2 = $issue2 . " suppl. " . $enreg['supplement'];
-else
-$issue2 = "suppl. " . $enreg['supplement'];
+require_once ("includes/config.php");
+require_once ("includes/authcookie.php");
+require_once ("includes/connexion.php");
+require_once ("includes/toolkit.php");
+
+if (!empty($_COOKIE[illinkid])){
+    if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
+        $illinkid = (isset($_GET['intId']))?safeSetInput($_GET['intId'],8,'i',NULL,false):NULL;
+        $myform = (isset($_GET['form']))?safeSetInput($_GET['form'],8,'s',NULL,false):NULL;
+        if (isset($illinkid) && isset($myform)){
+            $myform = "forms/" . $myform . ".php";
+            $req = "select * from orders where illinkid = $illinkid";
+            $result = dbquery($req);
+            $nb = iimysqli_num_rows($result);
+            //require ("includes/headeradmin.php");
+            echo "<html> <head/> ".
+            "<body "."onload=\" document.forms['ILL'].submit();\"".">";
+            for ($i=0 ; $i<$nb ; $i++){
+                $enreg = iimysqli_result_fetch_array($result);
+                $illinkid = $enreg['illinkid'];
+                // Add suppl. to issue 
+                $issue2 = $enreg['numero'];
+                if ($enreg['supplement']!=''){
+                    if ($enreg['numero']!='')
+                        $issue2 = $issue2 . " suppl. " . $enreg['supplement'];
+                    else
+                        $issue2 = "suppl. " . $enreg['supplement'];
+                }
+                require ($myform);
+            }
+            echo "</body></html>";
+            //require ("includes/footer.php");
+        }
+        else{
+            echo "<br/><br/><center><b>Missing id or form parameters</b></center><br/><br/><br/><br/>\n";
+            require ("includes/footer.php");
+        }
+    }
+    else{
+        require ("includes/header.php");
+        require ("includes/loginfail.php");
+        require ("includes/footer.php");
+    }
 }
-require ($myform);
-}
-require ("includes/footer.php");
-}
-else
-{
-echo "<br/><br/><center><b>Missing id or form parameters</b></center><br/><br/><br/><br/>\n";
-require ("includes/footer.php");
-}
-}
-else
-{
-require ("includes/header.php");
-require ("includes/loginfail.php");
-require ("includes/footer.php");
-}
-}
-else
-{
-require ("includes/header.php");
-require ("includes/loginfail.php");
-require ("includes/footer.php");
+else{
+    require ("includes/header.php");
+    require ("includes/loginfail.php");
+    require ("includes/footer.php");
 }
 ?>

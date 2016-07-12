@@ -31,9 +31,8 @@ if (!empty($_COOKIE[illinkid]))
 {
 if (($monaut == "admin")||($monaut == "sadmin"))
 {
-$myhtmltitle = "Commandes de l'" . $configinstitution . " : nouvelle bibliothèque du réseau ";
+$myhtmltitle = "Commandes de l'" . $configinstitution[$lang] . " : nouvelle bibliothèque du réseau ";
 require ("headeradmin.php");
-require ("connect.php");
 echo "<h1>Gestion des bibliothèques : Création d'une nouvelle fiche </h1>\n";
 echo "<br /></b>";
 echo "<ul>\n";
@@ -47,11 +46,11 @@ echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
 echo "<tr><td><b>Code *</b></td><td>\n";
 echo "<input name=\"code\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
 echo "</td></tr>\n";
-echo "<tr><td class=\"odd\"><b>Nom 1 *</b></td><td class=\"odd\"><input name=\"name1\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
-echo "<tr><td><b>Nom 2</b></td><td><input name=\"name2\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
-echo "<tr><td class=\"odd\"><b>Nom 3</b></td><td class=\"odd\"><input name=\"name3\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
-echo "<tr><td><b>Nom 4</b></td><td><input name=\"name4\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
-echo "<tr><td class=\"odd\"><b>Nom 5</b></td><td class=\"odd\"><input name=\"name5\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
+echo "<tr><td class=\"odd\"><b>".$guiLabelName1[$lang]." *</b></td><td class=\"odd\"><input name=\"name1\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
+echo "<tr><td><b>".$guiLabelName2[$lang]."</b></td><td><input name=\"name2\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
+echo "<tr><td class=\"odd\"><b>".$guiLabelName3[$lang]."</b></td><td class=\"odd\"><input name=\"name3\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
+echo "<tr><td><b>".$guiLabelName4[$lang]."</b></td><td><input name=\"name4\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
+echo "<tr><td class=\"odd\"><b>".$guiLabelName5[$lang]."</b></td><td class=\"odd\"><input name=\"name5\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
 echo "<tr><td><b>Default</b></td><td><input name=\"default\" value=\"1\" type=\"checkbox\"></td></tr>\n";
 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
 echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer la nouvelle bibliothèque\">\n";

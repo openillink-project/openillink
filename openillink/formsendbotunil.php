@@ -23,20 +23,30 @@
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
-// Record detail by id (order, library, unit, etc.)
+// Order form for the NLM
+// 31.03.2016 MDV add input validation using checkInput defined into toolkit.php
 //
-// 29.03.2016 MDV deleted out dead code
-
 require_once ("includes/config.php");
 require_once ("includes/authcookie.php");
+require_once ("includes/connexion.php");
 require_once ("includes/toolkit.php");
 
-if (!empty($_COOKIE[illinkid])){
-    require ("includes/orders_detail.php");
-}
-else{
-    require ("includes/header.php");
-    require ("includes/loginfail.php");
-    require ("includes/footer.php");
-}
+$nom = (isset($_GET['nom']) && isValidInput($_GET['nom'], 200, 's', false))?$_GET['nom']:"";
+echo "<html>\n";
+echo "<head>\n";
+echo "<meta http-equiv=\"content-type\" content=\"text/html;charset=iso-8859-1\">\n";
+echo "<title>Recherche dans le bottin du CHUV</title>\n";
+echo "</head>\n";
+echo "<body onload=\"form1.submit()\">\n";
+echo "<FORM ACTION=\"http://www2.unil.ch/ci/annuaire/search.php\" METHOD=\"post\" NAME=\"form1\">\n";
+echo "<INPUT TYPE=\"hidden\" NAME=\"searchdomain\" VALUE=\"directory\">\n";
+echo "<INPUT TYPE=\"hidden\" NAME=\"q\" VALUE=\"$nom\">\n";
+echo "<INPUT TYPE=\"hidden\" NAME=\"lang\" VALUE=\"fr\">\n";
+echo "<INPUT TYPE=\"hidden\" NAME=\"category\" VALUE=\"everyone\">\n";
+echo "<INPUT TYPE=\"hidden\" NAME=\"basedn\" VALUE=\"o=Universite de Lausanne, c=ch\">\n";
+echo "<INPUT TYPE=\"hidden\" NAME=\"cn\" VALUE=\"\">\n";
+// echo "<INPUT TYPE=\"hidden\" NAME=\"givenName\" VALUE=\"".$_GET['prenom']."\">\n";
+echo "</FORM>\n";
+echo "</body>\n";
+echo "</html>";
 ?>

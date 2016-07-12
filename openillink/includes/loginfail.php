@@ -27,7 +27,9 @@
 //
 echo "<div class=\"box\"><div class=\"box-content\">\n";
 echo "<b><font color=\"red\">Vous n'êtes pas autorisé à acceder à cette page ou votre session a expiré</font></b><br />\n";
-echo "<form name=\"loginform\" id=\"loginform\" action=\"login.php\" method=\"post\">\n";
+// (MDV) allow loginfail to work for subdirectory pages as well
+$loginPage = (is_readable ( "login.php" ))? "login.php" : "../login.php";
+echo "<form name=\"loginform\" id=\"loginform\" action=\"$loginPage\" method=\"post\">\n";
 echo "<p><label>Username:<br /><input type=\"text\" name=\"log\" id=\"log\" value=\"\" size=\"20\" tabindex=\"1\" /></label></p>\n";
 echo "<p><label>Password:<br /> <input type=\"password\" name=\"pwd\" id=\"pwd\" value=\"\" size=\"20\" tabindex=\"2\" /></label></p>\n";
 echo "<p>\n";

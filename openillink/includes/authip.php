@@ -30,23 +30,23 @@ $ip1 = 0;
 $ip2 = 0;
 $ipwww = 0;
 $ip = $_SERVER['REMOTE_ADDR'];
-$referer=$_SERVER['HTTP_REFERER'];
+if (isset($_SERVER['HTTP_REFERER'])){
+    $referer=$_SERVER['HTTP_REFERER'];
+}
 $sep = ".";
 $ips1 = strtok( $ip, $sep );
 $ips2 = strtok( $sep );
 $ips3 = strtok( $sep );
 $ips4 = strtok( $sep );
-if (($ips1 == $configipainst1) && ($ips2 == $configipbinst1))
-{
-$ip1 = 1;
+
+if (($ips1 == $configipainst1) && ($ips2 == $configipbinst1)){
+    $ip1 = 1;
 }
-elseif (($ips1 == $configipainst2) && ($ips2 == $configipbinst2))
-{
-$ip2 = 1;
+elseif (($ips1 == $configipainst2) && ($ips2 == $configipbinst2)){
+    $ip2 = 1;
 }
-else
-{
-$ipwww = 1;
+else{
+    $ipwww = 1;
 }
 
 

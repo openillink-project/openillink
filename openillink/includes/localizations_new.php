@@ -24,75 +24,70 @@
 // ***************************************************************************
 // ***************************************************************************
 // Localizations table : record creation form
+// 11.03.2016, MDV Replaced connector to db from mysql_ to mysqli_
 // 
 require ("config.php");
 require ("authcookie.php");
-if (!empty($_COOKIE[illinkid]))
-{
-if (($monaut == "admin")||($monaut == "sadmin"))
-{
-$myhtmltitle = $configname[$lang] . " : nouvelle localisation du réseau ";
-require ("headeradmin.php");
-require ("connect.php");
-echo "<h1>Gestion des localisations : Création d'une nouvelle fiche </h1>\n";
-echo "<br /></b>";
-echo "<ul>\n";
-echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
-echo "<input name=\"table\" type=\"hidden\" value=\"localizations\">\n";
-echo "<input name=\"action\" type=\"hidden\" value=\"new\">\n";
-echo "<table id=\"hor-zebra\">\n";
-echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer la nouvelle localisation\">\n";
-echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=localizations'\"></td></tr>\n";
-echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-echo "<tr><td><b>Code *</b></td><td>\n";
-echo "<input name=\"code\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
-echo "</td></tr>\n";
-echo "<tr><td class=\"odd\"><b>Nom 1 *</b></td><td class=\"odd\"><input name=\"name1\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
-echo "<tr><td><b>Nom 2</b></td><td><input name=\"name2\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
-echo "<tr><td class=\"odd\"><b>Nom 3</b></td><td class=\"odd\"><input name=\"name3\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
-echo "<tr><td><b>Nom 4</b></td><td><input name=\"name4\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
-echo "<tr><td class=\"odd\"><b>Nom 5</b></td><td class=\"odd\"><input name=\"name5\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
-echo "<tr><td><b>Bibliothèque d'attribution</b></td><td>\n";
-echo "<select name=\"library\">\n";
-$reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
-$optionslibraries="";
-$resultlibraries = mysql_query($reqlibraries,$link);
-$nblibs = mysql_num_rows($resultlibraries);
-if ($nblibs > 0)
-{
-while ($rowlibraries = mysql_fetch_array($resultlibraries))
-{
-$codelibraries = $rowlibraries["code"];
-$namelibraries["fr"] = $rowlibraries["name1"];
-$namelibraries["en"] = $rowlibraries["name2"];
-$namelibraries["de"] = $rowlibraries["name3"];
-$namelibraries["it"] = $rowlibraries["name4"];
-$namelibraries["es"] = $rowlibraries["name5"];
-$optionslibraries.="<option value=\"" . $codelibraries . "\"";
-$optionslibraries.=">" . $namelibraries[$lang] . "</option>\n";
+require_once ("connexion.php");
+if (!empty($_COOKIE[illinkid])){
+    if (($monaut == "admin")||($monaut == "sadmin")){
+        $myhtmltitle = $configname[$lang] . " : nouvelle localisation du réseau ";
+        require ("headeradmin.php");
+        echo "<h1>Gestion des localisations : Création d'une nouvelle fiche </h1>\n";
+        echo "<br /></b>";
+        echo "<ul>\n";
+        echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
+        echo "<input name=\"table\" type=\"hidden\" value=\"localizations\">\n";
+        echo "<input name=\"action\" type=\"hidden\" value=\"new\">\n";
+        echo "<table id=\"hor-zebra\">\n";
+        echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer la nouvelle localisation\">\n";
+        echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=localizations'\"></td></tr>\n";
+        echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
+        echo "<tr><td><b>Code *</b></td><td>\n";
+        echo "<input name=\"code\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
+        echo "</td></tr>\n";
+        echo "<tr><td class=\"odd\"><b>".$guiLabelName1[$lang]." *</b></td><td class=\"odd\"><input name=\"name1\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
+        echo "<tr><td><b>".$guiLabelName2[$lang]."</b></td><td><input name=\"name2\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
+        echo "<tr><td class=\"odd\"><b>".$guiLabelName3[$lang]."</b></td><td class=\"odd\"><input name=\"name3\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
+        echo "<tr><td><b>".$guiLabelName4[$lang]."</b></td><td><input name=\"name4\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
+        echo "<tr><td class=\"odd\"><b>".$guiLabelName5[$lang]."</b></td><td class=\"odd\"><input name=\"name5\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
+        echo "<tr><td><b>Bibliothèque d'attribution</b></td><td>\n";
+        echo "<select name=\"library\">\n";
+        $reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
+        $optionslibraries="";
+        $resultlibraries = dbquery($reqlibraries);
+        $nblibs = iimysqli_num_rows($resultlibraries);
+        if ($nblibs > 0){
+            while ($rowlibraries = iimysqli_result_fetch_array($resultlibraries)){
+                $codelibraries = $rowlibraries["code"];
+                $namelibraries["fr"] = $rowlibraries["name1"];
+                $namelibraries["en"] = $rowlibraries["name2"];
+                $namelibraries["de"] = $rowlibraries["name3"];
+                $namelibraries["it"] = $rowlibraries["name4"];
+                $namelibraries["es"] = $rowlibraries["name5"];
+                $optionslibraries.="<option value=\"" . $codelibraries . "\"";
+                $optionslibraries.=">" . $namelibraries[$lang] . "</option>\n";
+            }
+            echo $optionslibraries;
+        }
+        echo "</select></td></tr>\n";
+        echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
+        echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer la nouvelle localisation\">\n";
+        echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=localizations'\"></td></tr>\n";
+        echo "</table>\n";
+        echo "</form><br /><br />\n";
+        require ("footer.php");
+    }
+    else{
+        require ("header.php");
+        echo "<center><br/><b><font color=\"red\">\n";
+        echo "Vos droits sont insuffisants pour consulter cette page</b></font></center><br /><br /><br /><br />\n";
+        require ("footer.php");
+    }
 }
-echo $optionslibraries;
-}
-echo "</select></td></tr>\n";
-echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer la nouvelle localisation\">\n";
-echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=localizations'\"></td></tr>\n";
-echo "</table>\n";
-echo "</form><br /><br />\n";
-require ("footer.php");
-}
-else
-{
-require ("header.php");
-echo "<center><br/><b><font color=\"red\">\n";
-echo "Vos droits sont insuffisants pour consulter cette page</b></font></center><br /><br /><br /><br />\n";
-require ("footer.php");
-}
-}
-else
-{
-require ("header.php");
-require ("loginfail.php");
-require ("footer.php");
+else{
+    require ("header.php");
+    require ("loginfail.php");
+    require ("footer.php");
 }
 ?>

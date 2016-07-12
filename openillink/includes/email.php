@@ -25,46 +25,114 @@
 // ***************************************************************************
 // formated e-mail
 //
-if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut == "guest"))
-{
-$monhost = "http://" . $_SERVER['SERVER_NAME'];
-$monuri = $monhost . rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . "/";
-echo "&nbsp;&nbsp;<a href=\"mailto:".$mail."?subject=Commande%20%28".$id."%29%20:%20".rawurlencode($titreper)."%2E".$enreg['annee'].";".$enreg['volume'].":".$enreg['pages'];
-echo "&body=Bonjour%2C%0D%0A%0D%0ASuite%20à%20votre%20commande%20d'article%20nous%20avons%20le%20plaisir%20de%20vous%20transmettre%20en%20fichier%20attaché%20le%20document%20demandé%20:%0D%0A%0D%0A";
-if ($enreg['titre_article'])
-echo "Titre%20:%20".rawurlencode(stripslashes($titreart))."%0D%0A";
-if ($enreg['auteurs'])
-echo "Auteur%28s%29%20:%20".rawurlencode(stripslashes($enreg['auteurs']))."%0D%0A";
-if ($enreg['titre_periodique'])
-echo "Source%20:%20".rawurlencode($titreper)."%0D%0A";
-if ($enreg['volume'])
-echo "Volume%20:%20".$enreg['volume']."%0D%0A";
-if ($enreg['numero'])
-echo "Issue%20:%20".$enreg['numero']."%0D%0A";
-if ($enreg['supplement'])
-echo "Suppl.%20:%20".$enreg['supplement']."%0D%0A";
-if ($enreg['pages'])
-echo "Pages%20:%20".$enreg['pages']."%0D%0A";
-if ($enreg['annee'])
-echo "Année%20:%20".$enreg['annee']."%0D%0A";
-if ($enreg['issn'])
-echo "ISSN%20:%20".$enreg['issn']."%0D%0A";
-if ($enreg['isbn'])
-echo "ISBN%20:%20".$enreg['isbn']."%0D%0A";
-if ($enreg['PMID'])
-echo "PMID%20:%20".$enreg['PMID']."%0D%0A";
-if ($enreg['uid'])
-echo "Autre%20identificateur%20:%20".rawurlencode($enreg['uid'])."%0D%0A";
-if ($nom)
-echo "Commandé%20par:%20".rawurlencode($nom)."%0D%0A";
-if ($enreg['refinterbib'])
-echo "Réf%20interne%20:%20".rawurlencode($enreg['refinterbib'])."%0D%0A";
-if ($enreg['remarquespub'])
-echo "Remarques%20:%20".rawurlencode($enreg['remarquespub'])."%0D%0A";
-echo "%0D%0ANouveau%20service%20:%20suivez%20vos%20commandes%20d'articles%20en%20temps%20réel.%20Vous%20pouvez%20vous%20connecter%20à%20l'adresse%20" . $monuri . "login.php%0D%0A";
-echo "Username%20:%20".$maillog."%20|%20Password%20:%20".$passwordg."%0D%0A";
-echo "%0D%0AMeilleurs%20messages%0D%0A";
-echo "*****************************************************";
-echo "\" title=\"envoyer un massage avec le document attaché au lecteur\"><img src=\"img/email.gif\" height=\"20\"></a>\n";
+
+/***************************************************/
+/******* TEXTES pour l'email **********************/
+/***************************************************/
+$emailTxt = array();
+$emailTxt['fr']['commande'] = "Commande";
+$emailTxt['fr']['titre'] = "Titre";
+$emailTxt['fr']['aut'] = "Auteur(s)";
+$emailTxt['fr']['src'] = "Source";
+$emailTxt['fr']['volume'] = "Volume";
+$emailTxt['fr']['issue'] = "Issue";
+$emailTxt['fr']['annee'] = "Année";
+$emailTxt['fr']['suppl'] = "Suppl.";
+$emailTxt['fr']['issn'] = "ISSN";
+$emailTxt['fr']['pages'] = "Pages";
+$emailTxt['fr']['isbn'] = "ISBN";
+$emailTxt['fr']['pmid'] = "PMID";
+//MDV - 2016.01.04: suite aux retours de SG, suppression du texte $emailTxt['fr']['autreId'] =  "Autre identifiant";
+$emailTxt['fr']['intRef'] = "Réf int.";
+//MDV - 2016.01.04: suite aux retours de SG, suppression du texte $emailTxt['fr']['commPar'] = "Commandé par";
+$emailTxt['fr']['remarques'] = "Remarques";
+$emailTxt['fr']['username'] = "Username";
+$emailTxt['fr']['pwd'] = "Password";
+$emailTxt['fr']['debut'] = "Bonjour\r\n\r\n".
+"Nous vous remercions de votre commande:\r\n\r\n";
+$emailTxt['fr']['infoservice'] = "\r\nSuivez vos commandes d'articles en temps réel en vous connectant à: \r\n";
+/*
+ MDV - 2016.01.04: suite aux retours de SG, remplace le message 
+$emailTxt['fr']['debut'] = "Bonjour\r\n\r\n".
+"Suite à votre commande d'article, nous avons le plaisir de vous transmettre en fichier attaché le document demandé:\r\n\r\n";
+$emailTxt['fr']['infoservice'] = "\r\nNouveau service : suivez vos commandes d'articles en temps réel. Vous pouvez vous connecter à l'adresse \r\n";
+ */
+$emailTxt['fr']['mentionDroitAuteur'] = "Selon les règles en vigueur sur les droits d'auteur, le fichier joint concernant cette publication ne doit être utilisée que pour votre usage personnel et à des fins de recherche scientifique. Elle ne doit pas être reproduite ni distribuée.\r\n";
+$emailTxt['fr']['salutations'] = "Meilleurs messages\r\n";
+$emailTxt['fr']['texteAideCurseur'] = "envoyer un message avec le document attaché au lecteur";
+$emailTxt['fr']['signature'] = "Votre service de Prêt entre bibliothèques.\r\n\r\n".
+"BIBLIOTHÈQUE UNIVERSITAIRE DE MÉDECINE \r\n".
+"CHUV BH 08 \r\n".
+"Rue du Bugnon 46 \r\n".
+"CH 1011 Lausanne SWITZERLAND \r\n".
+"Courriel : docdelivery@chuv.ch \r\n".
+"Tél. : +41 21 314 52 82 \r\n".
+/*"Fax : +41 21 314 50 70 \r\n".*/
+"Site web : http://www.bium.ch \r\n";
+/***************************************************/
+
+/***************************************************/
+/******* encodage et création de l'email ***********/
+/***************************************************/
+function displayMailText($monaut,
+                         $monuri,
+                         $enreg,
+                         $mailAllTexts,
+                         $titreart,
+                         $titreper,
+                         $nom,
+                         $maillog,
+                         $passwordg,
+                         $mail){
+    $finalMailText = "";
+
+    if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut == "guest"))
+    {
+      $subject = rawurlencode(html_entity_decode($mailAllTexts['fr']['commande']." (". $enreg['illinkid'].") : ".$titreper.".".$enreg['annee'].";".$enreg['volume'].":".$enreg['pages']));
+      $finalMailText .= "&nbsp;&nbsp;<a href=\"mailto:".$mail."?subject=".$subject;
+      $commandeDet = "";
+      $refDet = "";
+      if ($enreg['titre_article']!= '')
+        $commandeDet .= rawurlencode($mailAllTexts['fr']['titre']." : ".stripslashes(html_entity_decode($titreart))."\r\n");
+      if ($enreg['auteurs']!= '')
+        $commandeDet .= rawurlencode($mailAllTexts['fr']['aut']." : ".stripslashes(html_entity_decode($enreg['auteurs']))."\r\n");
+      if ($enreg['titre_periodique']!= '')
+        $commandeDet .= rawurlencode(html_entity_decode($mailAllTexts['fr']['src']." : ".$titreper."\r\n"));
+      if ($enreg['volume']!= '')
+        $commandeDet .= rawurlencode($mailAllTexts['fr']['volume']." : ".$enreg['volume']."\r\n");
+      if ($enreg['numero']!= '')
+        $commandeDet .= rawurlencode($mailAllTexts['fr']['issue']." : ".$enreg['numero']."\r\n");
+      if ($enreg['supplement']!= '')
+        $commandeDet .= rawurlencode($mailAllTexts['fr']['suppl']." : ".$enreg['supplement']."\r\n");
+      if ($enreg['pages']!= '')
+        $commandeDet .= rawurlencode($mailAllTexts['fr']['pages']." : ".$enreg['pages']."\r\n");
+      if ($enreg['annee']!= '')
+        $commandeDet .= rawurlencode($mailAllTexts['fr']['annee']." : ".$enreg['annee']."\r\n");
+      if ($enreg['issn']!= '')
+        $commandeDet .= rawurlencode($mailAllTexts['fr']['issn']." : ".$enreg['issn']."\r\n");
+      if ($enreg['isbn']!= '')
+        $commandeDet .= rawurlencode($mailAllTexts['fr']['isbn']." : ".$enreg['isbn']."\r\n");
+      if ($enreg['PMID']!= '')
+        $commandeDet .= rawurlencode($mailAllTexts['fr']['pmid']." : ".$enreg['PMID']."\r\n");
+      if ($enreg['refinterbib']!= '')
+        $refDet .= rawurlencode(html_entity_decode($mailAllTexts['fr']['intRef']." : ".$enreg['refinterbib']."\r\n"));
+      $body = rawurlencode(stripslashes($mailAllTexts['fr']['debut']));
+      $body .= $commandeDet;
+      $body .= $refDet;
+      $body .= rawurlencode(stripslashes($mailAllTexts['fr']['infoservice'])).$monuri.rawurlencode(stripslashes("login.php\r\n"));
+      $body .= rawurlencode(stripslashes($mailAllTexts['fr']['username']." : ")).$maillog.
+               rawurlencode(stripslashes(" | ".$mailAllTexts['fr']['pwd']." : ")).$passwordg.
+               rawurlencode(stripslashes("\r\n\r\n")).
+               rawurlencode(stripslashes($mailAllTexts['fr']['mentionDroitAuteur'])).
+               rawurlencode(stripslashes($mailAllTexts['fr']['salutations']."\r\n")).
+               /*rawurlencode(stripslashes("*****************************************************\r\n")).*/
+               rawurlencode(stripslashes($mailAllTexts['fr']['signature']));
+      $finalMailText .= "&body=".substr ( $body, 0 , 1959 );
+      $finalMailText .= "\" title=\"".$mailAllTexts['fr']['texteAideCurseur']."\"><img src=\"img/email.gif\" height=\"20\"></a>\n";
+    }
+    echo $finalMailText; 
+    /* MDV TODO: should be returned instead of directly displayed ; display should be performed by the caller*/
 }
+/***************************************************/
+
 ?>

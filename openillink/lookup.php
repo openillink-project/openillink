@@ -24,61 +24,66 @@
 // ***************************************************************************
 // ***************************************************************************
 // Lookup page to import external content from bibliographic databases : PubMed, Web of Science, CrossRef, RERO, etc.
+// 01.04.2016, MDV, Add input validation
 //
-require ("includes/config.php");
-if(isset($_GET['isbn']))
-{
+require_once ("includes/config.php");
+require_once ("includes/toolkit.php");
 $isbn = $_GET['isbn'];
-$url = "http://opac.rero.ch/gateway?function=MARCSCR&search=KEYWORD&u1=7&rootsearch=KEYWORD&t1=" . $isbn;
-//  $url = $_SERVER['QUERY_STRING'];
-$ch = curl_init($url);
-curl_exec($ch);
+if(isset($isbn) && !empty($isbn)){
+    $isbn = (isset($isbn) &&  isValidInput($isbn,17,'s',false))?trim($isbn):NULL;
+    $url = "http://opac.rero.ch/gateway?function=MARCSCR&search=KEYWORD&u1=7&rootsearch=KEYWORD&t1=" . $isbn;
+    //  $url = $_SERVER['QUERY_STRING'];
+    $ch = curl_init($url);
+    curl_exec($ch);
+    curl_close($ch);
 }
 
-if(isset($_GET['reroid']))
-{
 $reroid = $_GET['reroid'];
-$url = "http://opac.rero.ch/gateway?function=MARCSCR&search=KEYWORD&u1=12&rootsearch=KEYWORD&t1=" . $reroid;
-//  $url = $_SERVER['QUERY_STRING'];
-$ch = curl_init($url);
-curl_exec($ch);
+if(isset($reroid) && !empty($reroid)){
+    $reroid = (isset($reroid) &&  isValidInput($reroid,50,'s',false))?trim($reroid):NULL;
+    //  $url = $_SERVER['QUERY_STRING'];
+    $url = "http://opac.rero.ch/gateway?function=MARCSCR&search=KEYWORD&u1=12&rootsearch=KEYWORD&t1=$reroid";
+    $ch = curl_init($url);
+    curl_exec($ch);
+    curl_close($ch);
 }
 
-if(isset($_GET['pmid']))
-{
 $pmid = $_GET['pmid'];
-$url = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=xml&tool=OpenLinker&email=" . $configemail . "&id=" . $pmid;
-//  $url = $_SERVER['QUERY_STRING'];
-$ch = curl_init($url);
-curl_exec($ch);
+if(isset($pmid) && !empty($pmid)){
+    $pmid = (isset($pmid) &&  isValidInput($pmid,50,'s',false))?trim($pmid):NULL;
+    $url = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=xml&tool=OpenLinker&email=" . $configemail . "&id=" . $pmid;
+    //  $url = $_SERVER['QUERY_STRING'];
+    $ch = curl_init($url);
+    curl_exec($ch);
+    curl_close($ch);
 }
 
-if(isset($_GET['doi']))
-{
 $doi = $_GET['doi'];
-$fp = fsockopen("www.crossref.org", 80, $errno, $errstr, 30);
-if (!$fp) {
-    echo "$errstr ($errno)<br />\n";
-} else {
-    $out = "GET /openurl/?pid=" . $configcrossrefpid1 . "%3A" . $configcrossrefpid2 . "&noredirect=true&id=doi%3A" . $doi . " HTTP/1.1\r\n";
-    $out .= "Host: www.crossref.org\r\n";
-    $out .= "Connection: Close\r\n\r\n";
-
-    fwrite($fp, $out);
-    while (!feof($fp)) {
-        echo fgets($fp, 128);
+if(isset($doi) && !empty($doi)){
+    $doi = (isset($doi) &&  isValidInput($doi,100,'s',false))?trim($doi):NULL;
+    $fp = fsockopen("www.crossref.org", 80, $errno, $errstr, 30);
+    if (!$fp) {
+        echo "$errstr ($errno)<br />\n";
     }
-    fclose($fp);
-}
+    else {
+        $out = "GET /openurl/?pid=" . $configcrossrefpid1 . "%3A" . $configcrossrefpid2 . "&noredirect=true&id=doi%3A" . $doi . " HTTP/1.1\r\n";
+        $out .= "Host: www.crossref.org\r\n";
+        $out .= "Connection: Close\r\n\r\n";
+        fwrite($fp, $out);
+        while (!feof($fp)) {
+            echo fgets($fp, 128);
+        }
+        fclose($fp);
+    }
 }
 
-if(isset($_GET['wosid']))
-{
 $ut = $_GET['wosid'];
-$ut = trim($ut);
-$url = "http://www2.unil.ch/openillink/openlinker/isi/wos.php?ut=".$ut;
-$ch = curl_init($url);
-curl_exec($ch);
+if (isset($ut) && !empty($ut)){
+    $ut = (isset($ut) &&  isValidInput($ut,100,'s',false))?trim($ut):NULL;
+    $ut = trim($ut);
+    $url = "http://www2.unil.ch/openillink/openlinker/isi/wos.php?ut=".$ut;
+    $ch = curl_init($url);
+    curl_exec($ch);
+    curl_close($ch);
 }
-
 ?>

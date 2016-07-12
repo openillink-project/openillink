@@ -12,23 +12,28 @@ New features:
 * new style defined for tables
 * added input validation
 * added order flag to allow sorting of link for document search;
-* allow condition argument encoding for documents' search links;
+* allow condition argument encoding for documents' search links.
+
 *****************************************************************************
 Fixes and improvements:
 *****************************************************************************
+
 * suppress limit of 200 entries in administrator lists to allow edition of all existing data;
 * reported fix of order information retrieval with wos id;
 * refactoring of queries into search.php and order_list.php to improve performances;
-* improved order selection to include orders which are bound to services related to a library
-* added empty localization to avoid wrong assignation of localization to new orders
+* improved order selection to include orders which are bound to services related to a library;
+* added empty localization to avoid wrong assignation of localization to new orders.
+
 *****************************************************************************
 Code quality
 *****************************************************************************
+
 * refactoring of several files (detail.hp, edit.php, forms.php, ...); this include avoiding require whenever possible and favor require_once; 
 * refactoring of file email.php: texts are now isolated at the beginning and more separate from page generation; mail is created by calling a function and no longer by simply including the file;
-* added toolkit.php to deal with placeholder with a specific function
-* added interface to use mysqli connector instead of the default one (to conform with quality guidelines), connection is performed using an object oriented style
+* added toolkit.php to deal with placeholder with a specific function;
+* added interface to use mysqli connector instead of the default one (to conform with quality guidelines), connection is performed using an object oriented style;
 * improvement of forms (basel, nlm) to submit request of document to external library;
 * added $debugOn flag reading from configuration to headeradmin.php file; debug display is performed into div into footer.php;
-* added function to retrieve states from status table;
+* added function to retrieve states from status table.
+
 *****************************************************************************

@@ -3,11 +3,15 @@ OpenLinker is a web based library system designed to manage lists of electronic 
 
 This fork of the project is currently a test
 
+Thanks to Pablo Iriarte for answering all the question and providing base code for this new version.
+
+Thanks to "Bibliothèque de l'Université de Médecine (CMU - Genève 8)"  (http://www.unige.ch/biblio) for providing detailed istructions and code which has been integrated and modified to comply with current project and the library of the faculty of medicine (http://www.bium.ch/) needs.
+
 Project main changes:
 *****************************************************************************
 New features:
 *****************************************************************************
-* added reporting and statistics module 
+* added reporting and statistics module
 * generic translations
 * new style defined for tables
 * added input validation

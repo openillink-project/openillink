@@ -454,3 +454,11 @@ li {
 
 
 
+.maintenance {
+  background-image: url("../img/sign-maintenance.png");
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: 10em;
+  padding-left: 10em;
+  height:10em;
+}

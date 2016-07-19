@@ -137,7 +137,7 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
             $suppl=(isset($_POST['suppl']) && isValidInput($_POST['suppl'],100,'s',false)) ?$_POST['suppl']:NULL;
             $pages=(isset($_POST['pages']) && isValidInput($_POST['pages'],50,'s',false)) ?$_POST['pages']:NULL;
             $titre=(isset($_POST['atitle']) && isValidInput($_POST['atitle'],1000,'s',false)) ?addslashes(trim($_POST['atitle'])):NULL;
-            $auteurs=(isset($_POST['auteurs']) && isValidInput($_POST['auteurs'],50,'s',false)) ?addslashes($_POST['auteurs']):NULL;
+            $auteurs=(isset($_POST['auteurs']) && isValidInput($_POST['auteurs'],255,'s',false)) ?addslashes($_POST['auteurs']):NULL;
             $edition=(isset($_POST['edition']) && isValidInput($_POST['edition'],100,'s',false)) ?addslashes($_POST['edition']):NULL;
             $issn = (isset($_POST['issn']) && isValidInput($_POST['issn'],50, 's', false))?$_POST['issn']:NULL;
             if (isset($issn)){

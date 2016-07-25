@@ -58,6 +58,7 @@ if (!empty($_COOKIE[illinkid])){
                 $name["it"] = $enreg['name4'];
                 $name["es"] = $enreg['name5'];
                 $libdef = $enreg['default'];
+                $hasSharedOrders = $enreg['has_shared_ordres'];
                 echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
                 echo "<input name=\"table\" type=\"hidden\" value=\"libraries\">\n";
                 echo "<input name=\"id\" type=\"hidden\" value=\"".$libid."\">\n";
@@ -77,6 +78,10 @@ if (!empty($_COOKIE[illinkid])){
                 echo "<tr><td class=\"odd\"><b>".$guiLabelName5[$lang]."</b></td><td class=\"odd\"><input name=\"name5\" type=\"text\" size=\"30\" value=\"" . $name["es"] . "\"></td></tr>\n";
                 echo "<tr><td><b>Default</b></td><td><input name=\"default\" value=\"1\" type=\"checkbox\"";
                 if ($libdef==1)
+                    echo " checked";
+                echo "></td></tr>\n";
+                echo "<tr><td><b>Afficher les ordres entrants pour cette bibliothèque avec la bibliothèque principale</b></td><td><input name=\"hasSharedOrders\" value=\"1\" type=\"checkbox\"";
+                if ($hasSharedOrders==1)
                     echo " checked";
                 echo "></td></tr>\n";
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";

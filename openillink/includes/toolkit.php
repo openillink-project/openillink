@@ -125,6 +125,43 @@ function replaceExistingPlaceHolders(
     return $urlWithRealVal;
 }
 
+function skipWords($skipTK, $title){
+   if ($skipTK) {
+      $tclean = $title;
+      $tclean = str_replace(" & "," ",$tclean);
+      $tclean = str_replace(" the "," ",$tclean);
+      $tclean = str_replace("The "," ",$tclean);
+      $tclean = str_replace(" and "," ",$tclean);
+      $tclean = str_replace(" of "," ",$tclean);
+      $tclean = str_replace(" - "," ",$tclean);
+      return $tclean;
+    }
+    return $title;
+}
+
+function skipTxtAfterSign($skipAP, $text){
+    if($skipAP) {
+        $shortTxt = $text;
+        $pos1 = strpos($shortTxt, ":");
+        if ($pos1 !== false)
+            $shortTxt = substr($shortTxt, 0, $pos1);
+        $pos2 = strpos($shortTxt, "=");
+        if ($pos2 !== false)
+            $shortTxt = substr($shortTxt, 0, $pos2);
+        $pos3 = strpos($shortTxt, ".");
+        if ($pos3 !== false)
+            $shortTxt = substr($shortTxt, 0, $pos3);
+        $pos4 = strpos($shortTxt, ";");
+        if ($pos4 !== false)
+            $shortTxt = substr($shortTxt, 0, $pos4);
+        $pos5 = strpos($shortTxt, "(");
+        if ($pos5 !== false)
+            $shortTxt = substr($shortTxt, 0, $pos5);
+        return $shortTxt;
+    }
+    return $text;
+}
+
 // 
 function isValidInput($inputToCheck,
                       $maxSize,

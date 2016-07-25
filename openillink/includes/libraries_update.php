@@ -58,6 +58,11 @@ if (!empty($_COOKIE[illinkid])){
         $default = 0;
       else
         $default = 1;
+      $hasSharedOrders = (isset($_POST['hasSharedOrders']) && isValidInput($_POST['hasSharedOrders'],1,'s',false))? addslashes(trim($_POST['hasSharedOrders'])):'';
+      if ($hasSharedOrders != "1")
+        $hasSharedOrders = 0;
+      else
+        $hasSharedOrders = 1;
       if (($action == "update")||($action == "new")){
         // Tester si le code est unique
         $reqcode = "SELECT * FROM libraries WHERE code = ?";
@@ -89,12 +94,13 @@ if (!empty($_COOKIE[illinkid])){
               $reqid = "SELECT * FROM libraries WHERE id = ?";
               $myhtmltitle = $configname[$lang] . " : édition de la fiche bibliothèque $id";
               $resultid = dbquery($reqid, array($id), 'i');
+
               $nb = iimysqli_num_rows($resultid);
               if ($nb == 1) {
                 $enregid = iimysqli_result_fetch_array($resultid);
-                $query = "UPDATE libraries SET libraries.name1=?, libraries.name2=?, libraries.name3=?, libraries.name4=?, libraries.name5=?, libraries.default=?, libraries.code=? WHERE libraries.id=?";
-                $params = array($name1, $name2, $name3, $name4, $name5, $default, $code, $id);
-                $resultupdate = dbquery($query, $params, 'sssssisi') or die("Error : ".mysqli_error());
+                $query = "UPDATE libraries SET libraries.name1=?, libraries.name2=?, libraries.name3=?, libraries.name4=?, libraries.name5=?, libraries.default=?, libraries.code=?, libraries.has_shared_ordres=? WHERE libraries.id=?";
+                $params = array($name1, $name2, $name3, $name4, $name5, $default, $code, $hasSharedOrders, $id);
+                $resultupdate = dbquery($query, $params, 'sssssisii') or die("Error : ".mysqli_error());
                 echo "<center><br/><b><font color=\"green\">\n";
                 echo "La modification de la fiche $id a été enregistrée avec succès</b></font>\n";
                 echo "<br/><br/><br/><a href=\"list.php?table=libraries\">Retour à la liste de bibliothèques</a></center>\n";
@@ -122,9 +128,9 @@ if (!empty($_COOKIE[illinkid])){
       if ($action == "new") {
         require ("headeradmin.php");
         $myhtmltitle = $configname[$lang] . " : nouvelle bibliothèque";
-        $query ="INSERT INTO `libraries` (`id`, `name1`, `name2`, `name3`, `name4`, `name5`, `code`, `default`) VALUES ('', ?, ?, ?, ?, ?, ?, ?)";
-        $params = array($name1, $name2, $name3, $name4, $name5, $code, $default);
-        $id = dbquery($query, $params, 'ssssssi') or die("Error : ".mysqli_error());
+        $query ="INSERT INTO `libraries` (`id`, `name1`, `name2`, `name3`, `name4`, `name5`, `code`, `default`,`has_shared_ordres`) VALUES ('', ?, ?, ?, ?, ?, ?, ?, ?)";
+        $params = array($name1, $name2, $name3, $name4, $name5, $code, $default, $hasSharedOrders);
+        $id = dbquery($query, $params, 'ssssssii') or die("Error : ".mysqli_error());
         echo "<center><br/><b><font color=\"green\">\n";
         echo "La nouvelle fiche $id a été enregistrée avec succès</b></font>\n";
         echo "<br/><br/><br/><a href=\"list.php?table=libraries\">Retour à la liste de bibliothèques</a></center>\n";

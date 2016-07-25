@@ -69,6 +69,7 @@ if (!empty($_COOKIE[illinkid])){
 // echo "<th scope=\"col\">name4</th>\n";
 // echo "<th scope=\"col\">name5</th>\n";
     echo "<th scope=\"col\">default</th>\n";
+    echo "<th scope=\"col\">Ordres entrants partagés</th>\n";
     echo "<th scope=\"col\">".$guiEdit[$lang]."</th>\n";
     echo "</tr>\n";
     echo "</thead>\n";
@@ -83,6 +84,7 @@ if (!empty($_COOKIE[illinkid])){
         $libname4 = $enreg['name4'];
         $libname5 = $enreg['name5'];
         $libdef = $enreg['default'];
+        $hasSharedOrders = $enreg['has_shared_ordres'];
         echo "<tr>\n";
         echo "<td><b>" . $libcode . "</b></td>\n";
         echo "<td>".$libname1."</td>\n";
@@ -91,6 +93,7 @@ if (!empty($_COOKIE[illinkid])){
         // echo "<td>".$libname4."</td>\n";
         // echo "<td>".$libname5."</td>\n";
         echo "<td>".$libdef."</td>\n";
+        echo "<td>".$hasSharedOrders."</td>\n";
         if ((($monaut == "admin")&&($admin > 1))||($monaut == "sadmin")){
             echo "<td><a href=\"edit.php?table=libraries&id=".$libid."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
         }

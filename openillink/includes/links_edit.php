@@ -63,7 +63,9 @@ if (!empty($_COOKIE[illinkid])){
                 $linklibrary = $enreg['library'];
                 $linkactive = $enreg['active'];
                 $linkordonnancement = $enreg['ordonnancement'];
-                $linkurl_encoded= $enreg['url_encoded'];
+                $linkurl_encoded = $enreg['url_encoded'];
+                $linkskip_words = $enreg['skip_words'];
+                $linkskip_txt_after_mark = $enreg['skip_txt_after_mark'];
                 echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
                 echo "<input name=\"table\" type=\"hidden\" value=\"links\">\n";
                 echo "<input name=\"id\" type=\"hidden\" value=\"".$linkid."\">\n";
@@ -143,11 +145,15 @@ if (!empty($_COOKIE[illinkid])){
                 '<td><input type="checkbox"  value="1" '.
                 (($linkurl_encoded == 1)?' checked="checked" ':'').
                 'name="url_encoded" id="url_encoded" /></td></tr>';
+                echo "<tr><td><b>Ignorer les mots du titre du périodique/livre</b></td>".
+                "<td><input name=\"skip_words\" value=\"1\" type=\"checkbox\"".
+                ($linkskip_words == 1?" checked":'')."> non signifiants ('of', 'the', 'The', '&', 'and', '-') | ".
+                "<input name=\"skip_txt_after_mark\" value=\"1\" type=\"checkbox\"".
+                ($linkskip_txt_after_mark == 1?" checked":'')."> après le symbole (':', '=', '.', ';', '(')</td></tr>\n";
                 echo "<tr><td><b>Lien actif</b></td><td><input name=\"active\" value=\"1\" type=\"checkbox\"";
                 if ($linkactive == 1)
                     echo " checked";
                 echo "></td></tr>\n";
-                ;
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
                 echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer les modifications\">\n";
                 echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=links'\">\n";

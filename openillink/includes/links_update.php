@@ -59,6 +59,8 @@ if (!empty($_COOKIE[illinkid])){
         $linkactive = (isset($_POST['active']) && isValidInput($_POST['active'],1,'i',false))?addslashes(trim($_POST['active'])):0;
         $linkordonnancement = (isset($_POST['active']) && isValidInput($_POST['active'],3,'i',false))?trim($_POST['ordonnancement']):NULL;
         $linkurl_encode = (isset($_POST['url_encoded']) && isValidInput($_POST['url_encoded'],1,'i',false))?addslashes(trim($_POST['url_encoded'])):0;
+        $linkskip_words = (isset($_POST['skip_words']) && isValidInput($_POST['skip_words'],1,'i',false))?addslashes(trim($_POST['skip_words'])):0;
+        $linkskip_txt_after_mark = (isset($_POST['skip_txt_after_mark']) && isValidInput($_POST['skip_txt_after_mark'],1,'i',false))?addslashes(trim($_POST['skip_txt_after_mark'])):0;
         if ($linksearch_issn != "1")
             $linksearch_issn = 0;
         if ($linksearch_isbn != "1")
@@ -79,6 +81,10 @@ if (!empty($_COOKIE[illinkid])){
             $linkactive = 0;
         if ($linkurl_encode != "1")
             $linkurl_encode = 0;
+        if ($linkskip_words != "1")
+            $linkskip_words = 0;
+        if ($linkskip_txt_after_mark != "1")
+            $linkskip_txt_after_mark = 0;
         if ($linkordonnancement < 1 || $linkordonnancement > 999)
             $linkordonnancement = 0;
         if (($action == "update")||($action == "new")){
@@ -113,10 +119,10 @@ if (!empty($_COOKIE[illinkid])){
                             'links.order_ext=?, links.order_form=?, '.
                             'links.openurl=?, links.library=?, '.
                             'links.active=?, links.ordonnancement=?, '.
-                            'links.url_encoded=? '.
+                            'links.url_encoded=?, links.skip_words=?, links.skip_txt_after_mark=? '.
                             'WHERE links.id=?';
-                            $params = array($linktitle, $linkurl, $linksearch_issn, $linksearch_isbn, $linksearch_ptitle, $linksearch_btitle, $linksearch_atitle, $linkorder_ext, $linkorder_form, $linkopenurl, $linklibrary, $linkactive, $linkordonnancement, $linkurl_encode, $id);
-                            $typeParam = 'ssiiiiiiiisiiii';
+                            $params = array($linktitle, $linkurl, $linksearch_issn, $linksearch_isbn, $linksearch_ptitle, $linksearch_btitle, $linksearch_atitle, $linkorder_ext, $linkorder_form, $linkopenurl, $linklibrary, $linkactive, $linkordonnancement, $linkurl_encode, $linkskip_words, $linkskip_txt_after_mark, $id);
+                            $typeParam = 'ssiiiiiiiisiiiiii';
                             $resultupdate = dbquery($query, $params, $typeParam) or die("Error : ".mysqli_error());
                             echo "<center><br/><b><font color=\"green\">\n";
                             echo "La modification de la fiche $id a été enregistrée avec succès</b></font>\n";
@@ -145,10 +151,10 @@ if (!empty($_COOKIE[illinkid])){
             if ($action == "new"){
                 require ("headeradmin.php");
                 $myhtmltitle = $configname[$lang] . " : nouveau lien ";
-                $query = "INSERT INTO `links` (`id`, `title`, `url`, `search_issn`, `search_isbn`, `search_ptitle`, `search_btitle`, `search_atitle`, `order_ext`, `order_form`, `openurl`, `library`, `active`, `ordonnancement`, `url_encoded`) ".
+                $query = "INSERT INTO `links` (`id`, `title`, `url`, `search_issn`, `search_isbn`, `search_ptitle`, `search_btitle`, `search_atitle`, `order_ext`, `order_form`, `openurl`, `library`, `active`, `ordonnancement`, `url_encoded`, `skip_words`, `skip_txt_after_mark`) ".
                 "VALUES ('', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                $params = array($linktitle, $linkurl, $linksearch_issn, $linksearch_isbn, $linksearch_ptitle, $linksearch_btitle, $linksearch_atitle, $linkorder_ext, $linkorder_form, $linkopenurl,$linklibrary,$linkactive, $linkordonnancement, $linkurl_encode);
-                $paramstypes = 'ssiiiiiiiissii';
+                $params = array($linktitle, $linkurl, $linksearch_issn, $linksearch_isbn, $linksearch_ptitle, $linksearch_btitle, $linksearch_atitle, $linkorder_ext, $linkorder_form, $linkopenurl,$linklibrary,$linkactive, $linkordonnancement, $linkurl_encode, $linkskip_words, $linkskip_txt_after_mark);
+                $paramstypes = 'ssiiiiiiiissiiii';
                 $id = dbquery($query, $params, $paramstypes) or die("Error : ".mysqli_error());
                 echo "<center><br/><b><font color=\"green\">\n";
                 echo "La nouvelle fiche $id a été enregistrée avec succès</b></font>\n";

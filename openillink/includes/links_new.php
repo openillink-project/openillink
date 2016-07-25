@@ -86,6 +86,9 @@ if (!empty($_COOKIE[illinkid])){
         echo "</select></td></tr>\n";
         echo "<tr><td><b>Effectuel un encodage des arguments de l'url</b></td>".
         '<td><input type="checkbox"  value="1" name="url_encoded" id="url_encoded" /></td></tr>';
+        echo "<tr><td><b>Ignorer les mots du titre du périodique/livre</b></td>".
+        "<td><input name=\"skip_words\" value=\"1\" type=\"checkbox\"> non signifiants ('of', 'the', 'The', '&', 'and', '-') | ".
+        "<input name=\"skip_txt_after_mark\" value=\"1\" type=\"checkbox\"> après le symbole (':', '=', '.', ';', '(')</td></tr>\n";
         echo "<tr><td><b>Lien actif</b></td><td><input name=\"active\" value=\"1\" type=\"checkbox\" checked></td></tr>\n";
         echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
         echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer le nouveau lien \">\n";

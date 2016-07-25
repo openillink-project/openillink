@@ -41,7 +41,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
             echo "&nbsp;&nbsp;&nbsp;<a href=\"#\" class=\"info\" onclick=\"return false\"><img src=\"img/alert.png\"><span>".stripslashes($enreg['remarques'])."</span></a>";
     }
     else{
-        if ($enreg['remarquespub'])
+        if (isset($enreg['remarquespub']))
             echo "&nbsp;&nbsp;&nbsp;<a href=\"#\" class=\"info\" onclick=\"return false\"><img src=\"img/alert.png\"><span>".stripslashes($enreg['remarquespub'])."</span></a>";
     }
     echo "<br />\n";

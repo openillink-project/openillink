@@ -30,7 +30,7 @@ require_once ("toolkit.php");
 
 if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
     // Add filter when logged a guest
-    $guestFilter = ($monaut == 'guest')?"mail = '".(isset($monnom) && isValidInput($monnom,100,'s',false))? $monnom : ''."' AND ":'';
+    $guestFilter = ($monaut == 'guest')?("mail = '".((isset($monnom) && isValidInput($monnom,100,'s',false))? $monnom : '')."' AND "):'';
     $champValides = array('id', 'datecom', 'dateenv', 'datefact', 'statut', 'localisation', 'nom', 'email', 'service', 'issn', 'pmid', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all');
     $champ = (isset($_GET['champ']) && isValidInput($_GET['champ'], 15, 's', false, $champValides))?$_GET['champ']:'';
     $term = (isset($_GET['term']))?$_GET['term']:'';

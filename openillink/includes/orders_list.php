@@ -59,7 +59,6 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
         $locList = empty($locList)?"'".$currLoc['code']."'":$locList.",'".$currLoc['code']."'";
     }
 
-    
     $reqServ = "SELECT code FROM units WHERE library = '$monbib'";
     $resServ = dbquery($reqServ);
     $nbServ = iimysqli_num_rows($resServ);
@@ -68,7 +67,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
         $currServ = iimysqli_result_fetch_array($resServ);
         $servList = empty($servList)?"'".$currServ['code']."'":$servList.",'".$currServ['code']."'";
     }
-    
+    $servCond = ($nbServ > 0 ?"OR orders.service IN ($servList)":'');
 
     $codeIn = array();
     $codeOut = array();
@@ -81,39 +80,53 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
     foreach($codeSpecial as $key => $value){
         $listSpecial[$key] = "'".implode (  "','", $codeSpecial[$key])."'";
     }
+
+    $listBibIn = array();
+    $listBibIn[] = $monbib;
+    /*
+    * MDV : a main library is library flagged as default
+    */
+    $reqIsMain ="SELECT libraries.default FROM libraries WHERE libraries.default = 1 AND libraries.code='$monbib'";
+    $resIsMain = dbquery($reqIsMain);
+    $isMain = iimysqli_num_rows($resIsMain);
+    /*
+    * MDV : when working with a main library all sharing library orders has to be displayed as well
+    */
+    if ($isMain > 0){
+        $reqSharing = 'SELECT libraries.code FROM libraries WHERE libraries.has_shared_ordres = 1';
+        $resSharing = dbquery($reqSharing);
+        $nbSharing = iimysqli_num_rows($resSharing);
+        for ($l=0 ; $l<$nbSharing ; $l++){
+            $currSharing = iimysqli_result_fetch_array($resSharing);
+            $listBibIn[] = $currSharing['code'];
+        }
+    }
+    $listInBib = "'".implode (  "','", $listBibIn)."'";
+    
     
     $req2 = "SELECT orders.illinkid FROM orders ";
     $conditions = '';
     switch ($folder){
         case 'in':
             $conditions = "WHERE (".
-            "(orders.stade IN ($listIn) ".
-            "OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND ".
-            "(orders.bibliotheque = '$monbib' ".
-            ($locList!=''?"OR orders.localisation IN ($locList) ":' ').
-            ($servList!=''?"OR orders.service IN ($servList) ":' ').
-            ")) ".
-            "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '$monbib') ";
+            "(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND ".
+            "(orders.localisation IN ($locList) OR orders.bibliotheque IN (".$listInBib.") ".$servCond." )) ".
+            "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque IN (".$listInBib.")) ";
             break;
         case 'out':
-            $conditions = "WHERE (orders.bibliotheque = '$monbib' ".
-            ($locList!=''?"OR orders.localisation IN ($locList) ":' ').
-            ($servList!=''?"OR orders.service IN ($servList)":' ').
-            ") AND orders.stade IN ($listOut) ";
+            $conditions = "WHERE (orders.localisation IN ($locList) OR orders.bibliotheque = '$monbib' $servCond) AND orders.stade IN ($listOut) ";
             break;
         case 'all':
             if ($monaut == "sadmin"){}
             else {
-                $conditions = "WHERE orders.bibliotheque = '$monbib'".
-                ($locList!=''?" OR orders.localisation IN ($locList)":' ').
-                ($servList!=''?" OR orders.service IN ($servList) ":' ');
+                $conditions = "WHERE orders.bibliotheque = '$monbib' OR orders.localisation IN ($locList) $servCond";
             }
             break;
         case 'trash':
             $conditions = "WHERE orders.stade IN ($listTrash) AND orders.bibliotheque = '$monbib' ";
             break;
         case 'guest':
-            $mailGuest = array((isset($monnom) && isValidInput($monnom,100,'s',false))?$monnom:'');
+            $mailGuest = (isset($monnom) && isValidInput($monnom,100,'s',false))?$monnom:'';
             $conditions = "WHERE orders.mail = '$mailGuest' ";
             break;
         case 'search':
@@ -121,20 +134,16 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
             break;
         default:
             $conditions = "WHERE (".
-            "(orders.stade IN ($listIn) ".
-            "OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND ".
-            "(orders.bibliotheque = '$monbib' ".
-            ($locList!=''?"OR orders.localisation IN ($locList) ":' ').
-            ($servList!=''?"OR orders.service IN ($servList) ":' ').
-            ")) ".
-            "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '$monbib') ";
+            "(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND ".
+            "(orders.localisation IN ($locList) OR orders.bibliotheque IN (".$listInBib.") $servCond )) ".
+            "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque IN (".$listInBib.")) ";
             break;
     }
     $from = (($page * $max_results) - $max_results);
     $req2 = "$req2 $conditions ORDER BY illinkid DESC LIMIT $from, $max_results";
     if ($debugOn)
         prof_flag("Before first query");
-    $result2 = dbquery($req2);
+    $result2 = dbquery($req2,NULL,NULL,NULL,$debugOn);
     if ($debugOn)
         prof_flag("After first query");
 
@@ -164,11 +173,11 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
                 $req .= " ORDER BY orders.urgent, orders.illinkid DESC";
                 break;
         }
-    if ($debugOn)
-        prof_flag("Before second query");
+        if ($debugOn)
+            prof_flag("Before second query");
         $result = dbquery($req);
-    if ($debugOn)
-        prof_flag("After second query");
+        if ($debugOn)
+            prof_flag("After second query");
         $nb = iimysqli_num_rows($result);
     }
     else

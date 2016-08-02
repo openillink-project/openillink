@@ -31,7 +31,7 @@ require_once ("includes/authcookie.php");
 require_once ("includes/connexion.php");
 require_once ("includes/toolkit.php");
 
-$nom = (isset($_GET['nom']) && isValidInput($_GET['nom'], 200, 's', false))?$_GET['nom']:"";
+$nom = ((!empty($_GET['nom'])) && isValidInput($_GET['nom'], 200, 's', false))?$_GET['nom']:"";
 echo "<html>\n";
 echo "<head>\n";
 echo "<meta http-equiv=\"content-type\" content=\"text/html;charset=iso-8859-1\">\n";

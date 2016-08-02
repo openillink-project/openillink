@@ -38,29 +38,29 @@ if (!empty($_COOKIE[illinkid])){
     $ip = $_SERVER['REMOTE_ADDR'];
     
     $validActionSet = array('new', 'update', 'delete', 'deleteok');
-    $action = (isset($_GET['action']) && isValidInput($_GET['action'],10,'s',false, $validActionSet)) ? $_GET['action'] : NULL;
+    $action = ((!empty($_GET['action'])) && isValidInput($_GET['action'],10,'s',false, $validActionSet)) ? $_GET['action'] : NULL;
 
-    if (!isset($action))
-        $action = (isset($_POST['action']) && isValidInput($_POST['action'],10,'s',false, $validActionSet)) ? addslashes($_POST['action']) : '';
+    if (empty($action))
+        $action = ((!empty($_POST['action'])) && isValidInput($_POST['action'],10,'s',false, $validActionSet)) ? addslashes($_POST['action']) : '';
     if (($monaut == "admin")||($monaut == "sadmin")){
         $mes="";
         $date=date("Y-m-d H:i:s");
-        $linktitle = (isset($_POST['title']) && isValidInput($_POST['title'],50,'s',false))?addslashes(trim($_POST['title'])):'';
-        $linkurl = (isset($_POST['url']) && isValidInput($_POST['url'],1000,'s',false))?addslashes(trim($_POST['url'])):'';
-        $linksearch_issn = (isset($_POST['search_issn']) && isValidInput($_POST['search_issn'],1,'i',false))?addslashes(trim($_POST['search_issn'])):0;
-        $linksearch_isbn = (isset($_POST['search_isbn']) && isValidInput($_POST['search_isbn'],1,'i',false))?addslashes(trim($_POST['search_isbn'])):0;
-        $linksearch_ptitle = (isset($_POST['search_ptitle']) && isValidInput($_POST['search_ptitle'],1,'i',false))?addslashes(trim($_POST['search_ptitle'])):0;
-        $linksearch_btitle = (isset($_POST['search_btitle']) && isValidInput($_POST['search_btitle'],1,'i',false))?addslashes(trim($_POST['search_btitle'])):0;
-        $linksearch_atitle = (isset($_POST['search_atitle']) && isValidInput($_POST['search_atitle'],1,'i',false))?addslashes(trim($_POST['search_atitle'])):0;
-        $linkorder_ext = (isset($_POST['order_ext']) && isValidInput($_POST['order_ext'],1,'i',false))?addslashes(trim($_POST['order_ext'])):0;
-        $linkorder_form = (isset($_POST['order_form']) && isValidInput($_POST['order_form'],1,'i',false))?addslashes(trim($_POST['order_form'])):0;
-        $linkopenurl = (isset($_POST['openurl']) && isValidInput($_POST['openurl'],1,'i',false))?addslashes(trim($_POST['openurl'])):0;
-        $linklibrary = (isset($_POST['library']) && isValidInput($_POST['library'],50,'s',false))?addslashes(trim($_POST['library'])):'';
-        $linkactive = (isset($_POST['active']) && isValidInput($_POST['active'],1,'i',false))?addslashes(trim($_POST['active'])):0;
-        $linkordonnancement = (isset($_POST['active']) && isValidInput($_POST['active'],3,'i',false))?trim($_POST['ordonnancement']):NULL;
-        $linkurl_encode = (isset($_POST['url_encoded']) && isValidInput($_POST['url_encoded'],1,'i',false))?addslashes(trim($_POST['url_encoded'])):0;
-        $linkskip_words = (isset($_POST['skip_words']) && isValidInput($_POST['skip_words'],1,'i',false))?addslashes(trim($_POST['skip_words'])):0;
-        $linkskip_txt_after_mark = (isset($_POST['skip_txt_after_mark']) && isValidInput($_POST['skip_txt_after_mark'],1,'i',false))?addslashes(trim($_POST['skip_txt_after_mark'])):0;
+        $linktitle = ((!empty($_POST['title'])) && isValidInput($_POST['title'],50,'s',false))?addslashes(trim($_POST['title'])):'';
+        $linkurl = ((!empty($_POST['url'])) && isValidInput($_POST['url'],1000,'s',false))?addslashes(trim($_POST['url'])):'';
+        $linksearch_issn = ((!empty($_POST['search_issn'])) && isValidInput($_POST['search_issn'],1,'i',false))?addslashes(trim($_POST['search_issn'])):0;
+        $linksearch_isbn = ((!empty($_POST['search_isbn'])) && isValidInput($_POST['search_isbn'],1,'i',false))?addslashes(trim($_POST['search_isbn'])):0;
+        $linksearch_ptitle = ((!empty($_POST['search_ptitle'])) && isValidInput($_POST['search_ptitle'],1,'i',false))?addslashes(trim($_POST['search_ptitle'])):0;
+        $linksearch_btitle = ((!empty($_POST['search_btitle'])) && isValidInput($_POST['search_btitle'],1,'i',false))?addslashes(trim($_POST['search_btitle'])):0;
+        $linksearch_atitle = ((!empty($_POST['search_atitle'])) && isValidInput($_POST['search_atitle'],1,'i',false))?addslashes(trim($_POST['search_atitle'])):0;
+        $linkorder_ext = ((!empty($_POST['order_ext'])) && isValidInput($_POST['order_ext'],1,'i',false))?addslashes(trim($_POST['order_ext'])):0;
+        $linkorder_form = ((!empty($_POST['order_form'])) && isValidInput($_POST['order_form'],1,'i',false))?addslashes(trim($_POST['order_form'])):0;
+        $linkopenurl = ((!empty($_POST['openurl'])) && isValidInput($_POST['openurl'],1,'i',false))?addslashes(trim($_POST['openurl'])):0;
+        $linklibrary = ((!empty($_POST['library'])) && isValidInput($_POST['library'],50,'s',false))?addslashes(trim($_POST['library'])):'';
+        $linkactive = ((!empty($_POST['active'])) && isValidInput($_POST['active'],1,'i',false))?addslashes(trim($_POST['active'])):0;
+        $linkordonnancement = ((!empty($_POST['active'])) && isValidInput($_POST['active'],3,'i',false))?trim($_POST['ordonnancement']):NULL;
+        $linkurl_encode = ((!empty($_POST['url_encoded'])) && isValidInput($_POST['url_encoded'],1,'i',false))?addslashes(trim($_POST['url_encoded'])):0;
+        $linkskip_words = ((!empty($_POST['skip_words'])) && isValidInput($_POST['skip_words'],1,'i',false))?addslashes(trim($_POST['skip_words'])):0;
+        $linkskip_txt_after_mark = ((!empty($_POST['skip_txt_after_mark'])) && isValidInput($_POST['skip_txt_after_mark'],1,'i',false))?addslashes(trim($_POST['skip_txt_after_mark'])):0;
         if ($linksearch_issn != "1")
             $linksearch_issn = 0;
         if ($linksearch_isbn != "1")
@@ -167,7 +167,7 @@ if (!empty($_COOKIE[illinkid])){
         // Fin de la création
         // Début de la suppresion
         if ($action == "delete"){
-            $id= addslashes((isset($_GET['id']) && isValidInput($_GET['id'],11,'s',false)) ? $_GET['id'] : "");
+            $id= addslashes(((!empty($_GET['id'])) && isValidInput($_GET['id'],11,'s',false)) ? $_GET['id'] : "");
             $myhtmltitle = $configname[$lang] . " : confirmation pour la suppresion d'une lien ";
             require ("headeradmin.php");
             echo "<center><br/><br/><br/><b><font color=\"red\">\n";

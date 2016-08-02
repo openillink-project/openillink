@@ -34,7 +34,7 @@ require_once ("includes/toolkit.php");
 
 $id="";
 $montitle = "Gestion des liens";
-$id= (isset($_GET['id']) && isValidInput($_GET['id'],11,'s',false)) ? $_GET['id'] : "";
+$id= ((!empty($_GET['id'])) && isValidInput($_GET['id'],11,'s',false)) ? $_GET['id'] : "";
 if (!empty($_COOKIE[illinkid])){
     if (($monaut == "admin")||($monaut == "sadmin")){
         if ($id!=""){

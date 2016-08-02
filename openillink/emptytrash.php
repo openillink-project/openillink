@@ -35,7 +35,7 @@ require_once ("includes/toolkit.php");
 if (!empty($_COOKIE[illinkid])){
     if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
         $action = "";
-        $action=isset($_POST['action']) && isValidInput($_POST['action'],9,'s',false,array('deleteall'))?$_POST['action']:'';
+        $action= (!empty($_POST['action'])) && isValidInput($_POST['action'],9,'s',false,array('deleteall'))?$_POST['action']:'';
         $pagetitle = "commandes de l'" . $configinstitution[$lang] . " : vider la corbeille definitivement ";
         require ("includes/headeradmin.php");
         echo "\n";

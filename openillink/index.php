@@ -57,7 +57,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     echo "<input name=\"bibliotheque\" type=\"hidden\"  value=\"$monbib\">\n";
     echo "<input name=\"sid\" type=\"hidden\"  value=\"\">\n";
     echo "<input name=\"pid\" type=\"hidden\"  value=\"\">\n";
-    if (isset($referer))
+    if (!empty($referer))
         echo "<input name=\"referer\" type=\"hidden\" value=\"" . rawurlencode($referer) . "\">\n";
     else
         echo "<input name=\"referer\" type=\"hidden\" value=\"\">\n";
@@ -189,7 +189,7 @@ else{
     echo "<input name=\"bibliotheque\" type=\"hidden\" value=\"\">\n";
     echo "<input name=\"sid\" type=\"hidden\" value=\"\">\n";
     echo "<input name=\"pid\" type=\"hidden\" value=\"\">\n";
-    if (isset($referer))
+    if (!empty($referer))
         echo "<input name=\"referer\" type=\"hidden\" value=\"" . rawurlencode($referer) . "\">\n";
     else
         echo "<input name=\"referer\" type=\"hidden\" value=\"\">\n";
@@ -307,7 +307,7 @@ echo "</div></div>\n";
 echo "<div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
 echo "\n";
 echo "<table border=\"0\" Cellspacing=\"0\" Cellpadding=\"3\" width=\"100%\">\n";
-if(isset($doctypesmessage) && $doctypesmessage[$lang])
+if((!empty($doctypesmessage)) && $doctypesmessage[$lang])
     echo "<TR><TD>" . $doctypesmessage[$lang] . "Type de document : </td><td>\n";
 else
     echo "<TR><TD>Type de document : </td><td>\n";

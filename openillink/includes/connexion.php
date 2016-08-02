@@ -10,7 +10,7 @@ function dbconnect() {
     // Keep a single connection
     static $link; 
     // check connection
-    if(!isset($link)) {
+    if(empty($link)) {
         $link = new mysqli(DB_HOST, DB_USER, DB_PWD, DB_NAME);
     }
 
@@ -25,7 +25,7 @@ function dbauthconnect() {
     // Keep a single connection
     static $link; 
 
-    if(!isset($link)) {
+    if(empty($link)) {
         $link = new mysqli(DB_AUTH_HOST, DB_AUTH_USER, DB_AUTH_PWD, DB_AUTH_NAME);
     }
     if ($link->connect_error) {

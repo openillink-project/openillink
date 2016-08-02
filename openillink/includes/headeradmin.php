@@ -38,7 +38,7 @@ $fileIndex = (is_readable ( "index.php" ))? "index.php" : "../index.php";
 $fileList = (is_readable ( "list.php" ))? "list.php" : "../list.php";
 $fileAdmin = (is_readable ( "admin.php" ))? "admin.php" : "../admin.php";
 $fileReports = (is_readable ( "reports.php" ))? "reports.php" : "../reports.php";
-$debugOn = isset($configdebuglogging) && in_array($configdebuglogging, array('DEV', 'TEST'));
+$debugOn = (!empty($configdebuglogging)) && in_array($configdebuglogging, array('DEV', 'TEST'));
 header ('Content-type: text/html; charset=utf-8');
 error_reporting(-1);
 ini_set('display_errors', 'On');
@@ -48,7 +48,7 @@ echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"" . $lang . "\" xml:la
 echo "<head>\n";
 echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>\n";
 echo "<title>";
-if (isset($myhtmltitle))
+if (!empty($myhtmltitle))
   echo $myhtmltitle;
 else
   echo "OpenILLink";
@@ -63,7 +63,7 @@ echo "<script type=\"text/javascript\" src=\"$scriptJs\"></script>\n";
 echo "<script type=\"text/javascript\" src=\"$calendarJs\"></script>\n";
 
 echo "</head>\n";
-if (isset($mybodyonload))
+if (!empty($mybodyonload))
     echo "<body onload=\"" . $mybodyonload . "\">\n";
 else
     echo "<body onload=\"\">\n";

@@ -35,39 +35,39 @@ require_once ("toolkit.php");
 
 $validActionSet = array('new', 'update', 'delete', 'deleteok');
 if (!empty($_COOKIE[illinkid])){
-    $id=(isset($_POST['id']) && isValidInput($_POST['id'],11,'i',false))?addslashes($_POST['id']):NULL;
+    $id=((!empty($_POST['id'])) && isValidInput($_POST['id'],11,'i',false))?addslashes($_POST['id']):NULL;
     $ip = $_SERVER['REMOTE_ADDR'];
     $action = (isset($_GET['action']) && isValidInput($_GET['action'],10,'s',false,$validActionSet))?addslashes($_GET['action']):NULL;
-    if (!isset($action))
-        $action = (isset($_POST['action']) && isValidInput($_POST['action'],10,'s',false,$validActionSet))?addslashes($_POST['action']):NULL;
+    if (empty($action))
+        $action = ((!empty($_POST['action'])) && isValidInput($_POST['action'],10,'s',false,$validActionSet))?addslashes($_POST['action']):NULL;
     if (($monaut == "admin")||($monaut == "sadmin")){
         $mes="";
         $date=date("Y-m-d H:i:s");
-        $code = (isset($_POST['code']) && isValidInput($_POST['code'],20,'s',false))?addslashes(trim($_POST['code'])):NULL;
-        $name1 = (isset($_POST['name1']) && isValidInput($_POST['name1'],100,'s',false))?addslashes(trim($_POST['name1'])):NULL;
-        $name2 = (isset($_POST['name2']) && isValidInput($_POST['name2'],100,'s',false))?addslashes(trim($_POST['name2'])):NULL;
-        $name3 = (isset($_POST['name3']) && isValidInput($_POST['name3'],100,'s',false))?addslashes(trim($_POST['name3'])):NULL;
-        $name4 = (isset($_POST['name4']) && isValidInput($_POST['name4'],100,'s',false))?addslashes(trim($_POST['name4'])):NULL;
-        $name5 = (isset($_POST['name5']) && isValidInput($_POST['name5'],100,'s',false))?addslashes(trim($_POST['name5'])):NULL;
-        $library = (isset($_POST['library']) && isValidInput($_POST['library'],50,'s',false))?addslashes(trim($_POST['library'])):NULL;
-        $unitdepartment = (isset($_POST['department']) && isValidInput($_POST['department'],100,'s',false))?addslashes(trim($_POST['department'])):NULL;
-        $unitdepartmentnew = (isset($_POST['departmentnew']) && isValidInput($_POST['departmentnew'],100,'s',false))?addslashes(trim($_POST['departmentnew'])):NULL;
+        $code = ((!empty($_POST['code'])) && isValidInput($_POST['code'],20,'s',false))?addslashes(trim($_POST['code'])):NULL;
+        $name1 = ((!empty($_POST['name1'])) && isValidInput($_POST['name1'],100,'s',false))?addslashes(trim($_POST['name1'])):NULL;
+        $name2 = ((!empty($_POST['name2'])) && isValidInput($_POST['name2'],100,'s',false))?addslashes(trim($_POST['name2'])):NULL;
+        $name3 = ((!empty($_POST['name3'])) && isValidInput($_POST['name3'],100,'s',false))?addslashes(trim($_POST['name3'])):NULL;
+        $name4 = ((!empty($_POST['name4'])) && isValidInput($_POST['name4'],100,'s',false))?addslashes(trim($_POST['name4'])):NULL;
+        $name5 = ((!empty($_POST['name5'])) && isValidInput($_POST['name5'],100,'s',false))?addslashes(trim($_POST['name5'])):NULL;
+        $library = ((!empty($_POST['library'])) && isValidInput($_POST['library'],50,'s',false))?addslashes(trim($_POST['library'])):NULL;
+        $unitdepartment = ((!empty($_POST['department'])) && isValidInput($_POST['department'],100,'s',false))?addslashes(trim($_POST['department'])):NULL;
+        $unitdepartmentnew = ((!empty($_POST['departmentnew'])) && isValidInput($_POST['departmentnew'],100,'s',false))?addslashes(trim($_POST['departmentnew'])):NULL;
         if ($unitdepartment == "new")
             $unitdepartment = $unitdepartmentnew;
-        $unitfaculty = (isset($_POST['faculty']) && isValidInput($_POST['faculty'],100,'s',false))?addslashes(trim($_POST['faculty'])):NULL;
-        $unitfacultynew = (isset($_POST['facultynew']) && isValidInput($_POST['facultynew'],100,'s',false))?addslashes(trim($_POST['facultynew'])):NULL;
+        $unitfaculty = ((!empty($_POST['faculty'])) && isValidInput($_POST['faculty'],100,'s',false))?addslashes(trim($_POST['faculty'])):NULL;
+        $unitfacultynew = ((!empty($_POST['facultynew'])) && isValidInput($_POST['facultynew'],100,'s',false))?addslashes(trim($_POST['facultynew'])):NULL;
         if ($unitfaculty == "new")
             $unitfaculty = $unitfacultynew;
-        $unitip1 = (isset($_POST['ip1']) && isValidInput($_POST['ip1'],1,'i',false))?addslashes(trim($_POST['ip1'])):0;
+        $unitip1 = ((!empty($_POST['ip1'])) && isValidInput($_POST['ip1'],1,'i',false))?addslashes(trim($_POST['ip1'])):0;
         if ($unitip1 != 1)
             $unitip1 = 0;
-        $unitip2 = (isset($_POST['ip2']) && isValidInput($_POST['ip2'],1,'i',false))?addslashes(trim($_POST['ip2'])):0;
+        $unitip2 = ((!empty($_POST['ip2'])) && isValidInput($_POST['ip2'],1,'i',false))?addslashes(trim($_POST['ip2'])):0;
         if ($unitip2 != 1)
             $unitip2 = 0;
-        $unitipext = (isset($_POST['ipext']) && isValidInput($_POST['ipext'],1,'i',false))?addslashes(trim($_POST['ipext'])):0;
+        $unitipext = ((!empty($_POST['ipext'])) && isValidInput($_POST['ipext'],1,'i',false))?addslashes(trim($_POST['ipext'])):0;
         if ($unitipext != 1)
             $unitipext = 0;
-        $validation = (isset($_POST['validation']) && isValidInput($_POST['validation'],1,'i',false))?addslashes(trim($_POST['validation'])):0;
+        $validation = ((!empty($_POST['validation'])) && isValidInput($_POST['validation'],1,'i',false))?addslashes(trim($_POST['validation'])):0;
         if ($validation != 1)
             $validation = 0;
         if (($action == "update")||($action == "new")){

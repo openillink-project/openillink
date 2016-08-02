@@ -26,13 +26,13 @@ $suppressed_st = 11;
 /*********************************************************************************************/
 /* VARIABLES */
 /*********************************************************************************************/
-$datedu = (isset($_GET['datedu']) && isValidInput($_GET['datedu'],10,'s',false)) ? $_GET['datedu'] : NULL;
-$dateau = (isset($_GET['dateau']) && isValidInput($_GET['dateau'],10,'s',false)) ? $_GET['dateau'] : NULL;
-$type = (isset($_GET['type']) && isValidInput($_GET['type'],25,'s',false)) ? $_GET['type'] : NULL;
-$format = (isset($_GET['format']) && isValidInput($_GET['format'],3,'s',false)) ? $_GET['format'] : NULL;
+$datedu = ((!empty($_GET['datedu'])) && isValidInput($_GET['datedu'],10,'s',false)) ? $_GET['datedu'] : NULL;
+$dateau = ((!empty($_GET['dateau'])) && isValidInput($_GET['dateau'],10,'s',false)) ? $_GET['dateau'] : NULL;
+$type = ((!empty($_GET['type'])) && isValidInput($_GET['type'],25,'s',false)) ? $_GET['type'] : NULL;
+$format = ((!empty($_GET['format'])) && isValidInput($_GET['format'],3,'s',false)) ? $_GET['format'] : NULL;
 
-$stade = (isset($_GET['stade']) && isValidInput($_GET['stade'],50,'s',false)) ? $_GET['stade'] : NULL;
-$monbib = (isset($_GET['biblio']) && isValidInput($_GET['biblio'],50,'s',false)) ? $_GET['biblio'] : NULL;
+$stade = ((!empty($_GET['stade'])) && isValidInput($_GET['stade'],50,'s',false)) ? $_GET['stade'] : NULL;
+$monbib = ((!empty($_GET['biblio'])) && isValidInput($_GET['biblio'],50,'s',false)) ? $_GET['biblio'] : NULL;
 
 // MDV - parse dates to an array
 $du = explode(".",$datedu);
@@ -73,19 +73,21 @@ function prepareLine($values, $delimiter, $separator){
   return $line.PHP_EOL;
 }
 
-
 /*********************************************************************************************/
 /* MAIN PROCESSING */
 /*********************************************************************************************/
+$charEncoding = 'UTF-8';
 if ($format=='csv') {
-  header("Content-type: application/csv; charset: utf-8");
+  header('Content-Encoding: '.$charEncoding);
+  header("Content-type: application/csv; charset: ".$charEncoding);
   $filename = $filename . ".csv";
   $sep = ";";
   $quote = "\"";
   $esc = "\\"; 
  }
 if ($format=='tab') {
-  header("Content-type: text/tab-separated-values; charset: utf-8");
+  header('Content-Encoding: '.$charEncoding);
+  header("Content-type: text/tab-separated-values; charset: ".$charEncoding);
   $filename = $filename . ".tab.txt";
   $sep = "\t";
   $quote = "";
@@ -95,7 +97,7 @@ if ($format=='tab') {
 // Stades à afficher - ne s'applique pas a l'option statistiques
 header("Content-Disposition: attachment; filename=$filename");
 
-$ligneTitre = (isset($stade))? array("Rapport", "OpenILLink", $monbib, "du", $datedu, "au", $dateau, "Status: ", $stade) : array("Rapport", "OpenILLink", $monbib, "du", $datedu, "au", $dateau);
+$ligneTitre = (!empty($stade))? array("Rapport", "OpenILLink", $monbib, "du", $datedu, "au", $dateau, "Status: ", $stade) : array("Rapport", "OpenILLink", $monbib, "du", $datedu, "au", $dateau);
 echo prepareLine($ligneTitre, $quote, $sep);
 echo PHP_EOL; // add empty line
 

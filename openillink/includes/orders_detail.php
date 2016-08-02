@@ -32,7 +32,7 @@ require_once ("connexion.php");
 require_once ("includes/toolkit.php");
 
 if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
-    $id= (isset($_GET['id']) && isValidInput($_GET['id'],8,'s',false)) ? $_GET['id'] : NULL;
+    $id= ((!empty($_GET['id'])) && isValidInput($_GET['id'],8,'s',false)) ? $_GET['id'] : NULL;
     $myhtmltitle = "Commandes de " . $configinstitution[$lang] . " : détail de la commande " . $id;
     if ($id){
         $req = "SELECT orders.*, status.title1 AS statusname, status.help1 AS statushelp, status.special AS statusspecial, status.color AS statuscolor, libraries.name1 AS libname, localizations.name1 AS locname, units.name1 AS unitname ".

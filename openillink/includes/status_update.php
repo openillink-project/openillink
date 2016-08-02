@@ -35,36 +35,36 @@ $validActionSet = array('new', 'update', 'delete', 'deleteok');
 if (!empty($_COOKIE[illinkid])){
     $action2="";
     $action="";
-    $id=(isset($_POST['id']) && isValidInput($_POST['id'],11,'i',false))?addslashes($_POST['id']):NULL;
+    $id=((!empty($_POST['id'])) && isValidInput($_POST['id'],11,'i',false))?addslashes($_POST['id']):NULL;
     $ip = $_SERVER['REMOTE_ADDR'];
-    $action=(isset($_GET['action']) && isValidInput($_GET['action'],10,'s',false,$validActionSet))?addslashes($_GET['action']):NULL;
-    if (!isset($action))
-        $action = $action=(isset($_POST['action']) && isValidInput($_POST['action'],10,'s',false,$validActionSet))?addslashes($_POST['action']):'';
+    $action=((!empty($_GET['action'])) && isValidInput($_GET['action'],10,'s',false,$validActionSet))?addslashes($_GET['action']):NULL;
+    if (empty($action))
+        $action = $action=((!empty($_POST['action'])) && isValidInput($_POST['action'],10,'s',false,$validActionSet))?addslashes($_POST['action']):'';
     if (($monaut == "admin")||($monaut == "sadmin")){
         $mes="";
         $date=date("Y-m-d H:i:s");
-        $code = (isset($_POST['code']) && isValidInput($_POST['code'],6,'i',false))?addslashes(trim($_POST['code'])):NULL;
-        $title1 = (isset($_POST['title1']) && isValidInput($_POST['title1'],50,'s',false))?addslashes(trim($_POST['title1'])):NULL;
-        $title2 = (isset($_POST['title2']) && isValidInput($_POST['title2'],50,'s',false))? addslashes(trim($_POST['title2'])):NULL;
-        $title3 = (isset($_POST['title3']) && isValidInput($_POST['title3'],50,'s',false))? addslashes(trim($_POST['title3'])):NULL;
-        $title4 = (isset($_POST['title4']) && isValidInput($_POST['title4'],50,'s',false))?addslashes(trim($_POST['title4'])):NULL;
-        $title5 = (isset($_POST['title5']) && isValidInput($_POST['title5'],50,'s',false))?addslashes(trim($_POST['title5'])):NULL;
-        $help1 = (isset($_POST['help1']) && isValidInput($_POST['help1'],255,'s',false))?addslashes(trim($_POST['help1'])):NULL;
-        $help2 = (isset($_POST['help2']) && isValidInput($_POST['help2'],255,'s',false))?addslashes(trim($_POST['help2'])):NULL;
-        $help3 = (isset($_POST['help3']) && isValidInput($_POST['help3'],255,'s',false))?addslashes(trim($_POST['help3'])):NULL;
-        $help4 = (isset($_POST['help4']) && isValidInput($_POST['help4'],255,'s',false))?addslashes(trim($_POST['help4'])):NULL;
-        $help5 = (isset($_POST['help5']) && isValidInput($_POST['help5'],255,'s',false))?addslashes(trim($_POST['help5'])):NULL;
-        $in = (isset($_POST['in']) && isValidInput($_POST['in'],1,'i',false))?addslashes(trim($_POST['in'])):0;
+        $code = ((!empty($_POST['code'])) && isValidInput($_POST['code'],6,'i',false))?addslashes(trim($_POST['code'])):NULL;
+        $title1 = ((!empty($_POST['title1'])) && isValidInput($_POST['title1'],50,'s',false))?addslashes(trim($_POST['title1'])):NULL;
+        $title2 = ((!empty($_POST['title2'])) && isValidInput($_POST['title2'],50,'s',false))? addslashes(trim($_POST['title2'])):NULL;
+        $title3 = ((!empty($_POST['title3'])) && isValidInput($_POST['title3'],50,'s',false))? addslashes(trim($_POST['title3'])):NULL;
+        $title4 = ((!empty($_POST['title4'])) && isValidInput($_POST['title4'],50,'s',false))?addslashes(trim($_POST['title4'])):NULL;
+        $title5 = ((!empty($_POST['title5'])) && isValidInput($_POST['title5'],50,'s',false))?addslashes(trim($_POST['title5'])):NULL;
+        $help1 = ((!empty($_POST['help1'])) && isValidInput($_POST['help1'],255,'s',false))?addslashes(trim($_POST['help1'])):NULL;
+        $help2 = ((!empty($_POST['help2'])) && isValidInput($_POST['help2'],255,'s',false))?addslashes(trim($_POST['help2'])):NULL;
+        $help3 = ((!empty($_POST['help3'])) && isValidInput($_POST['help3'],255,'s',false))?addslashes(trim($_POST['help3'])):NULL;
+        $help4 = ((!empty($_POST['help4'])) && isValidInput($_POST['help4'],255,'s',false))?addslashes(trim($_POST['help4'])):NULL;
+        $help5 = ((!empty($_POST['help5'])) && isValidInput($_POST['help5'],255,'s',false))?addslashes(trim($_POST['help5'])):NULL;
+        $in = ((!empty($_POST['in'])) && isValidInput($_POST['in'],1,'i',false))?addslashes(trim($_POST['in'])):0;
         if ($in != 1)
             $in = 0;
-        $out = (isset($_POST['out']) && isValidInput($_POST['out'],1,'i',false))?addslashes(trim($_POST['out'])):0;
+        $out = ((!empty($_POST['out'])) && isValidInput($_POST['out'],1,'i',false))?addslashes(trim($_POST['out'])):0;
         if ($out != 1)
             $out = 0;
-        $trash = (isset($_POST['trash']) && isValidInput($_POST['trash'],1,'i',false))?addslashes(trim($_POST['trash'])):0;
+        $trash = ((!empty($_POST['trash'])) && isValidInput($_POST['trash'],1,'i',false))?addslashes(trim($_POST['trash'])):0;
         if ($trash != 1)
             $trash = 0;
-        $special = (isset($_POST['special']) && isValidInput($_POST['special'],20,'s',false))?addslashes(trim($_POST['special'])):NULL;
-        $color = (isset($_POST['color']) && isValidInput($_POST['color'],50,'s',false))?addslashes(trim($_POST['color'])):NULL;
+        $special = ((!empty($_POST['special'])) && isValidInput($_POST['special'],20,'s',false))?addslashes(trim($_POST['special'])):NULL;
+        $color = ((!empty($_POST['color'])) && isValidInput($_POST['color'],50,'s',false))?addslashes(trim($_POST['color'])):NULL;
         if (($action == "update")||($action == "new")) {
             // Tester si le code est unique
             $reqcode = "SELECT * FROM status WHERE code = '$code'";
@@ -140,7 +140,7 @@ if (!empty($_COOKIE[illinkid])){
         // Fin de la création
         // Début de la suppresion
         if ($action == "delete"){
-            $id=(isset($_GET['id']) && isValidInput($_GET['id'],11,'i',false))?addslashes($_GET['id']):NULL;
+            $id=((isset($_GET['id'])) && isValidInput($_GET['id'],11,'i',false))?addslashes($_GET['id']):NULL;
             $myhtmltitle = $configname[$lang] . " : confirmation pour la suppresion d'une étape de la commande";
             require ("headeradmin.php");
             echo "<center><br/><br/><br/><b><font color=\"red\">\n";

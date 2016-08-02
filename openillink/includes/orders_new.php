@@ -41,86 +41,86 @@ $pmid="";
 $isbn="";
 $issn="";
 $eissn="";
-$userid= (isset($_POST['userid']) && isValidInput($_POST['userid'],50,'s',false))?$_POST['userid']:NULL;
-if (! isset($userid)){
-    $userid = (isset($_SERVER['REMOTE_ADDR']) && isValidInput($_SERVER['REMOTE_ADDR'],50,'s',false))?$_SERVER['REMOTE_ADDR']:NULL;
+$userid= ((!empty($_POST['userid'])) && isValidInput($_POST['userid'],50,'s',false))?$_POST['userid']:NULL;
+if (empty($userid)){
+    $userid = ((!empty($_SERVER['REMOTE_ADDR'])) && isValidInput($_SERVER['REMOTE_ADDR'],50,'s',false))?$_SERVER['REMOTE_ADDR']:NULL;
 }
 
-$referer=isset($_POST['referer'])? $_POST['referer'] :'';
+$referer=(!empty($_POST['referer']))? $_POST['referer'] :'';
 //$action=$_POST['action']; // TODO : is that code usefull or useless?
 $stade="";
 $stade="";
 
 
 // extended set of common vars
-$uid = (isset($_POST['uid']) && isValidInput($_POST['uid'],50, 's', false))?$_POST['uid']:NULL;
+$uid = ((!empty($_POST['uid'])) && isValidInput($_POST['uid'],50, 's', false))?$_POST['uid']:NULL;
 $uid = convertLtGtToTxtValue($uid);
 $validTidSet = array('pmid','doi');
-$tid = (isset($_POST['tid']) && isValidInput($_POST['tid'],4, 's', false,$validTidSet))?addslashes($_POST['tid']):'';
+$tid = ((!empty($_POST['tid'])) && isValidInput($_POST['tid'],4, 's', false,$validTidSet))?addslashes($_POST['tid']):'';
 if ($tid=='pmid'){
     $uids = trim($_POST['uids']);
-    $uids = (isset($uids) && isValidInput($uids,20, 's', false))?addslashes($uids):'';
+    $uids = ((!empty($uids)) && isValidInput($uids,20, 's', false))?addslashes($uids):'';
     $pmid = $uids;
 }
 elseif ($tid=='doi'){
     $uids = trim($_POST['uids']);
-    $uids = (isset($uids) && isValidInput($uids,80, 's', false))?addslashes($uids):'';
+    $uids = ((!empty($uids)) && isValidInput($uids,80, 's', false))?addslashes($uids):'';
     $doi = $uids;
 }
 $uids = convertLtGtToTxtValue($uids);
-$sid=(isset($_POST['sid']) && isValidInput($_POST['sid'],50, 's', false))?$_POST['sid']:'';
-$pid=(isset($_POST['pid']) && isValidInput($_POST['pid'],50, 's', false))?$_POST['pid']:'';
-$source=(isset($_POST['source']) && isValidInput($_POST['source'],20, 's', false))?$_POST['source']:'';
-$nom=(isset($_POST['nom']) && isValidInput($_POST['nom'],100, 's', false))?trim(addslashes($_POST['nom'])):'';
+$sid=((!empty($_POST['sid'])) && isValidInput($_POST['sid'],50, 's', false))?$_POST['sid']:'';
+$pid=((!empty($_POST['pid'])) && isValidInput($_POST['pid'],50, 's', false))?$_POST['pid']:'';
+$source=((!empty($_POST['source'])) && isValidInput($_POST['source'],20, 's', false))?$_POST['source']:'';
+$nom=((!empty($_POST['nom'])) && isValidInput($_POST['nom'],100, 's', false))?trim(addslashes($_POST['nom'])):'';
 $nom=convertLtGtToTxtValue($nom);
-$prenom=(isset($_POST['prenom']) && isValidInput($_POST['prenom'],100, 's', false))?trim(addslashes($_POST['prenom'])):'';
+$prenom=((!empty($_POST['prenom'])) && isValidInput($_POST['prenom'],100, 's', false))?trim(addslashes($_POST['prenom'])):'';
 $prenom = convertLtGtToTxtValue($prenom);
-$service=(isset($_POST['service']) && isValidInput($_POST['service'],20, 's', false))?$_POST['service']:'';
-$servautre=(isset($_POST['servautre']) && isValidInput($_POST['servautre'],20, 's', false))?$_POST['servautre']:'';
+$service=((!empty($_POST['service'])) && isValidInput($_POST['service'],20, 's', false))?$_POST['service']:'';
+$servautre=((!empty($_POST['servautre'])) && isValidInput($_POST['servautre'],20, 's', false))?$_POST['servautre']:'';
 if($servautre)
     $service=$servautre;
 $service = convertLtGtToTxtValue($service);
 
-$cgra=(isset($_POST['cgra']) && isValidInput($_POST['cgra'],10, 's', false))?addslashes($_POST['cgra']):'';
+$cgra=((!empty($_POST['cgra'])) && isValidInput($_POST['cgra'],10, 's', false))?addslashes($_POST['cgra']):'';
 $cgra = convertLtGtToTxtValue($cgra);
-$cgrb=(isset($_POST['cgrb']) && isValidInput($_POST['cgrb'],10, 's', false))?addslashes($_POST['cgrb']):'';
+$cgrb=((!empty($_POST['cgrb'])) && isValidInput($_POST['cgrb'],10, 's', false))?addslashes($_POST['cgrb']):'';
 $cgrb = convertLtGtToTxtValue($cgrb);
 
-$mail=(isset($_POST['mail']) && isValidInput($_POST['mail'],100, 's', false))?addslashes(trim($_POST['mail'])):'';
+$mail=((!empty($_POST['mail'])) && isValidInput($_POST['mail'],100, 's', false))?addslashes(trim($_POST['mail'])):'';
 $mail = convertLtGtToTxtValue($mail);
-$tel =(isset($_POST['tel']) && isValidInput($_POST['tel'],20, 's', false))?addslashes($_POST['tel']):'';$tel = convertLtGtToTxtValue($tel);
-$adresse=(isset($_POST['adresse']) && isValidInput($_POST['adresse'],255 ,'s' ,false))?addslashes($_POST['adresse']):'';
+$tel =((!empty($_POST['tel'])) && isValidInput($_POST['tel'],20, 's', false))?addslashes($_POST['tel']):'';$tel = convertLtGtToTxtValue($tel);
+$adresse=((!empty($_POST['adresse'])) && isValidInput($_POST['adresse'],255 ,'s' ,false))?addslashes($_POST['adresse']):'';
 $adresse = convertLtGtToTxtValue($adresse);
-$postal=(isset($_POST['postal']) && isValidInput($_POST['postal'],10, 's', false))?addslashes($_POST['postal']):'';
-$localite=(isset($_POST['localite']) && isValidInput($_POST['localite'],50, 's', false))?addslashes($_POST['localite']):'';
+$postal=((!empty($_POST['postal'])) && isValidInput($_POST['postal'],10, 's', false))?addslashes($_POST['postal']):'';
+$localite=((!empty($_POST['localite'])) && isValidInput($_POST['localite'],50, 's', false))?addslashes($_POST['localite']):'';
 $localite = convertLtGtToTxtValue($localite);
 
-$envoi=(isset($_POST['envoi']) && isValidInput($_POST['envoi'],50, 's', false))?addslashes($_POST['envoi']):'';
+$envoi=((!empty($_POST['envoi'])) && isValidInput($_POST['envoi'],50, 's', false))?addslashes($_POST['envoi']):'';
 
 $typeDocValidSet = array('article','preprint','book','bookitem','thesis','journal','proceeding','conference','other');
-$typedoc=(isset($_POST['genre']) && isValidInput($_POST['genre'],50, 's', false, $typeDocValidSet))?addslashes($_POST['genre']):'';
-$journal=(isset($_POST['title']) && isValidInput($_POST['title'],1000, 's', false))?addslashes(trim($_POST['title'])):'';
+$typedoc=((!empty($_POST['genre'])) && isValidInput($_POST['genre'],50, 's', false, $typeDocValidSet))?addslashes($_POST['genre']):'';
+$journal=((!empty($_POST['title'])) && isValidInput($_POST['title'],1000, 's', false))?addslashes(trim($_POST['title'])):'';
 $journal = convertLtGtToTxtValue($journal);
-$annee=(isset($_POST['date']) && isValidInput($_POST['date'],10, 's', false))?addslashes($_POST['date']):'';
+$annee=((!empty($_POST['date'])) && isValidInput($_POST['date'],10, 's', false))?addslashes($_POST['date']):'';
 $annee = convertLtGtToTxtValue($annee);
-$vol=(isset($_POST['volume']) && isValidInput($_POST['volume'],50, 's', false))?addslashes($_POST['volume']):'';
+$vol=((!empty($_POST['volume'])) && isValidInput($_POST['volume'],50, 's', false))?addslashes($_POST['volume']):'';
 $vol = convertLtGtToTxtValue($vol);
-$no=(isset($_POST['issue']) && isValidInput($_POST['issue'],100, 's', false))?$_POST['issue']:'';
+$no=((!empty($_POST['issue'])) && isValidInput($_POST['issue'],100, 's', false))?$_POST['issue']:'';
 $no = convertLtGtToTxtValue($no);
-$suppl=(isset($_POST['suppl']) && isValidInput($_POST['suppl'],100, 's', false))?$_POST['suppl']:'';
+$suppl=((!empty($_POST['suppl'])) && isValidInput($_POST['suppl'],100, 's', false))?$_POST['suppl']:'';
 $suppl = convertLtGtToTxtValue($suppl);
-$pages=(isset($_POST['pages']) && isValidInput($_POST['pages'],50, 's', false))?$_POST['pages']:'';
+$pages=((!empty($_POST['pages'])) && isValidInput($_POST['pages'],50, 's', false))?$_POST['pages']:'';
 $pages = convertLtGtToTxtValue($pages);
-$titre=(isset($_POST['atitle']) && isValidInput($_POST['atitle'],1000, 's', false))?addslashes(trim($_POST['atitle'])):'';
+$titre=((!empty($_POST['atitle'])) && isValidInput($_POST['atitle'],1000, 's', false))?addslashes(trim($_POST['atitle'])):'';
 $titre = convertLtGtToTxtValue($titre);
-$auteurs=(isset($_POST['auteurs']) && isValidInput($_POST['auteurs'],255, 's', false))?addslashes($_POST['auteurs']):'';
+$auteurs=((!empty($_POST['auteurs'])) && isValidInput($_POST['auteurs'],255, 's', false))?addslashes($_POST['auteurs']):'';
 $auteurs = convertLtGtToTxtValue($auteurs);
-$edition=(isset($_POST['edition']) && isValidInput($_POST['edition'],100, 's', false))?addslashes($_POST['edition']):'';
+$edition=((!empty($_POST['edition'])) && isValidInput($_POST['edition'],100, 's', false))?addslashes($_POST['edition']):'';
 $edition = convertLtGtToTxtValue($edition);
-$issn = (isset($_POST['issn']) && isValidInput($_POST['issn'],50, 's', false))?$_POST['issn']:NULL;
+$issn = ((!empty($_POST['issn'])) && isValidInput($_POST['issn'],50, 's', false))?$_POST['issn']:NULL;
 $issn = convertLtGtToTxtValue($issn);
 
-if (isset($issn)){
+if (!empty($issn)){
     if (($typedoc=='book')||($typedoc=='bookitem')||($typedoc=='proceeding')||($typedoc=='conference')){
         $isbn=$issn;
         $issn=''; // TODO MDV, replaces previous set, verify if it's ok
@@ -140,9 +140,9 @@ if($pmid==''){
         $pmid=str_replace("pmid:","",$uid);
 }
 
-$remarques=(isset($_POST['remarques']) && isValidInput($_POST['remarques'],4000, 's', false))?$_POST['remarques']:'';
+$remarques=((!empty($_POST['remarques'])) && isValidInput($_POST['remarques'],4000, 's', false))?$_POST['remarques']:'';
 $remarques = convertLtGtToTxtValue($remarques);
-$remarquespub=(isset($_POST['remarquespub']) && isValidInput($_POST['remarquespub'],4000, 's', false))?$_POST['remarquespub']:'';
+$remarquespub=((!empty($_POST['remarquespub'])) && isValidInput($_POST['remarquespub'],4000, 's', false))?$_POST['remarquespub']:'';
 $remarquespub=str_replace("<script>","",$remarquespub);
 $remarquespub=str_replace("</script>","",$remarquespub);
 //$remarquespub=str_replace("script","scrpt",$remarquespub);
@@ -155,15 +155,15 @@ $remarquespub=addslashes($remarquespub);
 // START admin vars
 //
 if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
-    $localisation= (isset($_POST['localisation']) && isValidInput($_POST['localisation'],20,'s',false))? $_POST['localisation']:NULL;
-    $stade=(isset($_POST['stade']) && isValidInput($_POST['stade'],3,'i',false))? $_POST['stade']:NULL;
-    $date= (isset($_POST['datesaisie']) && validateDate($_POST['datesaisie']))?$_POST['datesaisie']:NULL;
-    if(!isset($date))
+    $localisation= ((!empty($_POST['localisation'])) && isValidInput($_POST['localisation'],20,'s',false))? $_POST['localisation']:NULL;
+    $stade=((!empty($_POST['stade'])) && isValidInput($_POST['stade'],3,'i',false))? $_POST['stade']:NULL;
+    $date= ((!empty($_POST['datesaisie'])) && validateDate($_POST['datesaisie']))?$_POST['datesaisie']:NULL;
+    if(empty($date))
         $date=date("Y-m-d");
     $date2=date("d/m/Y H:i:s");
-    $envoye=(isset($_POST['envoye']) && validateDate($_POST['envoye']))?$_POST['envoye']:'';
-    $facture=(isset($_POST['facture']) && validateDate($_POST['facture']))?$_POST['facture']:'';
-    $renouveler=(isset($_POST['renouveler']) && validateDate($_POST['renouveler']))?$_POST['renouveler']:'';
+    $envoye=((!empty($_POST['envoye'])) && validateDate($_POST['envoye']))?$_POST['envoye']:'';
+    $facture=((!empty($_POST['facture'])) && validateDate($_POST['facture']))?$_POST['facture']:'';
+    $renouveler=((!empty($_POST['renouveler'])) && validateDate($_POST['renouveler']))?$_POST['renouveler']:'';
     $reqstatus="SELECT code FROM status WHERE status.special = ?";
     $resultstatus = dbquery($reqstatus,array('renew'), 's');
     while ($rowstatus = iimysqli_result_fetch_array($resultstatus)){
@@ -172,12 +172,12 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
             $renouveler = date("Y-m-d", mktime(0, 0, 0, date("m")+1, date("d"), date("Y")));
         }
     }
-    $bibliotheque=(isset($_POST['bibliotheque']) && isValidInput($_POST['bibliotheque'],50, 's', false))?$_POST['bibliotheque']:'';
-    $prix=(isset($_POST['prix']) && isValidInput($_POST['prix'],4, 's', false))?$_POST['prix']:'';
-    $prepaye=(isset($_POST['avance']) && isValidInput($_POST['avance'],3, 's', false))?$_POST['avance']:'';
-    $urgent=(isset($_POST['urgent']) && isValidInput($_POST['urgent'],3, 's', false))?$_POST['urgent']:'';
-    $ref=(isset($_POST['ref']) && isValidInput($_POST['ref'],50, 's', false))?$_POST['ref']:'';
-    $refinterbib=(isset($_POST['refinterbib']) && isValidInput($_POST['refinterbib'],50, 's', false))?$_POST['refinterbib']:'';
+    $bibliotheque=((!empty($_POST['bibliotheque'])) && isValidInput($_POST['bibliotheque'],50, 's', false))?$_POST['bibliotheque']:'';
+    $prix=((!empty($_POST['prix'])) && isValidInput($_POST['prix'],4, 's', false))?$_POST['prix']:'';
+    $prepaye=((!empty($_POST['avance'])) && isValidInput($_POST['avance'],3, 's', false))?$_POST['avance']:'';
+    $urgent=((!empty($_POST['urgent'])) && isValidInput($_POST['urgent'],3, 's', false))?$_POST['urgent']:'';
+    $ref=((!empty($_POST['ref'])) && isValidInput($_POST['ref'],50, 's', false))?$_POST['ref']:'';
+    $refinterbib=((!empty($_POST['refinterbib'])) && isValidInput($_POST['refinterbib'],50, 's', false))?$_POST['refinterbib']:'';
     // END admin vars
 }
 else{
@@ -191,7 +191,7 @@ else{
     $resultstatus = dbquery($reqstatus,array('new'), 's');
     while ($rowstatus = iimysqli_result_fetch_array($resultstatus))
         $stade = $rowstatus["code"];
-    if (isset($service)){
+    if (!empty($service)){
         $reqlibfromunits="SELECT library, validation FROM units WHERE units.code = ?";
         $resultunits = dbquery($reqlibfromunits,array($service), 's');
         while ($rowunits = iimysqli_result_fetch_array($resultunits)){

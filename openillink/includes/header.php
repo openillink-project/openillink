@@ -35,7 +35,7 @@ echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"" . $lang . "\" xml:la
 echo "<head>\n";
 echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>\n";
 echo "<title>";
-if (isset($myhtmltitle))
+if (!empty($myhtmltitle))
     echo $myhtmltitle;
 else
     echo "OpenILLink";
@@ -51,7 +51,7 @@ echo "<style type=\"text/css\" media=\"print\">\n @import url(\"$fileStyle2\");\
 echo "<style type=\"text/css\" media=\"all\">\n @import url(\"$fileStyleTable\");\n </style>\n";
 echo "<script type=\"text/javascript\" src=\"$scriptJs\"></script>\n";
 echo "</head>\n";
-if (! isset($mybodyonload)){
+if (empty($mybodyonload)){
   $mybodyonload = '';
 }
 echo "<body onload=\"" . $mybodyonload . "\">\n";

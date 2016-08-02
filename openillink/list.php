@@ -33,7 +33,7 @@ require_once ("includes/toolkit.php");
 if (!empty($_COOKIE['illinkid'])){
     // switch from table parameter
     $validTableSet = array('orders', 'users', 'libraries', 'units', 'status', 'localizations', 'links');
-    $table = (isset($_GET['table']) && isValidInput($_GET['table'],15,'s',false,$validTableSet))?$_GET['table']:'';
+    $table = ((!empty($_GET['table'])) && isValidInput($_GET['table'],15,'s',false,$validTableSet))?$_GET['table']:'';
     switch ($table){
         case 'orders':
         require ("includes/orders_list.php");

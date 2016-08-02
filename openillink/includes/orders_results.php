@@ -62,7 +62,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
             $adresse = stripslashes($enreg['adresse']).', '.stripslashes($enreg['code_postal']).' '.stripslashes($enreg['localite']);
             $statusname = $statusInfo[$stade]['title1'];
             $statushelp = $statusInfo[$stade]['help1'];
-            if (isset($enreg) && isset($enreg['special']) && $enreg['special']==='renew'){
+            if ((!empty($enreg)) && (!empty($enreg['special'])) && $enreg['special']==='renew'){
                 $statusrenew = 1;
             }
             $statuscolor = $statusInfo[$stade]['color'];

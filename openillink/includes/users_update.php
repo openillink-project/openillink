@@ -36,24 +36,24 @@ $validActionSet = array('new', 'update', 'delete', 'deleteok', 'updateprofile');
 if (!empty($_COOKIE[illinkid])){
     $id=addslashes($_POST['id']);
     $ip = $_SERVER['REMOTE_ADDR'];
-    $action = (isset($_GET['action']) && isValidInput($_GET['action'],15,'s',false,$validActionSet))?addslashes($_GET['action']):NULL;
-    if (!isset($action))
-        $action = (isset($_POST['action']) && isValidInput($_POST['action'],15,'s',false,$validActionSet))?addslashes($_POST['action']):NULL;
+    $action = ((!empty($_GET['action'])) && isValidInput($_GET['action'],15,'s',false,$validActionSet))?addslashes($_GET['action']):NULL;
+    if (empty($action))
+        $action = ((!empty($_POST['action'])) && isValidInput($_POST['action'],15,'s',false,$validActionSet))?addslashes($_POST['action']):NULL;
     if (($monaut == "admin")||($monaut == "sadmin")||(($monaut == "user")&&($action == "updateprofile"))){
         if (($monaut == "user")&&($action == "updateprofile"))
             $action == "update";
         if (($action == "update")||($action == "new")){
             $mes="";
             $date=date("Y-m-d H:i:s");
-            $name = (isset($_POST['name']) && isValidInput($_POST['name'],255,'s',false))?addslashes(trim($_POST['name'])):NULL;
-            $email = (isset($_POST['email']) && isValidInput($_POST['email'],255,'s',false))?addslashes(trim($_POST['email'])):NULL;
-            $login = (isset($_POST['login']) && isValidInput($_POST['login'],255,'s',false))?addslashes(trim($_POST['login'])):NULL;
-            $status = (isset($_POST['status']) && isValidInput($_POST['status'],1,'i',false))?addslashes(trim($_POST['status'])):NULL;
-            $admin = (isset($_POST['admin']) && isValidInput($_POST['admin'],1,'i',false))?addslashes(trim($_POST['admin'])):NULL;
-            $library = (isset($_POST['library']) && isValidInput($_POST['library'],10,'s',false))?addslashes(trim($_POST['library'])):NULL;
-            $newpassword1 = (isset($_POST['newpassword1']) && isValidInput($_POST['newpassword1'],255,'s',false))?addslashes(trim($_POST['newpassword1'])):NULL;
-            $newpassword2 = (isset($_POST['newpassword2']) && isValidInput($_POST['newpassword2'],255,'s',false))?addslashes(trim($_POST['newpassword2'])):NULL;
-            if (isset($newpassword1) && !empty($newpassword1))
+            $name = ((!empty($_POST['name'])) && isValidInput($_POST['name'],255,'s',false))?addslashes(trim($_POST['name'])):NULL;
+            $email = ((!empty($_POST['email'])) && isValidInput($_POST['email'],255,'s',false))?addslashes(trim($_POST['email'])):NULL;
+            $login = ((!empty($_POST['login'])) && isValidInput($_POST['login'],255,'s',false))?addslashes(trim($_POST['login'])):NULL;
+            $status = ((!empty($_POST['status'])) && isValidInput($_POST['status'],1,'i',false))?addslashes(trim($_POST['status'])):0;
+            $admin = ((!empty($_POST['admin'])) && isValidInput($_POST['admin'],1,'i',false))?addslashes(trim($_POST['admin'])):NULL;
+            $library = ((!empty($_POST['library'])) && isValidInput($_POST['library'],10,'s',false))?addslashes(trim($_POST['library'])):NULL;
+            $newpassword1 = ((!empty($_POST['newpassword1'])) && isValidInput($_POST['newpassword1'],255,'s',false))?addslashes(trim($_POST['newpassword1'])):NULL;
+            $newpassword2 = ((!empty($_POST['newpassword2'])) && isValidInput($_POST['newpassword2'],255,'s',false))?addslashes(trim($_POST['newpassword2'])):NULL;
+            if ((!empty($newpassword1)) && !empty($newpassword1))
                 $password = md5($newpassword1);
             // Tester si le login est unique
             $reqlogin = "SELECT * FROM users WHERE users.login = '$login'";
@@ -65,19 +65,19 @@ if (!empty($_COOKIE[illinkid])){
                 $mes = $mes . "<br/>le login '" . $login . "' existe déjà dans la base, veuillez choisir un autre";
             if (($nblogin == 1)&&($action != "new")&&($idlogin != $id))
                 $mes = $mes . "<br/>le login '" . $login . "' est déjà attribué à un autre utilisateur, veuillez choisir un autre";
-            if (!isset($name) || empty($name))
+            if (empty($name))
                 $mes = $mes . "<br/>le nom est obligatoire";
-            if (!isset($login) || empty($login))
+            if (empty($login))
                 $mes = $mes . "<br/>le login est obligatoire";
-            if ((!isset($status) || empty($status)) && ($action != "updateprofile"))
+            if ((!isset($status)) && ($action != "updateprofile"))
                 $mes = $mes . "<br/>la status est obligatoire";
-            if ((!isset($admin) || empty($admin)) &&($action != "updateprofile"))
+            if ((empty($admin)) &&($action != "updateprofile"))
                 $mes = $mes . "<br/>le type d'utilisateur est obligatoire";
-            if ((!isset($newpassword1) || empty($newpassword1)) && ($action == "new"))
+            if ((empty($newpassword1)) && ($action == "new"))
                 $mes = $mes . "<br/>le password est obligatoire";
             if (($newpassword2 !== $newpassword1)||(($newpassword2 == "")&&($action == "new")))
                 $mes = $mes . "<br/>le password n'a pas été confirmé correctement";
-            if (isset($mes) && !empty($mes)){
+            if (!empty($mes)){
                 require ("headeradmin.php");
                 echo "<center><br/><b><font color=\"red\">\n";
                 echo $mes."</b></font>\n";

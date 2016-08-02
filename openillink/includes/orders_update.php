@@ -31,32 +31,32 @@
 require_once ('connexion.php');
 require_once ("includes/toolkit.php");
 
-$id = (isset($_GET['id']) && isValidInput($_GET['id'],8,'s',false)) ? $_GET['id'] : NULL;
+$id = ((!empty($_GET['id'])) && isValidInput($_GET['id'],8,'s',false)) ? $_GET['id'] : NULL;
 $validActionSet = array('update', 'delete', 'deleteok');
-$action= (isset($_GET['action']) && isValidInput($_GET['action'],10,'s',false, $validActionSet)) ? $_GET['action'] : NULL;
-if (!isset($action)){
-    $action = (isset($_POST['action']) && isValidInput($_POST['action'],10,'s',false, $validActionSet)) ? $_POST['action'] : NULL;
+$action= ((!empty($_GET['action'])) && isValidInput($_GET['action'],10,'s',false, $validActionSet)) ? $_GET['action'] : NULL;
+if (empty($action)){
+    $action = ((!empty($_POST['action'])) && isValidInput($_POST['action'],10,'s',false, $validActionSet)) ? $_POST['action'] : NULL;
 }
 if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
     // Début de l'édition
     if ($action == "update"){
-        $id = (isset($_POST['id']) && isValidInput($_POST['id'],8,'i',false)) ? $_POST['id'] : NULL;
-        if (isset($id)){
+        $id = ((!empty($_POST['id'])) && isValidInput($_POST['id'],8,'i',false)) ? $_POST['id'] : NULL;
+        if (!empty($id)){
             $mes="";
             $doi="";
             $pmid="";
             $isbn="";
             $issn="";
             $eissn="";
-            $userid = (isset($_POST['userid']) && isValidInput($_POST['userid'],50,'s',false)) ? $_POST['userid'] : NULL;
-            $stade = (isset($_POST['stade']) && isValidInput($_POST['stade'],3,'i',false)) ? $_POST['stade'] : NULL;
-            $date=(isset($_POST['datesaisie']) && validateDate($_POST['datesaisie']))?$_POST['datesaisie']:NULL;
-            if (!isset($date))
+            $userid = ((!empty($_POST['userid'])) && isValidInput($_POST['userid'],50,'s',false)) ? $_POST['userid'] : NULL;
+            $stade = ((!empty($_POST['stade'])) && isValidInput($_POST['stade'],3,'i',false)) ? $_POST['stade'] : NULL;
+            $date=((!empty($_POST['datesaisie'])) && validateDate($_POST['datesaisie']))?$_POST['datesaisie']:NULL;
+            if (empty($date))
                 $date=date("Y-m-d");
             $date2=date("d/m/Y H:i:s");
-            $envoye=(isset($_POST['envoye']) && validateDate($_POST['envoye']))?$_POST['envoye']:NULL;
-            $facture=(isset($_POST['facture']) && validateDate($_POST['facture']))?$_POST['facture']:NULL;
-            $renouveler=(isset($_POST['renouveler']) && validateDate($_POST['renouveler']))?$_POST['renouveler']:NULL;
+            $envoye=((!empty($_POST['envoye'])) && validateDate($_POST['envoye']))?$_POST['envoye']:NULL;
+            $facture=((!empty($_POST['facture'])) && validateDate($_POST['facture']))?$_POST['facture']:NULL;
+            $renouveler=((!empty($_POST['renouveler'])) && validateDate($_POST['renouveler']))?$_POST['renouveler']:NULL;
             // Ajouter un delai de renouvellement d'un mois si status.special = renew et pas de date de renouvellement
             $req = "SELECT status.* FROM status WHERE status.special = ?";
             $result = dbquery($req, array('renew'), 's');
@@ -95,52 +95,52 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
                     }
                 }
             }
-            $localisation = (isset($_POST['localisation']) && isValidInput($_POST['localisation'],20,'s',false)) ? $_POST['localisation'] : NULL;
-            $sid = (isset($_POST['sid']) && isValidInput($_POST['sid'],50,'s',false)) ? $_POST['sid'] : NULL;
-            $pid= (isset($_POST['pid']) && isValidInput($_POST['pid'],50,'s',false)) ? $_POST['pid'] : NULL;
-            $bibliotheque = (isset($_POST['bibliotheque']) && isValidInput($_POST['bibliotheque'],50,'s',false)) ? $_POST['bibliotheque'] : NULL;
-            $source=(isset($_POST['source']) && isValidInput($_POST['source'],20,'s',false)) ? $_POST['source']:NULL;
-            $nom=(isset($_POST['nom']) && isValidInput($_POST['nom'],100,'s',false)) ? addslashes($_POST['nom']): NULL;
-            $prenom=(isset($_POST['prenom']) && isValidInput($_POST['prenom'],100,'s',false)) ? addslashes($_POST['prenom']):NULL;
-            $service=(isset($_POST['service']) && isValidInput($_POST['service'],20,'s',false)) ? $_POST['service']:NULL;
-            $prix=(isset($_POST['prix']) && isValidInput($_POST['prix'],4,'s',false)) ? $_POST['prix']:NULL;
-            $prepaye=(isset($_POST['avance']) && isValidInput($_POST['avance'],3,'s',false)) ? $_POST['avance']:NULL;
-            $urgent=(isset($_POST['urgent']) && isValidInput($_POST['urgent'],3,'s',false)) ?$_POST['urgent']:NULL;
-            $ref=(isset($_POST['ref']) && isValidInput($_POST['ref'],50,'s',false)) ?$_POST['ref']:NULL;
-            $refinterbib=(isset($_POST['refinterbib']) && isValidInput($_POST['refinterbib'],50,'s',false)) ?$_POST['refinterbib']:NULL;
-            $servautre = (isset($_POST['servautre']) && isValidInput($_POST['servautre'],50,'s',false)) ? $_POST['servautre']:NULL;
+            $localisation = ((!empty($_POST['localisation'])) && isValidInput($_POST['localisation'],20,'s',false)) ? $_POST['localisation'] : NULL;
+            $sid = ((!empty($_POST['sid'])) && isValidInput($_POST['sid'],50,'s',false)) ? $_POST['sid'] : NULL;
+            $pid= ((!empty($_POST['pid'])) && isValidInput($_POST['pid'],50,'s',false)) ? $_POST['pid'] : NULL;
+            $bibliotheque = ((!empty($_POST['bibliotheque'])) && isValidInput($_POST['bibliotheque'],50,'s',false)) ? $_POST['bibliotheque'] : NULL;
+            $source=((!empty($_POST['source'])) && isValidInput($_POST['source'],20,'s',false)) ? $_POST['source']:NULL;
+            $nom=((!empty($_POST['nom'])) && isValidInput($_POST['nom'],100,'s',false)) ? addslashes($_POST['nom']): NULL;
+            $prenom=((!empty($_POST['prenom'])) && isValidInput($_POST['prenom'],100,'s',false)) ? addslashes($_POST['prenom']):NULL;
+            $service=((!empty($_POST['service'])) && isValidInput($_POST['service'],20,'s',false)) ? $_POST['service']:NULL;
+            $prix=((!empty($_POST['prix'])) && isValidInput($_POST['prix'],4,'s',false)) ? $_POST['prix']:NULL;
+            $prepaye=((!empty($_POST['avance'])) && isValidInput($_POST['avance'],3,'s',false)) ? $_POST['avance']:NULL;
+            $urgent=((!empty($_POST['urgent'])) && isValidInput($_POST['urgent'],3,'s',false)) ?$_POST['urgent']:NULL;
+            $ref=((!empty($_POST['ref'])) && isValidInput($_POST['ref'],50,'s',false)) ?$_POST['ref']:NULL;
+            $refinterbib=((!empty($_POST['refinterbib'])) && isValidInput($_POST['refinterbib'],50,'s',false)) ?$_POST['refinterbib']:NULL;
+            $servautre = ((!empty($_POST['servautre'])) && isValidInput($_POST['servautre'],50,'s',false)) ? $_POST['servautre']:NULL;
             if (($servautre!='') && ($servautre!=$service))
                 $service=$servautre;
-            $cgra=(isset($_POST['cgra']) && isValidInput($_POST['cgra'],10,'s',false)) ? addslashes($_POST['cgra']):NULL;
-            $cgrb=(isset($_POST['cgrb']) && isValidInput($_POST['cgrb'],10,'s',false)) ? addslashes($_POST['cgrb']):NULL;
-            $mail=(isset($_POST['mail']) && isValidInput($_POST['mail'],100,'s',false)) ? trim($_POST['mail']):NULL;
-            $tel=(isset($_POST['tel']) && isValidInput($_POST['tel'],20,'s',false)) ? addslashes($_POST['tel']):NULL;
-            $adresse=(isset($_POST['adresse']) && isValidInput($_POST['adresse'],255,'s',false)) ? addslashes($_POST['adresse']):NULL;
-            $postal=(isset($_POST['postal']) && isValidInput($_POST['postal'],10,'s',false)) ?addslashes($_POST['postal']):NULL;
-            $localite=(isset($_POST['localite']) && isValidInput($_POST['localite'],50,'s',false)) ? addslashes($_POST['localite']):NULL;
-            $envoi=(isset($_POST['envoi']) && isValidInput($_POST['envoi'],50,'s',false)) ?$_POST['envoi']:NULL;
-            $tid = (isset($_POST['tid']) && isValidInput($_POST['tid'],4,'s',false, array('pmid','doi'))) ?$_POST['tid']:NULL;
+            $cgra=((!empty($_POST['cgra'])) && isValidInput($_POST['cgra'],10,'s',false)) ? addslashes($_POST['cgra']):NULL;
+            $cgrb=((!empty($_POST['cgrb'])) && isValidInput($_POST['cgrb'],10,'s',false)) ? addslashes($_POST['cgrb']):NULL;
+            $mail=((!empty($_POST['mail'])) && isValidInput($_POST['mail'],100,'s',false)) ? trim($_POST['mail']):NULL;
+            $tel=((!empty($_POST['tel'])) && isValidInput($_POST['tel'],20,'s',false)) ? addslashes($_POST['tel']):NULL;
+            $adresse=((!empty($_POST['adresse'])) && isValidInput($_POST['adresse'],255,'s',false)) ? addslashes($_POST['adresse']):NULL;
+            $postal=((!empty($_POST['postal'])) && isValidInput($_POST['postal'],10,'s',false)) ?addslashes($_POST['postal']):NULL;
+            $localite=((!empty($_POST['localite'])) && isValidInput($_POST['localite'],50,'s',false)) ? addslashes($_POST['localite']):NULL;
+            $envoi=((!empty($_POST['envoi'])) && isValidInput($_POST['envoi'],50,'s',false)) ?$_POST['envoi']:NULL;
+            $tid = ((!empty($_POST['tid'])) && isValidInput($_POST['tid'],4,'s',false, array('pmid','doi'))) ?$_POST['tid']:NULL;
             $uids = trim($_POST['uids']);
-            $uids = (isset($uids) && isValidInput($uids,80,'s',false))?$uids:NULL;
+            $uids = ((!empty($uids)) && isValidInput($uids,80,'s',false))?$uids:NULL;
             if ($tid=='pmid'){
-                $uids = (isset($uids) && isValidInput($uids,20,'s',false)) ?$uids:NULL;
+                $uids = ((!empty($uids)) && isValidInput($uids,20,'s',false)) ?$uids:NULL;
                 $pmid=$uids;
             }
             if ($tid=='doi'){
                 $doi=$uids;
             }
-            $typedoc=(isset($_POST['genre']) && isValidInput($_POST['genre'],50,'s',false)) ?$_POST['genre']:NULL;
-            $journal=(isset($_POST['title']) && isValidInput($_POST['title'],1000,'s',false)) ?addslashes(trim($_POST['title'])):NULL;
-            $annee=(isset($_POST['date']) && isValidInput($_POST['date'],10,'s',false)) ?addslashes(trim($_POST['date'])):NULL;
-            $vol=(isset($_POST['volume']) && isValidInput($_POST['volume'],50,'s',false)) ?$_POST['volume']:NULL;
-            $no=(isset($_POST['issue']) && isValidInput($_POST['issue'],100,'s',false)) ?$_POST['issue']:NULL;
-            $suppl=(isset($_POST['suppl']) && isValidInput($_POST['suppl'],100,'s',false)) ?$_POST['suppl']:NULL;
-            $pages=(isset($_POST['pages']) && isValidInput($_POST['pages'],50,'s',false)) ?$_POST['pages']:NULL;
-            $titre=(isset($_POST['atitle']) && isValidInput($_POST['atitle'],1000,'s',false)) ?addslashes(trim($_POST['atitle'])):NULL;
-            $auteurs=(isset($_POST['auteurs']) && isValidInput($_POST['auteurs'],255,'s',false)) ?addslashes($_POST['auteurs']):NULL;
-            $edition=(isset($_POST['edition']) && isValidInput($_POST['edition'],100,'s',false)) ?addslashes($_POST['edition']):NULL;
-            $issn = (isset($_POST['issn']) && isValidInput($_POST['issn'],50, 's', false))?$_POST['issn']:NULL;
-            if (isset($issn)){
+            $typedoc=((!empty($_POST['genre'])) && isValidInput($_POST['genre'],50,'s',false)) ?$_POST['genre']:NULL;
+            $journal=((!empty($_POST['title'])) && isValidInput($_POST['title'],1000,'s',false)) ?addslashes(trim($_POST['title'])):NULL;
+            $annee=((!empty($_POST['date'])) && isValidInput($_POST['date'],10,'s',false)) ?addslashes(trim($_POST['date'])):NULL;
+            $vol=((!empty($_POST['volume'])) && isValidInput($_POST['volume'],50,'s',false)) ?$_POST['volume']:NULL;
+            $no=((!empty($_POST['issue'])) && isValidInput($_POST['issue'],100,'s',false)) ?$_POST['issue']:NULL;
+            $suppl=((!empty($_POST['suppl'])) && isValidInput($_POST['suppl'],100,'s',false)) ?$_POST['suppl']:NULL;
+            $pages=((!empty($_POST['pages'])) && isValidInput($_POST['pages'],50,'s',false)) ?$_POST['pages']:NULL;
+            $titre=((!empty($_POST['atitle'])) && isValidInput($_POST['atitle'],1000,'s',false)) ?addslashes(trim($_POST['atitle'])):NULL;
+            $auteurs=((!empty($_POST['auteurs'])) && isValidInput($_POST['auteurs'],255,'s',false)) ?addslashes($_POST['auteurs']):NULL;
+            $edition=((!empty($_POST['edition'])) && isValidInput($_POST['edition'],100,'s',false)) ?addslashes($_POST['edition']):NULL;
+            $issn = ((!empty($_POST['issn'])) && isValidInput($_POST['issn'],50, 's', false))?$_POST['issn']:NULL;
+            if (!empty($issn)){
                 if ( in_array($typedoc, array('book', 'bookitem', 'proceeding', 'conference'), true)){
                     $isbn = $issn;
                     $issn = '';
@@ -156,21 +156,21 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
                     }
                 }
             }
-            $uid=(isset($_POST['uid']) && isValidInput($_POST['uid'],50, 's', false))?$_POST['uid']:NULL;
+            $uid=((!empty($_POST['uid'])) && isValidInput($_POST['uid'],50, 's', false))?$_POST['uid']:NULL;
             if($pmid==''){
                 if(ereg("pmid:",$uid))
                     $pmid=str_replace("pmid:","",$uid);
             }
-            $remarques=(isset($_POST['remarques']) && isValidInput($_POST['remarques'],4000, 's', false))?addslashes($_POST['remarques']):NULL;
-            $remarquespub=(isset($_POST['remarquespub']) && isValidInput($_POST['remarquespub'],4000, 's', false))?addslashes($_POST['remarquespub']):NULL;
-            $modifs=(isset($_POST['modifs']) && isValidInput($_POST['modifs'],4000, 's', false))?addslashes($_POST['modifs']):NULL;
+            $remarques=((!empty($_POST['remarques'])) && isValidInput($_POST['remarques'],4000, 's', false))?addslashes($_POST['remarques']):NULL;
+            $remarquespub=((!empty($_POST['remarquespub'])) && isValidInput($_POST['remarquespub'],4000, 's', false))?addslashes($_POST['remarquespub']):NULL;
+            $modifs=((!empty($_POST['modifs'])) && isValidInput($_POST['modifs'],4000, 's', false))?addslashes($_POST['modifs']):NULL;
             $ip=$_SERVER['REMOTE_ADDR'];
-            $historique=((isset($_POST['historique']) && isValidInput($_POST['historique'],4000, 's', false))?$_POST['historique']:'').'<br /> Commande modifiée par ' . $monnom . ' le ' . $date2;
+            $historique=(((!empty($_POST['historique'])) && isValidInput($_POST['historique'],4000, 's', false))?$_POST['historique']:'').'<br /> Commande modifiée par ' . $monnom . ' le ' . $date2;
             if ($modifs)
                 $historique=$historique.' ['.$modifs.']';
-            if (!isset($nom))
+            if (empty($nom))
                 $mes="le nom est obligatoire";
-            if (!isset($journal))
+            if (empty($journal))
                 $mes=$mes."<br>le titre du périodique ou du livre est obligatoire";
             if ($mes){
                 require ("headeradmin.php");
@@ -326,7 +326,7 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
     // Confimation de la suppresion
     if ($action == "deleteok"){
         if (($monaut == "admin")||($monaut == "sadmin")){
-            $id = (isset($_POST['id']) && isValidInput($_POST['id'],8,'i',false)) ? $_POST['id'] : NULL;
+            $id = ((!empty($_POST['id'])) && isValidInput($_POST['id'],8,'i',false)) ? $_POST['id'] : NULL;
             $myhtmltitle = $configname[$lang] . " : suppresion de la commande " . $id;
             require ("headeradmin.php");
             $query = "DELETE FROM orders WHERE orders.illinkid = ?";

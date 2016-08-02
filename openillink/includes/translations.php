@@ -29,8 +29,8 @@
 if ($langautodetect = 1){
     // Define language from URL (priority) or from browser prefs
     $langs = array("fr", "en", "de", "it", "es");
-    if (!isset($_REQUEST["lang"])){
-        if (isset($_SERVER["HTTP_ACCEPT_LANGUAGE"])){
+    if (empty($_REQUEST["lang"])){
+        if (!empty($_SERVER["HTTP_ACCEPT_LANGUAGE"])){
             $lang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2);
             if(!in_array($lang, $langs)){
                 // default language
@@ -47,7 +47,7 @@ if ($langautodetect = 1){
     }
 }
 else{
-    if (!isset($_REQUEST["lang"]))
+    if (empty($_REQUEST["lang"]))
         $lang = "fr";
     else
         $lang = $_REQUEST["lang"];

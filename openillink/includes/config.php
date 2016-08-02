@@ -90,6 +90,12 @@ $max_results = 25;
 $configcrossrefpid1 = "abc";
 $configcrossrefpid2 = "abc123";
 
+// authentication levels
+$auth_sadmin = "1";
+$auth_admin = "2";
+$auth_user = "3";
+$auth_guest = "9";
+
 // Define the name and search URL of directories used to make the home page links
 // to determine your URLs make a search with firstname "XFIRSTNAMEX" (without quotes) and name "XNAMEX", then copy the URL of the results page
 // if your directory allows only POST request, you can create a form imitating the search form and place on the forms folder

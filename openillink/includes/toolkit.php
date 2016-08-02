@@ -260,4 +260,16 @@ function readStatus(&$codeIn, &$codeOut, &$codeTrash, &$codeSpecial)
     return $statusInfo;
 }
 
+function boxContent($class, $title, $mainTxt){
+    $boxedContent = '<div class="box">'
+    .'<div class="box-content '.$class.'">'
+    .'<h1>'.$title.'</h1>'
+    .$mainTxt
+    .'</div>'
+    .'</div>'
+    .'<div class="box-footer"><div class="box-footer-right"></div></div>'
+;
+    return $boxedContent;
+}
+
 ?>

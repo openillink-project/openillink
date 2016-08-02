@@ -32,7 +32,7 @@ require_once ("connexion.php");
 require_once ("includes/toolkit.php");
 
 if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
-    $id= (isset($_GET['id']) && isValidInput($_GET['id'],8,'s',false)) ? $_GET['id'] : NULL;
+    $id= ((!empty($_GET['id'])) && isValidInput($_GET['id'],8,'s',false)) ? $_GET['id'] : NULL;
     $myhtmltitle = "Commandes de " . $configinstitution[$lang] . " : edition de la commande " . $id;
     if ($id){
         $req = "select * from orders where illinkid like ? order by illinkid desc";
@@ -371,7 +371,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "<div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
                 echo "\n";
                 echo "<table border=\"0\" Cellspacing=\"0\" Cellpadding=\"3\" width=\"100%\">\n";
-                echo "<TR><TD>" . ((isset($doctypesmessage) && $doctypesmessage[$lang])? $doctypesmessage[$lang]:'') . "Type de document : </td><td>\n";
+                echo "<TR><TD>" . (((!empty($doctypesmessage)) && $doctypesmessage[$lang])? $doctypesmessage[$lang]:'') . "Type de document : </td><td>\n";
                 echo "<select name=\"genre\" onchange=\"textchanged('type_doc')\">\n";
                 $i = 0;
                 while ($doctypes[$i]["code"]){

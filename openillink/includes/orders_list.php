@@ -34,7 +34,7 @@ require_once ('connexion.php');
 $monbibr=$monbib."%";
 if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut == "guest")){
     $myhtmltitle = "Commandes de " . $configinstitution[$lang] . " : liste de commandes";
-    $page = (isset($_GET['page']) && isValidInput($_GET['page'],8,'s',false))?$_GET['page']:1;
+    $page = ((!empty($_GET['page'])) && isValidInput($_GET['page'],8,'s',false))?$_GET['page']:1;
 
 // Figure out the limit for the query based on the current page number
     if ($debugOn)
@@ -47,7 +47,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
         prof_flag("After search");
     $madatej=date("Y-m-d");
 // Choice of folder
-    $folder = (isset($_GET['folder']) && isValidInput($_GET['folder'],6,'s',false))?$_GET['folder']:'';
+    $folder = ((!empty($_GET['folder'])) && isValidInput($_GET['folder'],6,'s',false))?$_GET['folder']:'';
     $pageslinksurl = "list.php?folder=".$folder;
 
     $reqLoc = "SELECT code FROM localizations WHERE library = '$monbib'";
@@ -58,6 +58,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
         $currLoc = iimysqli_result_fetch_array($resLoc);
         $locList = empty($locList)?"'".$currLoc['code']."'":$locList.",'".$currLoc['code']."'";
     }
+    $locCond = empty($locList)?'':"orders.localisation IN ($locList) OR";
 
     $reqServ = "SELECT code FROM units WHERE library = '$monbib'";
     $resServ = dbquery($reqServ);
@@ -110,23 +111,32 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
         case 'in':
             $conditions = "WHERE (".
             "(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND ".
-            "(orders.localisation IN ($locList) OR orders.bibliotheque IN (".$listInBib.") ".$servCond." )) ".
+            "($locCond orders.bibliotheque IN (".$listInBib.") ".$servCond." )) ".
             "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque IN (".$listInBib.")) ";
             break;
         case 'out':
-            $conditions = "WHERE (orders.localisation IN ($locList) OR orders.bibliotheque = '$monbib' $servCond) AND orders.stade IN ($listOut) ";
+            $conditions = "WHERE ($locCond orders.bibliotheque = '$monbib' $servCond) AND orders.stade IN ($listOut) ";
             break;
         case 'all':
             if ($monaut == "sadmin"){}
             else {
-                $conditions = "WHERE orders.bibliotheque = '$monbib' OR orders.localisation IN ($locList) $servCond";
+                $conditions = "WHERE orders.bibliotheque = '$monbib' OR $locCond  $servCond";
             }
             break;
         case 'trash':
             $conditions = "WHERE orders.stade IN ($listTrash) AND orders.bibliotheque = '$monbib' ";
             break;
         case 'guest':
-            $mailGuest = (isset($monnom) && isValidInput($monnom,100,'s',false))?$monnom:'';
+            /* guest can be either a user with guest credits or a user with an automatic login mail + random password assigned by the system */
+            $reqGuest = "SELECT * FROM users WHERE users.name ='$monnom'";
+            $resGuest = dbquery($reqGuest);
+            $nbGuest = iimysqli_num_rows($resGuest);
+            if ($nbGuest==1){
+                $guest = iimysqli_result_fetch_array($resGuest);
+                $mailGuest = $guest['email'];
+            }
+            if (empty($mailGuest))
+                $mailGuest = ((!empty($monnom)) && isValidInput($monnom,100,'s',false))?$monnom:'';
             $conditions = "WHERE orders.mail = '$mailGuest' ";
             break;
         case 'search':
@@ -135,13 +145,12 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
         default:
             $conditions = "WHERE (".
             "(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND ".
-            "(orders.localisation IN ($locList) OR orders.bibliotheque IN (".$listInBib.") $servCond )) ".
+            "($locCond orders.bibliotheque IN (".$listInBib.") $servCond )) ".
             "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque IN (".$listInBib.")) ";
             break;
     }
     $from = (($page * $max_results) - $max_results);
-    $req2 = "$req2 $conditions ORDER BY illinkid DESC LIMIT $from, $max_results";
-    if ($debugOn)
+    $req2 = "$req2 $conditions ORDER BY illinkid DESC LIMIT $from, $max_results";   if ($debugOn)
         prof_flag("Before first query");
     $result2 = dbquery($req2,NULL,NULL,NULL,$debugOn);
     if ($debugOn)

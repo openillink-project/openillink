@@ -30,7 +30,7 @@ $ip1 = 0;
 $ip2 = 0;
 $ipwww = 0;
 $ip = $_SERVER['REMOTE_ADDR'];
-if (isset($_SERVER['HTTP_REFERER'])){
+if (!empty($_SERVER['HTTP_REFERER'])){
     $referer=$_SERVER['HTTP_REFERER'];
 }
 $sep = ".";

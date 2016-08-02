@@ -41,16 +41,16 @@ $redirguest = "Location: " . $monuri . "list.php?folder=guest";
 
 $validActionSet = array('logout', 'shibboleth');
 $action = addslashes(isValidInput($_GET['action'],10,'s',false,$validActionSet)?$_GET['action']:NULL);
-
-if ((!empty($_COOKIE['illinkid'])) && (!isset($action)) && ($monaut=="sadmin"))
-    header("$rediradmin");
-if ((!empty($_COOKIE['illinkid'])) && (!isset($action)) && ($monaut=="admin"))
-    header("$rediradmin");
-if ((!empty($_COOKIE['illinkid'])) && (!isset($action)) && ($monaut=="user"))
-    header("$rediruser");
-if ((!empty($_COOKIE['illinkid'])) && (!isset($action)) && ($monaut=="guest"))
-    header("$redirguest");
-if(isset($action)){
+$complement = "&action=$action&monaut=$monaut&cookie=".$_COOKIE['illinkid'];
+if ((!empty($_COOKIE['illinkid'])) && (empty($action)) && ($monaut=="sadmin"))
+    header("$rediradmin".$complement);
+if ((!empty($_COOKIE['illinkid'])) && (empty($action)) && ($monaut=="admin"))
+    header("$rediradmin".$complement);
+if ((!empty($_COOKIE['illinkid'])) && (empty($action)) && ($monaut=="user"))
+    header("$rediruser".$complement);
+if ((!empty($_COOKIE['illinkid'])) && (empty($action)) && ($monaut=="guest"))
+    header("$redirguest".$complement);
+if(!empty($action)){
     if ($action == 'logout'){
         setcookie('illinkid[nom]', '', (time() - 31536000));
         setcookie('illinkid[bib]', '', (time() - 31536000));
@@ -120,8 +120,8 @@ if(isset($action)){
 // *********************************
 // *********************************
 
-$log = (isset($_POST['log']) && isValidInput($_POST['log'],255,'s',false))?$_POST['log']:NULL;
-$pwd = (isset($_POST['pwd']) && isValidInput($_POST['pwd'],255,'s',false))?$_POST['pwd']:NULL;
+$log = ((!empty($_POST['log'])) && isValidInput($_POST['log'],255,'s',false))?$_POST['log']:NULL;
+$pwd = ((!empty($_POST['pwd'])) && isValidInput($_POST['pwd'],255,'s',false))?$_POST['pwd']:NULL;
 if ((!empty($log))&&(!empty($pwd))){
     $logok=0;
     $password=md5($pwd);
@@ -132,31 +132,34 @@ if ((!empty($log))&&(!empty($pwd))){
     if ($nb == 1){
         // the user id and password match,
         $logok=$logok+1;
-        for ($i=0 ; $i<$nb ; $i++){
-            $enreg = iimysqli_result_fetch_array($result);
-            $nom = $enreg['name'];
-            $login = $enreg['login'];
-            $status = $enreg['status'];
-            $library = $enreg['library'];
-            $admin = $enreg['admin'];
-            $admin = md5 ($admin . $secure_string_cookie);
-            setcookie('illinkid[nom]', $nom, (time() + 36000));
-            setcookie('illinkid[bib]', $library, (time() + 36000));
-            setcookie('illinkid[aut]', $admin, (time() + 36000));
-            setcookie('illinkid[log]', $login, (time() + 36000));
-            header("$rediradmin");
-        }
+        $enreg = iimysqli_result_fetch_array($result);
+        $nom = $enreg['name'];
+        $login = $enreg['login'];
+        $status = $enreg['status'];
+        $library = $enreg['library'];
+        $admin = $enreg['admin'];
+        $admin = md5 ($admin . $secure_string_cookie);
+        setcookie('illinkid[nom]', $nom, (time() + 36000));
+        setcookie('illinkid[bib]', $library, (time() + 36000));
+        setcookie('illinkid[aut]', $admin, (time() + 36000));
+        setcookie('illinkid[log]', $login, (time() + 36000));
+        if (in_array($enreg['admin'], array($auth_sadmin, $auth_admin)))
+           header("$rediradmin");
+        if ($enreg['admin'] == $auth_user)
+           header("$rediruser");
+        if ($enreg['admin'] == $auth_guest)
+           header("$redirguest");
     }
     else
         $mes='Le login ou le password ne sont pas corrects';
 }
-if ((isset($log))||(isset($pwd))){
+if ((!empty($log))||(!empty($pwd))){
     if ($logok==0){
         // Connexion par login crypté
         $mailg = strtolower($log) . $secure_string_guest_login;
         $passwordg = substr(md5($mailg), 0, 8);
         if ($pwd == $passwordg){
-            $cookie_guest = md5 ("9" . $secure_string_cookie);
+            $cookie_guest = md5 ($auth_guest . $secure_string_cookie);
             $logok=$logok+1;
             setcookie('illinkid[nom]', strtolower($log), (time() + 36000));
             setcookie('illinkid[bib]', 'guest', (time() + 36000));
@@ -170,12 +173,12 @@ if ((isset($log))||(isset($pwd))){
 }
 require ("includes/header.php");
 echo "<ul>\n";
-if (isset($mes))
+if (!empty($mes))
     echo "<br /><b><font color=\"red\">".$mes."</font></b><br />\n";
 if ($shibboleth == 1)
     echo "<a href=\"". $shibbolethurl . "\"><img src=\"img/shibboleth.png\" alt=\"Shibboleth authentication\" style=\"float:right;\"/></a>";
 echo "<form name=\"loginform\" id=\"loginform\" action=\"login.php\" method=\"post\">\n";
-if (!isset($log))
+if (empty($log))
     $log='';
 
 echo "<label>Username:<br /><input type=\"text\" name=\"log\" id=\"log\" value=\"" . $log . "\" size=\"20\" tabindex=\"1\" /></label></p>\n";
@@ -192,7 +195,7 @@ echo "</form>\n";
 
 echo "</ul>\n";
 echo "\n";
-if (isset($action) && $action == 'logout'){
+if ((!empty($action)) && $action == 'logout'){
     $monnom="";
     $monaut="";
     $monlog="";

@@ -35,7 +35,7 @@ require_once ("connexion.php");
 require_once ("includes/toolkit.php");
 
 $montitle = "Gestion des bibliothèques";
-$id = (isset($_GET['id']) && isValidInput($_GET['id'],11,'s',false)) ? $_GET['id']:"";
+$id = ((!empty($_GET['id'])) && isValidInput($_GET['id'],11,'s',false)) ? $_GET['id']:"";
 if (!empty($_COOKIE[illinkid])){
     if (($monaut == "admin")||($monaut == "sadmin")){
         if ($id!=""){

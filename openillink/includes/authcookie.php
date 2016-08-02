@@ -36,16 +36,17 @@ $monaut = "";
 $monlog = "";
 if (!empty($_COOKIE['illinkid'])){
     $monnom = $_COOKIE['illinkid']['nom']; // varies according to context cannot be validated without prior knowledge
-    $monbib = (isset($_COOKIE['illinkid']['bib']) && isValidInput($_COOKIE['illinkid']['bib'],50,'s',false) )?$_COOKIE['illinkid']['bib']:'';
+    $monbib = ((!empty($_COOKIE['illinkid']['bib'])) && isValidInput($_COOKIE['illinkid']['bib'],50,'s',false) )?$_COOKIE['illinkid']['bib']:'';
     $monautcripted = $_COOKIE['illinkid']['aut'];
-    $monlog = (isset($_COOKIE['illinkid']['log']) && isValidInput($_COOKIE['illinkid']['log'],255,'s',false) )?$_COOKIE['illinkid']['log']:'';
-    $monautchecksadmin = "1" . $secure_string_cookie;
+    $monlog = ((!empty($_COOKIE['illinkid']['log'])) && isValidInput($_COOKIE['illinkid']['log'],255,'s',false) )?$_COOKIE['illinkid']['log']:'';
+
+    $monautchecksadmin = $auth_sadmin . $secure_string_cookie;
     $monautchecksadmin = md5 ($monautchecksadmin);
-    $monautcheckadmin = "2" . $secure_string_cookie;
+    $monautcheckadmin = $auth_admin . $secure_string_cookie;
     $monautcheckadmin = md5 ($monautcheckadmin);
-    $monautcheckuser = "3" . $secure_string_cookie;
+    $monautcheckuser = $auth_user . $secure_string_cookie;
     $monautcheckuser = md5 ($monautcheckuser);
-    $monautcheckguest = "9" . $secure_string_cookie;
+    $monautcheckguest = $auth_guest . $secure_string_cookie;
     $monautcheckguest = md5 ($monautcheckguest);
     // if you want more levels of authorization you must add the code here (4, 5, 6, 7 or 8)
     if ($monautcripted == $monautchecksadmin)

@@ -41,14 +41,14 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
             echo "&nbsp;&nbsp;&nbsp;<a href=\"#\" class=\"info\" onclick=\"return false\"><img src=\"img/alert.png\"><span>".stripslashes($enreg['remarques'])."</span></a>";
     }
     else{
-        if (isset($enreg['remarquespub']))
+        if (!empty($enreg['remarquespub']))
             echo "&nbsp;&nbsp;&nbsp;<a href=\"#\" class=\"info\" onclick=\"return false\"><img src=\"img/alert.png\"><span>".stripslashes($enreg['remarquespub'])."</span></a>";
     }
     echo "<br />\n";
     echo "<b>Status : \n";
     echo "<a href=\"#\" class=\"info\" onclick=\"return false\"><font color=\"".$statuscolor."\">".$statusname."</font><span>".$statushelp."</span></a></b>";
-    if (isset($statusrenew) && $statusrenew == 1){
-        if (isset($enreg['renouveler']))
+    if ((!empty($statusrenew)) && $statusrenew == 1){
+        if (!empty($enreg['renouveler']))
             echo " le ".$enreg['renouveler'];
     }
     if ($enreg['urgent']=='1' || $enreg['urgent']=='oui')

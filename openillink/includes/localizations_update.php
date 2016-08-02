@@ -33,22 +33,22 @@ require_once ("connexion.php");
 require_once ("toolkit.php");
 
 if (!empty($_COOKIE[illinkid])){
-    $id = (isset($_POST['id']) && isValidInput($_POST['id'],11,'i',false))?$_POST['id']:'';
+    $id = ((!empty($_POST['id'])) && isValidInput($_POST['id'],11,'i',false))?$_POST['id']:'';
     $ip = $_SERVER['REMOTE_ADDR'];
     $validActionSet = array('new', 'update', 'delete', 'deleteok');
-    $action = (isset($_GET['action']) && isValidInput($_GET['action'],10,'s',false, $validActionSet)) ? $_GET['action'] : NULL;
-    if (!isset($action))
-        $action = (isset($_POST['action']) && isValidInput($_POST['action'],10,'s',false, $validActionSet)) ? addslashes($_POST['action']):'';
+    $action = ((!empty($_GET['action'])) && isValidInput($_GET['action'],10,'s',false, $validActionSet)) ? $_GET['action'] : NULL;
+    if (empty($action))
+        $action = ((!empty($_POST['action'])) && isValidInput($_POST['action'],10,'s',false, $validActionSet)) ? addslashes($_POST['action']):'';
     if (($monaut == "admin")||($monaut == "sadmin")){
         $mes="";
         $date=date("Y-m-d H:i:s");
-        $code = (isset($_POST['code']) && isValidInput($_POST['code'],50,'s',false))? addslashes(trim($_POST['code'])):'';
-        $name1 = (isset($_POST['name1']) && isValidInput($_POST['name1'],100,'s',false))?addslashes(trim($_POST['name1'])):'';
-        $name2 = (isset($_POST['name2']) && isValidInput($_POST['name2'],100,'s',false))?addslashes(trim($_POST['name2'])):'';
-        $name3 = (isset($_POST['name3']) && isValidInput($_POST['name3'],100,'s',false))?addslashes(trim($_POST['name3'])):'';
-        $name4 = (isset($_POST['name4']) && isValidInput($_POST['name4'],100,'s',false))?addslashes(trim($_POST['name4'])):'';
-        $name5 = (isset($_POST['name5']) && isValidInput($_POST['name5'],100,'s',false))?addslashes(trim($_POST['name5'])):'';
-        $library = (isset($_POST['library']) && isValidInput($_POST['library'],50,'s',false))?addslashes(trim($_POST['library'])):'';
+        $code = ((!empty($_POST['code'])) && isValidInput($_POST['code'],50,'s',false))? addslashes(trim($_POST['code'])):'';
+        $name1 = ((!empty($_POST['name1'])) && isValidInput($_POST['name1'],100,'s',false))?addslashes(trim($_POST['name1'])):'';
+        $name2 = ((!empty($_POST['name2'])) && isValidInput($_POST['name2'],100,'s',false))?addslashes(trim($_POST['name2'])):'';
+        $name3 = ((!empty($_POST['name3'])) && isValidInput($_POST['name3'],100,'s',false))?addslashes(trim($_POST['name3'])):'';
+        $name4 = ((!empty($_POST['name4'])) && isValidInput($_POST['name4'],100,'s',false))?addslashes(trim($_POST['name4'])):'';
+        $name5 = ((!empty($_POST['name5'])) && isValidInput($_POST['name5'],100,'s',false))?addslashes(trim($_POST['name5'])):'';
+        $library = ((!empty($_POST['library'])) && isValidInput($_POST['library'],50,'s',false))?addslashes(trim($_POST['library'])):'';
         if (($action == "update")||($action == "new")){
             // Tester si le code est unique
             $reqcode = "SELECT * FROM localizations WHERE code = ?";
@@ -126,7 +126,7 @@ if (!empty($_COOKIE[illinkid])){
         // Fin de la création
         // Début de la suppresion
         if ($action == "delete"){
-            $id= addslashes((isset($_GET['id']) && isValidInput($_GET['id'],11,'s',false)) ? $_GET['id'] : "");
+            $id= addslashes(((!empty($_GET['id'])) && isValidInput($_GET['id'],11,'s',false)) ? $_GET['id'] : "");
             $myhtmltitle = $configname[$lang] . " : confirmation pour la suppresion d'une localisation";
             require ("headeradmin.php");
             echo "<center><br/><br/><br/><b><font color=\"red\">\n";

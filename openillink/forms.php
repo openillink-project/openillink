@@ -33,9 +33,9 @@ require_once ("includes/toolkit.php");
 
 if (!empty($_COOKIE[illinkid])){
     if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
-        $illinkid = (isset($_GET['intId']))?safeSetInput($_GET['intId'],8,'i',NULL,false):NULL;
-        $myform = (isset($_GET['form']))?safeSetInput($_GET['form'],8,'s',NULL,false):NULL;
-        if (isset($illinkid) && isset($myform)){
+        $illinkid = ((!empty($_GET['intId'])))?safeSetInput($_GET['intId'],8,'i',NULL,false):NULL;
+        $myform = (!empty($_GET['form']))?safeSetInput($_GET['form'],8,'s',NULL,false):NULL;
+        if ((!empty($illinkid)) && (!empty($myform))){
             $myform = "forms/" . $myform . ".php";
             $req = "select * from orders where illinkid = $illinkid";
             $result = dbquery($req);

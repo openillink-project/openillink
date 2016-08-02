@@ -29,13 +29,30 @@
 require_once ("toolkit.php");
 
 if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
+
     // Add filter when logged a guest
-    $guestFilter = ($monaut == 'guest')?("mail = '".((isset($monnom) && isValidInput($monnom,100,'s',false))? $monnom : '')."' AND "):'';
+    if ($monaut == 'guest'){
+        /* guest can be either a user with guest credits or a user with an automatic login mail + random password assigned by the system */
+        $reqGuest = "SELECT * FROM users WHERE users.name ='$monnom'";
+        $resGuest = dbquery($reqGuest);
+        $nbGuest = iimysqli_num_rows($resGuest);
+        if ($nbGuest==1){
+            $guest = iimysqli_result_fetch_array($resGuest);
+            $mailGuest = $guest['email'];
+        }
+        if (empty($mailGuest))
+            $mailGuest = ((!empty($monnom)) && isValidInput($monnom,100,'s',false))?$monnom:'';
+        
+        //$guestFilter = "mail = '".((isset($monnom) && isValidInput($monnom,100,'s',false))? $monnom : '')."' AND ";
+        $guestFilter = "mail = '".$mailGuest."' AND ";
+    }
+    else
+        $guestFilter = '';
     $champValides = array('id', 'datecom', 'dateenv', 'datefact', 'statut', 'localisation', 'nom', 'email', 'service', 'issn', 'pmid', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all');
-    $champ = (isset($_GET['champ']) && isValidInput($_GET['champ'], 15, 's', false, $champValides))?$_GET['champ']:'';
-    $term = (isset($_GET['term']))?$_GET['term']:'';
-    if (isset($champ) && isset($term)){
-        if (!isset($from))
+    $champ = ((!empty($_GET['champ'])) && isValidInput($_GET['champ'], 15, 's', false, $champValides))?$_GET['champ']:'';
+    $term = (!empty($_GET['term']))?$_GET['term']:'';
+    if ((!empty($champ)) && (!empty($term))){
+        if (empty($from))
             $from=0;
         if($champ == 'id'){
             $id = isValidInput($term,8,'i',false)?$term:'';

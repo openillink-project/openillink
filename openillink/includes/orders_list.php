@@ -48,7 +48,13 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
     $madatej=date("Y-m-d");
 // Choice of folder
     $folder = ((!empty($_GET['folder'])) && isValidInput($_GET['folder'],6,'s',false))?$_GET['folder']:'';
-    $pageslinksurl = "list.php?folder=".$folder;
+
+    //$pageslinksurl = "list.php?folder=".$folder;
+    // replaced previous to avoid dropping of arguments in search mode
+    $stringQuery = $_SERVER['QUERY_STRING'];
+    $pageParam = strstr($stringQuery,'&page');
+    $stringQuery = str_replace ( $pageParam , '',$stringQuery);
+    $pageslinksurl = strlen($stringQuery) ? basename($_SERVER['PHP_SELF'])."?".$stringQuery : basename($_SERVER['PHP_SELF']);
 
     $reqLoc = "SELECT code FROM localizations WHERE library = '$monbib'";
     $resLoc = dbquery($reqLoc);

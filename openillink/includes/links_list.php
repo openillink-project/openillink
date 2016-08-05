@@ -60,8 +60,9 @@ if (!empty($_COOKIE[illinkid])){
         echo "<th scope=\"col\">URL</th>\n";
         echo "<th scope=\"col\">Recherche par</th>\n";
         echo "<th scope=\"col\">Formulaire de commande</th>\n";
-        echo "<th scope=\"col\">OpenURL</th>\n";
+        /*echo "<th scope=\"col\">OpenURL</th>\n";*/
         echo "<th scope=\"col\">Bibliothèque</th>\n";
+        echo "<th scope=\"col\">Position dans la liste</th>\n";
         echo "<th scope=\"col\">Lien actif</th>\n";
         echo "<th scope=\"col\"></th>\n";
         echo "</tr>\n";
@@ -83,8 +84,9 @@ if (!empty($_COOKIE[illinkid])){
             $linksearch_atitle = $enreg['search_atitle'];
             $linkorder_ext = $enreg['order_ext'];
             $linkorder_form = $enreg['order_form'];
-            $linkopenurl = $enreg['openurl'];
+            /*$linkopenurl = $enreg['openurl'];*/
             $linklibrary = $enreg['library'];
+            $linkposition = $enreg['ordonnancement'];
             $linkactive = $enreg['active'];
             echo "<tr>\n";
             echo "<td><b>" . $linktitle . "</b></td>\n";
@@ -123,8 +125,9 @@ if (!empty($_COOKIE[illinkid])){
                 $separateur = " ; ";
             }
             echo "</td>\n";
-            echo "<td>".$linkopenurl."</td>\n";
+            /*echo "<td>".$linkopenurl."</td>\n";*/
             echo "<td>".$linklibrary."</td>\n";
+            echo "<td>".$linkposition."</td>\n";
             echo "<td>".$linkactive."</td>\n";
             if (($monaut == "admin")||($monaut == "sadmin")){
                 echo "<td><a href=\"edit.php?table=links&id=".$linkid."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";

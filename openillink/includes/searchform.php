@@ -37,7 +37,8 @@ echo "<div class=\"box\"><div class=\"box-content\">\n";
 echo "<form action=\"list.php\" method=\"GET\" enctype=\"x-www-form-encoded\" name=\"recherche\">\n";
 echo "<input name=\"action\" type=\"hidden\" value=\"recherche\">\n";
 echo "<input name=\"folder\" type=\"hidden\" value=\"search\">\n";
-echo "&nbsp;&nbsp;&nbsp;<b>Chercher &nbsp;</b>\n";
+echo "<p>";
+echo "<label for=\"champ\"><strong>Chercher </strong></label>\n";
 echo "<select name=\"champ\">\n";
 echo "<OPTION VALUE=\"id\"";
 if ((!empty($champ)) && ($champ=='id') )
@@ -55,10 +56,12 @@ echo "<OPTION VALUE=\"datefact\"";
 if ((!empty($champ))&&($champ=='datefact'))
     echo " selected";
 echo ">Date de facturation (AAAA-MM-JJ)</option>\n";
+/*
 echo "<OPTION VALUE=\"statut\"";
 if ((!empty($champ))&&($champ=='statut'))
     echo " selected";
-echo ">Statut (valeurs numériques)</option>\n";
+echo ">Statut</option>\n";
+*/
 echo "<OPTION VALUE=\"localisation\"";
 if ((!empty($champ))&&($champ=='localisation'))
     echo " selected";
@@ -108,12 +111,16 @@ if ((!empty($champ))&&($champ=='all'))
     echo " selected";
 echo ">Partout</option>\n";
 echo "</select>\n";
-echo "<font class=\"titleblack10\"> = &nbsp;\n";
+//echo "<font class=\"titleblack10\"> = &nbsp;\n";
+$allStatus = readStatus();
 echo "<input name=\"term\" type=\"text\" size=\"30\" value=\"";
-if (!empty($_GET['term']))
+// TODO improve input validation
+$term = (!empty($_GET['term']))?$_GET['term']:'';
+if (!empty($term))
     echo $_GET['term'];
 echo "\">\n";
-echo "&nbsp;<input type=\"submit\" value=\"Ok\">\n";
+echo "</p>";
+/*
 echo "&nbsp;&nbsp;&nbsp;<a href=\"#\" class=\"info\" onclick=\"return false\">[Codes des étapes]<span>\n";
 $reqstatus="SELECT code, title1 FROM status ORDER BY code ASC";
 $resultstatus = dbquery($reqstatus);
@@ -121,6 +128,25 @@ while ($rowstatus = iimysqli_result_fetch_array($resultstatus)){
     echo $rowstatus["title1"] . " : " . $rowstatus["code"] . "<br/>\n";
 }
 echo "</span></a>&nbsp;\n";
+*/
+
+echo "<p>";
+echo "<label for=\"statuscode\"><strong>Filtrer par statut </strong></label>";
+echo "<select name=\"statuscode\">\n";
+echo '<option value="0"></option>';
+foreach ($allStatus as $status){
+    $labelStatus = $status['title1'];
+    $labelCode = $status['code'];
+    echo '<option value="'.$labelCode.'_st"';
+    $statuscode = (isset($_GET['statuscode']))?$_GET['statuscode']:'';
+    if ((!empty($statuscode)) && ($statuscode==($labelCode.'_st')) )
+        echo " selected";
+    echo ">$labelStatus</option>\n";
+}
+echo "</select>";
+echo "</p>";
+echo "<p><strong>Utilisation:</strong> Recherche et filtre peuvent être utilisées de manière cumulée ou séparément</p>";
+echo "<input type=\"submit\" value=\"Ok\">";
 echo "</form>\n";
 echo "</div></div><div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
 echo "<br/>\n";

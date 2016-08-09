@@ -45,19 +45,29 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
         
         //$guestFilter = "mail = '".((isset($monnom) && isValidInput($monnom,100,'s',false))? $monnom : '')."' AND ";
         $guestFilter = "mail = '".$mailGuest."' AND ";
+        $guestFilterAlone = "mail = '".$mailGuest."'";
     }
     else
         $guestFilter = '';
+
+    /* integration du filtre sur le statut */
+    $statuscode = (isset($_GET['statuscode']))?$_GET['statuscode']:'';
+    $filtreStatut = '';
+    if (!empty($statuscode)) {
+        $statuscode = str_replace('_st','',$statuscode);
+        $statut = isValidInput($statuscode,6,'s',false)?$statuscode:'';
+        $filtreStatut = "  stade = ".intval($statut)." ";
+    }
     $champValides = array('id', 'datecom', 'dateenv', 'datefact', 'statut', 'localisation', 'nom', 'email', 'service', 'issn', 'pmid', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all');
     $champ = ((!empty($_GET['champ'])) && isValidInput($_GET['champ'], 15, 's', false, $champValides))?$_GET['champ']:'';
-    $term = (!empty($_GET['term']))?$_GET['term']:'';
-    if ((!empty($champ)) && (!empty($term))){
+    $term = (isset($_GET['term']))?$_GET['term']:'';
+    if (!empty($champ) && !empty($term)){
         if (empty($from))
             $from=0;
         if($champ == 'id'){
             $id = isValidInput($term,8,'i',false)?$term:'';
             $req2 = "SELECT illinkid FROM orders";
-            $conditions = " WHERE $guestFilter illinkid = '$id'";
+            $conditions = " WHERE $guestFilter illinkid = '$id' ";
         }
         if($champ == 'atitle'){
             $atitle = urldecode($term);
@@ -114,11 +124,6 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
             $req2 = "SELECT illinkid FROM orders ";
             $conditions = " WHERE ".$guestFilter." PMID like '$pmid'";
         }
-        if($champ == 'statut'){
-            $statut = isValidInput($term,3,'i',false)?$term:'';
-            $req2 = "SELECT illinkid FROM orders ";
-            $conditions = " WHERE ".$guestFilter." stade like '$statut'";
-        }
         if($champ == 'localisation'){
             $localisation = isValidInput($term,20,'s',false)?$term:'';
             $req2 = "SELECT illinkid FROM orders ";
@@ -153,7 +158,7 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
             if (($pos1 === false)&&($pos2 === false)){
                 $nom='%'.urldecode($term).'%';
                 $req2 = "SELECT illinkid FROM orders ";
-            $conditions = " WHERE ".$guestFilter." (nom like '$nom' OR prenom like 'nom')";
+                $conditions = " WHERE ".$guestFilter." (nom like '$nom' OR prenom like 'nom')";
             }
             else{
                 if ($pos1 === false)
@@ -163,8 +168,20 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
                 $nom=trim(substr(urldecode($term),0,$pos));
                 $prenom=trim(substr(urldecode($term),$pos+1));
                 $req2 = "SELECT illinkid FROM orders ";
-            $conditions = " WHERE ".$guestFilter." (nom like '$nom' AND prenom like '$prenom')";
+                $conditions = " WHERE ".$guestFilter." (nom like '$nom' AND prenom like '$prenom')";
             }
+        }
+        $conditions = (empty($conditions)?' WHERE ':$conditions).(empty($filtreStatut)?'':' AND '.$filtreStatut);
+    }
+    else{
+        if (!empty($guestFilter) || !empty($filtreStatut)) {
+            $conditions = '';
+            $conditions = (empty($guestFilterAlone)?'':$guestFilterAlone);
+            $conditions .= (empty($filtreStatut)?'':(empty($guestFilterAlone)?'':' AND ').$filtreStatut.' ');
+            $conditions = ' WHERE '.$conditions;
+        }
+        else {
+            $conditions = $conditionsParDefauts;
         }
     }
 }

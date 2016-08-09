@@ -64,7 +64,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
         $currLoc = iimysqli_result_fetch_array($resLoc);
         $locList = empty($locList)?"'".$currLoc['code']."'":$locList.",'".$currLoc['code']."'";
     }
-    $locCond = empty($locList)?'':"orders.localisation IN ($locList) OR";
+    $locCond = empty($locList)?'':" OR orders.localisation IN ($locList) ";
 
     $reqServ = "SELECT code FROM units WHERE library = '$monbib'";
     $resServ = dbquery($reqServ);
@@ -74,7 +74,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
         $currServ = iimysqli_result_fetch_array($resServ);
         $servList = empty($servList)?"'".$currServ['code']."'":$servList.",'".$currServ['code']."'";
     }
-    $servCond = ($nbServ > 0 ?"OR orders.service IN ($servList)":'');
+    $servCond = ($nbServ > 0 ?" OR orders.service IN ($servList) ":'');
 
     $codeIn = array();
     $codeOut = array();
@@ -110,23 +110,26 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
     }
     $listInBib = "'".implode (  "','", $listBibIn)."'";
     
-    
     $req2 = "SELECT orders.illinkid FROM orders ";
+    $conditionsParDefauts = " WHERE (".
+            "(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND ".
+            "(orders.bibliotheque IN (".$listInBib.") $locCond $servCond )) ".
+            "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque IN (".$listInBib.")) ";
     $conditions = '';
     switch ($folder){
         case 'in':
             $conditions = "WHERE (".
             "(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND ".
-            "($locCond orders.bibliotheque IN (".$listInBib.") ".$servCond." )) ".
+            "(orders.bibliotheque IN (".$listInBib.") $locCond $servCond )) ".
             "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque IN (".$listInBib.")) ";
             break;
         case 'out':
-            $conditions = "WHERE ($locCond orders.bibliotheque = '$monbib' $servCond) AND orders.stade IN ($listOut) ";
+            $conditions = "WHERE (orders.bibliotheque = '$monbib' $locCond $servCond) AND orders.stade IN ($listOut) ";
             break;
         case 'all':
             if ($monaut == "sadmin"){}
             else {
-                $conditions = "WHERE orders.bibliotheque = '$monbib' OR $locCond  $servCond";
+                $conditions = "WHERE orders.bibliotheque = '$monbib' $locCond  $servCond";
             }
             break;
         case 'trash':
@@ -149,14 +152,15 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
             require_once ("search.php");
             break;
         default:
-            $conditions = "WHERE (".
-            "(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND ".
-            "($locCond orders.bibliotheque IN (".$listInBib.") $servCond )) ".
-            "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque IN (".$listInBib.")) ";
+            $conditions = $conditionsParDefauts;
             break;
     }
     $from = (($page * $max_results) - $max_results);
-    $req2 = "$req2 $conditions ORDER BY illinkid DESC LIMIT $from, $max_results";   if ($debugOn)
+    $req2 = "$req2 $conditions ORDER BY illinkid DESC LIMIT $from, $max_results";
+$debugOn = false;
+    if ($debugOn)
+        echo "req2:$req2<br/>";
+    if ($debugOn)
         prof_flag("Before first query");
     $result2 = dbquery($req2,NULL,NULL,NULL,$debugOn);
     if ($debugOn)

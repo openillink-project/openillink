@@ -378,17 +378,17 @@ $firstnamemessage["de"] = "First name";
 $firstnamemessage["it"] = "Nome";
 $firstnamemessage["es"] = "First name";
 
-$directory1message["fr"] = "Chercher le nom dans l'annuaire de l'université";
-$directory1message["en"] = "Search the name in the directory of the university";
-$directory1message["de"] = "Search the name in the directory of the university";
-$directory1message["it"] = "Cercare il nome nell'annuario dell'università";
-$directory1message["es"] = "Search the name in the directory of the university";
+$directory1message["fr"] = "Chercher le nom dans l'annuaire de l'hôpital";
+$directory1message["en"] = "Search the name in the directory of the hospital";
+$directory1message["de"] = "Search the name in the directory of the hospital";
+$directory1message["it"] = "Cercare il nome nell'annuario dell'ospedale";
+$directory1message["es"] = "Search the name in the directory of the hospital";
 
-$directory2message["fr"] = "Chercher le nom dans l'annuaire de l'hôpital";
-$directory2message["en"] = "Search the name in the directory of the hospital";
-$directory2message["de"] = "Search the name in the directory of the hospital";
-$directory2message["it"] = "Cercare il nome nell'annuario dell'ospedale";
-$directory2message["es"] = "Search the name in the directory of the hospital";
+$directory2message["fr"] = "Chercher le nom dans l'annuaire de l'université";
+$directory2message["en"] = "Search the name in the directory of the university";
+$directory2message["de"] = "Search the name in the directory of the university";
+$directory2message["it"] = "Cercare il nome nell'annuario dell'università";
+$directory2message["es"] = "Search the name in the directory of the university";
 
 $unitmessage["fr"] = "Service";
 $unitmessage["en"] = "Unit";
@@ -540,7 +540,7 @@ $editionmessage["de"] = "Edition (for books)";
 $editionmessage["it"] = "Edizione (per i libri)";
 $editionmessage["es"] = "Edition (for books)";
 
-$commentsmessage["fr"] = "Remarques professionneles";
+$commentsmessage["fr"] = "Remarques professionnelles";
 $commentsmessage["en"] = "Professional Notes";
 $commentsmessage["de"] = "Professional Notes";
 $commentsmessage["it"] = "Note personali";

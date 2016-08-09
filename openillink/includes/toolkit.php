@@ -235,21 +235,25 @@ function prof_print()
     echo "<b>{$prof_names[$size-1]}</b><br>";
 }
 
-function readStatus(&$codeIn, &$codeOut, &$codeTrash, &$codeSpecial)
+function readStatus(&$codeIn = NULL, &$codeOut = NULL, &$codeTrash = NULL, &$codeSpecial = NULL)
 {
     $statusInfo = array();
     $statusReq = "SELECT * from status;";
     $statusRes = dbquery($statusReq);
+    $fillInArray = isset($codeIn);
+    $fillOutArray = isset($codeOut);
+    $fillTrashArray = isset($codeTrash);
+    $fillSpecialArray = isset($codeSpecial);
     $nbSt = iimysqli_num_rows($statusRes);
     for ($s=0 ; $s<$nbSt ; $s++){
         $currStatus = iimysqli_result_fetch_array($statusRes);
-        if ($currStatus['in']===1)
+        if ($fillInArray && $currStatus['in']===1)
             $codeIn[] = $currStatus['code'];
-        if ($currStatus['out']===1)
+        if ($fillOutArray && $currStatus['out']===1)
             $codeOut[] = $currStatus['code'];
-        if ($currStatus['trash']===1)
+        if ($fillTrashArray && $currStatus['trash']===1)
             $codeTrash[] = $currStatus['code'];
-        if ($currStatus['special']!=''){
+        if ($fillSpecialArray && $currStatus['special']!=''){
             if (isset($codeSpecial[$currStatus['special']]))
                 array_push($codeSpecial[$currStatus['special']], $currStatus['code']);
             else

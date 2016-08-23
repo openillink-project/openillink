@@ -39,6 +39,7 @@ $fileList = (is_readable ( "list.php" ))? "list.php" : "../list.php";
 $fileAdmin = (is_readable ( "admin.php" ))? "admin.php" : "../admin.php";
 $fileReports = (is_readable ( "reports.php" ))? "reports.php" : "../reports.php";
 $debugOn = (!empty($configdebuglogging)) && in_array($configdebuglogging, array('DEV', 'TEST'));
+
 header ('Content-type: text/html; charset=utf-8');
 error_reporting(-1);
 ini_set('display_errors', 'On');
@@ -59,6 +60,8 @@ echo "<style type=\"text/css\" media=\"all\">\n @import url(\"$fileStyle1\");\n 
 echo "<style type=\"text/css\" media=\"print\">\n @import url(\"$fileStyle2\");\n </style>\n";
 echo "<style type=\"text/css\" media=\"all\">\n @import url(\"$fileStyleTable\");\n </style>\n";
 echo "<style type=\"text/css\" media=\"all\">\n @import url(\"$fileStyleCalendar\");\n </style>\n";
+echo '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>'.
+"<script>window.jQuery || document.write('<script src=\"js/jquery-2.1.4.min.js\" type=\"text/javascript\"><\/script>')</script>";
 echo "<script type=\"text/javascript\" src=\"$scriptJs\"></script>\n";
 echo "<script type=\"text/javascript\" src=\"$calendarJs\"></script>\n";
 
@@ -84,8 +87,11 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     echo "<li><a href=\"$fileList?folder=out\" title=\"" . $outhelp[$lang] . "\">" . $outbox[$lang] . "</a></li>\n";
     echo "<li><a href=\"$fileList?folder=all\" title=\"" . $allhelp[$lang] . "\">" . $allbox[$lang] . "</a></li>\n";
     echo "<li><a href=\"$fileList?folder=trash\" title=\"" . $trashhelp[$lang] . "\">" . $trashbox[$lang] . "</a></li>\n";
+///** begin test
+    echo "| &nbsp;&nbsp;<li><a href=\"$fileAdmin\" title=\"" . $adminhelp[$lang] . "\">" . $admindisp[$lang] . "</a></li>\n";
     if (($monaut == "admin")||($monaut == "sadmin")){
-        echo "| &nbsp;&nbsp;<li><a href=\"$fileAdmin\" title=\"" . $adminhelp[$lang] . "\">" . $admindisp[$lang] . "</a></li>\n";
+///** end test
+
         echo "| &nbsp;&nbsp;<li><a href=\"$fileReports\" title=\"" . $reporthelp[$lang] . "\">" . $reportdisp[$lang] . "</a></li>\n";
         //echo "| &nbsp;&nbsp;<li><a href=\"help.php\" title=\"" . $helphelp[$lang] . "\">" . $helpdisp[$lang] . "</a></li>\n";
     }

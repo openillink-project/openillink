@@ -109,19 +109,20 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
         }
     }
     $listInBib = "'".implode (  "','", $listBibIn)."'";
+    $orphanOrdersCond = $isMain?" OR ( orders.localisation = '' AND orders.stade IN (".$listSpecial['new'].")  AND orders.bibliotheque IN (".$listInBib.")) ":"";
     
     $req2 = "SELECT orders.illinkid FROM orders ";
     $conditionsParDefauts = " WHERE (".
             "(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND ".
-            "(orders.bibliotheque IN (".$listInBib.") $locCond $servCond )) ".
-            "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque IN (".$listInBib.")) ";
+            "(orders.bibliotheque = '$monbib' $locCond $servCond )) ".
+            "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '$monbib') $orphanOrdersCond";
     $conditions = '';
     switch ($folder){
         case 'in':
             $conditions = "WHERE (".
             "(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND ".
-            "(orders.bibliotheque IN (".$listInBib.") $locCond $servCond )) ".
-            "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque IN (".$listInBib.")) ";
+            "(orders.bibliotheque = '$monbib' $locCond $servCond )) ".
+            "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '$monbib') $orphanOrdersCond";
             break;
         case 'out':
             $conditions = "WHERE (orders.bibliotheque = '$monbib' $locCond $servCond) AND orders.stade IN ($listOut) ";
@@ -158,8 +159,6 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
     $from = (($page * $max_results) - $max_results);
     $req2 = "$req2 $conditions ORDER BY illinkid DESC LIMIT $from, $max_results";
 $debugOn = false;
-    if ($debugOn)
-        echo "req2:$req2<br/>";
     if ($debugOn)
         prof_flag("Before first query");
     $result2 = dbquery($req2,NULL,NULL,NULL,$debugOn);

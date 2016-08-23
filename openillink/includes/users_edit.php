@@ -36,7 +36,7 @@ $id="";
 $action="";
 $montitle = "Gestion des utilisateurs";
 $id=isValidInput($_GET['id'],11,'i',false)?$_GET['id']:'';
-$validActionSet = array('updateprofile');
+$validActionSet = array('updateprofile', 'update', 'new');
 $action=addslashes(isValidInput($_GET['action'],15,'s',false,$validActionSet)?$_GET['action']:'');
 if (!empty($_COOKIE[illinkid])){
     if (($monaut == "admin")||($monaut == "sadmin")||(($monaut == "user")&&($action == "updateprofile"))){
@@ -81,29 +81,33 @@ if (!empty($_COOKIE[illinkid])){
                     if (($monaut == "user")&&($action == "updateprofile"))
                         echo "<input name=\"action\" type=\"hidden\" value=\"updateprofile\">\n";
                     echo "<table id=\"hor-zebra\">\n";
+/*
                     echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer les modifications\">\n";
                     echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=users'\">\n";
                     echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=users&id=" . $user_id . "'\"></td></tr>\n";
                     echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-                    echo "<tr><td class=\"odd\"><b>Nom *</b></td><td class=\"odd\"><input name=\"name\" type=\"text\" size=\"60\" value=\"".$name."\"></td></tr>\n";
+*/
+                    if (($monaut == "admin")||($monaut == "sadmin")){
+                        echo "<tr><td class=\"odd\"><b>Nom *</b></td><td class=\"odd\"><input name=\"name\" type=\"text\" size=\"60\" value=\"".$name."\"></td></tr>\n";
+                    }
                     echo "<tr><td><b>E-mail</b></td><td><input name=\"email\" type=\"text\" size=\"60\" value=\"".$email."\"></td></tr>\n";
-                    echo "<tr><td class=\"odd\"><b>Login *</b></td><td class=\"odd\"><input name=\"login\" type=\"text\" size=\"60\" value=\"".$login."\"></td></tr>\n";
-                    echo "<tr><td><b>Status *</b></td><td><input type=\"radio\" name=\"status\" value=\"1\"/";
-                    if ($status == 1)
-                        echo " checked";
-                    echo "> Actif  |  <input type=\"radio\" name=\"status\" value=\"0\"/";
-                    if ($status == 0)
-                        echo " checked";
-                    echo "> Inactif</td></tr>\n";
-                    echo "<tr><td class=\"odd\"><b>Droits *</b></td><td class=\"odd\">\n";
-                    echo "<select name=\"admin\" id=\"admin\">\n";
-                    if ($monaut == "sadmin"){
+                    if (($monaut == "admin")||($monaut == "sadmin")){
+                        echo "<tr><td class=\"odd\"><b>Login *</b></td><td class=\"odd\"><input name=\"login\" type=\"text\" size=\"60\" value=\"".$login."\"></td></tr>\n";
+                    }
+                    if (($monaut == "admin")||($monaut == "sadmin")){
+                        echo "<tr><td><b>Status *</b></td><td><input type=\"radio\" name=\"status\" value=\"1\"/";
+                        if ($status == 1)
+                            echo " checked";
+                        echo "> Actif  |  <input type=\"radio\" name=\"status\" value=\"0\"/";
+                        if ($status == 0)
+                            echo " checked";
+                        echo "> Inactif</td></tr>\n";
+                        echo "<tr><td class=\"odd\"><b>Droits *</b></td><td class=\"odd\">\n";
+                        echo "<select name=\"admin\" id=\"admin\">\n";
                         echo "<option value=\"1\"";
                         if ($admin == 1)
                             echo " selected";
                         echo ">Super administrateur</option>\n";
-                    }
-                    if (($monaut == "admin")||($monaut == "sadmin")){
                         echo "<option value=\"2\"";
                         if ($admin == 2)
                             echo " selected";
@@ -119,34 +123,41 @@ if (!empty($_COOKIE[illinkid])){
                     echo ">Invité</option>\n";
                     echo "</select>\n";
                     // Library field
-                    echo "<tr><td><b>Bibliothèque *</b></td><td>\n";
-                    echo "<select name=\"library\">\n";
-                    $reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
-                    $optionslibraries="";
-                    $resultlibraries = dbquery($reqlibraries);
-                    $nblibs = iimysqli_num_rows($resultlibraries);
-                    if ($nblibs > 0){
-                        while ($rowlibraries = iimysqli_result_fetch_array($resultlibraries)){
-                            $codelibraries = $rowlibraries["code"];
-                            $namelibraries["fr"] = $rowlibraries["name1"];
-                            $namelibraries["en"] = $rowlibraries["name2"];
-                            $namelibraries["de"] = $rowlibraries["name3"];
-                            $namelibraries["it"] = $rowlibraries["name4"];
-                            $namelibraries["es"] = $rowlibraries["name5"];
-                            $optionslibraries.="<option value=\"" . $codelibraries . "\"";
-                            if ($library == $codelibraries)
-                                $optionslibraries.=" selected";
-                            $optionslibraries.=">" . $namelibraries[$lang] . "</option>\n";
+                    if (($monaut == "admin")||($monaut == "sadmin")){
+                        echo "<tr><td><b>Bibliothèque *</b></td><td>\n";
+                        echo "<select name=\"library\">\n";
+                        $reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
+                        $optionslibraries="";
+                        $resultlibraries = dbquery($reqlibraries);
+                        $nblibs = iimysqli_num_rows($resultlibraries);
+                        if ($nblibs > 0){
+                            while ($rowlibraries = iimysqli_result_fetch_array($resultlibraries)){
+                                $codelibraries = $rowlibraries["code"];
+                                $namelibraries["fr"] = $rowlibraries["name1"];
+                                $namelibraries["en"] = $rowlibraries["name2"];
+                                $namelibraries["de"] = $rowlibraries["name3"];
+                                $namelibraries["it"] = $rowlibraries["name4"];
+                                $namelibraries["es"] = $rowlibraries["name5"];
+                                $optionslibraries.="<option value=\"" . $codelibraries . "\"";
+                                if ($library == $codelibraries)
+                                    $optionslibraries.=" selected";
+                                $optionslibraries.=">" . $namelibraries[$lang] . "</option>\n";
+                            }
+                            echo $optionslibraries;
                         }
-                        echo $optionslibraries;
+                        echo "</select></td></tr>\n";
                     }
-                    echo "</select></td></tr>\n";
                     echo "<tr><td class=\"odd\"><b>Nouveau password</b></td><td class=\"odd\"><input name=\"newpassword1\" type=\"password\" size=\"30\" value=\"\"></td></tr>\n";
                     echo "<tr><td><b>Confirmation du nouveau password</b></td><td><input name=\"newpassword2\" type=\"password\" size=\"30\" value=\"\"></td></tr>\n";
                     echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
                     echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer les modifications\">\n";
-                    echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=users'\">\n";
-                    echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=users&id=" . $user_id . "'\"></td></tr>\n";
+                    if (($monaut == "user")&&($action == "updateprofile")){
+                        echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='admin.php'\">\n";
+                    }
+                    if (($monaut == "admin")||($monaut == "sadmin")){
+                        echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=users'\">\n";
+                        echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=users&id=" . $user_id . "'\"></td></tr>\n";
+                    }
                     echo "</table>\n";
                     echo "</form><br /><br />\n";
                     require ("footer.php");

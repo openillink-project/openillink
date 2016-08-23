@@ -200,5 +200,8 @@ if ((!empty($action)) && $action == 'logout'){
     $monaut="";
     $monlog="";
 }
+if ($displayResendLink){
+    echo '<p><a href="resendcredentials.php" target="_self"> Demander le mot de passe</a> : service seulement disponible pour les utilisateurs avec une commande openillink</p>';
+}
 require ("includes/footer.php");
 ?>

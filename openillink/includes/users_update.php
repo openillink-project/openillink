@@ -37,12 +37,15 @@ if (!empty($_COOKIE[illinkid])){
     $id=addslashes($_POST['id']);
     $ip = $_SERVER['REMOTE_ADDR'];
     $action = ((!empty($_GET['action'])) && isValidInput($_GET['action'],15,'s',false,$validActionSet))?addslashes($_GET['action']):NULL;
-    if (empty($action))
+    if (empty($action)){
         $action = ((!empty($_POST['action'])) && isValidInput($_POST['action'],15,'s',false,$validActionSet))?addslashes($_POST['action']):NULL;
+    }
     if (($monaut == "admin")||($monaut == "sadmin")||(($monaut == "user")&&($action == "updateprofile"))){
+/*
         if (($monaut == "user")&&($action == "updateprofile"))
             $action == "update";
-        if (($action == "update")||($action == "new")){
+*/
+        if (($action == "update")||($action == "new") || ($action == "updateprofile")){
             $mes="";
             $date=date("Y-m-d H:i:s");
             $name = ((!empty($_POST['name'])) && isValidInput($_POST['name'],255,'s',false))?addslashes(trim($_POST['name'])):NULL;
@@ -65,9 +68,9 @@ if (!empty($_COOKIE[illinkid])){
                 $mes = $mes . "<br/>le login '" . $login . "' existe déjà dans la base, veuillez choisir un autre";
             if (($nblogin == 1)&&($action != "new")&&($idlogin != $id))
                 $mes = $mes . "<br/>le login '" . $login . "' est déjà attribué à un autre utilisateur, veuillez choisir un autre";
-            if (empty($name))
+            if (empty($name) && ($action != "updateprofile"))
                 $mes = $mes . "<br/>le nom est obligatoire";
-            if (empty($login))
+            if (empty($login) && ($action != "updateprofile"))
                 $mes = $mes . "<br/>le login est obligatoire";
             if ((!isset($status)) && ($action != "updateprofile"))
                 $mes = $mes . "<br/>la status est obligatoire";
@@ -95,6 +98,10 @@ if (!empty($_COOKIE[illinkid])){
                         $nb = iimysqli_num_rows($resultid);
                         if ($nb == 1){
                             $enregid = iimysqli_result_fetch_array($resultid);
+                            if ($action == "updateprofile"){
+                                $login = $enregid['login'];
+                                $name = $enregid['name'];
+                            }
                             $query = "UPDATE users SET name='$name', email='$email', login='$login', ";
                             if ($action == "update")
                                 $query = $query . "status=$status, admin=$admin, ";

@@ -42,5 +42,7 @@ echo "</p>\n";
 echo "<br />\n";
 echo "</div></div><div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
 echo "</form>\n";
-
+if ($displayResendLink){
+    echo '<p><a href="resendcredentials.php" target="_self"> Demander le mot de passe</a> : service seulement disponible pour les utilisateurs avec une commande openillink</p>';
+}
 ?>

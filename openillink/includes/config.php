@@ -86,15 +86,26 @@ $secure_string_cookie = "HYdfhrtznvcw354AETte5üPO!äP236%ç";
 // Define the number of results per page 
 $max_results = 25;
 
-// CorssRef identifiers
+// CrossRef identifiers
 $configcrossrefpid1 = "abc";
 $configcrossrefpid2 = "abc123";
+// used for nlm ordering form
+$nlmFormUsername = 'NLM_SPECIFIC_USERNAME';
+$nlmFormPassword = 'NLM_SPECIFIC_PASSWORD';
+
+// 
+$configBaselCode = 'BASEL_SPECIFIC_CODE';
+$configBaselPassword = 'BASEL_SPECIFIC_PASSWORD';
+$configBaselName = 'BASEL_SPECIFIC_NAME';
 
 // authentication levels
 $auth_sadmin = "1";
 $auth_admin = "2";
 $auth_user = "3";
 $auth_guest = "9";
+
+// display link for resending credentials
+$displayResendLink = true;
 
 // Define the name and search URL of directories used to make the home page links
 // to determine your URLs make a search with firstname "XFIRSTNAMEX" (without quotes) and name "XNAMEX", then copy the URL of the results page

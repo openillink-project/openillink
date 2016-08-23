@@ -37,27 +37,24 @@ require_once ("includes/connexion.php");
 require_once ("includes/toolkit.php");
 
 if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
-    $customerCode = (isset($_GET['my_customer_code']) && isValidInput($_GET['my_customer_code'],10))? $_GET['my_customer_code']:"";
+    $customerCode = $configBaselCode;
+    $customerPassword = $configBaselPassword;
+    $customerName = $configBaselName;
+
     $meduid = $enreg['PMID'];
     if (empty($meduid)) {
-        $meduid = (isset($_GET['meduid']) && isValidInput($_GET['meduid'],20,'s',false))?$_GET['meduid']:"";
+        $meduid = ((!empty($_GET['meduid'])) && isValidInput($_GET['meduid'],20,'s',false))?$_GET['meduid']:"";
     }
-    $customerPassword = (isset($_GET['my_customer_password']) && isValidInput($_GET['my_customer_password'],20,'s',false))? $_GET['my_customer_password']:"";
-    $customerName = (isset($_GET['my_customer_name']) && isValidInput($_GET['my_customer_name'],20,'s',false))? $_GET['my_customer_name']:"";
     $journal = stripslashes($enreg['titre_periodique']);
     $issn = urlencode(stripslashes($enreg['issn']));
     $year = urlencode(stripslashes($enreg['annee']));
     $volume = urlencode(stripslashes($enreg['volume']));
-    if (!isset($issue2))
+    if (empty($issue2))
         $issue2 = urlencode(stripslashes($enreg['numero']));
     $pages = urlencode(stripslashes($enreg['pages']));
     $author = stripslashes($enreg['auteurs']);
     $article = stripslashes($enreg['titre_article']);
-/*
-    $commentaire = (isset($enreg['nom']) && isValidInput($enreg['nom'],100,'s',false))? urlencode(stripslashes($enreg['nom'].", ")):"";
-    $commentaire .= (isset($enreg['prenom']) && isValidInput($enreg['prenom'],100,'s',false))?urlencode(stripslashes($enreg['prenom']))." ":"";
-*/
-    $commentaire = /*(isset($enreg['illinkid']) && isValidInput($enreg['illinkid'],8,'i',false))? */"Ref interne:"./*urlencode(*/stripslashes($enreg['illinkid'])/*):""*/;
+    $commentaire = "Ref interne:".stripslashes($enreg['illinkid']);
     echo "<h2>Envoi de la commande au réseau Bâle/Berne</h2>\n";
     echo "<FORM method=\"post\" name=\"ILL\" action=\"http://www.ub.unibas.ch/cgi-bin/sfx_dod_m.pl\">\n";
     echo "<INPUT TYPE=\"hidden\" NAME=\"action\" value=\"submit\">\n";

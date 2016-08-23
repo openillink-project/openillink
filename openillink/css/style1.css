@@ -452,8 +452,6 @@ li {
   margin: 2px 0px 2px 0px;
 }
 
-
-
 .maintenance {
   background-image: url("../img/sign-maintenance.png");
   background-repeat: no-repeat;
@@ -461,4 +459,52 @@ li {
   background-size: 10em;
   padding-left: 10em;
   height:10em;
+}
+
+/**** Style for structuring forms ******/
+fieldset.organizedForm {
+    border:1px solid #ccc;
+}
+
+.organizedForm {
+    display:table;
+    padding: 0.5em;
+}
+
+.organizedForm > p, .organizedForm > legend{
+    display:table-row;
+    padding: 0.5em;
+}
+
+.organizedForm legend > h1{
+    color: #369;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.organizedForm  span{
+    display:table-cell;
+    padding: 0.5em;
+}
+
+.organizedForm  span > label{
+    display:table-header-group;
+    text-decoration: none;
+}
+
+.warning {
+    font-style: italic;
+    font-weight: bold;
+    color: #A00;
+    padding: 0.5em;
+}
+
+.info {
+    font-style: italic;
+    color: #369;
+    padding: 0.5em;
+}
+
+.warning strong{
+    font-size: 24px;
 }

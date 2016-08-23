@@ -703,4 +703,99 @@ $guiEdit["en"] = "Edit";
 $guiEdit["de"] = "Edit";
 $guiEdit["it"] = "Edit";
 $guiEdit["es"] = "Edit";
+
+
+
+
+
+
+/* Texts for mail resend (cfr resend_credential.php)*/
+
+$resendPwdTxt["subject"]["fr"] = "OpenILLink récupération de mot de passe";
+$resendPwdTxt["subject"]["en"] = "OpenILLink resend password";
+$resendPwdTxt["subject"]["de"] = "OpenILLink resend password";
+$resendPwdTxt["subject"]["it"] = "OpenILLink resend password";
+$resendPwdTxt["subject"]["es"] = "OpenILLink resend password";
+
+$resendPwdTxt["openingTxt"]["fr"] = "Bonjour";
+$resendPwdTxt["openingTxt"]["en"] = "To whom it may concern,";
+$resendPwdTxt["openingTxt"]["de"] = "To whom it may concern";
+$resendPwdTxt["openingTxt"]["it"] = "To whom it may concern";
+$resendPwdTxt["openingTxt"]["es"] = "To whom it may concern";
+
+$resendPwdTxt["par1Txt"]["fr"] = "Quelqu’un, probablement vous même, a fait demande du mot de passe pour le compte associé à cette adresse mail pour le système OpenILLink.";
+$resendPwdTxt["par1Txt"]["en"] = "Someone, probably you , has requested the password for the OpenILLink system account associated with this email address.";
+$resendPwdTxt["par1Txt"]["de"] = "Someone, probably you , has requested the password for the OpenILLink system account associated with this email address.";
+$resendPwdTxt["par1Txt"]["it"] = "Someone, probably you , has requested the password for the OpenILLink system account associated with this email address.";
+$resendPwdTxt["par1Txt"]["es"] = "Someone, probably you , has requested the password for the OpenILLink system account associated with this email address.";
+
+$resendPwdTxt["par2Txt"]["fr"] = "Merci de faire appel à ce service. Vous pouvez ainsi accéder à la liste de vos commandes de documents.";
+$resendPwdTxt["par2Txt"]["en"] = "This account allows you to review list of your document orders.";
+$resendPwdTxt["par2Txt"]["de"] = "This account allows you to review list of your document orders.";
+$resendPwdTxt["par2Txt"]["it"] = "This account allows you to review list of your document orders.";
+$resendPwdTxt["par2Txt"]["es"] = "This account allows you to review list of your document orders.";
+
+$resendPwdTxt["par3Txt"]["fr"] = "Si vous n'avez pas fait cette demande merci de nous le signaler.";
+$resendPwdTxt["par3Txt"]["en"] = "f you have not made ​​that request thank you to let us know.";
+$resendPwdTxt["par3Txt"]["de"] = "f you have not made ​​that request thank you to let us know.";
+$resendPwdTxt["par3Txt"]["it"] = "f you have not made ​​that request thank you to let us know.";
+$resendPwdTxt["par3Txt"]["es"] = "f you have not made ​​that request thank you to let us know.";
+
+$resendPwdTxt["par4Txt"]["fr"] = "Votre mot de passe est: %s";
+$resendPwdTxt["par4Txt"]["en"] = "Your password is: %s";
+$resendPwdTxt["par4Txt"]["de"] = "Your password is: %s";
+$resendPwdTxt["par4Txt"]["it"] = "Your password is: %s";
+$resendPwdTxt["par4Txt"]["es"] = "Your password is: %s";
+
+$resendPwdTxt["bibSignature"]["fr"] = "Votre service de Prêt entre bibliothèques.<br/><b>BIBLIOTHÈQUE UNIVERSITAIRE DE MÉDECINE</b> <br/>
+CHUV BH 08<br/>
+Rue du Bugnon 46<br/>
+CH 1011 Lausanne SWITZERLAND <br/>
+Courriel : docdelivery@chuv.ch <br/>
+Tél. : +41 21 314 52 82 <br/>
+Site web : http://www.bium.ch <br/>
+";
+
+$resendPwdTxt["bibSignature"]["en"] = "<b>Lib name</b> <br/>
+Building name<br/>
+Street address<br/>
+CAP City Country<br/>
+Courriel : mail address for contact <br/>
+Tél. : phone number<br/>
+Site web : web site url <br/>
+";
+
+$resendPwdTxt["bibSignature"]["de"] = "<b>Lib name</b> <br/>
+Building name<br/>
+Street address<br/>
+CAP City Country<br/>
+Courriel : mail address for contact <br/>
+Tél. : phone number<br/>
+Site web : web site url <br/>
+";
+
+$resendPwdTxt["bibSignature"]["it"] = "<b>Lib name</b> <br/>
+Building name<br/>
+Street address<br/>
+CAP City Country<br/>
+Courriel : mail address for contact <br/>
+Tél. : phone number<br/>
+Site web : web site url <br/>
+";
+
+$resendPwdTxt["bibSignature"]["es"] = "<b>Lib name</b> <br/>
+Building name<br/>
+Street address<br/>
+CAP City Country<br/>
+Courriel : mail address for contact <br/>
+Tél. : phone number<br/>
+Site web : web site url <br/>
+";
+
+$resendPwdTxt["emailResendTitle"]["fr"] = "Récupération de mot de passe";
+$resendPwdTxt["emailResendTitle"]["en"] = "Password recovery";
+$resendPwdTxt["emailResendTitle"]["de"] = "Password recovery";
+$resendPwdTxt["emailResendTitle"]["it"] = "Password recovery";
+$resendPwdTxt["emailResendTitle"]["es"] = "Password recovery";
+
 ?>

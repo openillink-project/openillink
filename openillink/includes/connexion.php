@@ -10,7 +10,7 @@ function dbconnect() {
     // Keep a single connection
     static $link; 
     // check connection
-    if(empty($link)) {
+    if(!isset($link)) {
         $link = new mysqli(DB_HOST, DB_USER, DB_PWD, DB_NAME);
     }
 
@@ -25,7 +25,7 @@ function dbauthconnect() {
     // Keep a single connection
     static $link; 
 
-    if(empty($link)) {
+    if(!isset($link)) {
         $link = new mysqli(DB_AUTH_HOST, DB_AUTH_USER, DB_AUTH_PWD, DB_AUTH_NAME);
     }
     if ($link->connect_error) {
@@ -37,7 +37,6 @@ function dbauthconnect() {
 
 function dbquery($sql_string, $params=NULL, $types=NULL, $dblink=NULL, $debugLog = false) {
     /* Execute the given $sql_string with properly encoded $params, on the given $dblink.
-
     @param string $sql_string: the SQL statement to execute, with '?' for parameters to replace with $params.
     @param array $params: array of (ordered) parameters to replace in $sql_string.
     @param string $types: string representing the type of each parameters in $params.
@@ -64,7 +63,6 @@ function dbquery($sql_string, $params=NULL, $types=NULL, $dblink=NULL, $debugLog
     if ($debugLog)
         echo $sql_string;
     $sql_stmt = $link->prepare($sql_string);
-    if ($debugLog)
     if($sql_stmt === false) {
         trigger_error('Wrong SQL: ' . $sql_string . ' Error: ' . $link->errno . ' ' . $link->error, E_USER_ERROR);
     }
@@ -91,7 +89,6 @@ function dbquery($sql_string, $params=NULL, $types=NULL, $dblink=NULL, $debugLog
         echo "affected_rows:".$res->stmt->affected_rows.";<br/>";
         echo "info:".$link->info.";<br/>";
     }
-
     return $res;
 }
 class iimysqli_result

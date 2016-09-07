@@ -119,8 +119,8 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             echo $libname . " ($libcode)";
             if ($localisation)
                 echo "\n<br /><b>Localisation : </b>" . $locname . " (" . $localisation . ")";
-            echo "<br /><b>Status : \n";
-            echo "<a href=\"#\" class=\"info\" onclick=\"return false\"><font color=\"".$statuscolor."\">".$statusname."</font><span>".$statushelp."</span></a></b>";
+            echo "<br /><b>Statut : \n";
+            echo "<a href=\"#\" onclick=\"return false\" title=\"".htmlspecialchars($statushelp)."\"><font color=\"".$statuscolor."\">".$statusname."</font></a></b>";
             if ($statusspecial == "renew"){
                 if ($enreg['renouveler'])
                     echo " le ".$enreg['renouveler'];

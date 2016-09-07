@@ -45,8 +45,8 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
             echo "&nbsp;&nbsp;&nbsp;<a href=\"#\" class=\"info\" onclick=\"return false\"><img src=\"img/alert.png\"><span>".stripslashes($enreg['remarquespub'])."</span></a>";
     }
     echo "<br />\n";
-    echo "<b>Status : \n";
-    echo "<a href=\"#\" class=\"info\" onclick=\"return false\"><font color=\"".$statuscolor."\">".$statusname."</font><span>".$statushelp."</span></a></b>";
+    echo "<b>Statut : \n";
+    echo "<a href=\"#\" onclick=\"return false\" title=\"".htmlspecialchars($statushelp)."\"><font color=\"".$statuscolor."\">".$statusname."</font></a></b>";
     if ((!empty($statusrenew)) && $statusrenew == 1){
         if (!empty($enreg['renouveler']))
             echo " le ".$enreg['renouveler'];

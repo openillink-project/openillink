@@ -44,7 +44,7 @@ $emailTxt['fr']['isbn'] = "ISBN";
 $emailTxt['fr']['pmid'] = "PMID";
 //MDV - 2016.01.04: suite aux retours de SG, suppression du texte $emailTxt['fr']['autreId'] =  "Autre identifiant";
 $emailTxt['fr']['intRef'] = "Réf int.";
-//MDV - 2016.01.04: suite aux retours de SG, suppression du texte $emailTxt['fr']['commPar'] = "Commandé par";
+$emailTxt['fr']['commPar'] = "Commandé par";
 $emailTxt['fr']['remarques'] = "Remarques";
 $emailTxt['fr']['username'] = "Username";
 $emailTxt['fr']['pwd'] = "Password";
@@ -114,6 +114,8 @@ function displayMailText($monaut,
         $commandeDet .= rawurlencode($mailAllTexts['fr']['isbn']." : ".$enreg['isbn']."\r\n");
       if ($enreg['PMID']!= '')
         $commandeDet .= rawurlencode($mailAllTexts['fr']['pmid']." : ".$enreg['PMID']."\r\n");
+      if ($enreg['nom']!= '' && $enreg['prenom']!= '')
+        $commandeDet .= rawurlencode($mailAllTexts['fr']['commPar']." : ".$enreg['nom'].", ".$enreg['prenom']." \r\n");
       if ($enreg['refinterbib']!= '')
         $refDet .= rawurlencode(html_entity_decode($mailAllTexts['fr']['intRef']." : ".$enreg['refinterbib']."\r\n"));
       $body = rawurlencode(stripslashes($mailAllTexts['fr']['debut']));

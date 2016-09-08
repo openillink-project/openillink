@@ -1044,110 +1044,145 @@ function remplirauto() {
     if (getCookie("envoi") != null)
         document.commande.envoi[getCookie("envoipos")].checked = true;
 
-    // ********************************************
-    // Récupération de paramètres OpenURL 0.1 d'une requête HTTP get
-    // Auteur : Pablo Iriarte / BiUM (www.pablog.ch)
-    // ********************************************
 
-    var paramOk = true;
+	// Retrieve parameters from URL
+	var url_parameters = new QueryData();
 
-    function FaitTableau(n) {
-        // Création d'un tableau (array)
-        // aux dimensions du nombre de paramètres.
-        this.length = n;
-        for (var i = 0; i <= n; i++)
-            this[i] = 0
-        return this
-    }
+	function get_url_parameter(key, defaultvalue = ""){
+		/* Helper function to retrieve data from array */
+		return (key in url_parameters) ? url_parameters[key] : defaultvalue;
+	}
 
-    function ParamValeur(nValeur) {
-        // Récupération de la valeur d'une variable
-        // Pour créer la variable en Javascript.
-        var nTemp = "";
-        for (var i=0;i<(param.length+1);i++) {
-            if (param[i].substring(0,param[i].indexOf("=")) == nValeur)
-                nTemp = param[i].substring(param[i].indexOf("=")+1,param[i].length)
-        }
-        return Decode(nTemp)
-    }
-
-    // Extraction des paramètres de la requête HTTP
-    // et initialise la variable "paramOk" à false
-    // s'il n'y a aucun paramètre.
-    if (!location.search)
-        paramOk = false;
-    else {
-        // Éliminer le "?"
-        nReq = location.search.substring(1,location.search.length)
-        // Extrait les différents paramètres avec leur valeur.
-        nReq = nReq.split("&");
-        param = new FaitTableau(nReq.length-1)
-        for (var i=0;i<(nReq.length);i++)
-            param[i] = nReq[i];
-    }
-
-    // Décoder la requête HTTP
-    // manuellement pour le signe (+)
-    function Decode(tChaine) {
-        while (true) {
-            var i = tChaine.indexOf('+');
-            if (i < 0) break;
-            tChaine = tChaine.substring(0,i) + '%20' + tChaine.substring(i + 1, tChaine.length);
-        }
-        return unescape(tChaine);
-    }
-    // End -->
     // Attribution des valeurs recuperes de la requête dans les champs du formulaire
     if (location.search) {
-        document.commande.uid.value = ParamValeur("id");
-        document.commande.title.value = ParamValeur("title");
-        if (ParamValeur("jtitle"))
-            document.commande.title.value = ParamValeur("jtitle");
-        if (ParamValeur("btitle"))
-            document.commande.title.value = ParamValeur("btitle");
-        document.commande.atitle.value = ParamValeur("atitle");
-        monauteur = ParamValeur("aulast");
-        if (ParamValeur("aufirst"))
-            monauteur = monauteur + ", " + ParamValeur("aufirst");
+        document.commande.uid.value = get_url_parameter("id");
+        document.commande.title.value = get_url_parameter("title");
+        if (get_url_parameter("jtitle"))
+            document.commande.title.value = get_url_parameter("jtitle");
+        if (get_url_parameter("btitle"))
+            document.commande.title.value = get_url_parameter("btitle");
+        document.commande.atitle.value = get_url_parameter("atitle");
+        monauteur = get_url_parameter("aulast");
+        if (get_url_parameter("aufirst"))
+            monauteur = monauteur + ", " + get_url_parameter("aufirst");
         document.commande.auteurs.value = monauteur;
-        document.commande.date.value = ParamValeur("date");
-        document.commande.volume.value = ParamValeur("volume");
-        document.commande.issue.value = ParamValeur("issue");
-        document.commande.pages.value = ParamValeur("pages");
-        if (!ParamValeur("pages")) {
-            if (ParamValeur("spage"))
-                document.commande.pages.value = ParamValeur("spage")
-            if (ParamValeur("epage"))
-                document.commande.pages.value = document.commande.pages.value + '-' + ParamValeur("epage");
+        document.commande.date.value = get_url_parameter("date");
+        document.commande.volume.value = get_url_parameter("volume");
+        document.commande.issue.value = get_url_parameter("issue");
+        document.commande.pages.value = get_url_parameter("pages");
+        if (!get_url_parameter("pages")) {
+            if (get_url_parameter("spage"))
+                document.commande.pages.value = get_url_parameter("spage")
+            if (get_url_parameter("epage"))
+                document.commande.pages.value = document.commande.pages.value + '-' + get_url_parameter("epage");
         }
-        if (ParamValeur("issn")) {
-            monissn = ParamValeur("issn");
+        if (get_url_parameter("issn")) {
+            monissn = get_url_parameter("issn");
             var i = monissn.indexOf('-');
             if (i < 0)
                 monissn = monissn.substring(0,4) + '-' + monissn.substring(4, monissn.length);
             document.commande.issn.value = monissn;
         }
-        if (ParamValeur("isbn"))
-            document.commande.issn.value = ParamValeur("isbn");
-        if (ParamValeur("pmid"))
-            document.commande.uid.value = 'pmid:' + ParamValeur("pmid");
-        if (ParamValeur("id"))
-            document.commande.uid.value = ParamValeur("id");
+        if (get_url_parameter("isbn"))
+            document.commande.issn.value = get_url_parameter("isbn");
+        if (get_url_parameter("pmid"))
+            document.commande.uid.value = 'pmid:' + get_url_parameter("pmid");
+        if (get_url_parameter("id"))
+            document.commande.uid.value = get_url_parameter("id");
         else{
-            if (ParamValeur("meduid"))
-                document.commande.uid.value = 'pmid:' + ParamValeur("meduid");
-            if (ParamValeur("doi"))
-                document.commande.uid.value = 'doi:' + ParamValeur("doi");
+            if (get_url_parameter("meduid"))
+                document.commande.uid.value = 'pmid:' + get_url_parameter("meduid");
+            if (get_url_parameter("doi"))
+                document.commande.uid.value = 'doi:' + get_url_parameter("doi");
         }
-        if (ParamValeur("genre"))
-            document.commande.genre.value = ParamValeur("genre");
-        if (ParamValeur("remarques"))
-            document.commande.remarques.value = ParamValeur("remarques");
-        if (ParamValeur("remarquespub"))
-            document.commande.remarquespub.value = ParamValeur("remarquespub");
-        if (ParamValeur("pid"))
-            document.commande.pid.value = ParamValeur("pid");
-        if (ParamValeur("sid"))
-            document.commande.sid.value = ParamValeur("sid");
+        if (get_url_parameter("genre"))
+            document.commande.genre.value = get_url_parameter("genre");
+        if (get_url_parameter("remarques"))
+            document.commande.remarques.value = get_url_parameter("remarques");
+        if (get_url_parameter("remarquespub"))
+            document.commande.remarquespub.value = get_url_parameter("remarquespub");
+        if (get_url_parameter("pid"))
+            document.commande.pid.value = get_url_parameter("pid");
+        if (get_url_parameter("sid"))
+            document.commande.sid.value = get_url_parameter("sid");
     }
+}
+
+
+function QueryData(queryString, preserveDuplicates){
+	/* Creates an object containing data parsed from the specified query string. The
+	 * parameters are:
+	 *
+	 * queryString        - the query string to parse. The query string may start
+	 *                      with a question mark, spaces may be encoded either as
+	 *                      plus signs or the escape sequence '%20', and both
+	 *                      ampersands and semicolons are permitted as separators.
+	 *                      This optional parameter defaults to query string from
+	 *                      the page URL.
+	 * preserveDuplicates - true if duplicate values should be preserved by storing
+	 *                      an array of values, and false if duplicates should
+	 *                      overwrite earler occurrences. This optional parameter
+	 *                      defaults to false.
+	 *
+	 * Initially created by Stephen Morley - http://code.stephenmorley.org/
+	 *
+	 */
+
+  // if a query string wasn't specified, use the query string from the URL
+  if (queryString == undefined){
+    queryString = location.search ? location.search : '';
+  }
+
+  // remove the leading question mark from the query string if it is present
+  if (queryString.charAt(0) == '?') queryString = queryString.substring(1);
+
+  // check whether the query string is empty
+  if (queryString.length > 0){
+
+    // replace plus signs in the query string with spaces
+    queryString = queryString.replace(/\+/g, ' ');
+
+    // split the query string around ampersands and semicolons
+    var queryComponents = queryString.split(/[&;]/g);
+
+    // loop over the query string components
+    for (var index = 0; index < queryComponents.length; index ++){
+
+      // extract this component's key-value pair
+      var keyValuePair = queryComponents[index].split('=');
+	  var key = "";
+	  try {
+		key = decodeURIComponent(keyValuePair[0]);
+	  } catch (err) {
+		// key is not properly encoded. Nothing we can do, keep as such
+		key = keyValuePair[0];
+	  }
+	  var value = "";
+	  if (keyValuePair.length > 1) {
+		try {
+			value = decodeURIComponent(keyValuePair[1]);
+		} catch (err) {
+			// value is not properly encoded. Nothing we can do, keep as such
+			value = keyValuePair[1];
+	    }
+	  }
+
+      // check whether duplicates should be preserved
+      if (preserveDuplicates){
+
+        // create the value array if necessary and store the value
+        if (!(key in this)) this[key] = [];
+        this[key].push(value);
+
+      }else{
+
+        // store the value
+        this[key] = value;
+
+      }
+
+    }
+
+  }
+
 }

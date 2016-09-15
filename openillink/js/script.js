@@ -40,7 +40,7 @@ function lookupid() {
         alert('entrez un identificateur avant');
     }
     if ((document.commande.uids.value != "") && (document.commande.tid.value == "pmid")){
-        // alors on rempli automatiquement le formulaire, ceci ecrasse ce qu'y est inscrit dans le formulaire normal et l'envoie
+        // alors on remplit automatiquement le formulaire, ceci écrase ce qui est inscrit dans le formulaire normal et l'envoie
         cleanIllForm();
         updateIllform();
     }

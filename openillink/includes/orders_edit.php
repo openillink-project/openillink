@@ -366,7 +366,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 }
                 echo "</select>\n";
                 echo "<input name=\"uids\" type=\"text\" size=\"20\" value=\"\">\n";
-                echo "<input type=\"button\" value=\"OK\" onclick=\"lookupid(); textchanged('ref ecrassee par PMID');\"></center>\n";
+                echo "<input type=\"button\" value=\"OK\" onclick=\"lookupid(); textchanged('ref écrasée par PMID');\"></center>\n";
                 echo "</div></div>\n";
                 echo "<div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
                 echo "\n";

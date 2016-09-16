@@ -36,7 +36,7 @@ if (empty($table)){
     $table = ((!empty($_POST['table'])) && isValidInput($_POST['table'],13,'s',false,$validTableSet))?addslashes($_POST['table']):NULL;
 }
 
-if (!empty($_COOKIE[illinkid])){
+if (!empty($_COOKIE['illinkid'])){
     // switch from table parameter
     switch ($table){
         case 'orders':

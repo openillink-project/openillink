@@ -72,6 +72,9 @@ function dbquery($sql_string, $params=NULL, $types=NULL, $dblink=NULL, $debugLog
     }
     $success = $sql_stmt->execute();
     if (!$success){
+		if ($debugLog){
+			echo mysqli_error($link);
+		}
         $sql_stmt->close();
         return FALSE;
     }

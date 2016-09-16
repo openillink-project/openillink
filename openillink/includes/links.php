@@ -140,9 +140,10 @@ if (($enreg['type_doc']=='article')||($enreg['type_doc']=='Article')||($enreg['t
                 //$linkurlreplace = str_replace("XTITLEX",urlencode ($stitleclean),$linkurl);
                 $stitleclean = skipWords($linkskip_words, $enreg['titre_periodique']);
                 $stitleclean = skipTxtAfterSign($linkskip_after_mark, $stitleclean);
+                $stitleclean = stripslashes($stitleclean);
 
                 $linkurlreplace = replaceExistingPlaceHolders($enreg,urlencode ($stitleclean),$linkurl, $linkurlencoded);
-                $listlinks.="<li><a href=\"" . $linkurlreplace . "\" target=\"_blank\">" . $linktitle . "</a></li>\n";
+                $listlinks.="<li><a href=\"" .  htmlspecialchars($linkurlreplace) . "\" target=\"_blank\">" . $linktitle . "</a></li>\n";
             }
             echo "<ul>\n";
             echo $listlinks;

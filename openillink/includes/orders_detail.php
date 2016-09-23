@@ -179,7 +179,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             if ($enreg['isbn'])
                 echo "\n<br /><b>ISBN : </b>".stripslashes($enreg['isbn']);
             if ($enreg['PMID'])
-                echo "\n<br /><b>PMID : </b><a href=\"http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?otool=ichuvlib&cmd=Retrieve&db=pubmed&dopt=citation&list_uids=".$enreg['PMID']."\" target=\"_blank\">".$enreg['PMID']."</a>\n";
+                echo "\n<br /><b>PMID : </b><a href=\"https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?otool=ichuvlib&cmd=Retrieve&db=pubmed&dopt=citation&list_uids=".$enreg['PMID']."\" target=\"_blank\">".$enreg['PMID']."</a>\n";
             if ($enreg['uid'])
                 echo "\n<br /><b>Autre identificateur : </b>".$enreg['uid'];
             if ($enreg['cgra'])

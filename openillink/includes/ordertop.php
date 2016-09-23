@@ -94,5 +94,11 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
         echo "<b>Pages : </b>".$enreg['pages']."  |  ";
     if ($enreg['annee'])
         echo "<b>Ann&eacute;e : </b>".$enreg['annee'];
+    if ($enreg['PMID']) {
+		if ($enreg['volume'] or $enreg['pages'] or $enreg['annee']) {
+			echo "  |  ";
+		}
+		echo "<b>PMID : </b><a href=\"https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?otool=ichuvlib&cmd=Retrieve&db=pubmed&dopt=citation&list_uids=".$enreg['PMID']."\" target=\"_blank\">".$enreg['PMID']."</a>";
+	}
 }
 ?>

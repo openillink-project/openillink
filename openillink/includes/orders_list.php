@@ -177,7 +177,7 @@ $debugOn = false;
             $currOrder = iimysqli_result_fetch_array($result2);
             $orderListId[] = $currOrder['illinkid'];
         }
-        $req = "SELECT orders.illinkid, orders.type_doc, orders.date, orders.stade, orders.localisation, orders.nom, orders.prenom, orders.mail, orders.code_postal, orders.adresse, orders.localite, orders.bibliotheque, orders.prepaye, orders.remarques, orders.urgent, orders.service, orders.titre_article,  orders.auteurs, orders.titre_periodique, orders.volume , orders.numero, orders.pages , orders.annee ".
+        $req = "SELECT orders.illinkid, orders.type_doc, orders.date, orders.stade, orders.localisation, orders.nom, orders.prenom, orders.mail, orders.code_postal, orders.adresse, orders.localite, orders.bibliotheque, orders.prepaye, orders.remarques, orders.urgent, orders.service, orders.titre_article,  orders.auteurs, orders.titre_periodique, orders.volume , orders.numero, orders.pages , orders.annee , orders.PMID ".
             "FROM orders ".
             "WHERE (orders.illinkid IN ('".implode("','",$orderListId)."'))";
         switch ($folder){

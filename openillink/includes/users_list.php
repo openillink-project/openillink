@@ -75,16 +75,16 @@ if (($monaut == "admin")||($monaut == "sadmin")){
         $library = $enreg['library'];
         echo "<tr>\n";
         echo "<td><b>";
-        echo $name;
+        echo htmlspecialchars($name);
         echo "</b></td>\n";
         echo "\n";
-        echo "<td>".$email."</b>\n";
+        echo "<td>".htmlspecialchars($email)."</b>\n";
         echo "</td>\n";
         echo "\n";
-        echo "<td>".$library."</b>\n";
+        echo "<td>".htmlspecialchars($library)."</b>\n";
         echo "</td>\n";
         echo "<td>";
-        echo $login."\n";
+        echo htmlspecialchars($login)."\n";
         echo "</td>\n";
         echo "<td>";
         if ($admin == 1)

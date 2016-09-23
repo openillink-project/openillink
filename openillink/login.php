@@ -40,7 +40,7 @@ $rediruser = "Location: " . $monuri . "list.php?folder=in";
 $redirguest = "Location: " . $monuri . "list.php?folder=guest";
 
 $validActionSet = array('logout', 'shibboleth');
-$action = addslashes(isValidInput($_GET['action'],10,'s',false,$validActionSet)?$_GET['action']:NULL);
+$action = isValidInput($_GET['action'],10,'s',false,$validActionSet)?$_GET['action']:NULL;
 $complement = "&action=$action&monaut=$monaut&cookie=".$_COOKIE['illinkid'];
 if ((!empty($_COOKIE['illinkid'])) && (empty($action)) && ($monaut=="sadmin"))
     header("$rediradmin".$complement);
@@ -73,8 +73,8 @@ if(!empty($action)){
         }
         else{
             // check if the user id and password combination exist in database
-            $req = "SELECT * FROM users WHERE email = '$email'";
-            $result = dbquery($req);
+            $req = "SELECT * FROM users WHERE email = ?";
+            $result = dbquery($req, array($email), "s");
             $nb = iimysqli_num_rows($result);
             if ($nb == 1){
                 // the user id and password match
@@ -126,8 +126,8 @@ if ((!empty($log))&&(!empty($pwd))){
     $logok=0;
     $password=md5($pwd);
     // check if the user id and password combination exist in database
-    $req = "SELECT * FROM users WHERE login = '$log' AND password = '$password'";
-    $result = dbquery($req);
+    $req = "SELECT * FROM users WHERE login = ? AND password = ?";
+    $result = dbquery($req, array($log, $password), "ss");
     $nb = iimysqli_num_rows($result);
     if ($nb == 1){
         // the user id and password match,
@@ -181,7 +181,7 @@ echo "<form name=\"loginform\" id=\"loginform\" action=\"login.php\" method=\"po
 if (empty($log))
     $log='';
 
-echo "<label>Username:<br /><input type=\"text\" name=\"log\" id=\"log\" value=\"" . $log . "\" size=\"20\" tabindex=\"1\" /></label></p>\n";
+echo "<label>Username:<br /><input type=\"text\" name=\"log\" id=\"log\" value=\"" . htmlspecialchars($log) . "\" size=\"20\" tabindex=\"1\" /></label></p>\n";
 echo "<label>Password:<br /> <input type=\"password\" name=\"pwd\" id=\"pwd\" value=\"\" size=\"20\" tabindex=\"2\" /></label></p>\n";
 // echo "<p>\n";
 // echo "  <label><input name=\"rememberme\" type=\"checkbox\" id=\"rememberme\" value=\"forever\" tabindex=\"3\" /> \n";

@@ -57,9 +57,9 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
             $date = $enreg['date'];
             $stade = $enreg['stade'];
             $localisation = $enreg['localisation'];
-            $nom = stripslashes($enreg['nom']).', '.stripslashes($enreg['prenom']);
+            $nom = $enreg['nom'].', '.$enreg['prenom'];
             $mail = $enreg['mail'];
-            $adresse = stripslashes($enreg['adresse']).', '.stripslashes($enreg['code_postal']).' '.stripslashes($enreg['localite']);
+            $adresse = $enreg['adresse'].', '.$enreg['code_postal'].' '.$enreg['localite'];
             $statusname = $statusInfo[$stade]['title1'];
             $statushelp = $statusInfo[$stade]['help1'];
             if ((!empty($enreg)) && (!empty($enreg['special'])) && $enreg['special']==='renew'){

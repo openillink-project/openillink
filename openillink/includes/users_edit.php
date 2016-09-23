@@ -37,22 +37,26 @@ $action="";
 $montitle = "Gestion des utilisateurs";
 $id=isValidInput($_GET['id'],11,'i',false)?$_GET['id']:'';
 $validActionSet = array('updateprofile', 'update', 'new');
-$action=addslashes(isValidInput($_GET['action'],15,'s',false,$validActionSet)?$_GET['action']:'');
+$action=isValidInput($_GET['action'],15,'s',false,$validActionSet)?$_GET['action']:'';
 if (!empty($_COOKIE[illinkid])){
     if (($monaut == "admin")||($monaut == "sadmin")||(($monaut == "user")&&($action == "updateprofile"))){
         if (($action == "updateprofile")||($id!="")){
             if (($id!="")&&(($monaut == "admin")||($monaut == "sadmin"))){
-                $req = "SELECT * FROM users WHERE users.user_id = '$id'";
-                $myhtmltitle = $configname[$lang] . " : édition de la fiche utilisateur " . $id;
-                $montitle = "Gestion des utilisateurs : édition de la fiche utilisateur " . $id;
+                $req = "SELECT * FROM users WHERE users.user_id = ?";
+                $myhtmltitle = $configname[$lang] . " : édition de la fiche utilisateur " . htmlspecialchars($id);
+                $montitle = "Gestion des utilisateurs : édition de la fiche utilisateur " . htmlspecialchars($id);
+				$params = array($id);
+				$param_types = "i";
             }
             if ($action == "updateprofile"){
-                $req = "SELECT * FROM users WHERE users.login = '$monlog'";
+                $req = "SELECT * FROM users WHERE users.login = ?";
                 $myhtmltitle = $configname[$lang] . " : édition de mon profil";
-                $montitle = "Gestion des utilisateurs : édition de mon profil (" . $monlog . ")";
+                $montitle = "Gestion des utilisateurs : édition de mon profil (" . htmlspecialchars($monlog) . ")";
+				$params = array($monlog);
+				$param_types = "s";
             }
             require ("headeradmin.php");
-            $result = dbquery($req);
+            $result = dbquery($req, $params, $param_types);
             $nb = iimysqli_num_rows($result);
             if ($nb == 1){
                 echo "<h1>" . $montitle . "</h1>\n";
@@ -75,7 +79,7 @@ if (!empty($_COOKIE[illinkid])){
                 else{
                     echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
                     echo "<input name=\"table\" type=\"hidden\" value=\"users\">\n";
-                    echo "<input name=\"id\" type=\"hidden\" value=\"".$user_id."\">\n";
+                    echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($user_id)."\">\n";
                     if (($monaut == "admin")||($monaut == "sadmin"))
                         echo "<input name=\"action\" type=\"hidden\" value=\"update\">\n";
                     if (($monaut == "user")&&($action == "updateprofile"))
@@ -88,11 +92,11 @@ if (!empty($_COOKIE[illinkid])){
                     echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
 */
                     if (($monaut == "admin")||($monaut == "sadmin")){
-                        echo "<tr><td class=\"odd\"><b>Nom *</b></td><td class=\"odd\"><input name=\"name\" type=\"text\" size=\"60\" value=\"".$name."\"></td></tr>\n";
+                        echo "<tr><td class=\"odd\"><b>Nom *</b></td><td class=\"odd\"><input name=\"name\" type=\"text\" size=\"60\" value=\"".htmlspecialchars($name)."\"></td></tr>\n";
                     }
-                    echo "<tr><td><b>E-mail</b></td><td><input name=\"email\" type=\"text\" size=\"60\" value=\"".$email."\"></td></tr>\n";
+                    echo "<tr><td><b>E-mail</b></td><td><input name=\"email\" type=\"text\" size=\"60\" value=\"".htmlspecialchars($email)."\"></td></tr>\n";
                     if (($monaut == "admin")||($monaut == "sadmin")){
-                        echo "<tr><td class=\"odd\"><b>Login *</b></td><td class=\"odd\"><input name=\"login\" type=\"text\" size=\"60\" value=\"".$login."\"></td></tr>\n";
+                        echo "<tr><td class=\"odd\"><b>Login *</b></td><td class=\"odd\"><input name=\"login\" type=\"text\" size=\"60\" value=\"".htmlspecialchars($login)."\"></td></tr>\n";
                     }
                     if (($monaut == "admin")||($monaut == "sadmin")){
                         echo "<tr><td><b>Status *</b></td><td><input type=\"radio\" name=\"status\" value=\"1\"/";
@@ -138,10 +142,10 @@ if (!empty($_COOKIE[illinkid])){
                                 $namelibraries["de"] = $rowlibraries["name3"];
                                 $namelibraries["it"] = $rowlibraries["name4"];
                                 $namelibraries["es"] = $rowlibraries["name5"];
-                                $optionslibraries.="<option value=\"" . $codelibraries . "\"";
+                                $optionslibraries.="<option value=\"" . htmlspecialchars($codelibraries) . "\"";
                                 if ($library == $codelibraries)
                                     $optionslibraries.=" selected";
-                                $optionslibraries.=">" . $namelibraries[$lang] . "</option>\n";
+                                $optionslibraries.=">" . htmlspecialchars($namelibraries[$lang]) . "</option>\n";
                             }
                             echo $optionslibraries;
                         }
@@ -156,7 +160,7 @@ if (!empty($_COOKIE[illinkid])){
                     }
                     if (($monaut == "admin")||($monaut == "sadmin")){
                         echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=users'\">\n";
-                        echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=users&id=" . $user_id . "'\"></td></tr>\n";
+                        echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=users&id=" . htmlspecialchars($user_id) . "'\"></td></tr>\n";
                     }
                     echo "</table>\n";
                     echo "</form><br /><br />\n";

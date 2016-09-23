@@ -83,8 +83,8 @@ $namelibraries["en"] = $rowlibraries["name2"];
 $namelibraries["de"] = $rowlibraries["name3"];
 $namelibraries["it"] = $rowlibraries["name4"];
 $namelibraries["es"] = $rowlibraries["name5"];
-$optionslibraries.="<option value=\"" . $codelibraries . "\"";
-$optionslibraries.=">" . $namelibraries[$lang] . "</option>\n";
+$optionslibraries.="<option value=\"" . htmlspecialchars($codelibraries) . "\"";
+$optionslibraries.=">" . htmlspecialchars($namelibraries[$lang]) . "</option>\n";
 }
 echo $optionslibraries;
 }
@@ -98,8 +98,8 @@ $resultdepartment = dbquery($reqdepartment);
 while ($rowdepartment = iimysqli_result_fetch_array($resultdepartment))
 {
 $codedepartment = $rowdepartment["department"];
-$optionsdepartment.="<option value=\"" . $codedepartment . "\"";
-$optionsdepartment.=">" . $codedepartment . "</option>\n";
+$optionsdepartment.="<option value=\"" . htmlspecialchars($codedepartment) . "\"";
+$optionsdepartment.=">" . htmlspecialchars($codedepartment) . "</option>\n";
 }
 echo $optionsdepartment;
 echo "<option value=\"new\">" . $addvaluemessage[$lang] . "</option>\n";
@@ -115,8 +115,8 @@ $resultfaculty = dbquery($reqfaculty);
 while ($rowfaculty = iimysqli_result_fetch_array($resultfaculty))
 {
 $codefaculty = $rowfaculty["faculty"];
-$optionsfaculty.="<option value=\"" . $codefaculty . "\"";
-$optionsfaculty.=">" . $codefaculty . "</option>\n";
+$optionsfaculty.="<option value=\"" . htmlspecialchars($codefaculty) . "\"";
+$optionsfaculty.=">" . htmlspecialchars($codefaculty) . "</option>\n";
 }
 echo $optionsfaculty;
 echo "<option value=\"new\">" . $addvaluemessage[$lang] . "</option>\n";

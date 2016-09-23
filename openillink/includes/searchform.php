@@ -117,7 +117,7 @@ echo "<input name=\"term\" type=\"text\" size=\"30\" value=\"";
 // TODO improve input validation
 $term = (!empty($_GET['term']))?$_GET['term']:'';
 if (!empty($term))
-    echo $_GET['term'];
+    echo htmlspecialchars($_GET['term']);
 echo "\">\n";
 echo "</p>";
 /*
@@ -137,11 +137,11 @@ echo '<option value="0"></option>';
 foreach ($allStatus as $status){
     $labelStatus = $status['title1'];
     $labelCode = $status['code'];
-    echo '<option value="'.$labelCode.'_st"';
+    echo '<option value="'.htmlspecialchars($labelCode).'_st"';
     $statuscode = (isset($_GET['statuscode']))?$_GET['statuscode']:'';
     if ((!empty($statuscode)) && ($statuscode==($labelCode.'_st')) )
         echo " selected";
-    echo ">$labelStatus</option>\n";
+    echo ">".htmlspecialchars($labelStatus)."</option>\n";
 }
 echo "</select>";
 echo "</p>";

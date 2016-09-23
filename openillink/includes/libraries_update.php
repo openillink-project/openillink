@@ -40,25 +40,25 @@ if (!empty($_COOKIE[illinkid])){
   $id = ((!empty($_POST['id'])) && isValidInput($_POST['id'],11,'i',false))?$_POST['id']:NULL;
   $ip = $_SERVER['REMOTE_ADDR'];
   $validActionSet = array('new', 'update', 'delete', 'deleteok');
-  $action=((!empty($_POST['action'])) && isValidInput($_POST['action'],10,'s',false,$validActionSet))?addslashes($_POST['action']):'';
-  $action2=((!empty($_GET['action'])) && isValidInput($_GET['action'],10,'s',false,$validActionSet))?addslashes($_GET['action']):NULL;
+  $action=((!empty($_POST['action'])) && isValidInput($_POST['action'],10,'s',false,$validActionSet))?$_POST['action']:'';
+  $action2=((!empty($_GET['action'])) && isValidInput($_GET['action'],10,'s',false,$validActionSet))?$_GET['action']:NULL;
   if (!empty($action2))
     $action = $action2;
     if (($monaut == "admin")||($monaut == "sadmin")){
       $mes="";
       $date=date("Y-m-d H:i:s");
-      $code = ((!empty($_POST['code'])) && isValidInput($_POST['code'],50,'s',false))? addslashes(trim($_POST['code'])):'';
-      $name1 = ((!empty($_POST['name1'])) && isValidInput($_POST['name1'],50,'s',false))? addslashes(trim($_POST['name1'])):'';
-      $name2 = ((!empty($_POST['name2'])) && isValidInput($_POST['name2'],50,'s',false))? addslashes(trim($_POST['name2'])):'';
-      $name3 = ((!empty($_POST['name3'])) && isValidInput($_POST['name3'],50,'s',false))? addslashes(trim($_POST['name3'])):'';
-      $name4 = ((!empty($_POST['name4'])) && isValidInput($_POST['name4'],50,'s',false))? addslashes(trim($_POST['name4'])):'';
-      $name5 = ((!empty($_POST['name5'])) && isValidInput($_POST['name5'],50,'s',false))? addslashes(trim($_POST['name5'])):'';
-      $default = ((!empty($_POST['default'])) && isValidInput($_POST['default'],1,'s',false))? addslashes(trim($_POST['default'])):'';
+      $code = ((!empty($_POST['code'])) && isValidInput($_POST['code'],50,'s',false))? trim($_POST['code']):'';
+      $name1 = ((!empty($_POST['name1'])) && isValidInput($_POST['name1'],50,'s',false))? trim($_POST['name1']):'';
+      $name2 = ((!empty($_POST['name2'])) && isValidInput($_POST['name2'],50,'s',false))? trim($_POST['name2']):'';
+      $name3 = ((!empty($_POST['name3'])) && isValidInput($_POST['name3'],50,'s',false))? trim($_POST['name3']):'';
+      $name4 = ((!empty($_POST['name4'])) && isValidInput($_POST['name4'],50,'s',false))? trim($_POST['name4']):'';
+      $name5 = ((!empty($_POST['name5'])) && isValidInput($_POST['name5'],50,'s',false))? trim($_POST['name5']):'';
+      $default = ((!empty($_POST['default'])) && isValidInput($_POST['default'],1,'s',false))? trim($_POST['default']):'';
       if ($default != "1")
         $default = 0;
       else
         $default = 1;
-      $hasSharedOrders = ((!empty($_POST['hasSharedOrders'])) && isValidInput($_POST['hasSharedOrders'],1,'s',false))? addslashes(trim($_POST['hasSharedOrders'])):'';
+      $hasSharedOrders = ((!empty($_POST['hasSharedOrders'])) && isValidInput($_POST['hasSharedOrders'],1,'s',false))? trim($_POST['hasSharedOrders']):'';
       if ($hasSharedOrders != "1")
         $hasSharedOrders = 0;
       else
@@ -71,9 +71,9 @@ if (!empty($_COOKIE[illinkid])){
         $enregcode = iimysqli_result_fetch_array($resultcode);
         $idcode = $enregcode['id'];
         if (($nbcode == 1)&&($action == "new"))
-          $mes = $mes . "<br/>le code '" . $code . "' existe déjà dans la base, veuillez choisir un autre";
+          $mes = $mes . "<br/>le code '" . htmlspecialchars($code) . "' existe déjà dans la base, veuillez choisir un autre";
         if (($nbcode == 1)&&($action != "new")&&($idcode != $id))
-          $mes = $mes . "<br/>le code '" . $code . "' est déjà attribué à une autre bibliothèque, veuillez choisir un autre";
+          $mes = $mes . "<br/>le code '" . htmlspecialchars($code) . "' est déjà attribué à une autre bibliothèque, veuillez choisir un autre";
         if ($name1 == "")
           $mes = $mes . "<br/>le nom1 est obligatoire";
         if ($code == "")
@@ -92,7 +92,7 @@ if (!empty($_COOKIE[illinkid])){
             if ($id != "") {
               require ("headeradmin.php");
               $reqid = "SELECT * FROM libraries WHERE id = ?";
-              $myhtmltitle = $configname[$lang] . " : édition de la fiche bibliothèque $id";
+              $myhtmltitle = $configname[$lang] . " : édition de la fiche bibliothèque ".htmlspecialchars($id);
               $resultid = dbquery($reqid, array($id), 'i');
 
               $nb = iimysqli_num_rows($resultid);
@@ -102,13 +102,13 @@ if (!empty($_COOKIE[illinkid])){
                 $params = array($name1, $name2, $name3, $name4, $name5, $default, $code, $hasSharedOrders, $id);
                 $resultupdate = dbquery($query, $params, 'sssssisii') or die("Error : ".mysqli_error());
                 echo "<center><br/><b><font color=\"green\">\n";
-                echo "La modification de la fiche $id a été enregistrée avec succès</b></font>\n";
+                echo "La modification de la fiche ".htmlspecialchars($id)." a été enregistrée avec succès</b></font>\n";
                 echo "<br/><br/><br/><a href=\"list.php?table=libraries\">Retour à la liste de bibliothèques</a></center>\n";
                 require ("footer.php");
               }
               else {
                 echo "<center><br/><b><font color=\"red\">\n";
-                echo "La modification n'a pas été enregistrée car l'identifiant de la fiche $id n'a pas été trouvée dans la base.</b></font>\n";
+                echo "La modification n'a pas été enregistrée car l'identifiant de la fiche ".htmlspecialchars($id)." n'a pas été trouvée dans la base.</b></font>\n";
                 echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche ou contactez l'administrateur de la base : " . $configemail . "</b></center><br /><br /><br /><br />\n";
                 require ("footer.php");
               }
@@ -122,37 +122,37 @@ if (!empty($_COOKIE[illinkid])){
             require ("footer.php");
           }
         }
-      }
-      // Fin de l'édition
-      // Début de la création
-      if ($action == "new") {
-        require ("headeradmin.php");
-        $myhtmltitle = $configname[$lang] . " : nouvelle bibliothèque";
-        $query ="INSERT INTO `libraries` (`id`, `name1`, `name2`, `name3`, `name4`, `name5`, `code`, `default`,`has_shared_ordres`) VALUES ('', ?, ?, ?, ?, ?, ?, ?, ?)";
-        $params = array($name1, $name2, $name3, $name4, $name5, $code, $default, $hasSharedOrders);
-        $id = dbquery($query, $params, 'ssssssii') or die("Error : ".mysqli_error());
-        echo "<center><br/><b><font color=\"green\">\n";
-        echo "La nouvelle fiche $id a été enregistrée avec succès</b></font>\n";
-        echo "<br/><br/><br/><a href=\"list.php?table=libraries\">Retour à la liste de bibliothèques</a></center>\n";
-        echo "</center>\n";
-        echo "\n";
-        require ("footer.php");
+        // Fin de l'édition
+        // Début de la création
+        if ($action == "new") {
+          require ("headeradmin.php");
+          $myhtmltitle = $configname[$lang] . " : nouvelle bibliothèque";
+          $query ="INSERT INTO `libraries` (`id`, `name1`, `name2`, `name3`, `name4`, `name5`, `code`, `default`,`has_shared_ordres`) VALUES ('', ?, ?, ?, ?, ?, ?, ?, ?)";
+          $params = array($name1, $name2, $name3, $name4, $name5, $code, $default, $hasSharedOrders);
+          $id = dbquery($query, $params, 'ssssssii') or die("Error : ".mysqli_error());
+          echo "<center><br/><b><font color=\"green\">\n";
+          echo "La nouvelle fiche ".htmlspecialchars($id)." a été enregistrée avec succès</b></font>\n";
+          echo "<br/><br/><br/><a href=\"list.php?table=libraries\">Retour à la liste de bibliothèques</a></center>\n";
+          echo "</center>\n";
+          echo "\n";
+          require ("footer.php");
+		}
       }
     }
     // Fin de la création
     // Début de la suppresion
     if ($action == "delete") {
-      $id=addslashes(((!empty($_GET['id'])) && isValidInput($_GET['id'],11,'i',false))?$_GET['id']:"");
+      $id=((!empty($_GET['id'])) && isValidInput($_GET['id'],11,'i',false))?$_GET['id']:"";
       $myhtmltitle = $configname[$lang] . " : confirmation pour la suppresion d'une bibliothèque";
       require ("headeradmin.php");
       echo "<center><br/><br/><br/><b><font color=\"red\">\n";
-      echo "Voulez-vous vraiement supprimer la fiche " . $id . "?</b></font>\n";
+      echo "Voulez-vous vraiement supprimer la fiche " . htmlspecialchars($id) . "?</b></font>\n";
       echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
       echo "<input name=\"table\" type=\"hidden\" value=\"libraries\">\n";
-      echo "<input name=\"id\" type=\"hidden\" value=\"".$id."\">\n";
+      echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($id)."\">\n";
       echo "<input name=\"action\" type=\"hidden\" value=\"deleteok\">\n";
       echo "<br /><br />\n";
-      echo "<input type=\"submit\" value=\"Confirmer la suppression de la fiche " . $id . " en cliquant ici\">\n";
+      echo "<input type=\"submit\" value=\"Confirmer la suppression de la fiche " . htmlspecialchars($id) . " en cliquant ici\">\n";
       echo "</form>\n";
       echo "<br/><br/><br/><a href=\"list.php?table=libraries\">Retour à la liste des bibliothèques</a></center>\n";
       echo "</center>\n";
@@ -165,7 +165,7 @@ if (!empty($_COOKIE[illinkid])){
       $query = "DELETE FROM libraries WHERE libraries.id = ?";
       $result = dbquery($query, array($id), 'i') or die("Error : ".mysqli_error());
       echo "<center><br/><b><font color=\"green\">\n";
-      echo "La fiche " . $id . " a été supprimée avec succès</b></font>\n";
+      echo "La fiche " . htmlspecialchars($id) . " a été supprimée avec succès</b></font>\n";
       echo "<br/><br/><br/><a href=\"list.php?table=libraries\">Retour à la liste des bibliothèques</a></center>\n";
       echo "</center>\n";
       echo "\n";

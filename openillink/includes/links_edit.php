@@ -68,7 +68,7 @@ if (!empty($_COOKIE[illinkid])){
                 $linkskip_txt_after_mark = $enreg['skip_txt_after_mark'];
                 echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
                 echo "<input name=\"table\" type=\"hidden\" value=\"links\">\n";
-                echo "<input name=\"id\" type=\"hidden\" value=\"".$linkid."\">\n";
+                echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($linkid)."\">\n";
                 echo "<input name=\"action\" type=\"hidden\" value=\"update\">\n";
                 echo "<table id=\"hor-zebra\" class=\"genericEditFormOIL\">\n";
                 echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer les modifications\">\n";
@@ -76,15 +76,15 @@ if (!empty($_COOKIE[illinkid])){
                 echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=links&id=" . $linkid . "'\"></td></tr>\n";
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
                 echo "<tr><td><b>Nom *</b></td><td>\n";
-                echo "<input name=\"title\" type=\"text\" size=\"60\" value=\"" . $linktitle . "\"></td></tr>\n";
+                echo "<input name=\"title\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($linktitle) . "\"></td></tr>\n";
                 echo "</td></tr>\n";
-                echo "<tr><td><b>URL *</b></td><td><input name=\"url\" type=\"text\" size=\"50\" value=\"" . $linkurl . "\">&nbsp;&nbsp;";
+                echo "<tr><td><b>URL *</b></td><td><input name=\"url\" type=\"text\" size=\"50\" value=\"" . htmlspecialchars($linkurl) . "\">&nbsp;&nbsp;";
                 echo "<input name=\"openurl\" value=\"1\" type=\"checkbox\"";
                 if ($linkopenurl == 1)
                     echo " checked";
                 echo "> OpenURL</td></tr>\n";
                 /* MDV - 15.12.2015 : added line to update link position in the displayed list of link  in the table*/
-                echo "<tr><td><b>Position dans la liste</b></td><td><input name=\"ordonnancement\" type=\"text\" size=\"5\" value=\"" . $linkordonnancement. "\">&nbsp;&nbsp;</td></tr>";
+                echo "<tr><td><b>Position dans la liste</b></td><td><input name=\"ordonnancement\" type=\"text\" size=\"5\" value=\"" . htmlspecialchars($linkordonnancement). "\">&nbsp;&nbsp;</td></tr>";
                 echo "<tr><td><b>Lien de recherche par identifiant</b></td><td>";
                 echo "<input name=\"search_issn\" value=\"1\" type=\"checkbox\"";
                 if ($linksearch_issn == 1)
@@ -133,10 +133,10 @@ if (!empty($_COOKIE[illinkid])){
                         $namelibraries["de"] = $rowlibraries["name3"];
                         $namelibraries["it"] = $rowlibraries["name4"];
                         $namelibraries["es"] = $rowlibraries["name5"];
-                        $optionslibraries.="<option value=\"" . $codelibraries . "\"";
+                        $optionslibraries.="<option value=\"" . htmlspecialchars($codelibraries) . "\"";
                         if ($linklibrary == $codelibraries)
                             $optionslibraries.=" selected";
-                        $optionslibraries.=">" . $namelibraries[$lang] . "</option>\n";
+                        $optionslibraries.=">" . htmlspecialchars($namelibraries[$lang]) . "</option>\n";
                     }
                     echo $optionslibraries;
                 }

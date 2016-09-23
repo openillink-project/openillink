@@ -36,6 +36,8 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
     $myhtmltitle = "Commandes de " . $configinstitution[$lang] . " : liste de commandes";
     $page = ((!empty($_GET['page'])) && isValidInput($_GET['page'],8,'s',false))?$_GET['page']:1;
 
+$link = dbconnect();
+
 // Figure out the limit for the query based on the current page number
     if ($debugOn)
         prof_flag("Start");
@@ -56,23 +58,23 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
     $stringQuery = str_replace ( $pageParam , '',$stringQuery);
     $pageslinksurl = strlen($stringQuery) ? basename($_SERVER['PHP_SELF'])."?".$stringQuery : basename($_SERVER['PHP_SELF']);
 
-    $reqLoc = "SELECT code FROM localizations WHERE library = '$monbib'";
-    $resLoc = dbquery($reqLoc);
+    $reqLoc = "SELECT code FROM localizations WHERE library = ?";
+    $resLoc = dbquery($reqLoc, array($monbib), "s");
     $nbLoc = iimysqli_num_rows($resLoc);
     $locList = '';
     for ($l=0 ; $l<$nbLoc ; $l++){
         $currLoc = iimysqli_result_fetch_array($resLoc);
-        $locList = empty($locList)?"'".$currLoc['code']."'":$locList.",'".$currLoc['code']."'";
+        $locList = empty($locList)?"'".mysqli_real_escape_string($link, $currLoc['code'])."'":$locList.",'".mysqli_real_escape_string($link, $currLoc['code'])."'";
     }
     $locCond = empty($locList)?'':" OR orders.localisation IN ($locList) ";
 
-    $reqServ = "SELECT code FROM units WHERE library = '$monbib'";
-    $resServ = dbquery($reqServ);
+    $reqServ = "SELECT code FROM units WHERE library = ?";
+    $resServ = dbquery($reqServ, array($monbib), "s");
     $nbServ = iimysqli_num_rows($resServ);
     $servList = '';
     for ($l=0 ; $l<$nbServ ; $l++){
         $currServ = iimysqli_result_fetch_array($resServ);
-        $servList = empty($servList)?"'".$currServ['code']."'":$servList.",'".$currServ['code']."'";
+        $servList = empty($servList)?"'".mysqli_real_escape_string($link, $currServ['code'])."'":$servList.",'".mysqli_real_escape_string($link, $currServ['code'])."'";
     }
     $servCond = ($nbServ > 0 ?" OR orders.service IN ($servList) ":'');
 
@@ -93,8 +95,8 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
     /*
     * MDV : a main library is library flagged as default
     */
-    $reqIsMain ="SELECT libraries.default FROM libraries WHERE libraries.default = 1 AND libraries.code='$monbib'";
-    $resIsMain = dbquery($reqIsMain);
+    $reqIsMain ="SELECT libraries.default FROM libraries WHERE libraries.default = 1 AND libraries.code=?";
+    $resIsMain = dbquery($reqIsMain, array($monbib), "s");
     $isMain = iimysqli_num_rows($resIsMain);
     /*
     * MDV : when working with a main library all sharing library orders has to be displayed as well
@@ -105,7 +107,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
         $nbSharing = iimysqli_num_rows($resSharing);
         for ($l=0 ; $l<$nbSharing ; $l++){
             $currSharing = iimysqli_result_fetch_array($resSharing);
-            $listBibIn[] = $currSharing['code'];
+            $listBibIn[] = mysqli_real_escape_string($link, $currSharing['code']);
         }
     }
     $listInBib = "'".implode (  "','", $listBibIn)."'";
@@ -113,33 +115,33 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
     
     $req2 = "SELECT orders.illinkid FROM orders ";
     $conditionsParDefauts = " WHERE (".
-            "(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND ".
-            "(orders.bibliotheque = '$monbib' $locCond $servCond )) ".
-            "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '$monbib') $orphanOrdersCond";
+            "(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '".mysqli_real_escape_string($link, $madatej)."')) AND ".
+            "(orders.bibliotheque = '". mysqli_real_escape_string($link, $monbib)."' $locCond $servCond )) ".
+            "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '".mysqli_real_escape_string($link, $monbib)."') $orphanOrdersCond";
     $conditions = '';
     switch ($folder){
         case 'in':
             $conditions = "WHERE (".
-            "(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '$madatej')) AND ".
-            "(orders.bibliotheque = '$monbib' $locCond $servCond )) ".
-            "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '$monbib') $orphanOrdersCond";
+            "(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '".mysqli_real_escape_string($link, $madatej)."')) AND ".
+            "(orders.bibliotheque = '".mysqli_real_escape_string($link, $monbib)."' $locCond $servCond )) ".
+            "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '".mysqli_real_escape_string($link, $monbib)."') $orphanOrdersCond";
             break;
         case 'out':
-            $conditions = "WHERE (orders.bibliotheque = '$monbib' $locCond $servCond) AND orders.stade IN ($listOut) ";
+            $conditions = "WHERE (orders.bibliotheque = '".mysqli_real_escape_string($link, $monbib)."' $locCond $servCond) AND orders.stade IN ($listOut) ";
             break;
         case 'all':
             if ($monaut == "sadmin"){}
             else {
-                $conditions = "WHERE orders.bibliotheque = '$monbib' $locCond  $servCond";
+                $conditions = "WHERE orders.bibliotheque = '".mysqli_real_escape_string($link, $monbib)."' $locCond  $servCond";
             }
             break;
         case 'trash':
-            $conditions = "WHERE orders.stade IN ($listTrash) AND orders.bibliotheque = '$monbib' ";
+            $conditions = "WHERE orders.stade IN ($listTrash) AND orders.bibliotheque = '".mysqli_real_escape_string($link, $monbib)."' ";
             break;
         case 'guest':
             /* guest can be either a user with guest credits or a user with an automatic login mail + random password assigned by the system */
-            $reqGuest = "SELECT * FROM users WHERE users.name ='$monnom'";
-            $resGuest = dbquery($reqGuest);
+            $reqGuest = "SELECT * FROM users WHERE users.name = ?";
+            $resGuest = dbquery($reqGuest, array($monnom), "s");
             $nbGuest = iimysqli_num_rows($resGuest);
             if ($nbGuest==1){
                 $guest = iimysqli_result_fetch_array($resGuest);
@@ -147,7 +149,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
             }
             if (empty($mailGuest))
                 $mailGuest = ((!empty($monnom)) && isValidInput($monnom,100,'s',false))?$monnom:'';
-            $conditions = "WHERE orders.mail = '$mailGuest' ";
+            $conditions = "WHERE orders.mail = '".mysqli_real_escape_string($link, $mailGuest)."' ";
             break;
         case 'search':
             require_once ("search.php");
@@ -175,7 +177,7 @@ $debugOn = false;
         $from = (($page * $max_results) - $max_results);
         for ($i=0 ; $i<$total_results ; $i++){
             $currOrder = iimysqli_result_fetch_array($result2);
-            $orderListId[] = $currOrder['illinkid'];
+            $orderListId[] = mysqli_real_escape_string($link, $currOrder['illinkid']);
         }
         $req = "SELECT orders.illinkid, orders.type_doc, orders.date, orders.stade, orders.localisation, orders.nom, orders.prenom, orders.mail, orders.code_postal, orders.adresse, orders.localite, orders.bibliotheque, orders.prepaye, orders.remarques, orders.urgent, orders.service, orders.titre_article,  orders.auteurs, orders.titre_periodique, orders.volume , orders.numero, orders.pages , orders.annee , orders.PMID ".
             "FROM orders ".

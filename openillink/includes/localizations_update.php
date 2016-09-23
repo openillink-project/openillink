@@ -38,17 +38,17 @@ if (!empty($_COOKIE[illinkid])){
     $validActionSet = array('new', 'update', 'delete', 'deleteok');
     $action = ((!empty($_GET['action'])) && isValidInput($_GET['action'],10,'s',false, $validActionSet)) ? $_GET['action'] : NULL;
     if (empty($action))
-        $action = ((!empty($_POST['action'])) && isValidInput($_POST['action'],10,'s',false, $validActionSet)) ? addslashes($_POST['action']):'';
+        $action = ((!empty($_POST['action'])) && isValidInput($_POST['action'],10,'s',false, $validActionSet)) ? $_POST['action']:'';
     if (($monaut == "admin")||($monaut == "sadmin")){
         $mes="";
         $date=date("Y-m-d H:i:s");
-        $code = ((!empty($_POST['code'])) && isValidInput($_POST['code'],50,'s',false))? addslashes(trim($_POST['code'])):'';
-        $name1 = ((!empty($_POST['name1'])) && isValidInput($_POST['name1'],100,'s',false))?addslashes(trim($_POST['name1'])):'';
-        $name2 = ((!empty($_POST['name2'])) && isValidInput($_POST['name2'],100,'s',false))?addslashes(trim($_POST['name2'])):'';
-        $name3 = ((!empty($_POST['name3'])) && isValidInput($_POST['name3'],100,'s',false))?addslashes(trim($_POST['name3'])):'';
-        $name4 = ((!empty($_POST['name4'])) && isValidInput($_POST['name4'],100,'s',false))?addslashes(trim($_POST['name4'])):'';
-        $name5 = ((!empty($_POST['name5'])) && isValidInput($_POST['name5'],100,'s',false))?addslashes(trim($_POST['name5'])):'';
-        $library = ((!empty($_POST['library'])) && isValidInput($_POST['library'],50,'s',false))?addslashes(trim($_POST['library'])):'';
+        $code = ((!empty($_POST['code'])) && isValidInput($_POST['code'],50,'s',false))? trim($_POST['code']):'';
+        $name1 = ((!empty($_POST['name1'])) && isValidInput($_POST['name1'],100,'s',false))?trim($_POST['name1']):'';
+        $name2 = ((!empty($_POST['name2'])) && isValidInput($_POST['name2'],100,'s',false))?trim($_POST['name2']):'';
+        $name3 = ((!empty($_POST['name3'])) && isValidInput($_POST['name3'],100,'s',false))?trim($_POST['name3']):'';
+        $name4 = ((!empty($_POST['name4'])) && isValidInput($_POST['name4'],100,'s',false))?trim($_POST['name4']):'';
+        $name5 = ((!empty($_POST['name5'])) && isValidInput($_POST['name5'],100,'s',false))?trim($_POST['name5']):'';
+        $library = ((!empty($_POST['library'])) && isValidInput($_POST['library'],50,'s',false))?trim($_POST['library']):'';
         if (($action == "update")||($action == "new")){
             // Tester si le code est unique
             $reqcode = "SELECT * FROM localizations WHERE code = ?";
@@ -57,9 +57,9 @@ if (!empty($_COOKIE[illinkid])){
             $enregcode = iimysqli_result_fetch_array($resultcode);
             $idcode = $enregcode['id'];
             if (($nbcode == 1)&&($action == "new"))
-                $mes = $mes . "<br/>le code '" . $code . "' existe déjà dans la base, veuillez choisir un autre";
+                $mes = $mes . "<br/>le code '" . htmlspecialchars($code) . "' existe déjà dans la base, veuillez en choisir un autre";
             if (($nbcode == 1)&&($action != "new")&&($idcode != $id))
-                $mes = $mes . "<br/>le code '" . $code . "' est déjà attribué à une autre localisation, veuillez choisir un autre";
+                $mes = $mes . "<br/>le code '" . htmlspecialchars($code) . "' est déjà attribué à une autre localisation, veuillez en choisir un autre";
             if ($name1 == "")
                 $mes = $mes . "<br/>le nom1 est obligatoire";
             if ($code == "")
@@ -77,7 +77,7 @@ if (!empty($_COOKIE[illinkid])){
                     if ($id != ""){
                         require ("headeradmin.php");
                         $reqid = "SELECT * FROM localizations WHERE id = ?";
-                        $myhtmltitle = $configname[$lang] . " : édition de la fiche localisation $id";
+                        $myhtmltitle = $configname[$lang] . " : édition de la fiche localisation ".htmlspecialchars($id);
                         $resultid = dbquery($reqid, array($id), 'i');
                         $nb = iimysqli_num_rows($resultid);
                         if ($nb == 1){
@@ -86,13 +86,13 @@ if (!empty($_COOKIE[illinkid])){
                             $params = array($name1, $name2, $name3, $name4, $name5, $library, $code, $id);
                             $resultupdate = dbquery($query, $params,'sssssssi') or die("Error : ".mysqli_error());
                             echo "<center><br/><b><font color=\"green\">\n";
-                            echo "La modification de la fiche $id a été enregistrée avec succès</b></font>\n";
+                            echo "La modification de la fiche ".htmlspecialchars($id)." a été enregistrée avec succès</b></font>\n";
                             echo "<br/><br/><br/><a href=\"list.php?table=localizations\">Retour à la liste de localisations</a></center>\n";
                             require ("footer.php");
                         }
                         else{
                             echo "<center><br/><b><font color=\"red\">\n";
-                            echo "La modification n'a pas été enregistrée car l'identifiant de la fiche " . $id . " n'a pas été trouvée dans la base.</b></font>\n";
+                            echo "La modification n'a pas été enregistrée car l'identifiant de la fiche " . htmlspecialchars($id) . " n'a pas été trouvée dans la base.</b></font>\n";
                             echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche ou contactez l'administrateur de la base : " . $configemail . "</b></center><br /><br /><br /><br />\n";
                             require ("footer.php");
                         }
@@ -116,7 +116,7 @@ if (!empty($_COOKIE[illinkid])){
                 $params = array($name1, $name2, $name3, $name4, $name5, $code, $library);
                 $id = dbquery($query, $params, 'sssssss') or die("Error : ".mysqli_error());
                 echo "<center><br/><b><font color=\"green\">\n";
-                echo "La nouvelle fiche $id a été enregistrée avec succès</b></font>\n";
+                echo "La nouvelle fiche ".htmlspecialchars($id)." a été enregistrée avec succès</b></font>\n";
                 echo "<br/><br/><br/><a href=\"list.php?table=localizations\">Retour à la liste de localisations</a></center>\n";
                 echo "</center>\n";
                 echo "\n";
@@ -126,17 +126,17 @@ if (!empty($_COOKIE[illinkid])){
         // Fin de la création
         // Début de la suppresion
         if ($action == "delete"){
-            $id= addslashes(((!empty($_GET['id'])) && isValidInput($_GET['id'],11,'s',false)) ? $_GET['id'] : "");
+            $id= ((!empty($_GET['id'])) && isValidInput($_GET['id'],11,'s',false)) ? $_GET['id'] : "";
             $myhtmltitle = $configname[$lang] . " : confirmation pour la suppresion d'une localisation";
             require ("headeradmin.php");
             echo "<center><br/><br/><br/><b><font color=\"red\">\n";
             echo "Voulez-vous vraiement supprimer la fiche $id?</b></font>\n";
             echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
             echo "<input name=\"table\" type=\"hidden\" value=\"localizations\">\n";
-            echo "<input name=\"id\" type=\"hidden\" value=\"$id\">\n";
+            echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($id)."\">\n";
             echo "<input name=\"action\" type=\"hidden\" value=\"deleteok\">\n";
             echo "<br /><br />\n";
-            echo "<input type=\"submit\" value=\"Confirmer la suppression de la fiche " . $id . " en cliquant ici\">\n";
+            echo "<input type=\"submit\" value=\"Confirmer la suppression de la fiche " . htmlspecialchars($id) . " en cliquant ici\">\n";
             echo "</form>\n";
             echo "<br/><br/><br/><a href=\"list.php?table=localizations\">Retour à la liste des localisations</a></center>\n";
             echo "</center>\n";
@@ -149,7 +149,7 @@ if (!empty($_COOKIE[illinkid])){
             $query = "DELETE FROM localizations WHERE localizations.id = ?";
             $result = dbquery($query, array($id), 'i') or die("Error : ".mysqli_error());
             echo "<center><br/><b><font color=\"green\">\n";
-            echo "La fiche $id a été supprimée avec succès</b></font>\n";
+            echo "La fiche ".htmlspecialchars($id)." a été supprimée avec succès</b></font>\n";
             echo "<br/><br/><br/><a href=\"list.php?table=localizations\">Retour à la liste des localisations</a></center>\n";
             echo "</center>\n";
             echo "\n";

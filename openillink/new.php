@@ -31,9 +31,9 @@ require_once ("includes/authcookie.php");
 require_once ("includes/toolkit.php");
 
 $validTableSet = array('orders', 'users', 'libraries', 'units', 'status', 'localizations', 'links');
-$table = ((!empty($_GET['table'])) && isValidInput($_GET['table'],13,'s',false,$validTableSet))?addslashes($_GET['table']):NULL;
+$table = ((!empty($_GET['table'])) && isValidInput($_GET['table'],13,'s',false,$validTableSet))? $_GET['table']:NULL;
 if (empty($table)){
-    $table = ((!empty($_POST['table'])) && isValidInput($_POST['table'],13,'s',false,$validTableSet))?addslashes($_POST['table']):NULL;
+    $table = ((!empty($_POST['table'])) && isValidInput($_POST['table'],13,'s',false,$validTableSet))? $_POST['table']:NULL;
 }
 
 if (!empty($_COOKIE['illinkid'])){

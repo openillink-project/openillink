@@ -65,8 +65,8 @@ if (!empty($_COOKIE[illinkid])){
                 $namelibraries["de"] = $rowlibraries["name3"];
                 $namelibraries["it"] = $rowlibraries["name4"];
                 $namelibraries["es"] = $rowlibraries["name5"];
-                $optionslibraries.="<option value=\"" . $codelibraries . "\"";
-                $optionslibraries.=">" . $namelibraries[$lang] . "</option>\n";
+                $optionslibraries.="<option value=\"" . htmlspecialchars($codelibraries) . "\"";
+                $optionslibraries.=">" . htmlspecialchars($namelibraries[$lang]) . "</option>\n";
             }
             echo $optionslibraries;
         }

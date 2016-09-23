@@ -89,8 +89,8 @@ if (!empty($_COOKIE[illinkid])){
             $linkposition = $enreg['ordonnancement'];
             $linkactive = $enreg['active'];
             echo "<tr>\n";
-            echo "<td><b>" . $linktitle . "</b></td>\n";
-            echo "<td><a href=\"".$linkurl."\" target=\"_blank\">" . $linkurls . "</a></td>\n";
+            echo "<td><b>" . htmlspecialchars($linktitle) . "</b></td>\n";
+            echo "<td><a href=\"".htmlspecialchars($linkurl)."\" target=\"_blank\">" . htmlspecialchars($linkurls) . "</a></td>\n";
             echo "<td>";
             $separateur = "";
             if ($linksearch_issn == 1){
@@ -126,11 +126,11 @@ if (!empty($_COOKIE[illinkid])){
             }
             echo "</td>\n";
             /*echo "<td>".$linkopenurl."</td>\n";*/
-            echo "<td>".$linklibrary."</td>\n";
-            echo "<td>".$linkposition."</td>\n";
-            echo "<td>".$linkactive."</td>\n";
+            echo "<td>".htmlspecialchars($linklibrary)."</td>\n";
+            echo "<td>".htmlspecialchars($linkposition)."</td>\n";
+            echo "<td>".htmlspecialchars($linkactive)."</td>\n";
             if (($monaut == "admin")||($monaut == "sadmin")){
-                echo "<td><a href=\"edit.php?table=links&id=".$linkid."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
+                echo "<td><a href=\"edit.php?table=links&amp;id=".htmlspecialchars($linkid)."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
             }
             echo "</tr>\n";
         }

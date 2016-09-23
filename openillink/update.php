@@ -33,9 +33,9 @@ require_once ("includes/toolkit.php");
 if (!empty($_COOKIE[illinkid])){
     // switch from table parameter
     $validTableSet = array('orders', 'users', 'libraries', 'units', 'status', 'localizations', 'links');
-    $table = ((!empty($_GET['table'])) && isValidInput($_GET['table'],13,'s',false,$validTableSet))?addslashes($_GET['table']):NULL;
+    $table = ((!empty($_GET['table'])) && isValidInput($_GET['table'],13,'s',false,$validTableSet))? $_GET['table']:NULL;
     if (empty($table))
-        $table = ((!empty($_POST['table'])) && isValidInput($_POST['table'],13,'s',false,$validTableSet))?addslashes($_POST['table']):'';
+        $table = ((!empty($_POST['table'])) && isValidInput($_POST['table'],13,'s',false,$validTableSet))? $_POST['table']:'';
     switch ($table){
         case 'orders':
         require ("includes/orders_update.php");

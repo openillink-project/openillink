@@ -86,16 +86,16 @@ if (!empty($_COOKIE[illinkid])){
         $libdef = $enreg['default'];
         $hasSharedOrders = $enreg['has_shared_ordres'];
         echo "<tr>\n";
-        echo "<td><b>" . $libcode . "</b></td>\n";
-        echo "<td>".$libname1."</td>\n";
+        echo "<td><b>" . htmlspecialchars($libcode) . "</b></td>\n";
+        echo "<td>".htmlspecialchars($libname1)."</td>\n";
         // echo "<td>".$libname2."</td>\n";
         // echo "<td>".$libname3."</td>\n";
         // echo "<td>".$libname4."</td>\n";
         // echo "<td>".$libname5."</td>\n";
-        echo "<td>".$libdef."</td>\n";
-        echo "<td>".$hasSharedOrders."</td>\n";
+        echo "<td>".htmlspecialchars($libdef)."</td>\n";
+        echo "<td>".htmlspecialchars($hasSharedOrders)."</td>\n";
         if ((($monaut == "admin")&&($admin > 1))||($monaut == "sadmin")){
-            echo "<td><a href=\"edit.php?table=libraries&id=".$libid."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
+            echo "<td><a href=\"edit.php?table=libraries&id=".htmlspecialchars($libid)."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
         }
         echo "</tr>\n";
     }

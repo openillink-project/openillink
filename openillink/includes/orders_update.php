@@ -100,8 +100,8 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
             $pid= ((!empty($_POST['pid'])) && isValidInput($_POST['pid'],50,'s',false)) ? $_POST['pid'] : NULL;
             $bibliotheque = ((!empty($_POST['bibliotheque'])) && isValidInput($_POST['bibliotheque'],50,'s',false)) ? $_POST['bibliotheque'] : NULL;
             $source=((!empty($_POST['source'])) && isValidInput($_POST['source'],20,'s',false)) ? $_POST['source']:NULL;
-            $nom=((!empty($_POST['nom'])) && isValidInput($_POST['nom'],100,'s',false)) ? addslashes($_POST['nom']): NULL;
-            $prenom=((!empty($_POST['prenom'])) && isValidInput($_POST['prenom'],100,'s',false)) ? addslashes($_POST['prenom']):NULL;
+            $nom=((!empty($_POST['nom'])) && isValidInput($_POST['nom'],100,'s',false)) ? $_POST['nom']: NULL;
+            $prenom=((!empty($_POST['prenom'])) && isValidInput($_POST['prenom'],100,'s',false)) ? $_POST['prenom']:NULL;
             $service=((!empty($_POST['service'])) && isValidInput($_POST['service'],20,'s',false)) ? $_POST['service']:NULL;
             $prix=((!empty($_POST['prix'])) && isValidInput($_POST['prix'],4,'s',false)) ? $_POST['prix']:NULL;
             $prepaye=((!empty($_POST['avance'])) && isValidInput($_POST['avance'],3,'s',false)) ? $_POST['avance']:NULL;
@@ -111,13 +111,13 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
             $servautre = ((!empty($_POST['servautre'])) && isValidInput($_POST['servautre'],50,'s',false)) ? $_POST['servautre']:NULL;
             if (($servautre!='') && ($servautre!=$service))
                 $service=$servautre;
-            $cgra=((!empty($_POST['cgra'])) && isValidInput($_POST['cgra'],10,'s',false)) ? addslashes($_POST['cgra']):NULL;
-            $cgrb=((!empty($_POST['cgrb'])) && isValidInput($_POST['cgrb'],10,'s',false)) ? addslashes($_POST['cgrb']):NULL;
+            $cgra=((!empty($_POST['cgra'])) && isValidInput($_POST['cgra'],10,'s',false)) ? $_POST['cgra']:NULL;
+            $cgrb=((!empty($_POST['cgrb'])) && isValidInput($_POST['cgrb'],10,'s',false)) ? $_POST['cgrb']:NULL;
             $mail=((!empty($_POST['mail'])) && isValidInput($_POST['mail'],100,'s',false)) ? trim($_POST['mail']):NULL;
-            $tel=((!empty($_POST['tel'])) && isValidInput($_POST['tel'],20,'s',false)) ? addslashes($_POST['tel']):NULL;
-            $adresse=((!empty($_POST['adresse'])) && isValidInput($_POST['adresse'],255,'s',false)) ? addslashes($_POST['adresse']):NULL;
-            $postal=((!empty($_POST['postal'])) && isValidInput($_POST['postal'],10,'s',false)) ?addslashes($_POST['postal']):NULL;
-            $localite=((!empty($_POST['localite'])) && isValidInput($_POST['localite'],50,'s',false)) ? addslashes($_POST['localite']):NULL;
+            $tel=((!empty($_POST['tel'])) && isValidInput($_POST['tel'],20,'s',false)) ? $_POST['tel']:NULL;
+            $adresse=((!empty($_POST['adresse'])) && isValidInput($_POST['adresse'],255,'s',false)) ? $_POST['adresse']:NULL;
+            $postal=((!empty($_POST['postal'])) && isValidInput($_POST['postal'],10,'s',false)) ?$_POST['postal']:NULL;
+            $localite=((!empty($_POST['localite'])) && isValidInput($_POST['localite'],50,'s',false)) ? $_POST['localite']:NULL;
             $envoi=((!empty($_POST['envoi'])) && isValidInput($_POST['envoi'],50,'s',false)) ?$_POST['envoi']:NULL;
             $tid = ((!empty($_POST['tid'])) && isValidInput($_POST['tid'],4,'s',false, array('pmid','doi'))) ?$_POST['tid']:NULL;
             $uids = trim($_POST['uids']);
@@ -130,15 +130,15 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
                 $doi=$uids;
             }
             $typedoc=((!empty($_POST['genre'])) && isValidInput($_POST['genre'],50,'s',false)) ?$_POST['genre']:NULL;
-            $journal=((!empty($_POST['title'])) && isValidInput($_POST['title'],1000,'s',false)) ?addslashes(trim($_POST['title'])):NULL;
-            $annee=((!empty($_POST['date'])) && isValidInput($_POST['date'],10,'s',false)) ?addslashes(trim($_POST['date'])):NULL;
+            $journal=((!empty($_POST['title'])) && isValidInput($_POST['title'],1000,'s',false)) ?trim($_POST['title']):NULL;
+            $annee=((!empty($_POST['date'])) && isValidInput($_POST['date'],10,'s',false)) ?trim($_POST['date']):NULL;
             $vol=((!empty($_POST['volume'])) && isValidInput($_POST['volume'],50,'s',false)) ?$_POST['volume']:NULL;
             $no=((!empty($_POST['issue'])) && isValidInput($_POST['issue'],100,'s',false)) ?$_POST['issue']:NULL;
             $suppl=((!empty($_POST['suppl'])) && isValidInput($_POST['suppl'],100,'s',false)) ?$_POST['suppl']:NULL;
             $pages=((!empty($_POST['pages'])) && isValidInput($_POST['pages'],50,'s',false)) ?$_POST['pages']:NULL;
-            $titre=((!empty($_POST['atitle'])) && isValidInput($_POST['atitle'],1000,'s',false)) ?addslashes(trim($_POST['atitle'])):NULL;
-            $auteurs=((!empty($_POST['auteurs'])) && isValidInput($_POST['auteurs'],255,'s',false)) ?addslashes($_POST['auteurs']):NULL;
-            $edition=((!empty($_POST['edition'])) && isValidInput($_POST['edition'],100,'s',false)) ?addslashes($_POST['edition']):NULL;
+            $titre=((!empty($_POST['atitle'])) && isValidInput($_POST['atitle'],1000,'s',false)) ? trim($_POST['atitle']):NULL;
+            $auteurs=((!empty($_POST['auteurs'])) && isValidInput($_POST['auteurs'],255,'s',false)) ? $_POST['auteurs']:NULL;
+            $edition=((!empty($_POST['edition'])) && isValidInput($_POST['edition'],100,'s',false)) ? $_POST['edition']:NULL;
             $issn = ((!empty($_POST['issn'])) && isValidInput($_POST['issn'],50, 's', false))?$_POST['issn']:NULL;
             if (!empty($issn)){
                 if ( in_array($typedoc, array('book', 'bookitem', 'proceeding', 'conference'), true)){
@@ -161,9 +161,9 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
                 if(ereg("pmid:",$uid))
                     $pmid=str_replace("pmid:","",$uid);
             }
-            $remarques=((!empty($_POST['remarques'])) && isValidInput($_POST['remarques'],4000, 's', false))?addslashes($_POST['remarques']):NULL;
-            $remarquespub=((!empty($_POST['remarquespub'])) && isValidInput($_POST['remarquespub'],4000, 's', false))?addslashes($_POST['remarquespub']):NULL;
-            $modifs=((!empty($_POST['modifs'])) && isValidInput($_POST['modifs'],4000, 's', false))?addslashes($_POST['modifs']):NULL;
+            $remarques=((!empty($_POST['remarques'])) && isValidInput($_POST['remarques'],4000, 's', false))? $_POST['remarques']:NULL;
+            $remarquespub=((!empty($_POST['remarquespub'])) && isValidInput($_POST['remarquespub'],4000, 's', false))? $_POST['remarquespub']:NULL;
+            $modifs=((!empty($_POST['modifs'])) && isValidInput($_POST['modifs'],4000, 's', false))? $_POST['modifs']:NULL;
             $ip=$_SERVER['REMOTE_ADDR'];
             $historique=(((!empty($_POST['historique'])) && isValidInput($_POST['historique'],4000, 's', false))?$_POST['historique']:'').'<br /> Commande modifiée par ' . $monnom . ' le ' . $date2;
             if ($modifs)
@@ -197,97 +197,97 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
                 echo "<table align=\"center\">\n";
                 echo "</td></tr>\n";
                 echo "<tr><td width=\"90\"><b>Commande</b></td>\n";
-                echo "<td><b>".$id."</b></td></tr>\n";
+                echo "<td><b>".htmlspecialchars($id)."</b></td></tr>\n";
                 echo "<tr><td width=\"90\"><b>Nom</b></td>\n";
-                echo "<td>".$nom.", ".$prenom."</td></tr>\n";
+                echo "<td>".htmlspecialchars($nom).", ".htmlspecialchars($prenom)."</td></tr>\n";
                 if ($mail) {
                     echo "<tr><td width=\"90\"><b>Courriel</b></td>\n";
-                    echo "<td>".$mail."</td></tr>\n";
+                    echo "<td>".htmlspecialchars($mail)."</td></tr>\n";
                 }
                 if ($service) {
                     echo "<tr><td width=\"90\"><b>Service</b></td>\n";
-                    echo "<td>".$service."</td></tr>\n";
+                    echo "<td>".htmlspecialchars($service)."</td></tr>\n";
                 }
                 if ($tel) {
                     echo "<tr><td width=\"90\"><b>Tél.</b></td>\n";
-                    echo "<td>" . stripslashes($tel) . "</td></tr>\n";
+                    echo "<td>" . htmlspecialchars($tel) . "</td></tr>\n";
                 }
                 if ($adresse) {
                     echo "<tr><td width=\"90\"><b>Adresse</b></td>\n";
-                    echo "<td>" . stripslashes($adresse) . " ; " . stripslashes($postal) . ", " . stripslashes($localite) ."</td></tr>\n";
+                    echo "<td>" . htmlspecialchars($adresse) . " ; " . htmlspecialchars($postal) . ", " . htmlspecialchars($localite) ."</td></tr>\n";
                 }
                 echo "<tr><td width=\"90\"><b>Document</b></td>\n";
-                echo "<td>$typedoc</td></tr>\n";
+                echo "<td>".htmlspecialchars($typedoc)."</td></tr>\n";
                 if ($titre) {
                     echo "<tr><td width=\"90\"><b>Titre</b></td>\n";
-                    echo "<td>" . stripslashes($titre) . "</td></tr>\n";
+                    echo "<td>" . htmlspecialchars($titre) . "</td></tr>\n";
                 }
                 if ($auteurs) {
                     echo "<tr><td width=\"90\"><b>Auteurs</b></td>\n";
-                    echo "<td>" . stripslashes($auteurs) . "</td></tr>\n";
+                    echo "<td>" . htmlspecialchars($auteurs) . "</td></tr>\n";
                 }
                 if ($typedoc=='Article')
                     echo "<tr><td width=\"90\"><b>Périodique</b></td>\n";
                 else
                     echo "<tr><td width=\"90\"><b>Titre du livre</b></td>\n";
-                echo "<td>" . stripslashes($journal) . "</td>\n";
+                echo "<td>" . htmlspecialchars($journal) . "</td>\n";
                 echo "</tr><tr>\n";
                 if ($annee) {
                     echo "<td width=\"90\"><b>Année</b></td>\n";
-                    echo "<td>$annee</td></tr>\n";
+                    echo "<td>".htmlspecialchars($annee)."</td></tr>\n";
                 }
                 if ($vol) {
                     echo "<tr><td  width=\"90\" valign=\"top\"><b>Volume</b></td>\n";
-                    echo "<td>$vol</td></tr>\n";
+                    echo "<td>".htmlspecialchars($vol)."</td></tr>\n";
                 }
                 if ($no) {
                     echo "<tr><td  width=\"90\" valign=\"top\"><b>Numéro</b></td>\n";
-                    echo "<td>$no</td></tr>\n";
+                    echo "<td>".htmlspecialchars($no)."</td></tr>\n";
                 }
                 if ($suppl) {
                     echo "<tr><td  width=\"90\" valign=\"top\"><b>Suppl.</b></td>\n";
-                    echo "<td>$suppl</td></tr>\n";
+                    echo "<td>".htmlspecialchars($suppl)."</td></tr>\n";
                 }
                 if ($pages) {
                     echo "<tr><td  width=\"90\" valign=\"top\"><b>Pages</b></td>\n";
-                    echo "<td>$pages</td></tr>\n";
+                    echo "<td>".htmlspecialchars($pages)."</td></tr>\n";
                 }
                 if ($edition) {
                     echo "<tr><td  width=\"90\" valign=\"top\"><b>Edition</b></td>\n";
-                    echo "<td>".stripslashes($edition)."</td></tr>\n";
+                    echo "<td>".htmlspecialchars($edition)."</td></tr>\n";
                 }
                 if ($isbn) {
                     echo "<tr><td  width=\"90\" valign=\"top\"><b>ISBN</b></td>\n";
-                    echo "<td>$isbn</td></tr>\n";
+                    echo "<td>".htmlspecialchars($isbn)."</td></tr>\n";
                 }
                 if ($issn) {
                     echo "<tr><td  width=\"90\" valign=\"top\"><b>ISSN</b></td>\n";
-                    echo "<td>$issn</td></tr>\n";
+                    echo "<td>".htmlspecialchars($issn)."</td></tr>\n";
                 }
                 if ($pmid) {
                     echo "<tr><td  width=\"90\" valign=\"top\"><b>PMID</b></td>\n";
-                    echo "<td>$pmid</td></tr>\n";
+                    echo "<td>".htmlspecialchars($pmid)."</td></tr>\n";
                 }
                 if ($doi) {
                     echo "<tr><td  width=\"90\" valign=\"top\"><b>DOI</b></td>\n";
-                    echo "<td>$doi</td></tr>\n";
+                    echo "<td>".htmlspecialchars($doi)."</td></tr>\n";
                 }
                 if ($uid) {
                     echo "<tr><td  width=\"90\" valign=\"top\"><b>UID</b></td>\n";
-                    echo "<td>$uid</td></tr>\n";
+                    echo "<td>".htmlspecialchars($uid)."</td></tr>\n";
                 }
                 if ($remarques) {
                     echo "<tr><td  width=\"90\" valign=\"top\"><b>Commentaire professionnel</b></td>\n";
-                    echo "<td>".stripslashes(nl2br($remarques))."</td></tr>\n";
+                    echo "<td>".nl2br(htmlspecialchars($remarques))."</td></tr>\n";
                 }
                 if ($remarquespub) {
                     echo "<tr><td  width=\"90\" valign=\"top\"><b>Commentaire public</b></td>\n";
-                    echo "<td>".stripslashes(nl2br($remarquespub))."</td></tr>\n";
+                    echo "<td>".nl2br(htmlspecialchars($remarquespub))."</td></tr>\n";
                 }
                 /*echo "<tr><td>localisation:</td><td>$localisation;</td></tr>\n";*/
                 echo "</table>\n";
                 echo "<div class=\"hr\"><hr></div>\n";
-                echo "<b><center><a href=\"detail.php?table=orders&id=".$id."\">Retourner à la fiche de commande</a></center></b>\n";
+                echo "<b><center><a href=\"detail.php?table=orders&amp;id=".htmlspecialchars($id)."\">Retourner à la fiche de commande</a></center></b>\n";
                 echo "</div></div><div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
             }
         }
@@ -301,16 +301,16 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
     // Début de la suppresion
     if ($action == "delete"){
         if (($monaut == "admin")||($monaut == "sadmin")){
-            $myhtmltitle = $configname[$lang] . " : confirmation pour la suppresion de la commande " . $id;
+            $myhtmltitle = $configname[$lang] . " : confirmation pour la suppresion de la commande " . htmlspecialchars($id);
             require ("headeradmin.php");
             echo "<center><br/><br/><br/><b><font color=\"red\">\n";
-            echo "Voulez-vous vraiement supprimer la fiche " . $id . "?</b></font>\n";
+            echo "Voulez-vous vraiement supprimer la fiche " . htmlspecialchars($id) . "?</b></font>\n";
             echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
             echo "<input name=\"table\" type=\"hidden\" value=\"orders\">\n";
-            echo "<input name=\"id\" type=\"hidden\" value=\"".$id."\">\n";
+            echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($id)."\">\n";
             echo "<input name=\"action\" type=\"hidden\" value=\"deleteok\">\n";
             echo "<br /><br />\n";
-            echo "<input type=\"submit\" value=\"Confirmer la suppression de la fiche " . $id . " en cliquant ici\">\n";
+            echo "<input type=\"submit\" value=\"Confirmer la suppression de la fiche " . htmlspecialchars($id) . " en cliquant ici\">\n";
             echo "</form>\n";
             echo "<br/><br/><br/><a href=\"list.php?table=orders\">Retour à la liste des commandes</a></center>\n";
             echo "</center>\n";
@@ -327,12 +327,12 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
     if ($action == "deleteok"){
         if (($monaut == "admin")||($monaut == "sadmin")){
             $id = ((!empty($_POST['id'])) && isValidInput($_POST['id'],8,'i',false)) ? $_POST['id'] : NULL;
-            $myhtmltitle = $configname[$lang] . " : suppresion de la commande " . $id;
+            $myhtmltitle = $configname[$lang] . " : suppresion de la commande " . htmlspecialchars($id);
             require ("headeradmin.php");
             $query = "DELETE FROM orders WHERE orders.illinkid = ?";
             $result = dbquery($query, array($id), 's') or die("Error : ".mysqli_error());
             echo "<center><br/><b><font color=\"green\">\n";
-            echo "La fiche " . $id . " a été supprimée avec succès</b></font>\n";
+            echo "La fiche " . htmlspecialchars($id) . " a été supprimée avec succès</b></font>\n";
             echo "<br/><br/><br/><a href=\"list.php?table=orders\">Retour à la liste des commandes</a></center>\n";
             echo "</center>\n";
             echo "\n";

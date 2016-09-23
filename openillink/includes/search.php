@@ -28,13 +28,15 @@
 //
 require_once ("toolkit.php");
 
+$link = dbconnect();
+
 if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
 
     // Add filter when logged a guest
     if ($monaut == 'guest'){
         /* guest can be either a user with guest credits or a user with an automatic login mail + random password assigned by the system */
-        $reqGuest = "SELECT * FROM users WHERE users.name ='$monnom'";
-        $resGuest = dbquery($reqGuest);
+        $reqGuest = "SELECT * FROM users WHERE users.name = ?";
+        $resGuest = dbquery($reqGuest, array($monnom), "s");
         $nbGuest = iimysqli_num_rows($resGuest);
         if ($nbGuest==1){
             $guest = iimysqli_result_fetch_array($resGuest);
@@ -44,8 +46,8 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
             $mailGuest = ((!empty($monnom)) && isValidInput($monnom,100,'s',false))?$monnom:'';
         
         //$guestFilter = "mail = '".((isset($monnom) && isValidInput($monnom,100,'s',false))? $monnom : '')."' AND ";
-        $guestFilter = "mail = '".$mailGuest."' AND ";
-        $guestFilterAlone = "mail = '".$mailGuest."'";
+        $guestFilter = "mail = '". mysqli_real_escape_string($link, $mailGuest)."' AND ";
+        $guestFilterAlone = "mail = '".mysqli_real_escape_string($link, $mailGuest)."'";
     }
     else
         $guestFilter = '';
@@ -56,7 +58,7 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
     if (!empty($statuscode)) {
         $statuscode = str_replace('_st','',$statuscode);
         $statut = isValidInput($statuscode,6,'s',false)?$statuscode:'';
-        $filtreStatut = "  stade = ".intval($statut)." ";
+        $filtreStatut = "  stade = ".mysqli_real_escape_string($link, $statut)." ";
     }
     $champValides = array('id', 'datecom', 'dateenv', 'datefact', 'statut', 'localisation', 'nom', 'email', 'service', 'issn', 'pmid', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all');
     $champ = ((!empty($_GET['champ'])) && isValidInput($_GET['champ'], 15, 's', false, $champValides))?$_GET['champ']:'';
@@ -67,108 +69,108 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
         if($champ == 'id'){
             $id = isValidInput($term,8,'i',false)?$term:'';
             $req2 = "SELECT illinkid FROM orders";
-            $conditions = " WHERE $guestFilter illinkid = '$id' ";
+            $conditions = " WHERE $guestFilter illinkid = '".mysqli_real_escape_string($link,$id)."' ";
         }
         if($champ == 'atitle'){
-            $atitle = urldecode($term);
+            $atitle = $term;
             $atitle = strtr($atitle, ' ', '%');
             $atitle = strtr($atitle, "'", '%');
             $atitle = '%'.$atitle.'%';
             $req2 = "SELECT illinkid FROM orders";
-            $conditions = " WHERE ".$guestFilter." titre_article LIKE '$atitle'";
+            $conditions = " WHERE ".$guestFilter." titre_article LIKE '".mysqli_real_escape_string($link, $atitle)."'";
         }
         if($champ == 'auteurs'){
-            $atitle = urldecode($term);
+            $atitle = $term;
             $atitle = strtr($atitle, ' ', '%');
             $atitle = strtr($atitle, "'", '%');
             $atitle = '%'.$atitle.'%';
             $req2 = "SELECT illinkid FROM orders";
-            $conditions = " WHERE ".$guestFilter." auteurs like '$atitle'";
+            $conditions = " WHERE ".$guestFilter." auteurs like '".mysqli_real_escape_string($link, $atitle)."'";
         }
         if($champ == 'title'){
-            $title = urldecode($term);
+            $title = $term;
             $title = strtr($title, ' ', '%');
             $title = strtr($title, "'", '%');
             $title = '%'.$title.'%';
             $req2 = "SELECT illinkid FROM orders";
-            $conditions = " WHERE ".$guestFilter." titre_periodique like '$title'";
+            $conditions = " WHERE ".$guestFilter." titre_periodique like '".mysqli_real_escape_string($link, $title)."'";
         }
         if($champ == 'datecom'){
             $datecom = validateDate($term)?$term:'';
             $req2 = "SELECT illinkid FROM orders";
-            $conditions = " WHERE ".$guestFilter." date = '$datecom'";
+            $conditions = " WHERE ".$guestFilter." date = '".mysqli_real_escape_string($link, $datecom)."'";
         }
         if($champ == 'dateenv'){
             $dateenv = validateDate($term)?$term:'';
             $req2 = "SELECT illinkid FROM orders ";
-            $conditions = " WHERE ".$guestFilter." envoye = '$dateenv'";
+            $conditions = " WHERE ".$guestFilter." envoye = '".mysqli_real_escape_string($link, $dateenv)."'";
         }
         if($champ == 'datefact'){
             $datefact = validateDate($term)?$term:'';
             $req2 = "SELECT illinkid FROM orders ";
-            $conditions = " WHERE ".$guestFilter." facture = '$datefact'";
+            $conditions = " WHERE ".$guestFilter." facture = '".mysqli_real_escape_string($link, $datefact)."'";
         }
         if($champ == 'service'){
             $service = isValidInput($term,20,'s',false)?$term:'';
             $req2 = "SELECT illinkid FROM orders ";
-            $conditions = " WHERE $guestFilter service like '$service'";
+            $conditions = " WHERE $guestFilter service like '".mysqli_real_escape_string($link, $service)."'";
         }
         if($champ == 'issn'){
             $issn = isValidInput($term,50,'s',false)?$term:'';
             $title = '%'.$issn.'%';
             $req2 = "SELECT illinkid FROM orders ";
-            $conditions = " WHERE  (issn like '$issn' or eissn like '$issn') and mail = '$monnom'";
+            $conditions = " WHERE  (issn like '".mysqli_real_escape_string($link, $issn)."' or eissn like '".mysqli_real_escape_string($link, $issn)."') and mail = '".mysqli_real_escape_string($link, $monnom)."'";
         }
         if($champ == 'pmid'){
             $pmid = isValidInput($term,50,'s',false)?$term:'';
             $req2 = "SELECT illinkid FROM orders ";
-            $conditions = " WHERE ".$guestFilter." PMID like '$pmid'";
+            $conditions = " WHERE ".$guestFilter." PMID like '".mysqli_real_escape_string($link, $pmid)."'";
         }
         if($champ == 'localisation'){
             $localisation = isValidInput($term,20,'s',false)?$term:'';
             $req2 = "SELECT illinkid FROM orders ";
-            $conditions = " WHERE ".$guestFilter." localisation like '$localisation'";
+            $conditions = " WHERE ".$guestFilter." localisation like '".mysqli_real_escape_string($link, $localisation)."'";
             }
         if($champ == 'reff'){
             $reff = isValidInput($term,50,'s',false)?'%'.$term.'%':'';
             $req2 = "SELECT illinkid FROM orders ";
-            $conditions = " WHERE ".$guestFilter." ref like '$reff'";
+            $conditions = " WHERE ".$guestFilter." ref like '".mysqli_real_escape_string($link, $reff)."'";
         }
         if($champ == 'refb'){
             $refb = isValidInput($term,50,'s',false)?'%'.$term.'%':'';
             $req2 = "SELECT illinkid FROM orders ";
-            $conditions = " WHERE ".$guestFilter." and refinterbib like '$refb'";
+            $conditions = " WHERE ".$guestFilter." and refinterbib like '".mysqli_real_escape_string($link, $refb)."'";
         }
         if($champ == 'email' && $guestFilter===''){
             $emailr = '%'.$term.'%';
             $req2 = "SELECT illinkid FROM orders ";
-            $conditions = " WHERE mail like '$emailr'";
+            $conditions = " WHERE mail like '".mysqli_real_escape_string($link, $emailr)."'";
         }
         if($champ == 'all'){
-            $all = urldecode($term);
+            $all = $term;
             $all = strtr($all, ' ', '%');
             $all = strtr($all, "'", '%');
-            $all = '%'.$all.'%';
+            $all = '%'. mysqli_real_escape_string($link, $all).'%';
             $req2 = "SELECT illinkid FROM orders ";
             $conditions = " WHERE ".$guestFilter." ((illinkid like '$all') or (localisation like '$all') or (ref like '$all') or (nom like '$all') or (prenom like '$all') or (service like '$all') or (cgra like '$all') or (cgrb like '$all') or (mail like '$all') or (tel like '$all') or (adresse like '$all') or (code_postal like '$all') or (localite like '$all') or (envoi_par like '$all') or (titre_periodique like '$all') or (annee like '$all') or (volume like '$all') or (numero like '$all') or (supplement like '$all') or (pages like '$all') or (titre_article like '$all') or (auteurs like '$all') or (edition like '$all') or (isbn like '$all') or (issn like '$all') or (eissn like '$all') or (doi like '$all') or (uid like '$all') or (remarques like '$all') or (remarquespub like '$all') or (historique like '$all') or (refinterbib like '$all') or (PMID like '$all') or (ip like '$all'))";
         }
         if($champ == 'nom'){
-            $pos1 = strpos(urldecode($term),',');
-            $pos2 = strpos(urldecode($term),' ');
+            $pos1 = strpos($term,',');
+            $pos2 = strpos($term,' ');
             if (($pos1 === false)&&($pos2 === false)){
-                $nom='%'.urldecode($term).'%';
+                $nom='%'.$term.'%';
                 $req2 = "SELECT illinkid FROM orders ";
-                $conditions = " WHERE ".$guestFilter." (nom like '$nom' OR prenom like 'nom')";
+                $conditions = " WHERE ".$guestFilter." (nom like '".mysqli_real_escape_string($link, $nom)."' OR prenom like '".mysqli_real_escape_string($link, $nom)."')";
             }
             else{
                 if ($pos1 === false)
                     $pos=$pos2;
                 else
                     $pos=$pos1;
-                $nom=trim(substr(urldecode($term),0,$pos));
-                $prenom=trim(substr(urldecode($term),$pos+1));
+                $nom=trim(substr($term,0,$pos));
+                $prenom=trim(substr($term,$pos+1));
                 $req2 = "SELECT illinkid FROM orders ";
-                $conditions = " WHERE ".$guestFilter." (nom like '$nom' AND prenom like '$prenom')";
+                $conditions = " WHERE ".$guestFilter." (nom like '".mysqli_real_escape_string($link, $nom)."' AND prenom like '".mysqli_real_escape_string($link, $prenom)."')";
             }
         }
         $conditions = (empty($conditions)?' WHERE ':$conditions).(empty($filtreStatut)?'':' AND '.$filtreStatut);

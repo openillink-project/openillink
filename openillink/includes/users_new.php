@@ -71,10 +71,10 @@ if (!empty($_COOKIE[illinkid])){
                 $namelibraries["de"] = $rowlibraries["name3"];
                 $namelibraries["it"] = $rowlibraries["name4"];
                 $namelibraries["es"] = $rowlibraries["name5"];
-                $optionslibraries.="<option value=\"" . $codelibraries . "\"";
+                $optionslibraries.="<option value=\"" . htmlspecialchars($codelibraries) . "\"";
                 if ($monbib == $rowlibraries["code"])
                     $optionslibraries.=" selected=\"selected\" ";
-                $optionslibraries.=">" . $namelibraries[$lang] . "</option>\n";
+                $optionslibraries.=">" . htmlspecialchars($namelibraries[$lang]) . "</option>\n";
             }
             echo $optionslibraries;
         }

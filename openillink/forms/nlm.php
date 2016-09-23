@@ -70,9 +70,9 @@ $replaceby[0] = $replace[0] . " checked ";
 
 // Authorized by
 $replace[1] = "id=\"authFirstName\" value=\"\"";
-$replaceby[1] = "id=\"authFirstName\" value=\"" . stripslashes($enreg['prenom']) . "\"";
+$replaceby[1] = "id=\"authFirstName\" value=\"" . htmlspecialchars($enreg['prenom']) . "\"";
 $replace[2] = "id=\"authLastName\" value=\"\"";
-$replaceby[2] = "id=\"authLastName\" value=\"" . stripslashes($enreg['nom']) . "\"";
+$replaceby[2] = "id=\"authLastName\" value=\"" . htmlspecialchars($enreg['nom']) . "\"";
 // Contact Person
 $replace[3] = "id=\"contactFirstName\" value=\"\"";
 $replaceby[3] = "id=\"contactFirstName\" value=\"".$configillmanagerfirstname."\""; 
@@ -90,47 +90,47 @@ $replaceby[8] = "id=\"email\" value=\"".$configemaildelivery."\""; //
 // Request Information
 if ($enreg['PMID']){
     $replace[9] = "id=\"pubmedid\" value=\"\"";
-    $replaceby[9] = "id=\"pubmedid\" value=\"" . stripslashes($enreg['PMID']) . "\"";
+    $replaceby[9] = "id=\"pubmedid\" value=\"" . htmlspecialchars($enreg['PMID']) . "\"";
 }
 if ($enreg['issn']){
     $replace[11] = "id=\"BookNumber\" value=\"\"";
-    $replaceby[11] = "id=\"BookNumber\" value=\"" . stripslashes($enreg['issn']) . "\"";
+    $replaceby[11] = "id=\"BookNumber\" value=\"" . htmlspecialchars($enreg['issn']) . "\"";
 }
 if ($enreg['titre_periodique']){
     $replace[12] = "id=\"title\" value=\"\"";
-    $replaceby[12] = "id=\"title\" value=\"" . stripslashes($enreg['titre_periodique']) . "\"";
+    $replaceby[12] = "id=\"title\" value=\"" . htmlspecialchars($enreg['titre_periodique']) . "\"";
 }
 if ($enreg['auteurs']){
     $replace[13] = "id=\"author\" value=\"\"";
-    $replaceby[13] = "id=\"author\" value=\"" . stripslashes($enreg['auteurs']) . "\"";
+    $replaceby[13] = "id=\"author\" value=\"" . htmlspecialchars($enreg['auteurs']) . "\"";
 }
 if ($enreg['titre_article']){
     $replace[14] = "id=\"article\" value=\"\"";
-    $replaceby[14] = "id=\"article\" value=\"" . stripslashes($enreg['titre_article']) . "\"";
+    $replaceby[14] = "id=\"article\" value=\"" . htmlspecialchars($enreg['titre_article']) . "\"";
 }
 if ($enreg['auteurs']){
     $replace[15] = "id=\"articleauthor\" value=\"\"";
-    $replaceby[15] = "id=\"articleauthor\" value=\"" . stripslashes($enreg['auteurs']) . "\"";
+    $replaceby[15] = "id=\"articleauthor\" value=\"" . htmlspecialchars($enreg['auteurs']) . "\"";
 }
 if ($_GET['publisher']){
     $replace[16] = "id=\"publisher\" value=\"\"";
-    $replaceby[16] = "id=\"publisher\" value=\"" . stripslashes($enreg['auteurs']) . "\"";
+    $replaceby[16] = "id=\"publisher\" value=\"" . htmlspecialchars($enreg['auteurs']) . "\"";
 }
 if ($enreg['annee']){
     $replace[17] = "id=\"year\" value=\"\"";
-    $replaceby[17] = "id=\"year\" value=\"" . stripslashes($enreg['annee']) . "\"";
+    $replaceby[17] = "id=\"year\" value=\"" . htmlspecialchars($enreg['annee']) . "\"";
 }
 if ($enreg['volume']){
     $replace[18] = "id=\"volume\" value=\"\"";
-    $replaceby[18] = "id=\"volume\" value=\"" . stripslashes($enreg['volume']) . "\"";
+    $replaceby[18] = "id=\"volume\" value=\"" . htmlspecialchars($enreg['volume']) . "\"";
 }
 if ($enreg['issue']){
     $replace[19] = "id=\"issue\" value=\"\"";
-    $replaceby[19] = "id=\"issue\" value=\"" . stripslashes($enreg['issue']) . "\"";
+    $replaceby[19] = "id=\"issue\" value=\"" . htmlspecialchars($enreg['issue']) . "\"";
 }
 if ($enreg['pages']){
     $replace[20] = "id=\"pages\" value=\"\"";
-    $replaceby[20] = "id=\"pages\" value=\"" . stripslashes($enreg['pages']) . "\"";
+    $replaceby[20] = "id=\"pages\" value=\"" . htmlspecialchars($enreg['pages']) . "\"";
 }
 if (($enreg['type_doc'] != "article")&&($enreg['type_doc'] != "bookitem")&&($enreg['type_doc'] != "")){
     $replace[20] = "value=\"Journal\" checked />";
@@ -142,15 +142,15 @@ $replace[22] = "id=\"willingtopay\" value=\"\"";
 $replaceby[22] = "id=\"willingtopay\" value=\"".$configillmaxprice."\"";
 if ($enreg['nom']){
     $replace[23] = "id=\"patronname\" value=\"\"";
-    $replaceby[23] = "id=\"patronname\" value=\"" . stripslashes($enreg['nom']) . "\"";
+    $replaceby[23] = "id=\"patronname\" value=\"" . htmlspecialchars($enreg['nom']) . "\"";
 }
 if ($enreg['remarques']){
-    $commentaire = stripslashes($enreg['remarques']);
+    $commentaire = htmlspecialchars($enreg['remarques']);
 }
 else{
-    $commentaire = (isset($enreg['nom']) && isValidInput($enreg['nom'],100,'s',false))? stripslashes($enreg['nom'].", "):"";
-    $commentaire .= (isset($enreg['prenom']) && isValidInput($enreg['prenom'],100,'s',false))?stripslashes($enreg['prenom']." "):"";
-    $commentaire .= (isset($enreg['illinkid']) && isValidInput($enreg['illinkid'],8,'i',false))? "(Ref interne:".$enreg['illinkid'].")":"";
+    $commentaire = ((!empty($enreg['nom'])) && isValidInput($enreg['nom'],100,'s',false))? htmlspecialchars($enreg['nom'].", "):"";
+    $commentaire .= ((!empty($enreg['prenom'])) && isValidInput($enreg['prenom'],100,'s',false))?htmlspecialchars($enreg['prenom']." "):"";
+    $commentaire .= ((!empty($enreg['illinkid'])) && isValidInput($enreg['illinkid'],8,'i',false))? "(Ref interne:".htmlspecialchars($enreg['illinkid']).")":"";
 }
 $replace[24] = '<textarea name="comments" id="comments" value="" onkeyup="return ismaxlength(this)" cols="60" rows="2" maxlength="128"></textarea>';
 $replaceby[24] = '<textarea name="comments" id="comments" value="" onkeyup="return ismaxlength(this)" cols="60" rows="2" maxlength="128">' . $commentaire . '</textarea>';

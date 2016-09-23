@@ -99,22 +99,22 @@ $unitip2 = $enreg['internalip2display'];
 $unitipext = $enreg['externalipdisplay'];
 $validation = $enreg['validation'];
 echo "<tr>\n";
-echo "<td><b>" . $unitcode . "</b></td>\n";
-echo "<td>".$unitname1."</td>\n";
+echo "<td><b>" . htmlspecialchars($unitcode) . "</b></td>\n";
+echo "<td>".htmlspecialchars($unitname1)."</td>\n";
 // echo "<td>".$unitname2."</td>\n";
 // echo "<td>".$unitname3."</td>\n";
 // echo "<td>".$unitname4."</td>\n";
 // echo "<td>".$unitname5."</td>\n";
-echo "<td>".$unitlibrary."</td>\n";
-echo "<td>".$unitdepartment."</td>\n";
-echo "<td>".$unitfaculty."</td>\n";
-echo "<td>".$unitip1."</td>\n";
-echo "<td>".$unitip2."</td>\n";
-echo "<td>".$unitipext."</td>\n";
-echo "<td>".$validation."</td>\n";
+echo "<td>".htmlspecialchars($unitlibrary)."</td>\n";
+echo "<td>".htmlspecialchars($unitdepartment)."</td>\n";
+echo "<td>".htmlspecialchars($unitfaculty)."</td>\n";
+echo "<td>".htmlspecialchars($unitip1)."</td>\n";
+echo "<td>".htmlspecialchars($unitip2)."</td>\n";
+echo "<td>".htmlspecialchars($unitipext)."</td>\n";
+echo "<td>".htmlspecialchars($validation)."</td>\n";
 if ((($monaut == "admin")&&($admin > 1))||($monaut == "sadmin"))
 {
-echo "<td><a href=\"edit.php?table=units&id=".$unitid."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
+echo "<td><a href=\"edit.php?table=units&id=".htmlspecialchars($unitid)."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
 }
 echo "</tr>\n";
 }

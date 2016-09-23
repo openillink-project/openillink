@@ -66,8 +66,8 @@ require_once ('includes/toolkit.php');
         require_once ("includes/config.php");
         require_once ("includes/connexion.php");
         
-        $reqOrderExists = "SELECT illinkid as nbCommandes FROM orders WHERE orders.illinkid = $commande AND orders.mail='$destination'";
-        $resOrderExists = dbquery($reqOrderExists, NULL,NULL,NULL,false);
+        $reqOrderExists = "SELECT illinkid as nbCommandes FROM orders WHERE orders.illinkid = ? AND orders.mail=?";
+        $resOrderExists = dbquery($reqOrderExists, array($commande, $destination), "is");
         $nbOrderExists = iimysqli_num_rows($resOrderExists);
         if ($nbOrderExists > 0){
             if ($destination){
@@ -111,7 +111,7 @@ require_once ('includes/toolkit.php');
         else {
                 require_once ("includes/config.php");
                 require_once ("includes/header.php");
-                echo sprintf($infoSendOk, $destination, $configillmanageremail);
+                echo sprintf($infoSendOk, htmlspecialchars($destination), $configillmanageremail);
                 require_once ("includes/footer.php");
         }
     }

@@ -42,7 +42,7 @@ if (!empty($_COOKIE[illinkid])){
         echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=status'\"></td></tr>\n";
         echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
         echo "<tr><td><b>Code (numérique) *</b></td><td>\n";
-        echo "<input name=\"code\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+        echo "<input name=\"code\" type=\"text\" size=\"6\" maxlength=\"6\" value=\"\"></td></tr>\n";
         echo "</td></tr>\n";
         echo "<tr><td class=\"odd\"><b>".$guiLabelName1[$lang]." *</b></td><td class=\"odd\"><input name=\"title1\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
         echo "<tr><td><b>".$guiLabelHelp1[$lang]."</b></td><td><input name=\"help1\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";

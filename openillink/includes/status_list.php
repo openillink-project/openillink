@@ -88,9 +88,9 @@ if (!empty($_COOKIE[illinkid])){
             $statuscolor = $enreg['color'];
             $monseparateur = "";
             echo "<tr>\n";
-            echo "<td><b>" . $statuscode . "</b></td>\n";
-            echo "<td><font color=\"".$statuscolor."\"><b>".$statustitle1."</b></font></td>\n";
-            echo "<td>".$statushelp1."</td>\n";
+            echo "<td><b>" . htmlspecialchars($statuscode) . "</b></td>\n";
+            echo "<td><font color=\"".htmlspecialchars($statuscolor)."\"><b>".htmlspecialchars($statustitle1)."</b></font></td>\n";
+            echo "<td>".htmlspecialchars($statushelp1)."</td>\n";
             echo "<td>\n";
             if ($statusin == 1){
                 echo $monseparateur . "IN";
@@ -117,7 +117,7 @@ if (!empty($_COOKIE[illinkid])){
             // echo "<td>".$statusrenew."</td>\n";
             // echo "<td>".$statusreject."</td>\n";
             if ((($monaut == "admin")&&($admin > 1))||($monaut == "sadmin")){
-                echo "<td><a href=\"edit.php?table=status&id=".$statusid."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
+                echo "<td><a href=\"edit.php?table=status&id=".htmlspecialchars($statusid)."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
             }
             echo "</tr>\n";
         }

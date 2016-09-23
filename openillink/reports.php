@@ -26,7 +26,7 @@ if (!empty($_COOKIE[illinkid]))
     /*<option value=\"groupe_service\">Listing par service groupé par mail</>*/ // option désactivtée suite à discussion avec IK
     //echo "<tr> <td>Status</td> <td> <select name=\"stade\"> <option value=\"tout\">Reçues et envoyées + Invoice + Soldées</> <option value=\"recue_invoice\">Reçue et envoyée + Invoice</> <option value=\"recue_envoyee\">Reçues et envoyées</> <option value=\"invoice\">Invoice</> <option value=\"soldee\">Soldées</> </select> </td> </tr>\n";
     echo "<tr> <td>Format du rapport</td> <td> <select name=\"format\"> <option value=\"csv\">text/csv</> <option value=\"tab\">texte/tabulé</>  </select> </td> </tr>\n";
-    echo "<tr><td /> <input type=\"hidden\" name=\"biblio\" value=\"". $monbib ."\" /> <td> <input type=\"submit\" value=\"générer\" /> </td></tr>\n";
+    echo "<tr><td /> <input type=\"hidden\" name=\"biblio\" value=\"". htmlspecialchars($monbib) ."\" /> <td> <input type=\"submit\" value=\"générer\" /> </td></tr>\n";
     echo "</form>\n";
     echo "</table>\n";
     echo "</center>";
@@ -47,7 +47,7 @@ if (!empty($_COOKIE[illinkid]))
     "<div>Liste des commandes regroupées par service, sont détaillées:<ul><li>l’organisation (qui reste en principe vide à l’heure actuelle);</li><li>le service i.e. l’unité qui a fait la demande, désigné par son code;</li><li>le CGRA du service, i.e. l’unité qui a effectué la demande;</li><li>le nombre de commandes pour le service/CGRA;</li><li>le prix, correspondant au montant total facturé pour l’ensemble des commandes selon les données renseignées dans openillink.</li></ul>Uniquement les commandes avec statut « Reçue et envoyée au client » sont prises en compte.</div><div/>");
 
     echo boxContent('stats', "STATISTIQUES", 
-    "Continent trois tableaux:<ul><li>commandes par statut (numéro total et en pourcentage);</li><li> commandes par localisation (numéro total et en pourcentage);</li><li> détail des commandes facturée par localisation (numéro total et en pourcentage)</li></ul>Uniquement les commandes avec statut soldé figurent dans cette statistique.<div/>");
+    "Contient trois tableaux:<ul><li>commandes par statut (numéro total et en pourcentage);</li><li> commandes par localisation (numéro total et en pourcentage);</li><li> détail des commandes facturée par localisation (numéro total et en pourcentage)</li></ul>Uniquement les commandes avec statut soldé figurent dans cette statistique.<div/>");
     echo "</div></div>\n";
     require ("includes/footer.php");
   }

@@ -34,11 +34,11 @@ require_once ("toolkit.php");
 
 $validActionSet = array('new', 'update', 'delete', 'deleteok', 'updateprofile');
 if (!empty($_COOKIE[illinkid])){
-    $id=addslashes($_POST['id']);
+    $id=$_POST['id'];
     $ip = $_SERVER['REMOTE_ADDR'];
-    $action = ((!empty($_GET['action'])) && isValidInput($_GET['action'],15,'s',false,$validActionSet))?addslashes($_GET['action']):NULL;
+    $action = ((!empty($_GET['action'])) && isValidInput($_GET['action'],15,'s',false,$validActionSet))? $_GET['action']:NULL;
     if (empty($action)){
-        $action = ((!empty($_POST['action'])) && isValidInput($_POST['action'],15,'s',false,$validActionSet))?addslashes($_POST['action']):NULL;
+        $action = ((!empty($_POST['action'])) && isValidInput($_POST['action'],15,'s',false,$validActionSet))? $_POST['action']:NULL;
     }
     if (($monaut == "admin")||($monaut == "sadmin")||(($monaut == "user")&&($action == "updateprofile"))){
 /*
@@ -48,26 +48,27 @@ if (!empty($_COOKIE[illinkid])){
         if (($action == "update")||($action == "new") || ($action == "updateprofile")){
             $mes="";
             $date=date("Y-m-d H:i:s");
-            $name = ((!empty($_POST['name'])) && isValidInput($_POST['name'],255,'s',false))?addslashes(trim($_POST['name'])):NULL;
-            $email = ((!empty($_POST['email'])) && isValidInput($_POST['email'],255,'s',false))?addslashes(trim($_POST['email'])):NULL;
-            $login = ((!empty($_POST['login'])) && isValidInput($_POST['login'],255,'s',false))?addslashes(trim($_POST['login'])):NULL;
-            $status = ((!empty($_POST['status'])) && isValidInput($_POST['status'],1,'i',false))?addslashes(trim($_POST['status'])):0;
-            $admin = ((!empty($_POST['admin'])) && isValidInput($_POST['admin'],1,'i',false))?addslashes(trim($_POST['admin'])):NULL;
-            $library = ((!empty($_POST['library'])) && isValidInput($_POST['library'],10,'s',false))?addslashes(trim($_POST['library'])):NULL;
-            $newpassword1 = ((!empty($_POST['newpassword1'])) && isValidInput($_POST['newpassword1'],255,'s',false))?addslashes(trim($_POST['newpassword1'])):NULL;
-            $newpassword2 = ((!empty($_POST['newpassword2'])) && isValidInput($_POST['newpassword2'],255,'s',false))?addslashes(trim($_POST['newpassword2'])):NULL;
-            if ((!empty($newpassword1)) && !empty($newpassword1))
+            $name = ((!empty($_POST['name'])) && isValidInput($_POST['name'],255,'s',false))? trim($_POST['name']):NULL;
+            $email = ((!empty($_POST['email'])) && isValidInput($_POST['email'],255,'s',false))? trim($_POST['email']):NULL;
+            $login = ((!empty($_POST['login'])) && isValidInput($_POST['login'],255,'s',false))? trim($_POST['login']):NULL;
+            $status = ((!empty($_POST['status'])) && isValidInput($_POST['status'],1,'i',false))? trim($_POST['status']):0;
+            $admin = ((!empty($_POST['admin'])) && isValidInput($_POST['admin'],1,'i',false))? trim($_POST['admin']):NULL;
+            $library = ((!empty($_POST['library'])) && isValidInput($_POST['library'],10,'s',false))? trim($_POST['library']):NULL;
+            $newpassword1 = ((!empty($_POST['newpassword1'])) && isValidInput($_POST['newpassword1'],255,'s',false))? trim($_POST['newpassword1']):NULL;
+            $newpassword2 = ((!empty($_POST['newpassword2'])) && isValidInput($_POST['newpassword2'],255,'s',false))? trim($_POST['newpassword2']):NULL;
+            if (!empty($newpassword1)) {
                 $password = md5($newpassword1);
+			}
             // Tester si le login est unique
-            $reqlogin = "SELECT * FROM users WHERE users.login = '$login'";
-            $resultlogin = dbquery($reqlogin);
+            $reqlogin = "SELECT * FROM users WHERE users.login = ?";
+			$resultlogin = dbquery($reqlogin,array($login), 's');
             $nblogin = iimysqli_num_rows($resultlogin);
             $enreglogin = iimysqli_result_fetch_array($resultlogin);
             $idlogin = $enreglogin['user_id'];
             if (($nblogin == 1)&&($action == "new"))
-                $mes = $mes . "<br/>le login '" . $login . "' existe déjà dans la base, veuillez choisir un autre";
+                $mes = $mes . "<br/>le login '" . htmlspecialchars($login) . "' existe déjà dans la base, veuillez en choisir un autre";
             if (($nblogin == 1)&&($action != "new")&&($idlogin != $id))
-                $mes = $mes . "<br/>le login '" . $login . "' est déjà attribué à un autre utilisateur, veuillez choisir un autre";
+                $mes = $mes . "<br/>le login '" . htmlspecialchars($login) . "' est déjà attribué à un autre utilisateur, veuillez en choisir un autre";
             if (empty($name) && ($action != "updateprofile"))
                 $mes = $mes . "<br/>le nom est obligatoire";
             if (empty($login) && ($action != "updateprofile"))
@@ -92,9 +93,9 @@ if (!empty($_COOKIE[illinkid])){
                 if (($action == "update")||($action == "updateprofile")){
                     if ($id != ""){
                         require ("headeradmin.php");
-                        $reqid = "SELECT * FROM users WHERE users.user_id = '$id'";
-                        $myhtmltitle = "Commandes de " . $configinstitution[$lang] . " : édition de la fiche utilisateur " . $id;
-                        $resultid = dbquery($reqid);
+                        $reqid = "SELECT * FROM users WHERE users.user_id = ?";
+                        $myhtmltitle = "Commandes de " . $configinstitution[$lang] . " : édition de la fiche utilisateur " . htmlspecialchars($id);
+						$resultid = dbquery($reqid, array($id), 'i');
                         $nb = iimysqli_num_rows($resultid);
                         if ($nb == 1){
                             $enregid = iimysqli_result_fetch_array($resultid);
@@ -102,16 +103,25 @@ if (!empty($_COOKIE[illinkid])){
                                 $login = $enregid['login'];
                                 $name = $enregid['name'];
                             }
-                            $query = "UPDATE users SET name='$name', email='$email', login='$login', ";
-                            if ($action == "update")
-                                $query = $query . "status=$status, admin=$admin, ";
-                            if ($newpassword1 != "")
-                                $query = $query . "password='$password', ";
-                            $query = $query . "library='$library', ";
-                            $query = $query . "created_ip='$ip', created_on='$date' WHERE user_id=$id";
-                            $resultupdate = dbquery($query) or die("Error : ".mysqli_error());
+                            $query = "UPDATE users SET name=?, email=?, login=?, ";
+							$params = array($name, $email, $login);
+							$param_types = "sss";
+                            if ($action == "update") {
+                                $query = $query . "status=?, admin=?, ";
+								array_push($params, $status, $admin);
+								$param_types .= "ii"; 
+							}
+                            if ($newpassword1 != "") {
+                                $query = $query . "password=?, ";
+								array_push($params, $password);
+								$param_types .= "s"; 
+							}
+                            $query = $query . "library=?, created_ip=?, created_on=? WHERE user_id=?";
+							array_push($params, $library, $ip, $date, $id);
+							$param_types .= "sssi"; 
+                            $resultupdate = dbquery($query, $params, $param_types) or die("Error : ".mysqli_error());
                             echo "<center><br/><b><font color=\"green\">\n";
-                            echo "La modification de la fiche " . $id . " a été enregistrée avec succès</b></font>\n";
+                            echo "La modification de la fiche " . htmlspecialchars($id) . " a été enregistrée avec succès</b></font>\n";
                             if ($action == "updateprofile")
                                 echo "<br/><br/><br/><a href=\"admin.php\">Retour à la page d'administration</a></center>\n";
                             else
@@ -120,7 +130,7 @@ if (!empty($_COOKIE[illinkid])){
                         }
                         else{
                             echo "<center><br/><b><font color=\"red\">\n";
-                            echo "La modification n'a pas été enregistrée car l'identifiant de la fiche " . $id . " n'a pas été trouvée dans la base.</b></font>\n";
+                            echo "La modification n'a pas été enregistrée car l'identifiant de la fiche " . htmlspecialchars($id) . " n'a pas été trouvée dans la base.</b></font>\n";
                             echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche ou contactez l'administrateur de la base : " . $configemail . "</b></center><br /><br /><br /><br />\n";
                             require ("footer.php");
                         }
@@ -139,10 +149,11 @@ if (!empty($_COOKIE[illinkid])){
                 if ($action == "new"){
                     require ("headeradmin.php");
                     $myhtmltitle = "commandes de " . $configinstitution[$lang] . " : nouvel utilisateur";
-                    $query ="INSERT INTO `users` (`user_id`, `name`, `email`, `login`, `status`, `admin`, `password`, `created_ip`, `created_on`, `library`) VALUES ('', '$name', '$email', '$login', '$status', '$admin', '$password', '$ip', '$date', '$library')";
-                    $id = dbquery($query) or die("Error : ".mysqli_error());
+					$query ="INSERT INTO `users` (`user_id`, `name`, `email`, `login`, `status`, `admin`, `password`, `created_ip`, `created_on`, `library`) VALUES ('', ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					$params = array($name, $email, $login, $status, $admin, $password, $ip, $date, $library);
+					$id = dbquery($query, $params,'sssiissss') or die("Error : ".mysqli_error());
                     echo "<center><br/><b><font color=\"green\">\n";
-                    echo "La nouvelle fiche " . $id . " a été enregistrée avec succès</b></font>\n";
+                    echo "La nouvelle fiche " . htmlspecialchars($id) . " a été enregistrée avec succès</b></font>\n";
                     echo "<br/><br/><br/><a href=\"list.php?table=users\">Retour à la liste d'utilisateurs</a></center>\n";
                     echo "</center>\n";
                     echo "\n";
@@ -153,17 +164,17 @@ if (!empty($_COOKIE[illinkid])){
         }
         // Début de la suppresion
         if ($action == "delete"){
-            $id=addslashes(isValidInput($_GET['id'],9,'i',false)?$_GET['id']:'');
+            $id=isValidInput($_GET['id'],9,'i',false)?$_GET['id']:'';
             $myhtmltitle = $configname[$lang] . " : confirmation pour la suppresion d'un utilisateur";
             require ("headeradmin.php");
             echo "<center><br/><br/><br/><b><font color=\"red\">\n";
-            echo "Voulez-vous vraiement supprimer la fiche " . $id . "?</b></font>\n";
+            echo "Voulez-vous vraiement supprimer la fiche " . htmlspecialchars($id) . "?</b></font>\n";
             echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
             echo "<input name=\"table\" type=\"hidden\" value=\"users\">\n";
-            echo "<input name=\"id\" type=\"hidden\" value=\"".$id."\">\n";
+            echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($id)."\">\n";
             echo "<input name=\"action\" type=\"hidden\" value=\"deleteok\">\n";
             echo "<br /><br />\n";
-            echo "<input type=\"submit\" value=\"Confirmer la suppression de la fiche " . $id . " en cliquant ici\">\n";
+            echo "<input type=\"submit\" value=\"Confirmer la suppression de la fiche " . htmlspecialchars($id) . " en cliquant ici\">\n";
             echo "</form>\n";
             echo "<br/><br/><br/><a href=\"list.php?table=users\">Retour à la liste des utilisateurs</a></center>\n";
             echo "</center>\n";
@@ -173,10 +184,10 @@ if (!empty($_COOKIE[illinkid])){
         if ($action == "deleteok"){
             $myhtmltitle = $configname[$lang] . " : supprimer un utilisateur";
             require ("headeradmin.php");
-            $query = "DELETE FROM users WHERE users.user_id = '$id'";
-            $result = dbquery($query) or die("Error : ".mysqli_error());
+            $query = "DELETE FROM users WHERE users.user_id = ?";
+			$result = dbquery($query, array($id), 'i') or die("Error : ".mysqli_error());
             echo "<center><br/><b><font color=\"green\">\n";
-            echo "La fiche " . $id . " a été supprimée avec succès</b></font>\n";
+            echo "La fiche " . htmlspecialchars($id) . " a été supprimée avec succès</b></font>\n";
             echo "<br/><br/><br/><a href=\"list.php?table=users\">Retour à la liste des utilisateurs</a></center>\n";
             echo "</center>\n";
             echo "\n";

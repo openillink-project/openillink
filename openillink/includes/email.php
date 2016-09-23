@@ -89,13 +89,13 @@ function displayMailText($monaut,
     if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut == "guest"))
     {
       $subject = rawurlencode(html_entity_decode($mailAllTexts['fr']['commande']." (". $enreg['illinkid'].") : ".$titreper.".".$enreg['annee'].";".$enreg['volume'].":".$enreg['pages']));
-      $finalMailText .= "&nbsp;&nbsp;<a href=\"mailto:".$mail."?subject=".$subject;
+      $finalMailText .= "&nbsp;&nbsp;<a href=\"mailto:".htmlspecialchars(urlencode($mail))."?subject=".htmlspecialchars($subject);
       $commandeDet = "";
       $refDet = "";
       if ($enreg['titre_article']!= '')
-        $commandeDet .= rawurlencode($mailAllTexts['fr']['titre']." : ".stripslashes(html_entity_decode($titreart))."\r\n");
+        $commandeDet .= rawurlencode($mailAllTexts['fr']['titre']." : ".html_entity_decode($titreart)."\r\n");
       if ($enreg['auteurs']!= '')
-        $commandeDet .= rawurlencode($mailAllTexts['fr']['aut']." : ".stripslashes(html_entity_decode($enreg['auteurs']))."\r\n");
+        $commandeDet .= rawurlencode($mailAllTexts['fr']['aut']." : ".html_entity_decode($enreg['auteurs'])."\r\n");
       if ($enreg['titre_periodique']!= '')
         $commandeDet .= rawurlencode(html_entity_decode($mailAllTexts['fr']['src']." : ".$titreper."\r\n"));
       if ($enreg['volume']!= '')
@@ -118,19 +118,19 @@ function displayMailText($monaut,
         $commandeDet .= rawurlencode($mailAllTexts['fr']['commPar']." : ".$enreg['nom'].", ".$enreg['prenom']." \r\n");
       if ($enreg['refinterbib']!= '')
         $refDet .= rawurlencode(html_entity_decode($mailAllTexts['fr']['intRef']." : ".$enreg['refinterbib']."\r\n"));
-      $body = rawurlencode(stripslashes($mailAllTexts['fr']['debut']));
+      $body = rawurlencode($mailAllTexts['fr']['debut']);
       $body .= $commandeDet;
       $body .= $refDet;
-      $body .= rawurlencode(stripslashes($mailAllTexts['fr']['infoservice'])).$monuri.rawurlencode(stripslashes("login.php\r\n"));
-      $body .= rawurlencode(stripslashes($mailAllTexts['fr']['username']." : ")).$maillog.
-               rawurlencode(stripslashes(" | ".$mailAllTexts['fr']['pwd']." : ")).$passwordg.
-               rawurlencode(stripslashes("\r\n\r\n")).
-               rawurlencode(stripslashes($mailAllTexts['fr']['mentionDroitAuteur'])).
-               rawurlencode(stripslashes($mailAllTexts['fr']['salutations']."\r\n")).
+      $body .= rawurlencode($mailAllTexts['fr']['infoservice']).$monuri.rawurlencode("login.php\r\n");
+      $body .= rawurlencode($mailAllTexts['fr']['username']." : ").$maillog.
+               rawurlencode(" | ".$mailAllTexts['fr']['pwd']." : ").$passwordg.
+               rawurlencode("\r\n\r\n").
+               rawurlencode($mailAllTexts['fr']['mentionDroitAuteur']).
+               rawurlencode($mailAllTexts['fr']['salutations']."\r\n").
                /*rawurlencode(stripslashes("*****************************************************\r\n")).*/
-               rawurlencode(stripslashes($mailAllTexts['fr']['signature']));
-      $finalMailText .= "&body=".substr ( $body, 0 , 1959 );
-      $finalMailText .= "\" title=\"".$mailAllTexts['fr']['texteAideCurseur']."\"><img src=\"img/email.gif\" height=\"20\"></a>\n";
+               rawurlencode($mailAllTexts['fr']['signature']);
+      $finalMailText .= "&amp;body=".htmlspecialchars(substr ( $body, 0 , 1959 ));
+      $finalMailText .= "\" title=\"".htmlspecialchars($mailAllTexts['fr']['texteAideCurseur'])."\"><img src=\"img/email.gif\" height=\"20\"></a>\n";
     }
     echo $finalMailText; 
     /* MDV TODO: should be returned instead of directly displayed ; display should be performed by the caller*/

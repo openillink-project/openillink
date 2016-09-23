@@ -48,9 +48,9 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             $date = $enreg['date'];
             $stade = $enreg['stade'];
             $localisation = $enreg['localisation'];
-            $nom = stripslashes($enreg['nom']).', '.stripslashes($enreg['prenom']);
+            $nom = $enreg['nom'].', '.$enreg['prenom'];
             $mail = $enreg['mail'];
-            $locname = stripslashes($enreg['locname']);
+            $locname = $enreg['locname'];
             $unitname = $enreg['unitname'];
             $statusname = $enreg['statusname'];
             $statushelp = $enreg['statushelp'];
@@ -87,8 +87,8 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 $mailg = $maillog . $secure_string_guest_login;
                 $passwordg = substr(md5($mailg), 0, 8);
             }
-            $adresse = stripslashes($enreg['adresse']).', '.stripslashes($enreg['code_postal']).' '.stripslashes($enreg['localite']);
-            $titreper = stripslashes($enreg['titre_periodique']);
+            $adresse = $enreg['adresse'].', '.$enreg['code_postal'].' '.$enreg['localite'];
+            $titreper = $enreg['titre_periodique'];
             $titreper = strtr($titreper, '&', ' ');
             $titreper = strtr($titreper, '/', ' ');
             $titreper = strtr($titreper, '-', ' ');
@@ -97,7 +97,6 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             $titreart = strtr($titreart, '/', ' ');
             $titreart = strtr($titreart, '-', ' ');
             $titreart = strtr($titreart, '?', ' ');
-            $titreart = htmlspecialchars($titreart, ENT_COMPAT);
             echo "<div class=\"box\"><div class=\"box-content\">\n";
             echo "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n";
             echo "<tr><td valign=\"top\" width=\"74%\">\n";
@@ -110,41 +109,41 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "&nbsp;&nbsp;&nbsp;<img src=\"img/book.png\">";
             echo "<br /><b>Date de la commande : </b>".$date;
             if ($enreg['envoye']>0)
-                echo "\n<br /><b>Date d'envoi : </b>".$enreg['envoye'];
+                echo "\n<br /><b>Date d'envoi : </b>".htmlspecialchars($enreg['envoye']);
             if ($enreg['facture']>0)
-                echo "\n<br /><b>Date de facturation : </b>".$enreg['facture'];
+                echo "\n<br /><b>Date de facturation : </b>".htmlspecialchars($enreg['facture']);
             if ($enreg['renouveler']>0)
-                echo "\n<br /><b>Date de renouvellement : </b>".$enreg['renouveler'];
+                echo "\n<br /><b>Date de renouvellement : </b>".htmlspecialchars($enreg['renouveler']);
             echo "\n<br /><b>Bibliothèque d'attribution : </b>";
-            echo $libname . " ($libcode)";
+            echo htmlspecialchars($libname) . " (". htmlspecialchars($libcode).")";
             if ($localisation)
-                echo "\n<br /><b>Localisation : </b>" . $locname . " (" . $localisation . ")";
+                echo "\n<br /><b>Localisation : </b>" . htmlspecialchars($locname) . " (" . htmlspecialchars($localisation) . ")";
             echo "<br /><b>Statut : \n";
-            echo "<a href=\"#\" onclick=\"return false\" title=\"".htmlspecialchars($statushelp)."\"><font color=\"".$statuscolor."\">".$statusname."</font></a></b>";
+            echo "<a href=\"#\" onclick=\"return false\" title=\"".htmlspecialchars($statushelp)."\"><font color=\"".htmlspecialchars($statuscolor)."\">".htmlspecialchars($statusname)."</font></a></b>";
             if ($statusspecial == "renew"){
                 if ($enreg['renouveler'])
-                    echo " le ".$enreg['renouveler'];
+                    echo " le ".htmlspecialchars($enreg['renouveler']);
             }
-            echo "<br /><b>Lecteur : </b><a href=\"list.php?folder=search&champ=nom&term=".urlencode ($nom)."\" title=\"chercher les commandes de ce lecteur\">\n";
-            echo $nom."</a>\n";
+            echo "<br /><b>Lecteur : </b><a href=\"list.php?folder=search&champ=nom&term=".htmlspecialchars(urlencode ($nom))."\" title=\"chercher les commandes de ce lecteur\">\n";
+            echo htmlspecialchars($nom)."</a>\n";
             // formated e-mails
             if ($mail){
-                echo "<br /><b>E-mail : </b><a href=\"list.php?folder=search&champ=email&term=".$mail."\" title=\"chercher les commandes pour cet email\">".$mail."</a>\n";
+                echo "<br /><b>E-mail : </b><a href=\"list.php?folder=search&champ=email&term=".htmlspecialchars(urlencode($mail))."\" title=\"chercher les commandes pour cet email\">".htmlspecialchars($mail)."</a>\n";
                 $monhost = "http://" . $_SERVER['SERVER_NAME'];
                 $monuri = $monhost . rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . "/";
                 displayMailText($monaut, $monuri, $enreg, $emailTxt, $titreart, $titreper, $nom, $maillog, $passwordg, $mail);
             }
             if ($enreg['adresse'])
-                echo "<br /><b>Adresse : </b>".stripslashes($adresse);
+                echo "<br /><b>Adresse : </b>".htmlspecialchars($adresse);
             if ($enreg['service'])
-                echo "<br /><b>Service : </b><a href=\"list.php?folder=search&champ=service&term=".$enreg['service']."\" title=\"chercher les commandes de ce service\">".$enreg['service']."</a>\n";
+                echo "<br /><b>Service : </b><a href=\"list.php?folder=search&champ=service&term=".htmlspecialchars(urlencode($enreg['service']))."\" title=\"chercher les commandes de ce service\">".htmlspecialchars($enreg['service'])."</a>\n";
             if ($enreg['type_doc'])
-                echo "<br /><b>Type de document : </b>".$enreg['type_doc'];
+                echo "<br /><b>Type de document : </b>".htmlspecialchars($enreg['type_doc']);
             echo "<br />\n";
             if ($enreg['titre_article'])
-                echo "<b>Titre : </b><a href=\"list.php?folder=search&champ=atitle&term=".urlencode (stripslashes($enreg['titre_article']))."\" title=\"chercher les commandes pour ce titre\">".stripslashes($enreg['titre_article'])."</a><br />\n";
+                echo "<b>Titre : </b><a href=\"list.php?folder=search&champ=atitle&term=".htmlspecialchars(urlencode ($enreg['titre_article']))."\" title=\"chercher les commandes pour ce titre\">".htmlspecialchars($enreg['titre_article'])."</a><br />\n";
             if ($enreg['auteurs'])
-                echo "<b>Auteur(s) : </b>".stripslashes($enreg['auteurs'])."<br />\n";
+                echo "<b>Auteur(s) : </b>".htmlspecialchars($enreg['auteurs'])."<br />\n";
             if ($enreg['titre_periodique']){
                 if (($enreg['type_doc']=='article') || ($enreg['type_doc']=='Article'))
                     echo "<b>P&eacute;riodique : </b>\n";
@@ -160,63 +159,63 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                     echo "<b>In : </b>\n";
                 if (($enreg['type_doc']=='Congres') || ($enreg['type_doc']=='proceeding') || ($enreg['type_doc']=='conference'))
                     echo "<b>In : </b>\n";
-                echo "</b><a href=\"list.php?folder=search&champ=title&term=".urlencode (stripslashes($enreg['titre_periodique']))."\" title=\"chercher les commandes pour ce titre\">".stripslashes($enreg['titre_periodique'])."</a>\n";
+                echo "</b><a href=\"list.php?folder=search&champ=title&term=".htmlspecialchars(urlencode ($enreg['titre_periodique']))."\" title=\"chercher les commandes pour ce titre\">".htmlspecialchars($enreg['titre_periodique'])."</a>\n";
             }
             if ($enreg['volume'])
-                echo "<br /><b>Volume : </b>".stripslashes($enreg['volume']);
+                echo "<br /><b>Volume : </b>".htmlspecialchars($enreg['volume']);
             if ($enreg['numero'])
-                echo "\n<br /><b>Issue : </b>".stripslashes($enreg['numero']);
+                echo "\n<br /><b>Issue : </b>".htmlspecialchars($enreg['numero']);
             if ($enreg['supplement'])
-                echo "\n<br /><b>Suppl. : </b>".stripslashes($enreg['supplement']);
+                echo "\n<br /><b>Suppl. : </b>".htmlspecialchars($enreg['supplement']);
             if ($enreg['pages'])
-                echo "\n<br /><b>Pages : </b>".stripslashes($enreg['pages']);
+                echo "\n<br /><b>Pages : </b>".htmlspecialchars($enreg['pages']);
             if ($enreg['annee'])
-                echo "\n<br /><b>Ann&eacute;e : </b>".stripslashes($enreg['annee']);
+                echo "\n<br /><b>Ann&eacute;e : </b>".htmlspecialchars($enreg['annee']);
             if ($enreg['issn'])
-                echo "\n<br /><b>ISSN : </b>".stripslashes($enreg['issn']);
+                echo "\n<br /><b>ISSN : </b>".htmlspecialchars($enreg['issn']);
             if ($enreg['eissn'])
-                echo "\n<br /><b>eISSN : </b>".stripslashes($enreg['eissn']);
+                echo "\n<br /><b>eISSN : </b>".htmlspecialchars($enreg['eissn']);
             if ($enreg['isbn'])
-                echo "\n<br /><b>ISBN : </b>".stripslashes($enreg['isbn']);
+                echo "\n<br /><b>ISBN : </b>".htmlspecialchars($enreg['isbn']);
             if ($enreg['PMID'])
-                echo "\n<br /><b>PMID : </b><a href=\"https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?otool=ichuvlib&cmd=Retrieve&db=pubmed&dopt=citation&list_uids=".$enreg['PMID']."\" target=\"_blank\">".$enreg['PMID']."</a>\n";
+                echo "\n<br /><b>PMID : </b><a href=\"https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?otool=ichuvlib&cmd=Retrieve&db=pubmed&dopt=citation&list_uids=".htmlspecialchars(urlencode ($enreg['PMID']))."\" target=\"_blank\">".htmlspecialchars($enreg['PMID'])."</a>\n";
             if ($enreg['uid'])
-                echo "\n<br /><b>Autre identificateur : </b>".$enreg['uid'];
+                echo "\n<br /><b>Autre identificateur : </b>".htmlspecialchars($enreg['uid']);
             if ($enreg['cgra'])
-                echo "\n<br /><b>Code de gestion A : </b>".$enreg['cgra'];
+                echo "\n<br /><b>Code de gestion A : </b>".htmlspecialchars($enreg['cgra']);
             if ($enreg['cgrb'])
-                echo "\n<br /><b>Code de gestion B : </b>".$enreg['cgrb'];
+                echo "\n<br /><b>Code de gestion B : </b>".htmlspecialchars($enreg['cgrb']);
             if ($enreg['tel'])
-                echo "\n<br /><b>No t&eacute;l. : </b>".stripslashes($enreg['tel']);
+                echo "\n<br /><b>No t&eacute;l. : </b>".htmlspecialchars($enreg['tel']);
             if ($enreg['saisie_par'])
-                echo "\n<br /><b>Saisie par : </b>".stripslashes($enreg['saisie_par']);
+                echo "\n<br /><b>Saisie par : </b>".htmlspecialchars($enreg['saisie_par']);
             if ($enreg['ip'])
-                echo "\n<br /><b>Adresse IP : </b>".$enreg['ip'];
+                echo "\n<br /><b>Adresse IP : </b>".htmlspecialchars($enreg['ip']);
             if ($enreg['referer'])
-                echo "\n<br /><b>URL de provenance : </b>".rawurldecode($enreg['referer']);
+                echo "\n<br /><b>URL de provenance : </b>".htmlspecialchars(rawurldecode($enreg['referer']));
             if ($enreg['arrivee'])
-                echo "\n<br /><b>Arriv&eacute;e par : </b>".$enreg['arrivee'];
+                echo "\n<br /><b>Arriv&eacute;e par : </b>".htmlspecialchars($enreg['arrivee']);
             if ($enreg['envoi_par'])
                 echo "\n<br /><b>Envoyer par : </b>";
             if ($enreg['envoi_par'] == 'surplace')
                 echo "<b><font color=\"red\">Avertir le lecteur si disponible sur place</font></b>";
             else
-                echo $enreg['envoi_par'];
+                echo htmlspecialchars($enreg['envoi_par']);
             if ($enreg['prix'])
-                echo "\n<br /><b>Prix : </b>".stripslashes($enreg['prix']);
+                echo "\n<br /><b>Prix : </b>".htmlspecialchars($enreg['prix']);
             if ($enreg['prepaye'])
-                echo "\n<br /><b><font color=\"green\">Payé à l'avance : </b>".strtr($enreg['prepaye'], "on", "OK")." </font>";
+                echo "\n<br /><b><font color=\"green\">Payé à l'avance : </b>".htmlspecialchars(strtr($enreg['prepaye'], "on", "OK"))." </font>";
             if ($enreg['ref'])
-                echo "\n<br /><b>Réf. fournisseur : </b>".$enreg['ref'];
+                echo "\n<br /><b>Réf. fournisseur : </b>".htmlspecialchars($enreg['ref']);
             if ($enreg['refinterbib'])
-                echo "\n<br /><b>Réf. interne à la bibliothèque : </b>".$enreg['refinterbib'];
+                echo "\n<br /><b>Réf. interne à la bibliothèque : </b>".htmlspecialchars($enreg['refinterbib']);
             if ($mail)
-                echo "\n<br /><b>Code accès guest : </b> Username: ".$maillog." | Password: ".$passwordg;
+                echo "\n<br /><b>Code accès guest : </b> Username: ".htmlspecialchars($maillog)." | Password: ".htmlspecialchars($passwordg);
             if ($enreg['remarquespub'])
-                echo "\n<br /><b>Commentaire public : </b>".stripslashes(nl2br($enreg['remarquespub']));
+                echo "\n<br /><b>Commentaire public : </b>".nl2br(htmlspecialchars($enreg['remarquespub']));
             if ($enreg['remarques'])
-                echo "\n<br /><b>Commentaire professionnel : </b>".stripslashes(nl2br($enreg['remarques']));
-            echo "\n<br /><br /><b>Historique de la commande : </b>\n<br />".$enreg['historique'];
+                echo "\n<br /><b>Commentaire professionnel : </b>".nl2br(htmlspecialchars($enreg['remarques']));
+            echo "\n<br /><br /><b>Historique de la commande : </b>\n<br />".htmlspecialchars($enreg['historique']);
             echo "</td>\n";
             echo "<td valign=\"top\" width=\"26%\">\n";
             require ("links.php");

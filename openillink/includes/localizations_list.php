@@ -82,15 +82,15 @@ if (!empty($_COOKIE[illinkid])){
             $locname5 = $enreg['name5'];
             $loclibrary = $enreg['library'];
             echo "<tr>\n";
-            echo "<td><b>" . $loccode . "</b></td>\n";
-            echo "<td>".$locname1."</td>\n";
+            echo "<td><b>" . htmlspecialchars($loccode) . "</b></td>\n";
+            echo "<td>".htmlspecialchars($locname1)."</td>\n";
 // echo "<td>".$locname2."</td>\n";
 // echo "<td>".$locname3."</td>\n";
 // echo "<td>".$locname4."</td>\n";
 // echo "<td>".$locname5."</td>\n";
-            echo "<td>".$loclibrary."</td>\n";
+            echo "<td>".htmlspecialchars($loclibrary)."</td>\n";
             if ((($monaut == "admin")&&($admin > 1))||($monaut == "sadmin")){
-                echo "<td><a href=\"edit.php?table=localizations&id=".$locid."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
+                echo "<td><a href=\"edit.php?table=localizations&id=".htmlspecialchars($locid)."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
             }
             echo "</tr>\n";
         }

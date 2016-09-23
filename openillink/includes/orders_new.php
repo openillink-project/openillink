@@ -56,24 +56,24 @@ $stade="";
 $uid = ((!empty($_POST['uid'])) && isValidInput($_POST['uid'],50, 's', false))?$_POST['uid']:NULL;
 $uid = convertLtGtToTxtValue($uid);
 $validTidSet = array('pmid','doi');
-$tid = ((!empty($_POST['tid'])) && isValidInput($_POST['tid'],4, 's', false,$validTidSet))?addslashes($_POST['tid']):'';
+$tid = ((!empty($_POST['tid'])) && isValidInput($_POST['tid'],4, 's', false,$validTidSet))?$_POST['tid']:'';
 if ($tid=='pmid'){
     $uids = trim($_POST['uids']);
-    $uids = ((!empty($uids)) && isValidInput($uids,20, 's', false))?addslashes($uids):'';
+    $uids = ((!empty($uids)) && isValidInput($uids,20, 's', false))?$uids:'';
     $pmid = $uids;
 }
 elseif ($tid=='doi'){
     $uids = trim($_POST['uids']);
-    $uids = ((!empty($uids)) && isValidInput($uids,80, 's', false))?addslashes($uids):'';
+    $uids = ((!empty($uids)) && isValidInput($uids,80, 's', false))?$uids:'';
     $doi = $uids;
 }
 $uids = convertLtGtToTxtValue($uids);
 $sid=((!empty($_POST['sid'])) && isValidInput($_POST['sid'],50, 's', false))?$_POST['sid']:'';
 $pid=((!empty($_POST['pid'])) && isValidInput($_POST['pid'],50, 's', false))?$_POST['pid']:'';
 $source=((!empty($_POST['source'])) && isValidInput($_POST['source'],20, 's', false))?$_POST['source']:'';
-$nom=((!empty($_POST['nom'])) && isValidInput($_POST['nom'],100, 's', false))?trim(addslashes($_POST['nom'])):'';
+$nom=((!empty($_POST['nom'])) && isValidInput($_POST['nom'],100, 's', false))?trim($_POST['nom']):'';
 $nom=convertLtGtToTxtValue($nom);
-$prenom=((!empty($_POST['prenom'])) && isValidInput($_POST['prenom'],100, 's', false))?trim(addslashes($_POST['prenom'])):'';
+$prenom=((!empty($_POST['prenom'])) && isValidInput($_POST['prenom'],100, 's', false))?trim($_POST['prenom']):'';
 $prenom = convertLtGtToTxtValue($prenom);
 $service=((!empty($_POST['service'])) && isValidInput($_POST['service'],20, 's', false))?$_POST['service']:'';
 $servautre=((!empty($_POST['servautre'])) && isValidInput($_POST['servautre'],20, 's', false))?$_POST['servautre']:'';
@@ -81,29 +81,29 @@ if($servautre)
     $service=$servautre;
 $service = convertLtGtToTxtValue($service);
 
-$cgra=((!empty($_POST['cgra'])) && isValidInput($_POST['cgra'],10, 's', false))?addslashes($_POST['cgra']):'';
+$cgra=((!empty($_POST['cgra'])) && isValidInput($_POST['cgra'],10, 's', false))?$_POST['cgra']:'';
 $cgra = convertLtGtToTxtValue($cgra);
-$cgrb=((!empty($_POST['cgrb'])) && isValidInput($_POST['cgrb'],10, 's', false))?addslashes($_POST['cgrb']):'';
+$cgrb=((!empty($_POST['cgrb'])) && isValidInput($_POST['cgrb'],10, 's', false))?$_POST['cgrb']:'';
 $cgrb = convertLtGtToTxtValue($cgrb);
 
-$mail=((!empty($_POST['mail'])) && isValidInput($_POST['mail'],100, 's', false))?addslashes(trim($_POST['mail'])):'';
+$mail=((!empty($_POST['mail'])) && isValidInput($_POST['mail'],100, 's', false))?trim($_POST['mail']):'';
 $mail = convertLtGtToTxtValue($mail);
-$tel =((!empty($_POST['tel'])) && isValidInput($_POST['tel'],20, 's', false))?addslashes($_POST['tel']):'';$tel = convertLtGtToTxtValue($tel);
-$adresse=((!empty($_POST['adresse'])) && isValidInput($_POST['adresse'],255 ,'s' ,false))?addslashes($_POST['adresse']):'';
+$tel =((!empty($_POST['tel'])) && isValidInput($_POST['tel'],20, 's', false))?$_POST['tel']:'';$tel = convertLtGtToTxtValue($tel);
+$adresse=((!empty($_POST['adresse'])) && isValidInput($_POST['adresse'],255 ,'s' ,false))?$_POST['adresse']:'';
 $adresse = convertLtGtToTxtValue($adresse);
-$postal=((!empty($_POST['postal'])) && isValidInput($_POST['postal'],10, 's', false))?addslashes($_POST['postal']):'';
-$localite=((!empty($_POST['localite'])) && isValidInput($_POST['localite'],50, 's', false))?addslashes($_POST['localite']):'';
+$postal=((!empty($_POST['postal'])) && isValidInput($_POST['postal'],10, 's', false))?$_POST['postal']:'';
+$localite=((!empty($_POST['localite'])) && isValidInput($_POST['localite'],50, 's', false))?$_POST['localite']:'';
 $localite = convertLtGtToTxtValue($localite);
 
-$envoi=((!empty($_POST['envoi'])) && isValidInput($_POST['envoi'],50, 's', false))?addslashes($_POST['envoi']):'';
+$envoi=((!empty($_POST['envoi'])) && isValidInput($_POST['envoi'],50, 's', false))?$_POST['envoi']:'';
 
 $typeDocValidSet = array('article','preprint','book','bookitem','thesis','journal','proceeding','conference','other');
-$typedoc=((!empty($_POST['genre'])) && isValidInput($_POST['genre'],50, 's', false, $typeDocValidSet))?addslashes($_POST['genre']):'';
-$journal=((!empty($_POST['title'])) && isValidInput($_POST['title'],1000, 's', false))?addslashes(trim($_POST['title'])):'';
+$typedoc=((!empty($_POST['genre'])) && isValidInput($_POST['genre'],50, 's', false, $typeDocValidSet))?$_POST['genre']:'';
+$journal=((!empty($_POST['title'])) && isValidInput($_POST['title'],1000, 's', false))?trim($_POST['title']):'';
 $journal = convertLtGtToTxtValue($journal);
-$annee=((!empty($_POST['date'])) && isValidInput($_POST['date'],10, 's', false))?addslashes($_POST['date']):'';
+$annee=((!empty($_POST['date'])) && isValidInput($_POST['date'],10, 's', false))?$_POST['date']:'';
 $annee = convertLtGtToTxtValue($annee);
-$vol=((!empty($_POST['volume'])) && isValidInput($_POST['volume'],50, 's', false))?addslashes($_POST['volume']):'';
+$vol=((!empty($_POST['volume'])) && isValidInput($_POST['volume'],50, 's', false))?$_POST['volume']:'';
 $vol = convertLtGtToTxtValue($vol);
 $no=((!empty($_POST['issue'])) && isValidInput($_POST['issue'],100, 's', false))?$_POST['issue']:'';
 $no = convertLtGtToTxtValue($no);
@@ -111,11 +111,11 @@ $suppl=((!empty($_POST['suppl'])) && isValidInput($_POST['suppl'],100, 's', fals
 $suppl = convertLtGtToTxtValue($suppl);
 $pages=((!empty($_POST['pages'])) && isValidInput($_POST['pages'],50, 's', false))?$_POST['pages']:'';
 $pages = convertLtGtToTxtValue($pages);
-$titre=((!empty($_POST['atitle'])) && isValidInput($_POST['atitle'],1000, 's', false))?addslashes(trim($_POST['atitle'])):'';
+$titre=((!empty($_POST['atitle'])) && isValidInput($_POST['atitle'],1000, 's', false))?trim($_POST['atitle']):'';
 $titre = convertLtGtToTxtValue($titre);
-$auteurs=((!empty($_POST['auteurs'])) && isValidInput($_POST['auteurs'],255, 's', false))?addslashes($_POST['auteurs']):'';
+$auteurs=((!empty($_POST['auteurs'])) && isValidInput($_POST['auteurs'],255, 's', false))?$_POST['auteurs']:'';
 $auteurs = convertLtGtToTxtValue($auteurs);
-$edition=((!empty($_POST['edition'])) && isValidInput($_POST['edition'],100, 's', false))?addslashes($_POST['edition']):'';
+$edition=((!empty($_POST['edition'])) && isValidInput($_POST['edition'],100, 's', false))?$_POST['edition']:'';
 $edition = convertLtGtToTxtValue($edition);
 $issn = ((!empty($_POST['issn'])) && isValidInput($_POST['issn'],50, 's', false))?$_POST['issn']:NULL;
 $issn = convertLtGtToTxtValue($issn);
@@ -147,7 +147,6 @@ $remarquespub=str_replace("<script>","",$remarquespub);
 $remarquespub=str_replace("</script>","",$remarquespub);
 //$remarquespub=str_replace("script","scrpt",$remarquespub);
 $remarquespub = convertLtGtToTxtValue($remarquespub);
-$remarquespub=addslashes($remarquespub);
 
 //
 // END common vars
@@ -281,13 +280,15 @@ else{
     // fin de la recherche des doublons
     // START save record
     if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
-        $query ="INSERT INTO `orders` (`illinkid`, `stade`, `localisation`, `date`, `envoye`, `facture`, `renouveler`, `prix`, `prepaye`, `ref`, `arrivee`, `nom`, `prenom`, `service`, `cgra`, `cgrb`, `mail`, `tel`, `adresse`, `code_postal`, `localite`, `type_doc`, `urgent`, `envoi_par`, `titre_periodique`, `annee`, `volume`, `numero`, `supplement`, `pages`, `titre_article`, `auteurs`, `edition`, `isbn`, `issn`, `eissn`, `doi`, `uid`, `remarques`, `remarquespub`, `historique`, `saisie_par`, `bibliotheque`, `refinterbib`, `PMID`, `ip`, `referer`) VALUES ('', '$stade', '$localisation', '$date', '$envoye', '$facture', '$renouveler', '$prix', '$prepaye', '$ref', '$source', '$nom', '$prenom', '$service', '$cgra', '$cgrb', '$mail', '$tel', '$adresse', '$postal', '$localite', '$typedoc', '$urgent', '$envoi', '$journal', '$annee', '$vol', '$no', '$suppl', '$pages', '$titre', '$auteurs', '$edition', '$isbn', '$issn', '$eissn', '$doi', '$uid', '$remarques','$remarquespub', '$historique', '$userid', '$bibliotheque', '$refinterbib', '$pmid', '$ip', '$referer')";
-        $monno = dbquery($query) or die("Error : ".mysqli_error());
+        $query ="INSERT INTO `orders` (`illinkid`, `stade`, `localisation`, `date`, `envoye`, `facture`, `renouveler`, `prix`, `prepaye`, `ref`, `arrivee`, `nom`, `prenom`, `service`, `cgra`, `cgrb`, `mail`, `tel`, `adresse`, `code_postal`, `localite`, `type_doc`, `urgent`, `envoi_par`, `titre_periodique`, `annee`, `volume`, `numero`, `supplement`, `pages`, `titre_article`, `auteurs`, `edition`, `isbn`, `issn`, `eissn`, `doi`, `uid`, `remarques`, `remarquespub`, `historique`, `saisie_par`, `bibliotheque`, `refinterbib`, `PMID`, `ip`, `referer`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $params = array('', $stade or '', $localisation, $date, $envoye, $facture, $renouveler, $prix, $prepaye, $ref, $source, $nom, $prenom, $service, $cgra, $cgrb, $mail, $tel, $adresse, $postal, $localite, $typedoc, $urgent, $envoi, $journal, $annee, $vol, $no, $suppl, $pages, $titre, $auteurs, $edition, $isbn, $issn, $eissn, $doi, $uid, $remarques,$remarquespub, $historique, $userid, $bibliotheque, $refinterbib, $pmid, $ip, $referer);
+		$monno = dbquery($query, $params, 'sssssssssssssssssssssssssssssssssssssssssssssss') or die("Error : ".mysqli_error(dbconnect()));
         require ("headeradmin.php");
     }
     else{
-        $query ="INSERT INTO `orders` (`illinkid`, `stade`, `localisation`, `date`, `envoye`, `facture`, `renouveler`, `prix`, `prepaye`, `ref`, `arrivee`, `nom`, `prenom`, `service`, `cgra`, `cgrb`, `mail`, `tel`, `adresse`, `code_postal`, `localite`, `type_doc`, `urgent`, `envoi_par`, `titre_periodique`, `annee`, `volume`, `numero`, `supplement`, `pages`, `titre_article`, `auteurs`, `edition`, `isbn`, `issn`, `eissn`, `doi`, `uid`, `remarques`, `remarquespub`, `historique`, `saisie_par`, `bibliotheque`, `refinterbib`, `PMID`, `ip`, `referer`) VALUES ('', '$stade', '$localisation', '$date', '', '', '', '', '', '', '$source', '$nom', '$prenom', '$service', '$cgra', '$cgrb', '$mail', '$tel', '$adresse', '$postal', '$localite', '$typedoc', '2', '$envoi', '$journal', '$annee', '$vol', '$no', '$suppl', '$pages', '$titre', '$auteurs', '$edition', '$isbn', '$issn', '$eissn', '$doi', '$uid', '$remarques', '$remarquespub', '$historique', '$userid', '$bibliotheque', '', '$pmid', '$ip', '$referer')";
-        $monno = dbquery($query) or die("Error : ".mysqli_error());
+        $query ="INSERT INTO `orders` (`illinkid`, `stade`, `localisation`, `date`, `envoye`, `facture`, `renouveler`, `prix`, `prepaye`, `ref`, `arrivee`, `nom`, `prenom`, `service`, `cgra`, `cgrb`, `mail`, `tel`, `adresse`, `code_postal`, `localite`, `type_doc`, `urgent`, `envoi_par`, `titre_periodique`, `annee`, `volume`, `numero`, `supplement`, `pages`, `titre_article`, `auteurs`, `edition`, `isbn`, `issn`, `eissn`, `doi`, `uid`, `remarques`, `remarquespub`, `historique`, `saisie_par`, `bibliotheque`, `refinterbib`, `PMID`, `ip`, `referer`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $params = array('', $stade or '', $localisation, $date, '' , '', '', '', '', '', $source, $nom, $prenom, $service, $cgra, $cgrb, $mail, $tel, $adresse, $postal, $localite, $typedoc, '2', $envoi, $journal, $annee, $vol, $no, $suppl, $pages, $titre, $auteurs, $edition, $isbn, $issn, $eissn, $doi, $uid, $remarques, $remarquespub, $historique, $userid, $bibliotheque, '', $pmid, $ip, $referer);
+		$monno = dbquery($query, $params, 'sssssssssssssssssssssssssssssssssssssssssssssss') or die("Error : ".mysqli_error(dbconnect()));
         require ("header.php");
     }
     echo "\n";
@@ -307,94 +308,94 @@ echo "\n";
     echo "<tr><td width=\"90\"><b>Commande</b></td>\n";
     echo "<td><b>$monno</b></td></tr>\n";
     echo "<tr><td width=\"90\"><b>Nom</b></td>\n";
-    echo "<td>$nom, $prenom</td></tr>\n";
+    echo "<td>".htmlspecialchars($nom). ", ". htmlspecialchars($prenom)."</td></tr>\n";
     if ($mail) {
         echo "<tr><td width=\"90\"><b>Courriel</b></td>\n";
-        echo "<td>$mail</td></tr>\n";
+        echo "<td>".htmlspecialchars($mail)."</td></tr>\n";
     }
     if ($service) {
         echo "<tr><td width=\"90\"><b>Service</b></td>\n";
-        echo "<td>$service</td></tr>\n";
+        echo "<td>".htmlspecialchars($service)."</td></tr>\n";
     }
     if ($tel) {
         echo "<tr><td width=\"90\"><b>Tél.</b></td>\n";
-        echo "<td>" . stripslashes($tel) . "</td></tr>\n";
+        echo "<td>" . htmlspecialchars($tel) . "</td></tr>\n";
     }
     if ($adresse) {
         echo "<tr><td width=\"90\"><b>Adresse</b></td>\n";
-        echo "<td>" . stripslashes($adresse) . " ; " . stripslashes($postal) . ", " . stripslashes($localite) ."</td></tr>\n";
+        echo "<td>" . htmlspecialchars ($adresse) . " ; " . htmlspecialchars ($postal) . ", " . htmlspecialchars ($localite) ."</td></tr>\n";
     }
     echo "<tr><td width=\"90\"><b>Document</b></td>\n";
-    echo "<td>$typedoc</td></tr>\n";
+    echo "<td>".htmlspecialchars($typedoc)."</td></tr>\n";
     if ($titre) {
         echo "<tr><td width=\"90\"><b>Titre</b></td>\n";
-        echo "<td>" . stripslashes($titre) . "</td></tr>\n";
+        echo "<td>" . htmlspecialchars ($titre) . "</td></tr>\n";
     }
     if ($auteurs) {
         echo "<tr><td width=\"90\"><b>Auteurs</b></td>\n";
-        echo "<td>" . stripslashes($auteurs) . "</td></tr>\n";
+        echo "<td>" . htmlspecialchars ($auteurs) . "</td></tr>\n";
     }
     if ($typedoc=='Article')
         echo "<tr><td width=\"90\"><b>Périodique</b></td>\n";
     else
         echo "<tr><td width=\"90\"><b>Titre du livre</b></td>\n";
-    echo "<td>" . stripslashes($journal) . "</td>\n";
+    echo "<td>" . htmlspecialchars ($journal) . "</td>\n";
     echo "</tr><tr>\n";
     if ($annee) {
         echo "<td width=\"90\"><b>Année</b></td>\n";
-        echo "<td>$annee</td></tr>\n";
+        echo "<td>".htmlspecialchars ($annee)."</td></tr>\n";
     }
     if ($vol) {
         echo "<tr><td  width=\"90\" valign=\"top\"><b>Volume</b></td>\n";
-        echo "<td>$vol</td></tr>\n";
+        echo "<td>".htmlspecialchars ($vol)."</td></tr>\n";
     }
     if ($no) {
         echo "<tr><td  width=\"90\" valign=\"top\"><b>Numéro</b></td>\n";
-        echo "<td>$no</td></tr>\n";
+        echo "<td>".htmlspecialchars ($no)."</td></tr>\n";
     }
     if ($suppl) {
         echo "<tr><td  width=\"90\" valign=\"top\"><b>Suppl.</b></td>\n";
-        echo "<td>$suppl</td></tr>\n";
+        echo "<td>".htmlspecialchars ($suppl)."</td></tr>\n";
     }
     if ($pages) {
         echo "<tr><td  width=\"90\" valign=\"top\"><b>Pages</b></td>\n";
-        echo "<td>$pages</td></tr>\n";
+        echo "<td>".htmlspecialchars ($pages)."</td></tr>\n";
     }
     if ($edition) {
         echo "<tr><td  width=\"90\" valign=\"top\"><b>Edition</b></td>\n";
-        echo "<td>".stripslashes($edition)."</td></tr>\n";
+        echo "<td>".htmlspecialchars ($edition)."</td></tr>\n";
     }
     if ($isbn) {
         echo "<tr><td  width=\"90\" valign=\"top\"><b>ISBN</b></td>\n";
-        echo "<td>$isbn</td></tr>\n";
+        echo "<td>".htmlspecialchars ($isbn)."</td></tr>\n";
     }
     if ($issn) {
         echo "<tr><td  width=\"90\" valign=\"top\"><b>ISSN</b></td>\n";
-        echo "<td>$issn</td></tr>\n";
+        echo "<td>".htmlspecialchars ($issn)."</td></tr>\n";
     }
     if ($eissn) {
         echo "<tr><td  width=\"90\" valign=\"top\"><b>eISSN</b></td>\n";
-        echo "<td>$eissn</td></tr>\n";
+        echo "<td>".htmlspecialchars ($eissn)."</td></tr>\n";
     }
     if ($pmid) {
         echo "<tr><td  width=\"90\" valign=\"top\"><b>PMID</b></td>\n";
-        echo "<td>$pmid</td></tr>\n";
+        echo "<td>".htmlspecialchars($pmid)."</td></tr>\n";
     }
     if ($doi) {
         echo "<tr><td  width=\"90\" valign=\"top\"><b>DOI</b></td>\n";
-        echo "<td>$doi</td></tr>\n";
+        echo "<td>".htmlspecialchars($doi)."</td></tr>\n";
     }
     if ($uid) {
         echo "<tr><td  width=\"90\" valign=\"top\"><b>UID</b></td>\n";
-        echo "<td>$uid</td></tr>\n";
+        echo "<td>".htmlspecialchars ($uid)."</td></tr>\n";
     }
     if ($remarques) {
         echo "<tr><td  width=\"90\" valign=\"top\"><b>Commentaire professionnel</b></td>\n";
-        echo "<td>".stripslashes(nl2br($remarques))."</td></tr>\n";
+        echo "<td>". nl2br(htmlspecialchars($remarques))."</td></tr>\n";
     }
     if ($remarquespub) {
         echo "<tr><td  width=\"90\" valign=\"top\"><b>Commentaire public</b></td>\n";
-        echo "<td>".stripslashes(nl2br($remarquespub))."</td></tr>\n";
+        echo "<td>". nl2br(htmlspecialchars($remarquespub))."</td></tr>\n";
     }
     echo "</table>\n";
     echo "<div class=\"hr\"><hr></div>\n";

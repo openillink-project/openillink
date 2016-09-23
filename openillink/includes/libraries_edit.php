@@ -40,8 +40,8 @@ if (!empty($_COOKIE[illinkid])){
     if (($monaut == "admin")||($monaut == "sadmin")){
         if ($id!=""){
             $req = "SELECT * FROM libraries WHERE id = ?";
-            $myhtmltitle = "Commandes de l'".$configinstitution[$lang].": édition de la bibliothèque $id";
-            $montitle = "Gestion des bibliothèques : édition de la fiche " . $id;
+            $myhtmltitle = "Commandes de l'".$configinstitution[$lang].": édition de la bibliothèque ". htmlspecialchars($id);
+            $montitle = "Gestion des bibliothèques : édition de la fiche " . htmlspecialchars($id);
             require ("headeradmin.php");
             $result = dbquery($req, array($id), 's');
             $nb = iimysqli_num_rows($result);
@@ -66,16 +66,16 @@ if (!empty($_COOKIE[illinkid])){
                 echo "<table id=\"hor-zebra\">\n";
                 echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer les modifications\">\n";
                 echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=libraries'\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=libraries&id=" . $libid . "'\"></td></tr>\n";
+                echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=libraries&id=" . htmlspecialchars($libid) . "'\"></td></tr>\n";
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
                 echo "<tr><td><b>Code *</b></td><td>\n";
-                echo "<input name=\"code\" type=\"text\" size=\"30\" value=\"" . $libcode . "\"></td></tr>\n";
+                echo "<input name=\"code\" type=\"text\" size=\"30\" value=\"" . htmlspecialchars($libcode) . "\"></td></tr>\n";
                 echo "</td></tr>\n";
-                echo "<tr><td class=\"odd\"><b>".$guiLabelName1[$lang]." *</b></td><td class=\"odd\"><input name=\"name1\" type=\"text\" size=\"30\" value=\"" . $name["fr"] . "\"></td></tr>\n";
-                echo "<tr><td><b>".$guiLabelName2[$lang]."</b></td><td><input name=\"name2\" type=\"text\" size=\"30\" value=\"" . $name["en"] . "\"></td></tr>\n";
-                echo "<tr><td class=\"odd\"><b>".$guiLabelName3[$lang]."</b></td><td class=\"odd\"><input name=\"name3\" type=\"text\" size=\"30\" value=\"" . $name["de"] . "\"></td></tr>\n";
-                echo "<tr><td><b>".$guiLabelName4[$lang]."</b></td><td><input name=\"name4\" type=\"text\" size=\"30\" value=\"" . $name["it"] . "\"></td></tr>\n";
-                echo "<tr><td class=\"odd\"><b>".$guiLabelName5[$lang]."</b></td><td class=\"odd\"><input name=\"name5\" type=\"text\" size=\"30\" value=\"" . $name["es"] . "\"></td></tr>\n";
+                echo "<tr><td class=\"odd\"><b>".$guiLabelName1[$lang]." *</b></td><td class=\"odd\"><input name=\"name1\" type=\"text\" size=\"30\" value=\"" . htmlspecialchars($name["fr"]) . "\"></td></tr>\n";
+                echo "<tr><td><b>".$guiLabelName2[$lang]."</b></td><td><input name=\"name2\" type=\"text\" size=\"30\" value=\"" . htmlspecialchars($name["en"]) . "\"></td></tr>\n";
+                echo "<tr><td class=\"odd\"><b>".$guiLabelName3[$lang]."</b></td><td class=\"odd\"><input name=\"name3\" type=\"text\" size=\"30\" value=\"" . htmlspecialchars($name["de"]) . "\"></td></tr>\n";
+                echo "<tr><td><b>".$guiLabelName4[$lang]."</b></td><td><input name=\"name4\" type=\"text\" size=\"30\" value=\"" . htmlspecialchars($name["it"]) . "\"></td></tr>\n";
+                echo "<tr><td class=\"odd\"><b>".$guiLabelName5[$lang]."</b></td><td class=\"odd\"><input name=\"name5\" type=\"text\" size=\"30\" value=\"" . htmlspecialchars($name["es"]) . "\"></td></tr>\n";
                 echo "<tr><td><b>Default</b></td><td><input name=\"default\" value=\"1\" type=\"checkbox\"";
                 if ($libdef==1)
                     echo " checked";
@@ -87,14 +87,14 @@ if (!empty($_COOKIE[illinkid])){
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
                 echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer les modifications\">\n";
                 echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=libraries'\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=libraries&id=" . $libid . "'\"></td></tr>\n";
+                echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=libraries&id=" . htmlspecialchars($libid) . "'\"></td></tr>\n";
                 echo "</table>\n";
                 echo "</form><br /><br />\n";
                 require ("footer.php");
             }
             else{
                 echo "<center><br/><b><font color=\"red\">\n";
-                echo "La fiche " . $id . " n'a pas été trouvée dans la base.</b></font>\n";
+                echo "La fiche " . htmlspecialchars($id) . " n'a pas été trouvée dans la base.</b></font>\n";
                 echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche ou contactez l'administrateur de la base : " . $configemail . "</b></center><br /><br /><br /><br />\n";
                 require ("footer.php");
             }

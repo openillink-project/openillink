@@ -38,8 +38,8 @@ if (!empty($_COOKIE[illinkid])){
         $redirect = (!empty($_GET['redirect']))?safeSetInput($_GET['redirect'],1,'s',NULL):0;
         if ((!empty($illinkid)) && (!empty($myform))){
             $myform = "forms/" . $myform . ".php";
-            $req = "select * from orders where illinkid = $illinkid";
-            $result = dbquery($req);
+            $req = "select * from orders where illinkid = ?";
+			$result = dbquery($req, array($illinkid), 'i');
             $nb = iimysqli_num_rows($result);
             //require ("includes/headeradmin.php");
             if ($redirect!=1)

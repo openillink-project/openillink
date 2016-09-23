@@ -129,13 +129,13 @@ if ($type=='liste_service'){
   $cfields = implode(", ", $fields);
   echo $tfields . PHP_EOL;
   $req0 = "select " . $cfields; 
-  $req1 = " from orders where (stade like '$rec_invoice_st') and bibliotheque like '$monbib'";
-  $req2 = " and ( (envoye between \"$datedu\" and \"$dateau\") or ( date between \"$datedu\" and \"$dateau\" ) ) ";
+  $req1 = " from orders where (stade like ?) and bibliotheque like ?";
+  $req2 = " and ( (envoye between ? and ?) or ( date between ? and ? ) ) ";
   $req3 = " order by refinterbib, mail, illinkid";
   $req = $req0 . $req1 . $req2 . $req3; 
   //echo $req;
   
-  $result2 = dbquery($req,array(),'') or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error()." ".$req);
+  $result2 = dbquery($req,array($rec_invoice_st, $monbib, $datedu, $dateau, $datedu, $dateau),'ssssss') or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error()." ".$req);
   $total_results = iimysqli_num_rows($result2);
   for ($i=0 ; $i<$total_results ; $i++){ 
     $enreg = iimysqli_result_fetch_array($result2);
@@ -216,7 +216,7 @@ if ($type=='stats'){
     else
       $qu = ($recues/$totals)*100;
     $formatDirective = "%d";     
-    echo $quote. "Commandes envoyées pas factuées:" .$quote. $sep .$quote. $resu .$quote. $sep .$quote. sprintf($formatDirective, $qu)."%" .$quote .PHP_EOL ;
+    echo $quote. "Commandes envoyées pas facturées:" .$quote. $sep .$quote. $resu .$quote. $sep .$quote. sprintf($formatDirective, $qu)."%" .$quote .PHP_EOL ;
 
     // soldees
     $req = "select count(*) as resu ".

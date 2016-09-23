@@ -34,33 +34,33 @@ require_once ("connexion.php");
 require_once ("includes/toolkit.php");
 
 if (!empty($_COOKIE[illinkid])){
-    $id=addslashes($_POST['id']);
+    $id=$_POST['id'];
     $ip = $_SERVER['REMOTE_ADDR'];
     
     $validActionSet = array('new', 'update', 'delete', 'deleteok');
     $action = ((!empty($_GET['action'])) && isValidInput($_GET['action'],10,'s',false, $validActionSet)) ? $_GET['action'] : NULL;
 
     if (empty($action))
-        $action = ((!empty($_POST['action'])) && isValidInput($_POST['action'],10,'s',false, $validActionSet)) ? addslashes($_POST['action']) : '';
+        $action = ((!empty($_POST['action'])) && isValidInput($_POST['action'],10,'s',false, $validActionSet)) ? $_POST['action'] : '';
     if (($monaut == "admin")||($monaut == "sadmin")){
         $mes="";
         $date=date("Y-m-d H:i:s");
-        $linktitle = ((!empty($_POST['title'])) && isValidInput($_POST['title'],50,'s',false))?addslashes(trim($_POST['title'])):'';
-        $linkurl = ((!empty($_POST['url'])) && isValidInput($_POST['url'],1000,'s',false))?addslashes(trim($_POST['url'])):'';
-        $linksearch_issn = ((!empty($_POST['search_issn'])) && isValidInput($_POST['search_issn'],1,'i',false))?addslashes(trim($_POST['search_issn'])):0;
-        $linksearch_isbn = ((!empty($_POST['search_isbn'])) && isValidInput($_POST['search_isbn'],1,'i',false))?addslashes(trim($_POST['search_isbn'])):0;
-        $linksearch_ptitle = ((!empty($_POST['search_ptitle'])) && isValidInput($_POST['search_ptitle'],1,'i',false))?addslashes(trim($_POST['search_ptitle'])):0;
-        $linksearch_btitle = ((!empty($_POST['search_btitle'])) && isValidInput($_POST['search_btitle'],1,'i',false))?addslashes(trim($_POST['search_btitle'])):0;
-        $linksearch_atitle = ((!empty($_POST['search_atitle'])) && isValidInput($_POST['search_atitle'],1,'i',false))?addslashes(trim($_POST['search_atitle'])):0;
-        $linkorder_ext = ((!empty($_POST['order_ext'])) && isValidInput($_POST['order_ext'],1,'i',false))?addslashes(trim($_POST['order_ext'])):0;
-        $linkorder_form = ((!empty($_POST['order_form'])) && isValidInput($_POST['order_form'],1,'i',false))?addslashes(trim($_POST['order_form'])):0;
-        $linkopenurl = ((!empty($_POST['openurl'])) && isValidInput($_POST['openurl'],1,'i',false))?addslashes(trim($_POST['openurl'])):0;
-        $linklibrary = ((!empty($_POST['library'])) && isValidInput($_POST['library'],50,'s',false))?addslashes(trim($_POST['library'])):'';
-        $linkactive = ((!empty($_POST['active'])) && isValidInput($_POST['active'],1,'i',false))?addslashes(trim($_POST['active'])):0;
-        $linkordonnancement = ((!empty($_POST['active'])) && isValidInput($_POST['active'],3,'i',false))?trim($_POST['ordonnancement']):NULL;
-        $linkurl_encode = ((!empty($_POST['url_encoded'])) && isValidInput($_POST['url_encoded'],1,'i',false))?addslashes(trim($_POST['url_encoded'])):0;
-        $linkskip_words = ((!empty($_POST['skip_words'])) && isValidInput($_POST['skip_words'],1,'i',false))?addslashes(trim($_POST['skip_words'])):0;
-        $linkskip_txt_after_mark = ((!empty($_POST['skip_txt_after_mark'])) && isValidInput($_POST['skip_txt_after_mark'],1,'i',false))?addslashes(trim($_POST['skip_txt_after_mark'])):0;
+        $linktitle = ((!empty($_POST['title'])) && isValidInput($_POST['title'],50,'s',false))?trim($_POST['title']):'';
+        $linkurl = ((!empty($_POST['url'])) && isValidInput($_POST['url'],1000,'s',false))?trim($_POST['url']):'';
+        $linksearch_issn = ((!empty($_POST['search_issn'])) && isValidInput($_POST['search_issn'],1,'i',false))?trim($_POST['search_issn']):0;
+        $linksearch_isbn = ((!empty($_POST['search_isbn'])) && isValidInput($_POST['search_isbn'],1,'i',false))?trim($_POST['search_isbn']):0;
+        $linksearch_ptitle = ((!empty($_POST['search_ptitle'])) && isValidInput($_POST['search_ptitle'],1,'i',false))?trim($_POST['search_ptitle']):0;
+        $linksearch_btitle = ((!empty($_POST['search_btitle'])) && isValidInput($_POST['search_btitle'],1,'i',false))?trim($_POST['search_btitle']):0;
+        $linksearch_atitle = ((!empty($_POST['search_atitle'])) && isValidInput($_POST['search_atitle'],1,'i',false))?trim($_POST['search_atitle']):0;
+        $linkorder_ext = ((!empty($_POST['order_ext'])) && isValidInput($_POST['order_ext'],1,'i',false))?trim($_POST['order_ext']):0;
+        $linkorder_form = ((!empty($_POST['order_form'])) && isValidInput($_POST['order_form'],1,'i',false))?trim($_POST['order_form']):0;
+        $linkopenurl = ((!empty($_POST['openurl'])) && isValidInput($_POST['openurl'],1,'i',false))?trim($_POST['openurl']):0;
+        $linklibrary = ((!empty($_POST['library'])) && isValidInput($_POST['library'],50,'s',false))?trim($_POST['library']):'';
+        $linkactive = ((!empty($_POST['active'])) && isValidInput($_POST['active'],1,'i',false))?trim($_POST['active']):0;
+        $linkordonnancement = ((!empty($_POST['active'])) && isValidInput($_POST['active'],3,'i',false))?$_POST['ordonnancement']:NULL;
+        $linkurl_encode = ((!empty($_POST['url_encoded'])) && isValidInput($_POST['url_encoded'],1,'i',false))?trim($_POST['url_encoded']):0;
+        $linkskip_words = ((!empty($_POST['skip_words'])) && isValidInput($_POST['skip_words'],1,'i',false))?trim($_POST['skip_words']):0;
+        $linkskip_txt_after_mark = ((!empty($_POST['skip_txt_after_mark'])) && isValidInput($_POST['skip_txt_after_mark'],1,'i',false))?trim($_POST['skip_txt_after_mark']):0;
         if ($linksearch_issn != "1")
             $linksearch_issn = 0;
         if ($linksearch_isbn != "1")
@@ -99,14 +99,13 @@ if (!empty($_COOKIE[illinkid])){
                 echo $mes."</b></font>\n";
                 echo "<br /><br /><a href=\"javascript:history.back();\"><b>retour au formulaire</a></b></center><br /><br /><br /><br />\n";
                 require ("footer.php");
-                break;
             }
             else{
                 // Début de l'édition
                 if ($action == "update"){
                     if ($id != ""){
                         require ("headeradmin.php");
-                        $myhtmltitle = $configname[$lang] . " : édition de la fiche du lien " . $id;
+                        $myhtmltitle = $configname[$lang] . " : édition de la fiche du lien " . htmlspecialchars($id);
                         $reqid = "SELECT * FROM links WHERE id = ?";
                         $resultid = dbquery($reqid, array($id), 'i');
                         $nb = iimysqli_num_rows($resultid);
@@ -125,13 +124,13 @@ if (!empty($_COOKIE[illinkid])){
                             $typeParam = 'ssiiiiiiiisiiiiii';
                             $resultupdate = dbquery($query, $params, $typeParam) or die("Error : ".mysqli_error());
                             echo "<center><br/><b><font color=\"green\">\n";
-                            echo "La modification de la fiche $id a été enregistrée avec succès</b></font>\n";
+                            echo "La modification de la fiche ".htmlspecialchars($id)." a été enregistrée avec succès</b></font>\n";
                             echo "<br/><br/><br/><a href=\"list.php?table=links\">Retour à la liste de liens</a></center>\n";
                             require ("footer.php");
                         }
                         else{
                             echo "<center><br/><b><font color=\"red\">\n";
-                            echo "La modification n'a pas été enregistrée car l'identifiant de la fiche " . $id . " n'a pas été trouvé dans la base.</b></font>\n";
+                            echo "La modification n'a pas été enregistrée car l'identifiant de la fiche " . htmlspecialchars($id) . " n'a pas été trouvé dans la base.</b></font>\n";
                             echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche ou contactez l'administrateur de la base : " . $configemail . "</b></center><br /><br /><br /><br />\n";
                             require ("footer.php");
                         }
@@ -145,39 +144,39 @@ if (!empty($_COOKIE[illinkid])){
                         require ("footer.php");
                     }
                 }
-            }
-            // Fin de l'édition
-            // Début de la création
-            if ($action == "new"){
-                require ("headeradmin.php");
-                $myhtmltitle = $configname[$lang] . " : nouveau lien ";
-                $query = "INSERT INTO `links` (`id`, `title`, `url`, `search_issn`, `search_isbn`, `search_ptitle`, `search_btitle`, `search_atitle`, `order_ext`, `order_form`, `openurl`, `library`, `active`, `ordonnancement`, `url_encoded`, `skip_words`, `skip_txt_after_mark`) ".
-                "VALUES ('', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                $params = array($linktitle, $linkurl, $linksearch_issn, $linksearch_isbn, $linksearch_ptitle, $linksearch_btitle, $linksearch_atitle, $linkorder_ext, $linkorder_form, $linkopenurl,$linklibrary,$linkactive, $linkordonnancement, $linkurl_encode, $linkskip_words, $linkskip_txt_after_mark);
-                $paramstypes = 'ssiiiiiiiissiiii';
-                $id = dbquery($query, $params, $paramstypes) or die("Error : ".mysqli_error());
-                echo "<center><br/><b><font color=\"green\">\n";
-                echo "La nouvelle fiche $id a été enregistrée avec succès</b></font>\n";
-                echo "<br/><br/><br/><a href=\"list.php?table=links\">Retour à la liste de liens</a></center>\n";
-                echo "</center>\n";
-                echo "\n";
-                require ("footer.php");
-            }
+				// Fin de l'édition
+				// Début de la création
+				if ($action == "new"){
+					require ("headeradmin.php");
+					$myhtmltitle = $configname[$lang] . " : nouveau lien ";
+					$query = "INSERT INTO `links` (`id`, `title`, `url`, `search_issn`, `search_isbn`, `search_ptitle`, `search_btitle`, `search_atitle`, `order_ext`, `order_form`, `openurl`, `library`, `active`, `ordonnancement`, `url_encoded`, `skip_words`, `skip_txt_after_mark`) ".
+					"VALUES ('', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					$params = array($linktitle, $linkurl, $linksearch_issn, $linksearch_isbn, $linksearch_ptitle, $linksearch_btitle, $linksearch_atitle, $linkorder_ext, $linkorder_form, $linkopenurl,$linklibrary,$linkactive, $linkordonnancement, $linkurl_encode, $linkskip_words, $linkskip_txt_after_mark);
+					$paramstypes = 'ssiiiiiiiissiiii';
+					$id = dbquery($query, $params, $paramstypes) or die("Error : ".mysqli_error());
+					echo "<center><br/><b><font color=\"green\">\n";
+					echo "La nouvelle fiche ".htmlspecialchars($id)." a été enregistrée avec succès</b></font>\n";
+					echo "<br/><br/><br/><a href=\"list.php?table=links\">Retour à la liste de liens</a></center>\n";
+					echo "</center>\n";
+					echo "\n";
+					require ("footer.php");
+				}
+			}
         }
         // Fin de la création
         // Début de la suppresion
         if ($action == "delete"){
-            $id= addslashes(((!empty($_GET['id'])) && isValidInput($_GET['id'],11,'s',false)) ? $_GET['id'] : "");
+            $id= ((!empty($_GET['id'])) && isValidInput($_GET['id'],11,'s',false)) ? $_GET['id'] : "";
             $myhtmltitle = $configname[$lang] . " : confirmation pour la suppresion d'une lien ";
             require ("headeradmin.php");
             echo "<center><br/><br/><br/><b><font color=\"red\">\n";
-            echo "Voulez-vous vraiement supprimer la fiche " . $id . "?</b></font>\n";
+            echo "Voulez-vous vraiement supprimer la fiche " . htmlspecialchars($id) . "?</b></font>\n";
             echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
             echo "<input name=\"table\" type=\"hidden\" value=\"links\">\n";
-            echo "<input name=\"id\" type=\"hidden\" value=\"".$id."\">\n";
+            echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($id)."\">\n";
             echo "<input name=\"action\" type=\"hidden\" value=\"deleteok\">\n";
             echo "<br /><br />\n";
-            echo "<input type=\"submit\" value=\"Confirmer la suppression de la fiche " . $id . " en cliquant ici\">\n";
+            echo "<input type=\"submit\" value=\"Confirmer la suppression de la fiche " . htmlspecialchars($id) . " en cliquant ici\">\n";
             echo "</form>\n";
             echo "<br/><br/><br/><a href=\"list.php?table=links\">Retour à la liste des liens</a></center>\n";
             echo "</center>\n";
@@ -190,7 +189,7 @@ if (!empty($_COOKIE[illinkid])){
             $query = "DELETE FROM links WHERE links.id = ?";
             $result = dbquery($query, array($id), 'i') or die("Error : ".mysqli_error());
             echo "<center><br/><b><font color=\"green\">\n";
-            echo "La fiche " . $id . " a été supprimée avec succès</b></font>\n";
+            echo "La fiche " . htmlspecialchars($id) . " a été supprimée avec succès</b></font>\n";
             echo "<br/><br/><br/><a href=\"list.php?table=links\">Retour à la liste des liens</a></center>\n";
             echo "</center>\n";
             echo "\n";

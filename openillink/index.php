@@ -53,12 +53,12 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     echo "<form action=\"new.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"commande\" onsubmit=\"javascript:okcooc()\">\n";
     // START Management Fields
     echo "<input name=\"table\" type=\"hidden\"  value=\"orders\">\n";
-    echo "<input name=\"userid\" type=\"hidden\"  value=\"$monnom\">\n";
-    echo "<input name=\"bibliotheque\" type=\"hidden\"  value=\"$monbib\">\n";
+    echo "<input name=\"userid\" type=\"hidden\"  value=\"".htmlspecialchars($monnom)."\">\n";
+    echo "<input name=\"bibliotheque\" type=\"hidden\"  value=\"".htmlspecialchars($monbib)."\">\n";
     echo "<input name=\"sid\" type=\"hidden\"  value=\"\">\n";
     echo "<input name=\"pid\" type=\"hidden\"  value=\"\">\n";
     if (!empty($referer))
-        echo "<input name=\"referer\" type=\"hidden\" value=\"" . rawurlencode($referer) . "\">\n";
+        echo "<input name=\"referer\" type=\"hidden\" value=\"" . htmlspecialchars(rawurlencode($referer)) . "\">\n";
     else
         echo "<input name=\"referer\" type=\"hidden\" value=\"\">\n";
     echo "<input name=\"action\" type=\"hidden\" value=\"saisie\">\n";
@@ -78,8 +78,8 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
         $namestatus["de"] = $rowstatus["title3"];
         $namestatus["it"] = $rowstatus["title4"];
         $namestatus["es"] = $rowstatus["title5"];
-        $optionsstatus.="<option value=\"" . $codestatus . "\"";
-        $optionsstatus.=">" . $namestatus[$lang] . "</option>\n";
+        $optionsstatus.="<option value=\"" . htmlspecialchars($codestatus) . "\"";
+        $optionsstatus.=">" . htmlspecialchars($namestatus[$lang]) . "</option>\n";
     }
     echo $optionsstatus;
     echo "</select>\n";
@@ -88,9 +88,9 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     echo "<select name=\"localisation\">\n";
     echo "<option value=\"\"></option>";
     echo "<optgroup label=\"" . $localisationintmessage[$lang] . "\">\n";
-    $reqlocalisation="SELECT code, library, name1, name2, name3, name4, name5 FROM localizations WHERE library = \"$monbib\" ORDER BY name1 ASC";
+    $reqlocalisation="SELECT code, library, name1, name2, name3, name4, name5 FROM localizations WHERE library = ? ORDER BY name1 ASC";
     $optionslocalisation="";
-    $resultlocalisation = dbquery($reqlocalisation);
+    $resultlocalisation = dbquery($reqlocalisation, array($monbib), "s");
     while ($rowlocalisation = iimysqli_result_fetch_array($resultlocalisation)){
         $codelocalisation = $rowlocalisation["code"];
         $namelocalisation["fr"] = $rowlocalisation["name1"];
@@ -98,14 +98,14 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
         $namelocalisation["de"] = $rowlocalisation["name3"];
         $namelocalisation["it"] = $rowlocalisation["name4"];
         $namelocalisation["es"] = $rowlocalisation["name5"];
-        $optionslocalisation.="<option value=\"$codelocalisation\"";
-        $optionslocalisation.=">" . $namelocalisation[$lang] . "</option>\n";
+        $optionslocalisation.="<option value=\"".htmlspecialchars($codelocalisation)."\"";
+        $optionslocalisation.=">" . htmlspecialchars($namelocalisation[$lang]) . "</option>\n";
     }
     echo $optionslocalisation;
     // select other libraries
-    $reqlocalisationext="SELECT code, name1, name2, name3, name4, name5 FROM libraries WHERE code != \"$monbib\" ORDER BY name1 ASC";
+    $reqlocalisationext="SELECT code, name1, name2, name3, name4, name5 FROM libraries WHERE code != ? ORDER BY name1 ASC";
     $optionslocalisationext="";
-    $resultlocalisationext = dbquery($reqlocalisationext);
+    $resultlocalisationext = dbquery($reqlocalisationext, array($monbib), "s");
     $nbext = iimysqli_num_rows($resultlocalisationext);
     if ($nbext > 0){
         while ($rowlocalisationext = iimysqli_result_fetch_array($resultlocalisationext)){
@@ -115,9 +115,9 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             $namelocalisationext["de"] = $rowlocalisationext["name3"];
             $namelocalisationext["it"] = $rowlocalisationext["name4"];
             $namelocalisationext["es"] = $rowlocalisationext["name5"];
-            $optionslocalisationext.="<option value=\" $codelocalisationext \">" . $namelocalisationext[$lang] . "</option>\n";
+            $optionslocalisationext.="<option value=\" ".htmlspecialchars($codelocalisationext)."\">" . htmlspecialchars($namelocalisationext[$lang]) . "</option>\n";
         }
-        echo "<optgroup label=\"" . $localisationextmessage[$lang] . "\">\n";
+        echo "<optgroup label=\"" . htmlspecialchars($localisationextmessage[$lang]) . "\">\n";
         echo $optionslocalisationext;
     }
     echo "</select>\n";
@@ -137,7 +137,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     $resultsource = dbquery($reqsource);
     while ($rowsource = iimysqli_result_fetch_array($resultsource)){
         $codesource = $rowsource["arrivee"];
-        $optionssource.="<option value=\"$codesource\">$codesource</option>\n";
+        $optionssource.="<option value=\"".htmlspecialchars($codesource)."\">".htmlspecialchars($codesource)."</option>\n";
     }
     echo $optionssource;
     echo "<option value=\"new\">" . $addvaluemessage[$lang] . "</option>\n";
@@ -190,7 +190,7 @@ else{
     echo "<input name=\"sid\" type=\"hidden\" value=\"\">\n";
     echo "<input name=\"pid\" type=\"hidden\" value=\"\">\n";
     if (!empty($referer))
-        echo "<input name=\"referer\" type=\"hidden\" value=\"" . rawurlencode($referer) . "\">\n";
+        echo "<input name=\"referer\" type=\"hidden\" value=\"" . htmlspecialchars(rawurlencode($referer)) . "\">\n";
     else
         echo "<input name=\"referer\" type=\"hidden\" value=\"\">\n";
     echo "<input name=\"action\" type=\"hidden\" value=\"saisie\">\n";
@@ -233,8 +233,8 @@ $resultunits = dbquery($requnits);
 while ($rowunits = iimysqli_result_fetch_array($resultunits)){
     $codeunits = $rowunits["code"];
     $nameunits = $rowunits[$unitsortlang];
-    $optionsunits.="<option value=\"" . $codeunits . "\"";
-    $optionsunits.=">" . $nameunits . "</option>\n";
+    $optionsunits.="<option value=\"" . htmlspecialchars($codeunits) . "\"";
+    $optionsunits.=">" . htmlspecialchars($nameunits) . "</option>\n";
 }
 echo $optionsunits;
 echo "</select>\n";
@@ -298,7 +298,7 @@ echo "<div class=\"box\"><div class=\"box-content\">\n";
 echo "<center><b>" . $lookupmessage[$lang] . " </b>\n";
 echo "<select name=\"tid\">\n";
 foreach($lookupuid as $value) {
-    echo "<option value=\"" . $value["code"] . "\">" . $value["name"] . "</option>\n";
+    echo "<option value=\"" . htmlspecialchars($value["code"]) . "\">" . htmlspecialchars($value["name"]) . "</option>\n";
 }
 echo "</select>\n";
 echo "<input name=\"uids\" type=\"text\" size=\"20\" value=\"\">\n";
@@ -313,7 +313,7 @@ else
     echo "<TR><TD>Type de document : </td><td>\n";
 echo "<select name=\"genre\">\n";
 foreach($doctypes as $value) {
-    echo "<option value=\"" . $value["code"] . "\">" . $value[$lang] . "</option>\n";
+    echo "<option value=\"" . htmlspecialchars($value["code"]) . "\">" . htmlspecialchars($value[$lang]) . "</option>\n";
 }
 echo "</select>\n";
 echo "<div class=\"formdoc\">\n";

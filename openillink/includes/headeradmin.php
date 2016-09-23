@@ -80,7 +80,7 @@ echo "<div class=\"headBarRow2\">\n";
 echo "<div class=\"topNavArea\">\n";
 echo "<ul>\n";
 
-echo "<li><b>".$monnom."</b>&nbsp;<a href=\"$fileLogin?action=logout\" title=\"Logout\">[" . $logout[$lang] . "]</a></li>\n";
+echo "<li><b>".htmlspecialchars($monnom)."</b>&nbsp;<a href=\"$fileLogin?action=logout\" title=\"Logout\">[" . $logout[$lang] . "]</a></li>\n";
 echo "| &nbsp;&nbsp;<li><a href=\"$fileIndex\" class=\"selected\" title=\"" . $neworder[$lang] . "\">" . $neworder[$lang] . "</a></li>\n";
 if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     echo "| &nbsp;<li><a href=\"$fileList?folder=in\" title=\"" . $inhelp[$lang] . "\">" . $inbox[$lang] . "</a></li>\n";

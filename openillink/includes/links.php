@@ -31,21 +31,21 @@ require_once('connexion.php');
 
 echo "<div id=\"illinks\">\n";
 echo "<div class=\"box\"><div class=\"box-content\">\n";
-echo "<ul><li><a href=\"edit.php?table=orders&id=".$enreg['illinkid']."\"><b><font color=\"red\">\n";
+echo "<ul><li><a href=\"edit.php?table=orders&amp;id=".htmlspecialchars($enreg['illinkid'])."\"><b><font color=\"red\">\n";
 echo "Editer la commande</font></a></b></li>\n";
 // echo "<ul><li><b><font color=\"grey\">\n";
 // echo "Editer la commande [en maintenance]</font></b></li>\n";
 if ($directoryurl1 != ""){
-   $mydirectory1search = str_replace("XNAMEX",stripslashes($enreg['nom']),$directoryurl1);
+   $mydirectory1search = str_replace("XNAMEX", urlencode($enreg['nom']),$directoryurl1);
    $mydirectory1search = str_replace("XFIRSTNAMEX",urlencode ($enreg['prenom']),$mydirectory1search);
-   echo "<li><a href=\"" . $mydirectory1search . "\" target=_blank title=\"" . $directory1message[$lang] . "\">\n";
+   echo "<li><a href=\"" . htmlspecialchars($mydirectory1search) . "\" target=_blank title=\"" . $directory1message[$lang] . "\">\n";
    echo $directoryname1 . "</a></li>\n";
 }
 
 if ($directoryurl2 != ""){
    $mydirectory2search = str_replace("XNAMEX",urlencode ($enreg['nom']),$directoryurl2);
    $mydirectory2search = str_replace("XFIRSTNAMEX",urlencode ($enreg['prenom']),$mydirectory2search);
-   echo "<li><a href=\"" . $mydirectory2search . "\" target=_blank title=\"" . $directory2message[$lang] . "\">\n";
+   echo "<li><a href=\"" . htmlspecialchars($mydirectory2search) . "\" target=_blank title=\"" . $directory2message[$lang] . "\">\n";
    echo $directoryname2 . "</a></li>\n";
 }
 echo "</ul>\n";
@@ -67,20 +67,20 @@ if ($enreg['supplement']!=''){
 if ($enreg['titre_article']!=''){
     /* MDV - 15.12.2015 : display group title only if at least one link has actually been defined for the group; code moved from line 96 to line 103*/
     /*echo "</ul><b>Chercher par titre d'article</b>\n";*/ 
-    $reqlinks="SELECT title, url, url_encoded FROM links WHERE search_atitle = 1 AND library = '$monbib' AND active = 1 ORDER BY ordonnancement, title ASC";
+    $reqlinks="SELECT title, url, url_encoded FROM links WHERE search_atitle = 1 AND library = ? AND active = 1 ORDER BY ordonnancement, title ASC";
     $listlinks="";
-    $resultlinks = dbquery($reqlinks);
+    $resultlinks = dbquery($reqlinks, array($monbib), "s");
     $nblinks = iimysqli_num_rows($resultlinks);
     if ($nblinks > 0){
         echo "</ul><b>Chercher par titre d'article</b>\n";
         while ($rowlinks = iimysqli_result_fetch_array($resultlinks)){
             $linktitle = $rowlinks["title"];
             $linkurl = $rowlinks["url"];
-            $linkurlencoded = $rowlinks["url_encoded"]==1?true:false;
+            $linkurlencoded = true; // $rowlinks["url_encoded"]==1?true:false;
             /* MDV - replace all placeholders with a single function call to replaceExistingPlaceHolders */
             //$linkurlreplace = str_replace("XTITLEX",urlencode ($enreg['titre_article']),$linkurl);
-            $linkurlreplace = replaceExistingPlaceHolders($enreg,stripslashes($enreg['titre_article']), $linkurl, $linkurlencoded);
-            $listlinks.="<li><a href=\"" . $linkurlreplace . "\" target=\"_blank\">" . $linktitle . "</a></li>\n";
+            $linkurlreplace = replaceExistingPlaceHolders($enreg,$enreg['titre_article'], $linkurl, $linkurlencoded);
+            $listlinks.="<li><a href=\"" . htmlspecialchars($linkurlreplace) . "\" target=\"_blank\">" . htmlspecialchars($linktitle) . "</a></li>\n";
         }
         echo "<ul>\n";
         echo $listlinks;
@@ -93,16 +93,16 @@ if (($enreg['type_doc']=='article')||($enreg['type_doc']=='Article')||($enreg['t
     if ($enreg['issn']!=''){
         /* MDV - 15.12.2015 : display group title only if at least one link has actually been defined for the group; code moved from line 127 to line 134*/
         /*echo "<b>Chercher par ISSN</b>\n";*/
-        $reqlinks="SELECT title, url, url_encoded,skip_words, skip_txt_after_mark FROM links WHERE search_issn = 1 AND library = '$monbib' AND active = 1 ORDER BY ordonnancement, title ASC";
+        $reqlinks="SELECT title, url, url_encoded,skip_words, skip_txt_after_mark FROM links WHERE search_issn = 1 AND library = ? AND active = 1 ORDER BY ordonnancement, title ASC";
         $listlinks="";
-        $resultlinks = dbquery($reqlinks);
+        $resultlinks = dbquery($reqlinks, array($monbib), "s");
         $nblinks = iimysqli_num_rows($resultlinks);
         if ($nblinks > 0){
             echo "<b>Chercher par ISSN</b>\n";
             while ($rowlinks = iimysqli_result_fetch_array($resultlinks)){
                 $linktitle = $rowlinks["title"];
                 $linkurl = $rowlinks["url"];
-                $linkurlencoded = $rowlinks["url_encoded"]==1?true:false;
+                $linkurlencoded = true; // $rowlinks["url_encoded"]==1?true:false;
                 $linkskip_words = $rowlinks["skip_words"]==1?true:false;
                 $linkskip_after_mark = $rowlinks["skip_txt_after_mark"]==1?true:false;
                 /* MDV - replace all placeholders with a single function call to replaceExistingPlaceHolders */
@@ -112,7 +112,7 @@ if (($enreg['type_doc']=='article')||($enreg['type_doc']=='Article')||($enreg['t
                 // $stitleclean = str_replace("-"," ",$stitleclean);
                 $stitleclean = skipTxtAfterSign($linkskip_after_mark, $stitleclean);
                 $linkurlreplace = replaceExistingPlaceHolders($enreg,'',$linkurl, $linkurlencoded);
-                $listlinks.="<li><a href=\"" . $linkurlreplace . "\" target=\"_blank\">" . $linktitle . "</a></li>\n";
+                $listlinks.="<li><a href=\"" . htmlspecialchars($linkurlreplace) . "\" target=\"_blank\">" . htmlspecialchars($linktitle) . "</a></li>\n";
             }
             echo "<ul>\n";
             echo $listlinks;
@@ -123,16 +123,16 @@ if (($enreg['type_doc']=='article')||($enreg['type_doc']=='Article')||($enreg['t
     if ($enreg['titre_periodique']!=''){
         /* MDV - 15.12.2015 : display group title only if at least one link has actually been defined for the group; code moved from line 154 to line 161*/
         /*echo "<b>Chercher par titre du périodique</b>\n";*/
-        $reqlinks="SELECT title, url, url_encoded,skip_words, skip_txt_after_mark FROM links WHERE search_ptitle = 1 AND library = '$monbib' AND active = 1 ORDER BY ordonnancement, title ASC";
+        $reqlinks="SELECT title, url, url_encoded,skip_words, skip_txt_after_mark FROM links WHERE search_ptitle = 1 AND library = ? AND active = 1 ORDER BY ordonnancement, title ASC";
         $listlinks="";
-        $resultlinks = dbquery($reqlinks);
+        $resultlinks = dbquery($reqlinks, array($monbib), "s");
         $nblinks = iimysqli_num_rows($resultlinks);
         if ($nblinks > 0){
             echo "<b>Chercher par titre du périodique</b>\n";
             while ($rowlinks = iimysqli_result_fetch_array($resultlinks)){
                 $linktitle = $rowlinks["title"];
                 $linkurl = $rowlinks["url"];
-                $linkurlencoded = $rowlinks["url_encoded"]==1?true:false;
+                $linkurlencoded = true; // $rowlinks["url_encoded"]==1?true:false;
                 $linkskip_words = $rowlinks["skip_words"]==1?true:false;
                 $linkskip_after_mark = $rowlinks["skip_txt_after_mark"]==1?true:false;
 
@@ -140,10 +140,9 @@ if (($enreg['type_doc']=='article')||($enreg['type_doc']=='Article')||($enreg['t
                 //$linkurlreplace = str_replace("XTITLEX",urlencode ($stitleclean),$linkurl);
                 $stitleclean = skipWords($linkskip_words, $enreg['titre_periodique']);
                 $stitleclean = skipTxtAfterSign($linkskip_after_mark, $stitleclean);
-                $stitleclean = stripslashes($stitleclean);
 
-                $linkurlreplace = replaceExistingPlaceHolders($enreg,urlencode ($stitleclean),$linkurl, $linkurlencoded);
-                $listlinks.="<li><a href=\"" .  htmlspecialchars($linkurlreplace) . "\" target=\"_blank\">" . $linktitle . "</a></li>\n";
+                $linkurlreplace = replaceExistingPlaceHolders($enreg, $stitleclean, $linkurl, $linkurlencoded);
+                $listlinks.="<li><a href=\"" .  htmlspecialchars($linkurlreplace) . "\" target=\"_blank\">" . htmlspecialchars($linktitle) . "</a></li>\n";
             }
             echo "<ul>\n";
             echo $listlinks;
@@ -158,16 +157,16 @@ if (in_array($enreg['type_doc'], $documentWithISBN, TRUE)){
     if ($enreg['isbn']!=''){
         /* MDV - 15.12.2015 : display group title only if at least one link has actually been defined for the group; code moved from line 186 to line 193*/
         //echo "<b>Chercher par ISBN</b>\n";
-        $reqlinks="SELECT title, url, url_encoded,skip_words, skip_txt_after_mark FROM links WHERE search_isbn = 1 AND library = '$monbib' AND active = 1 ORDER BY ordonnancement, title ASC";
+        $reqlinks="SELECT title, url, url_encoded,skip_words, skip_txt_after_mark FROM links WHERE search_isbn = 1 AND library = ? AND active = 1 ORDER BY ordonnancement, title ASC";
         $listlinks="";
-        $resultlinks = dbquery($reqlinks);
+        $resultlinks = dbquery($reqlinks, array($monbib), "s");
         $nblinks = iimysqli_num_rows($resultlinks);
         if ($nblinks > 0){
             echo "<b>Chercher par ISBN</b>\n";
             while ($rowlinks = iimysqli_result_fetch_array($resultlinks)){
                 $linktitle = $rowlinks["title"];
                 $linkurl = $rowlinks["url"];
-                $linkurlencoded = $rowlinks["url_encoded"]==1?true:false;
+                $linkurlencoded = true; // $rowlinks["url_encoded"]==1?true:false;
                 $linkskip_words = $rowlinks["skip_words"]==1?true:false;
                 $linkskip_after_mark = $rowlinks["skip_txt_after_mark"]==1?true:false;
                 /* MDV - replace all placeholders with a single function call to replaceExistingPlaceHolders */
@@ -175,8 +174,8 @@ if (in_array($enreg['type_doc'], $documentWithISBN, TRUE)){
                 $stitleclean = skipWords($linkskip_words, $enreg['titre_periodique']);
                 // $stitleclean = str_replace("-"," ",$stitleclean);
                 $stitleclean = skipTxtAfterSign($linkskip_after_mark, $stitleclean);
-                $linkurlreplace = replaceExistingPlaceHolders($enreg,stripslashes($stitleclean),$linkurl, $linkurlencoded);
-                $listlinks.="<li><a href=\"" . $linkurlreplace . "\" target=\"_blank\">" . $linktitle . "</a></li>\n";
+                $linkurlreplace = replaceExistingPlaceHolders($enreg, $stitleclean, $linkurl, $linkurlencoded);
+                $listlinks.="<li><a href=\"" . htmlspecialchars($linkurlreplace) . "\" target=\"_blank\">" . htmlspecialchars($linktitle) . "</a></li>\n";
             }
             echo "<ul>\n";
             echo $listlinks;
@@ -187,16 +186,16 @@ if (in_array($enreg['type_doc'], $documentWithISBN, TRUE)){
     if ($enreg['titre_periodique']!=''){
         /* MDV - 15.12.2015 : display group title only if at least one link has actually been defined for the group; code moved from line 212 to line 219*/
         //echo "<b>Chercher par titre du livre</b>\n";
-        $reqlinks="SELECT title, url, url_encoded,skip_words, skip_txt_after_mark FROM links WHERE search_btitle = 1 AND library = '$monbib' AND active = 1 ORDER BY ordonnancement, title ASC";
+        $reqlinks="SELECT title, url, url_encoded,skip_words, skip_txt_after_mark FROM links WHERE search_btitle = 1 AND library = ? AND active = 1 ORDER BY ordonnancement, title ASC";
         $listlinks="";
-        $resultlinks = dbquery($reqlinks);
+        $resultlinks = dbquery($reqlinks, array($monbib), "s");
         $nblinks = iimysqli_num_rows($resultlinks);
         if ($nblinks > 0){
             echo "<b>Chercher par titre du livre</b>\n";
             while ($rowlinks = iimysqli_result_fetch_array($resultlinks)){
                 $linktitle = $rowlinks["title"];
                 $linkurl = $rowlinks["url"];
-                $linkurlencoded = $rowlinks["url_encoded"]==1?true:false;
+                $linkurlencoded = true; // $rowlinks["url_encoded"]==1?true:false;
                 $linkskip_words = $rowlinks["skip_words"]==1?true:false;
                 $linkskip_after_mark = $rowlinks["skip_txt_after_mark"]==1?true:false;
                 // MDV - remplacement de tous les placeholders d'un coup
@@ -204,8 +203,8 @@ if (in_array($enreg['type_doc'], $documentWithISBN, TRUE)){
                 $stitleclean = skipWords($linkskip_words, $enreg['titre_periodique']);
                 // $stitleclean = str_replace("-"," ",$stitleclean);
                 $stitleclean = skipTxtAfterSign($linkskip_after_mark, $stitleclean);
-                $linkurlreplace = replaceExistingPlaceHolders($enreg,stripslashes($stitleclean),$linkurl, $linkurlencoded);
-                $listlinks.="<li><a href=\"" . $linkurlreplace . "\" target=\"_blank\">" . $linktitle . "</a></li>\n";
+                $linkurlreplace = replaceExistingPlaceHolders($enreg, $stitleclean, $linkurl, $linkurlencoded);
+                $listlinks.="<li><a href=\"" . htmlspecialchars($linkurlreplace) . "\" target=\"_blank\">" . htmlspecialchars($linktitle) . "</a></li>\n";
             }
             echo "<ul>\n";
             echo $listlinks;
@@ -214,9 +213,9 @@ if (in_array($enreg['type_doc'], $documentWithISBN, TRUE)){
     }
 }
 // Links to transfert orders
-$reqlinks="SELECT title, url, openurl, order_form, url_encoded,skip_words, skip_txt_after_mark FROM links WHERE (order_ext = 1 OR order_form = 1) AND library = '$monbib' AND active = 1 ORDER BY ordonnancement, title ASC";
+$reqlinks="SELECT title, url, openurl, order_form, url_encoded,skip_words, skip_txt_after_mark FROM links WHERE (order_ext = 1 OR order_form = 1) AND library = ? AND active = 1 ORDER BY ordonnancement, title ASC";
 $listlinks="";
-$resultlinks = dbquery($reqlinks);
+$resultlinks = dbquery($reqlinks, array($monbib), "s");
 $nblinks = iimysqli_num_rows($resultlinks);
 if ($nblinks > 0){
     echo "<b>Traiter la commande</b>\n";
@@ -262,9 +261,9 @@ if ($nblinks > 0){
             // $linkurl .= "&id=" . urlencode ($enreg['uid'];
             $linkurl .= "&genre=" . urlencode ($enreg['type_doc']);
             $linkurl .= "&aulast=" . urlencode ($enreg['auteurs']);
-            $linkurl .= "&issn=" . $enreg['issn'];
-            $linkurl .= "&eissn=" . $enreg['eissn'];
-            $linkurl .= "&isbn=" . $enreg['isbn'];
+            $linkurl .= "&issn=" . urlencode ($enreg['issn']);
+            $linkurl .= "&eissn=" . urlencode ($enreg['eissn']);
+            $linkurl .= "&isbn=" . urlencode ($enreg['isbn']);
             $linkurl .= "&title=" . urlencode ($stitleclean);
             $linkurl .= "&atitle=" . urlencode ($enreg['titre_article']);
             $linkurl .= "&volume=" . urlencode ($enreg['volume']);
@@ -276,10 +275,10 @@ if ($nblinks > 0){
             $linkurl = $linkurl . "&id=" . $enreg['illinkid'];
         $linkurlreplace = $linkurl;
         $linkurlreplace = str_replace("XSIDX",$openurlsid,$linkurlreplace);
-        $linkurlencoded = $rowlinks["url_encoded"]==1?true:false;
+        $linkurlencoded = true; // $rowlinks["url_encoded"]==1?true:false;
         // MDV - remplacement de tous les placeholders d'un coup
         $linkurlreplace = replaceExistingPlaceHolders($enreg,$stitleclean,$linkurlreplace, $linkurlencoded);
-        $listlinks.="<li><a href=\"" . $linkurlreplace . "\" target=\"_blank\">" . $linktitle . "</a></li>\n";
+        $listlinks.="<li><a href=\"" . htmlspecialchars($linkurlreplace) . "\" target=\"_blank\">" . htmlspecialchars($linktitle) . "</a></li>\n";
     }
     echo "<ul>\n";
     echo $listlinks;

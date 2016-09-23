@@ -59,62 +59,62 @@ function replaceExistingPlaceHolders(
 
     $urlWithRealVal = $url;
 
-    $illinkidUrl = $urlencoded? urlencode(stripslashes(utf8_decode($currEnreg['illinkid']))) : stripslashes($currEnreg['illinkid']);
+    $illinkidUrl = $urlencoded? urlencode(utf8_decode($currEnreg['illinkid'])) : $currEnreg['illinkid'];
     $urlWithRealVal = str_replace("XPIDX", $illinkidUrl, $urlWithRealVal);
 
-    $doiUrl = $urlencoded? urlencode(stripslashes(utf8_decode($currEnreg['doi']))) : stripslashes($currEnreg['doi']);
+    $doiUrl = $urlencoded? urlencode(utf8_decode($currEnreg['doi'])) : $currEnreg['doi'];
     $urlWithRealVal = str_replace("XDOIX", $doiUrl, $urlWithRealVal);
 
-    $pmidUrl = $urlencoded? urlencode(stripslashes(utf8_decode($currEnreg['PMID']))) : stripslashes($currEnreg['PMID']);
+    $pmidUrl = $urlencoded? urlencode(utf8_decode($currEnreg['PMID'])) : $currEnreg['PMID'];
     $urlWithRealVal = str_replace("XPMIDX", $pmidUrl,$urlWithRealVal);
 
-    $genreUrl = $urlencoded? urlencode(stripslashes(utf8_decode($currEnreg['type_doc']))) : stripslashes($currEnreg['type_doc']);
+    $genreUrl = $urlencoded? urlencode(utf8_decode($currEnreg['type_doc'])) : $currEnreg['type_doc'];
     $urlWithRealVal = str_replace("XGENREX", $genreUrl, $urlWithRealVal);
 
-    $auteursUrl = $urlencoded? urlencode(stripslashes(utf8_decode($currEnreg['auteurs']))) : stripslashes($currEnreg['auteurs']);
+    $auteursUrl = $urlencoded? urlencode(utf8_decode($currEnreg['auteurs'])) : $currEnreg['auteurs'];
     $urlWithRealVal = str_replace("XAULASTX", $auteursUrl, $urlWithRealVal);
 
-    $issnUrl = $urlencoded? urlencode(stripslashes(utf8_decode($currEnreg['issn']))) : stripslashes($currEnreg['issn']);
+    $issnUrl = $urlencoded? urlencode(utf8_decode($currEnreg['issn'])) : $currEnreg['issn'];
     $urlWithRealVal = str_replace("XISSNX", $issnUrl, $urlWithRealVal);
 
-    $eissnUrl = $urlencoded? urlencode(stripslashes(utf8_decode($currEnreg['eissn']))) : stripslashes($currEnreg['eissn']);
+    $eissnUrl = $urlencoded? urlencode(utf8_decode($currEnreg['eissn'])) : $currEnreg['eissn'];
     $urlWithRealVal = str_replace("XEISSNX", $eissnUrl, $urlWithRealVal);
 
-    $isbnUrl = $urlencoded? urlencode(stripslashes(utf8_decode($currEnreg['isbn']))) : stripslashes($currEnreg['isbn']);
+    $isbnUrl = $urlencoded? urlencode(utf8_decode($currEnreg['isbn'])) : $currEnreg['isbn'];
     $urlWithRealVal = str_replace("XISBNX", $isbnUrl, $urlWithRealVal);
 
-    $titleUrl = $urlencoded? urlencode(stripslashes(utf8_decode($stitleclean))): stripslashes($stitleclean);
+    $titleUrl = $urlencoded? urlencode(utf8_decode($stitleclean)): $stitleclean;
     $urlWithRealVal = str_replace("XTITLEX", $titleUrl, $urlWithRealVal);
 
-    $atitleUrl = $urlencoded? urlencode(stripslashes(utf8_decode($currEnreg['titre_article']))) : stripslashes($currEnreg['titre_article']);
+    $atitleUrl = $urlencoded? urlencode(utf8_decode($currEnreg['titre_article'])) : $currEnreg['titre_article'];
     $urlWithRealVal = str_replace("XATITLEX", $atitleUrl, $urlWithRealVal);
 
-    $volumeUrl = $urlencoded? urlencode(stripslashes(utf8_decode($currEnreg['volume']))) : stripslashes($currEnreg['volume']);
+    $volumeUrl = $urlencoded? urlencode(utf8_decode($currEnreg['volume'])) : $currEnreg['volume'];
     $urlWithRealVal = str_replace("XVOLUMEX", $volumeUrl, $urlWithRealVal);
 
-    $numeroUrl = $urlencoded? urlencode(stripslashes(utf8_decode($currEnreg['numero']))) : stripslashes($currEnreg['numero']);
+    $numeroUrl = $urlencoded? urlencode(utf8_decode($currEnreg['numero'])) : $currEnreg['numero'];
     $urlWithRealVal = str_replace("XISSUEX", $numeroUrl, $urlWithRealVal);
 
-    $pagesUrl = $urlencoded? urlencode(stripslashes(utf8_decode($currEnreg['pages']))) : stripslashes($currEnreg['pages']);
+    $pagesUrl = $urlencoded? urlencode(utf8_decode($currEnreg['pages'])) : $currEnreg['pages'];
     $urlWithRealVal = str_replace("XPAGESX", $pagesUrl, $urlWithRealVal);
 
-    $anneeUrl = $urlencoded? urlencode(stripslashes(utf8_decode($currEnreg['annee']))) : stripslashes($currEnreg['annee']);
+    $anneeUrl = $urlencoded? urlencode(utf8_decode($currEnreg['annee'])) : $currEnreg['annee'];
     $urlWithRealVal = str_replace("XDATEX", $anneeUrl, $urlWithRealVal);
 
-    $fullnameUrl = $urlencoded? urlencode(stripslashes(utf8_decode($currEnreg['nom'] . ", " . $currEnreg['prenom']))) : stripslashes(($currEnreg['nom'] . ", " . $currEnreg['prenom']));
+    $fullnameUrl = $urlencoded? urlencode(utf8_decode($currEnreg['nom'] . ", " . $currEnreg['prenom'])) : ($currEnreg['nom'] . ", " . $currEnreg['prenom']);
     $urlWithRealVal = str_replace("XNAMEX", $fullnameUrl, $urlWithRealVal);
     //TODO nouveau placeholder à valider avec Pablo
 
-    $nomUrl = $urlencoded? urlencode(stripslashes(utf8_decode($currEnreg['nom']))) : stripslashes($currEnreg['nom']);
+    $nomUrl = $urlencoded? urlencode(utf8_decode($currEnreg['nom'])) : $currEnreg['nom'];
     $urlWithRealVal = str_replace("XNOMX", $nomUrl, $urlWithRealVal);
     //TODO nouveau placeholder à valider avec Pablo
 
 
-    $prenomUrl = $urlencoded? urlencode(stripslashes(utf8_decode($currEnreg['prenom']))) : stripslashes($currEnreg['prenom']);
+    $prenomUrl = $urlencoded? urlencode(utf8_decode($currEnreg['prenom'])) : $currEnreg['prenom'];
     $urlWithRealVal = str_replace("XPRENOMX", $prenomUrl, $urlWithRealVal);
     //TODO nouveau placeholder à valider avec Pablo
 
-    $uidUrl = $urlencoded? urlencode(stripslashes(utf8_decode($currEnreg['uid']))) : stripslashes($currEnreg['uid']);
+    $uidUrl = $urlencoded? urlencode(utf8_decode($currEnreg['uid'])) : $currEnreg['uid'];
     $urlWithRealVal = str_replace("XUIDX", $uidUrl, $urlWithRealVal);
     /*
     if ($urlencoded){

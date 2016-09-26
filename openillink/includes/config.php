@@ -116,17 +116,14 @@ $directoryname2 = "Hosp. directory";
 $directoryurl2 = "http://www.univabc.com/ldap?nom=XNAMEX&prenom=XFIRSTNAMEX";
 
 // Define the unique identifiers used on the lookup tool
-$lookupuid[0]["name"] = "PMID";
-$lookupuid[0]["code"] = "pmid";
-$lookupuid[1]["name"] = "DOI";
-$lookupuid[1]["code"] = "doi";
-$lookupuid[2]["name"] = "ISBN";
-$lookupuid[2]["code"] = "isbn";
-$lookupuid[3]["name"] = "RERO ID";
-$lookupuid[3]["code"] = "reroid";
-$lookupuid[4]["name"] = "WoS ID";
-$lookupuid[4]["code"] = "wosid";
-
+$lookupuid = array(
+			  array('name' => "PMID", 'code' => "pmid"),
+			  array('name' => "DOI", 'code' => "doi"),
+			  array('name' => "ISBN (RERO)", 'code' => "isbn"),
+			  array('name' => "ISBN (swissbib)", 'code' => "isbn_swissbib"),
+			  array('name' => "RERO ID", 'code' => "reroid"),
+			  array('name' => "WoS ID", 'code' => "wosid"),
+			);
 
 // OpenURL parameters
 $openurlsid = "OpenILLink:DemoDB";

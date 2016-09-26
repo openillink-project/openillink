@@ -60,6 +60,10 @@ function lookupid() {
         cleanIllForm();
         updateIllform5();
     }
+    if ((document.commande.uids.value != "") && (document.commande.tid.value == "isbn_swissbib")){
+        cleanIllForm();
+        updateIllform6();
+    }
 }
 
 //
@@ -843,6 +847,218 @@ var http5 = getHTTPObject5();
 
 //
 // END Wos ID
+// ********************************************************************************************************
+//
+// START swissbib
+// Any supported identifier. For eg: 9780444632746
+//
+var url6 = 'lookup.php?swissbib-identifier=';
+// sample ISBN : 9780444632746
+
+function handleHttpResponse6() {
+    if (http6.readyState == 4) {
+        try {
+  console.log(http6.responseText);
+            result = JSON.parse(http6.responseText.trim());
+        } catch (e) {
+            console.error("Parsing error:", e);
+            console.error("Response", http6.responseText);
+        }
+        if (result && result.hasOwnProperty("numberOfRecords") && result.numberOfRecords != "0") {
+            // initialisation des variables target
+            var docType = "book";
+			var authorslist = [];
+            var authors = '';
+            var article = '';
+            var annee = '';
+            var editeur = '';
+            var issn = '';
+            var edition = '';
+            var titre = '';
+
+            // fin initialisation
+			var record = result.collection[0];
+			var datafield;
+			var tag;
+			var ind1;
+			var ind2;
+			var subfield;
+			for (var i in record.fields) {
+				datafield = record.fields[i];
+				tag = Object.keys(datafield)[0];
+				if (tag == "245") {
+					// title
+					if (datafield[tag].hasOwnProperty("subfields")) {
+						subfields = datafield[tag].subfields;
+						/*
+						if (datafield[tag].hasOwnProperty("ind1")) {
+							ind1 = datafield[tag].ind1;
+						} else {
+							ind1 = "";
+						}
+						if (datafield[tag].hasOwnProperty("ind2")) {
+							ind2 = datafield[tag].ind2;
+						} else {
+							ind2 = "";
+						}*/
+						for (var j in subfields) {
+							subfield = subfields[j];
+							code = Object.keys(subfield)[0];
+							if (code == "a" || code == "b" || code == "c") {
+								if (titre != "") {titre += " ";}
+								titre += subfield[code];
+							}
+						}
+					}
+				} else if (tag == "100" || tag == "700") {
+					// authors
+					var this_author = "";
+					if (datafield[tag].hasOwnProperty("subfields")) {
+						subfields = datafield[tag].subfields;
+						for (var j in subfields) {
+							subfield = subfields[j];
+							code = Object.keys(subfield)[0];
+							if (code == "a" || code == "D") {
+								if (this_author != "") {this_author += ", ";}
+								this_author += subfield[code];
+							}
+						}
+						if (this_author += "") {
+							authorslist.push(this_author);
+						}
+					}
+				} else if (tag == "260" || tag == "264") {
+					// year / editor
+					if (datafield[tag].hasOwnProperty("subfields")) {
+						subfields = datafield[tag].subfields;
+						for (var j in subfields) {
+							subfield = subfields[j];
+							code = Object.keys(subfield)[0];
+							if (code == "b") {
+								editeur = subfield[code];
+							} else if (code == "c") {
+								annee += subfield[code];
+							}
+						}
+					}
+				} else if (tag == "020") {
+					// issn
+					if (datafield[tag].hasOwnProperty("subfields")) {
+						subfields = datafield[tag].subfields;
+						for (var j in subfields) {
+							subfield = subfields[j];
+							code = Object.keys(subfield)[0];
+							if (code == "a") {
+								issn = subfield[code];
+							}
+						}
+					}
+				} else if (tag == "250") {
+					// edition
+					if (datafield[tag].hasOwnProperty("subfields")) {
+						subfields = datafield[tag].subfields;
+						for (var j in subfields) {
+							subfield = subfields[j];
+							code = Object.keys(subfield)[0];
+							if (code == "a") {
+								edition = subfield[code];
+							}
+						}
+					}
+				} else if (tag == "580") {
+					// article ?
+					var periodique = '';
+					if (datafield[tag].hasOwnProperty("subfields")) {
+						subfields = datafield[tag].subfields;
+						for (var j in subfields) {
+							subfield = subfields[j];
+							code = Object.keys(subfield)[0];
+							if (code == "a") {
+								periodique = subfield[code];
+								if (periodique) {
+									article = titre;
+									titre = periodique;
+									docType = "article";
+								}
+							}
+						}
+					}
+				}
+			}
+
+		authors = authorslist.join("; ");
+		if (edition && editeur) {
+			edition += " - ";
+		}
+
+		document.commande.genre.value = docType;
+		document.commande.title.value = titre;
+		document.commande.atitle.value = article;
+		document.commande.auteurs.value = authors;
+		document.commande.date.value = annee;
+		document.commande.edition.value = edition + editeur;
+		document.commande.issn.value = issn;
+		document.commande.uid.value = "ISBN:" + document.commande.uids.value;
+		isWorking6 = false;
+    // entryForm.submit();
+  }
+  // Message d'erreur si le ISBN n'est pas valable
+  else if (result && result.hasOwnProperty("numberOfRecords") && result.numberOfRecords == "0") {
+          alert('Identifier not found, please check your reference');
+    isWorking6 = false;
+  }
+  else
+  {
+    alert("La recherche n'a pas abouti: le service distant n'a pas repondu");
+    isWorking6 = false;
+  }
+  }
+}
+
+
+var isWorking6 = false;
+
+function updateIllform6() {
+  if (!isWorking6 && http6) {
+    var swissbib_identifier = document.commande.uids.value;
+	console.log(url6 + encodeURI(swissbib_identifier))
+    http6.open("GET", url6 + encodeURI(swissbib_identifier), true);
+    http6.onreadystatechange = handleHttpResponse6;
+    isWorking6 = true;
+    http6.send(null);
+  }
+}
+
+function getHTTPObject6() {
+  var xmlhttp6;
+  /*@cc_on
+  @if (@_jscript_version >= 5)
+    try {
+      xmlhttp5 = new ActiveXObject("Msxml5.XMLHTTP");
+    } catch (e) {
+      try {
+        xmlhttp5 = new ActiveXObject("Microsoft.XMLHTTP");
+      } catch (E) {
+        xmlhttp5 = false;
+      }
+    }
+  @else
+  xmlhttp5 = false;
+  @end @*/
+  if (!xmlhttp6 && typeof XMLHttpRequest != 'undefined') {
+    try {
+      xmlhttp6 = new XMLHttpRequest();
+    } catch (e) {
+      xmlhttp6 = false;
+    }
+  }
+  return xmlhttp6;
+}
+
+var http6 = getHTTPObject6();
+
+//
+// END swissbib
 //
 //
 // ********************************************************************************************************

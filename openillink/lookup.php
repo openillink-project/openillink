@@ -28,7 +28,7 @@
 //
 require_once ("includes/config.php");
 require_once ("includes/toolkit.php");
-$isbn = $_GET['isbn'];
+$isbn = !empty($_GET['isbn']) ? $_GET['isbn'] : null;
 if(isset($isbn) && !empty($isbn)){
     $isbn = (isset($isbn) &&  isValidInput($isbn,17,'s',false))?trim($isbn):NULL;
     $url = "http://opac.rero.ch/gateway?function=MARCSCR&search=KEYWORD&u1=7&rootsearch=KEYWORD&t1=" . $isbn;
@@ -38,7 +38,18 @@ if(isset($isbn) && !empty($isbn)){
     curl_close($ch);
 }
 
-$reroid = $_GET['reroid'];
+$swissbib_identifier = !empty($_GET['swissbib-identifier']) ? $_GET['swissbib-identifier'] : null;
+/* Works for ISBN and other identifiers at swissbib*/
+if(isset($swissbib_identifier) && !empty($swissbib_identifier)){
+    $swissbib_identifier = (isset($swissbib_identifier) &&  isValidInput($swissbib_identifier,50,'s',false))?trim($swissbib_identifier):NULL;
+    $url = "http://sru.swissbib.ch/sru/search/defaultdb?operation=searchRetrieve&recordSchema=info%3Asru%2Fschema%2Fjson&maximumRecords=1&startRecord=0&recordPacking=XML&availableDBs=defaultdb&sortKeys=Submit+query&query=+dc.identifier+%3D+" . $swissbib_identifier;
+	//  $url = $_SERVER['QUERY_STRING'];
+    $ch = curl_init($url);
+    curl_exec($ch);
+    curl_close($ch);
+}
+
+$reroid = !empty($_GET['reroid']) ? $_GET['reroid'] : null;
 if(isset($reroid) && !empty($reroid)){
     $reroid = (isset($reroid) &&  isValidInput($reroid,50,'s',false))?trim($reroid):NULL;
     //  $url = $_SERVER['QUERY_STRING'];
@@ -48,7 +59,7 @@ if(isset($reroid) && !empty($reroid)){
     curl_close($ch);
 }
 
-$pmid = $_GET['pmid'];
+$pmid = !empty($_GET['pmid']) ? $_GET['pmid'] : null;
 if(isset($pmid) && !empty($pmid)){
     $pmid = (isset($pmid) &&  isValidInput($pmid,50,'s',false))?trim($pmid):NULL;
     $url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=xml&tool=OpenLinker&email=" . $configemail . "&id=" . $pmid;
@@ -60,7 +71,7 @@ if(isset($pmid) && !empty($pmid)){
     curl_close($ch);
 }
 
-$doi = $_GET['doi'];
+$doi = !empty($_GET['doi']) ? $_GET['doi'] : null;
 if(isset($doi) && !empty($doi)){
     $doi = (isset($doi) &&  isValidInput($doi,100,'s',false))?trim($doi):NULL;
     $fp = fsockopen("www.crossref.org", 80, $errno, $errstr, 30);
@@ -79,7 +90,7 @@ if(isset($doi) && !empty($doi)){
     }
 }
 
-$ut = $_GET['wosid'];
+$ut = !empty($_GET['wosid']) ? $_GET['wosid'] : null;
 if (isset($ut) && !empty($ut)){
     $ut = (isset($ut) &&  isValidInput($ut,100,'s',false))?trim($ut):NULL;
     $ut = trim($ut);

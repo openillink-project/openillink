@@ -1048,8 +1048,11 @@ function remplirauto() {
 	// Retrieve parameters from URL
 	var url_parameters = new QueryData();
 
-	function get_url_parameter(key, defaultvalue = ""){
+	function get_url_parameter(key, defaultvalue){
 		/* Helper function to retrieve data from array */
+		   if(defaultvalue === undefined) {
+			defaultvalue = "";
+		}
 		return (key in url_parameters) ? url_parameters[key] : defaultvalue;
 	}
 

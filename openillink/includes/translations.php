@@ -138,7 +138,7 @@ $neworder["de"] = "Neue Bestellung";
 $neworder["it"] = "Nuovo ordine";
 $neworder["es"] = "Nuevo pedido";
 
-$inhelp["fr"] = "Commanes à fournir ou à valider";
+$inhelp["fr"] = "Commandes à fournir ou à valider";
 $inhelp["en"] = "Inbox";
 $inhelp["de"] = "Inbox";
 $inhelp["it"] = "Inbox";

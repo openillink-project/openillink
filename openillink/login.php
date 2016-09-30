@@ -40,16 +40,18 @@ $rediruser = "Location: " . $monuri . "list.php?folder=in";
 $redirguest = "Location: " . $monuri . "list.php?folder=guest";
 
 $validActionSet = array('logout', 'shibboleth');
-$action = isValidInput($_GET['action'],10,'s',false,$validActionSet)?$_GET['action']:NULL;
-$complement = "&action=$action&monaut=$monaut&cookie=".$_COOKIE['illinkid'];
-if ((!empty($_COOKIE['illinkid'])) && (empty($action)) && ($monaut=="sadmin"))
-    header("$rediradmin".$complement);
-if ((!empty($_COOKIE['illinkid'])) && (empty($action)) && ($monaut=="admin"))
-    header("$rediradmin".$complement);
-if ((!empty($_COOKIE['illinkid'])) && (empty($action)) && ($monaut=="user"))
-    header("$rediruser".$complement);
-if ((!empty($_COOKIE['illinkid'])) && (empty($action)) && ($monaut=="guest"))
-    header("$redirguest".$complement);
+$action = (!empty($_GET['action']) && isValidInput($_GET['action'],10,'s',false,$validActionSet))?$_GET['action']:NULL;
+if (!empty($_COOKIE['illinkid'])) {
+	$complement = "&action=$action&monaut=$monaut&cookie=".$_COOKIE['illinkid'];
+	if (empty($action) && ($monaut=="sadmin"))
+		header("$rediradmin".$complement);
+	if (empty($action) && ($monaut=="admin"))
+		header("$rediradmin".$complement);
+	if (empty($action) && ($monaut=="user"))
+		header("$rediruser".$complement);
+	if (empty($action) && ($monaut=="guest"))
+		header("$redirguest".$complement);
+}
 if(!empty($action)){
     if ($action == 'logout'){
         setcookie('illinkid[nom]', '', (time() - 31536000));

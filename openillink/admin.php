@@ -26,7 +26,7 @@
 // Home page for administrators
 require ("includes/config.php");
 require ("includes/authcookie.php");
-if (!empty($_COOKIE[illinkid])){
+if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
         require ("includes/headeradmin.php");
         echo "\n";

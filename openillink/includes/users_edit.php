@@ -38,7 +38,7 @@ $montitle = "Gestion des utilisateurs";
 $id=isValidInput($_GET['id'],11,'i',false)?$_GET['id']:'';
 $validActionSet = array('updateprofile', 'update', 'new');
 $action=isValidInput($_GET['action'],15,'s',false,$validActionSet)?$_GET['action']:'';
-if (!empty($_COOKIE[illinkid])){
+if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")||(($monaut == "user")&&($action == "updateprofile"))){
         if (($action == "updateprofile")||($id!="")){
             if (($id!="")&&(($monaut == "admin")||($monaut == "sadmin"))){

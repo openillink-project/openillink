@@ -27,7 +27,7 @@
 // 
 require ("config.php");
 require ("authcookie.php");
-if (!empty($_COOKIE[illinkid])){
+if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")){
         $myhtmltitle = $configname[$lang] . " : nouvelle étape de la commande ";
         require ("headeradmin.php");

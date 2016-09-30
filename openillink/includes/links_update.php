@@ -33,7 +33,7 @@ require_once ("authcookie.php");
 require_once ("connexion.php");
 require_once ("includes/toolkit.php");
 
-if (!empty($_COOKIE[illinkid])){
+if (!empty($_COOKIE['illinkid'])){
     $id=$_POST['id'];
     $ip = $_SERVER['REMOTE_ADDR'];
     

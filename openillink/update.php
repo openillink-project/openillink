@@ -30,7 +30,7 @@ require_once ("includes/config.php");
 require_once ("includes/authcookie.php");
 require_once ("includes/toolkit.php");
 
-if (!empty($_COOKIE[illinkid])){
+if (!empty($_COOKIE['illinkid'])){
     // switch from table parameter
     $validTableSet = array('orders', 'users', 'libraries', 'units', 'status', 'localizations', 'links');
     $table = ((!empty($_GET['table'])) && isValidInput($_GET['table'],13,'s',false,$validTableSet))? $_GET['table']:NULL;

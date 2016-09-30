@@ -4,7 +4,7 @@
 require ("includes/config.php");
 require ("includes/authcookie.php");
 require_once ("includes/toolkit.php");
-if (!empty($_COOKIE[illinkid]))
+if (!empty($_COOKIE['illinkid']))
 {
   if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user"))
   {

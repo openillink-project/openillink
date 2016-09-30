@@ -31,7 +31,7 @@ require_once ("includes/config.php");
 require_once ("includes/authcookie.php");
 require_once ("includes/toolkit.php");
 
-if (!empty($_COOKIE[illinkid])){
+if (!empty($_COOKIE['illinkid'])){
     // switch from table parameter
     $table = safeSetInput($_GET['table'],20);
     switch ($table){

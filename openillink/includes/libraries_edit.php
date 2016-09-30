@@ -36,7 +36,7 @@ require_once ("includes/toolkit.php");
 
 $montitle = "Gestion des bibliothèques";
 $id = ((!empty($_GET['id'])) && isValidInput($_GET['id'],11,'s',false)) ? $_GET['id']:"";
-if (!empty($_COOKIE[illinkid])){
+if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")){
         if ($id!=""){
             $req = "SELECT * FROM libraries WHERE id = ?";

@@ -35,7 +35,7 @@ require_once ("toolkit.php");
 $id="";
 $montitle = "Gestion des unités";
 $id=isValidInput($_GET['id'],11,'i',false)?$_GET['id']:'';
-if (!empty($_COOKIE[illinkid])){
+if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")){
         if ($id!=""){
             $req = "SELECT * FROM units WHERE id = ?";

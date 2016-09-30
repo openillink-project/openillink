@@ -33,7 +33,7 @@ require_once ("connexion.php");
 require_once ("toolkit.php");
 
 $validActionSet = array('new', 'update', 'delete', 'deleteok', 'updateprofile');
-if (!empty($_COOKIE[illinkid])){
+if (!empty($_COOKIE['illinkid'])){
     $id=$_POST['id'];
     $ip = $_SERVER['REMOTE_ADDR'];
     $action = ((!empty($_GET['action'])) && isValidInput($_GET['action'],15,'s',false,$validActionSet))? $_GET['action']:NULL;

@@ -30,7 +30,7 @@ require ("config.php");
 require ("authcookie.php");
 require_once ("connexion.php");
 
-if (!empty($_COOKIE[illinkid])){
+if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")){
         $myhtmltitle = "Commandes de " . $configinstitution[$lang] . " : nouvelle fiche utilisateur ";
         require ("headeradmin.php");

@@ -31,7 +31,7 @@ require_once ("includes/authcookie.php");
 require_once ("includes/connexion.php");
 require_once ("includes/toolkit.php");
 
-if (!empty($_COOKIE[illinkid])){
+if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
         $illinkid = ((!empty($_GET['intId'])))?safeSetInput($_GET['intId'],8,'s',NULL,false):NULL;
         $myform = (!empty($_GET['form']))?safeSetInput($_GET['form'],20,'s',NULL,false):NULL;

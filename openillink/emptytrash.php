@@ -32,7 +32,7 @@ require_once ("includes/authcookie.php");
 require_once ("includes/connexion.php");
 require_once ("includes/toolkit.php");
 
-if (!empty($_COOKIE[illinkid])){
+if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
         $action = "";
         $action= (!empty($_POST['action'])) && isValidInput($_POST['action'],9,'s',false,array('deleteall'))?$_POST['action']:'';

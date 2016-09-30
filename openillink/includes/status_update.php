@@ -32,7 +32,7 @@ require_once ("connexion.php");
 require_once ("toolkit.php");
 
 $validActionSet = array('new', 'update', 'delete', 'deleteok');
-if (!empty($_COOKIE[illinkid])){
+if (!empty($_COOKIE['illinkid'])){
     $action2="";
     $action="";
     $id=((!empty($_POST['id'])) && isValidInput($_POST['id'],11,'i',false))? $_POST['id']:NULL;

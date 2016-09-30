@@ -53,7 +53,7 @@ if (!empty($_COOKIE['illinkid'])){
             $login = ((!empty($_POST['login'])) && isValidInput($_POST['login'],255,'s',false))? trim($_POST['login']):NULL;
             $status = ((!empty($_POST['status'])) && isValidInput($_POST['status'],1,'i',false))? trim($_POST['status']):0;
             $admin = ((!empty($_POST['admin'])) && isValidInput($_POST['admin'],1,'i',false))? trim($_POST['admin']):NULL;
-            $library = ((!empty($_POST['library'])) && isValidInput($_POST['library'],10,'s',false))? trim($_POST['library']):NULL;
+            $library = ((!empty($_POST['library'])) && isValidInput($_POST['library'],50,'s',false))? trim($_POST['library']):NULL;
             $newpassword1 = ((!empty($_POST['newpassword1'])) && isValidInput($_POST['newpassword1'],255,'s',false))? trim($_POST['newpassword1']):NULL;
             $newpassword2 = ((!empty($_POST['newpassword2'])) && isValidInput($_POST['newpassword2'],255,'s',false))? trim($_POST['newpassword2']):NULL;
             if (!empty($newpassword1)) {

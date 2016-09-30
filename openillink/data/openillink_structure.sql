@@ -237,7 +237,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `login` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `library` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `library` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   `created_ip` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,

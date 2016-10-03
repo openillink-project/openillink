@@ -42,8 +42,9 @@ $issuenoO = $enreg['numero'];
 $pagesO = $enreg['pages'];
 $commentO = 'réf.:'.$enreg['illinkid'];
 $maxPrix = $enreg['prix'];
+$anneeO = $enreg['annee'];
 // See API at https://relais.atlassian.net/wiki/display/ILL/OpenURL
-$url = 'https://relais.nlm.nih.gov/user/login.html?group=library&UL='.$username.'&UP='.$password.'&genre=Article&atitle='.$atitleO.'&aau='.$authorO.'&issn='.$issnO.'&rft_id=info:'.$rtfIdO['pmid'].'&rft_id=info:'.$rtfIdO['doi'].'&title='.$titleO.'&VS='.$volumeO.'&issue='.$issuenoO.'&PG='.$pagesO.'&NO='.$commentO.'&maxcst='.$maxPrix;
+$url = 'https://relais.nlm.nih.gov/user/login.html?group=library&UL='.$username.'&UP='.$password.'&genre=Article&atitle='.$atitleO.'&aau='.$authorO.'&issn='.$issnO.'&rft_id=info:'.$rtfIdO['pmid'].'&rft_id=info:'.$rtfIdO['doi'].'&title='.$titleO.'&VS='.$volumeO.'&issue='.$issuenoO.'&PG='.$pagesO.'&NO='.$commentO.'&maxcst='.$maxPrix.'&PD='.$anneeO;
 
 // hugly but prevent limits timeout effect on form loading
 set_time_limit(120);

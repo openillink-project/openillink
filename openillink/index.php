@@ -115,7 +115,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             $namelocalisationext["de"] = $rowlocalisationext["name3"];
             $namelocalisationext["it"] = $rowlocalisationext["name4"];
             $namelocalisationext["es"] = $rowlocalisationext["name5"];
-            $optionslocalisationext.="<option value=\" ".htmlspecialchars($codelocalisationext)."\">" . htmlspecialchars($namelocalisationext[$lang]) . "</option>\n";
+            $optionslocalisationext.="<option value=\"".htmlspecialchars($codelocalisationext)."\">" . htmlspecialchars($namelocalisationext[$lang]) . "</option>\n";
         }
         echo "<optgroup label=\"" . htmlspecialchars($localisationextmessage[$lang]) . "\">\n";
         echo $optionslocalisationext;

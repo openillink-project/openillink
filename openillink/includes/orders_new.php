@@ -54,7 +54,6 @@ $stade="";
 
 // extended set of common vars
 $uid = ((!empty($_POST['uid'])) && isValidInput($_POST['uid'],50, 's', false))?$_POST['uid']:NULL;
-$uid = convertLtGtToTxtValue($uid);
 $validTidSet = array('pmid','doi');
 $tid = ((!empty($_POST['tid'])) && isValidInput($_POST['tid'],4, 's', false,$validTidSet))?$_POST['tid']:'';
 if ($tid=='pmid'){
@@ -67,58 +66,39 @@ elseif ($tid=='doi'){
     $uids = ((!empty($uids)) && isValidInput($uids,80, 's', false))?$uids:'';
     $doi = $uids;
 }
-$uids = convertLtGtToTxtValue($uids);
 $sid=((!empty($_POST['sid'])) && isValidInput($_POST['sid'],50, 's', false))?$_POST['sid']:'';
 $pid=((!empty($_POST['pid'])) && isValidInput($_POST['pid'],50, 's', false))?$_POST['pid']:'';
 $source=((!empty($_POST['source'])) && isValidInput($_POST['source'],20, 's', false))?$_POST['source']:'';
 $nom=((!empty($_POST['nom'])) && isValidInput($_POST['nom'],100, 's', false))?trim($_POST['nom']):'';
-$nom=convertLtGtToTxtValue($nom);
 $prenom=((!empty($_POST['prenom'])) && isValidInput($_POST['prenom'],100, 's', false))?trim($_POST['prenom']):'';
-$prenom = convertLtGtToTxtValue($prenom);
 $service=((!empty($_POST['service'])) && isValidInput($_POST['service'],20, 's', false))?$_POST['service']:'';
 $servautre=((!empty($_POST['servautre'])) && isValidInput($_POST['servautre'],20, 's', false))?$_POST['servautre']:'';
 if($servautre)
     $service=$servautre;
-$service = convertLtGtToTxtValue($service);
 
 $cgra=((!empty($_POST['cgra'])) && isValidInput($_POST['cgra'],10, 's', false))?$_POST['cgra']:'';
-$cgra = convertLtGtToTxtValue($cgra);
 $cgrb=((!empty($_POST['cgrb'])) && isValidInput($_POST['cgrb'],10, 's', false))?$_POST['cgrb']:'';
-$cgrb = convertLtGtToTxtValue($cgrb);
 
 $mail=((!empty($_POST['mail'])) && isValidInput($_POST['mail'],100, 's', false))?trim($_POST['mail']):'';
-$mail = convertLtGtToTxtValue($mail);
-$tel =((!empty($_POST['tel'])) && isValidInput($_POST['tel'],20, 's', false))?$_POST['tel']:'';$tel = convertLtGtToTxtValue($tel);
+$tel =((!empty($_POST['tel'])) && isValidInput($_POST['tel'],20, 's', false))?$_POST['tel']:'';
 $adresse=((!empty($_POST['adresse'])) && isValidInput($_POST['adresse'],255 ,'s' ,false))?$_POST['adresse']:'';
-$adresse = convertLtGtToTxtValue($adresse);
 $postal=((!empty($_POST['postal'])) && isValidInput($_POST['postal'],10, 's', false))?$_POST['postal']:'';
 $localite=((!empty($_POST['localite'])) && isValidInput($_POST['localite'],50, 's', false))?$_POST['localite']:'';
-$localite = convertLtGtToTxtValue($localite);
 
 $envoi=((!empty($_POST['envoi'])) && isValidInput($_POST['envoi'],50, 's', false))?$_POST['envoi']:'';
 
 $typeDocValidSet = array('article','preprint','book','bookitem','thesis','journal','proceeding','conference','other');
 $typedoc=((!empty($_POST['genre'])) && isValidInput($_POST['genre'],50, 's', false, $typeDocValidSet))?$_POST['genre']:'';
 $journal=((!empty($_POST['title'])) && isValidInput($_POST['title'],1000, 's', false))?trim($_POST['title']):'';
-$journal = convertLtGtToTxtValue($journal);
 $annee=((!empty($_POST['date'])) && isValidInput($_POST['date'],10, 's', false))?$_POST['date']:'';
-$annee = convertLtGtToTxtValue($annee);
 $vol=((!empty($_POST['volume'])) && isValidInput($_POST['volume'],50, 's', false))?$_POST['volume']:'';
-$vol = convertLtGtToTxtValue($vol);
 $no=((!empty($_POST['issue'])) && isValidInput($_POST['issue'],100, 's', false))?$_POST['issue']:'';
-$no = convertLtGtToTxtValue($no);
 $suppl=((!empty($_POST['suppl'])) && isValidInput($_POST['suppl'],100, 's', false))?$_POST['suppl']:'';
-$suppl = convertLtGtToTxtValue($suppl);
 $pages=((!empty($_POST['pages'])) && isValidInput($_POST['pages'],50, 's', false))?$_POST['pages']:'';
-$pages = convertLtGtToTxtValue($pages);
 $titre=((!empty($_POST['atitle'])) && isValidInput($_POST['atitle'],1000, 's', false))?trim($_POST['atitle']):'';
-$titre = convertLtGtToTxtValue($titre);
 $auteurs=((!empty($_POST['auteurs'])) && isValidInput($_POST['auteurs'],255, 's', false))?$_POST['auteurs']:'';
-$auteurs = convertLtGtToTxtValue($auteurs);
 $edition=((!empty($_POST['edition'])) && isValidInput($_POST['edition'],100, 's', false))?$_POST['edition']:'';
-$edition = convertLtGtToTxtValue($edition);
 $issn = ((!empty($_POST['issn'])) && isValidInput($_POST['issn'],50, 's', false))?$_POST['issn']:NULL;
-$issn = convertLtGtToTxtValue($issn);
 
 if (!empty($issn)){
     if (($typedoc=='book')||($typedoc=='bookitem')||($typedoc=='proceeding')||($typedoc=='conference')){
@@ -141,12 +121,10 @@ if($pmid==''){
 }
 
 $remarques=((!empty($_POST['remarques'])) && isValidInput($_POST['remarques'],4000, 's', false))?$_POST['remarques']:'';
-$remarques = convertLtGtToTxtValue($remarques);
 $remarquespub=((!empty($_POST['remarquespub'])) && isValidInput($_POST['remarquespub'],4000, 's', false))?$_POST['remarquespub']:'';
 $remarquespub=str_replace("<script>","",$remarquespub);
 $remarquespub=str_replace("</script>","",$remarquespub);
 //$remarquespub=str_replace("script","scrpt",$remarquespub);
-$remarquespub = convertLtGtToTxtValue($remarquespub);
 
 //
 // END common vars

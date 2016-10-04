@@ -41,7 +41,7 @@ $pmid="";
 $isbn="";
 $issn="";
 $eissn="";
-$userid= ((!empty($_POST['userid'])) && isValidInput($_POST['userid'],50,'s',false))?$_POST['userid']:NULL;
+$userid = $monnom;
 if (empty($userid)){
     $userid = ((!empty($_SERVER['REMOTE_ADDR'])) && isValidInput($_SERVER['REMOTE_ADDR'],50,'s',false))?$_SERVER['REMOTE_ADDR']:NULL;
 }

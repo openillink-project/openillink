@@ -133,7 +133,7 @@ $remarquespub=str_replace("</script>","",$remarquespub);
 // START admin vars
 //
 if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
-    $localisation= ((!empty($_POST['localisation'])) && isValidInput($_POST['localisation'],20,'s',false))? $_POST['localisation']:NULL;
+    $localisation= ((!empty($_POST['localisation'])) && isValidInput($_POST['localisation'],20,'s',false))? $_POST['localisation']:"";
     $stade=((!empty($_POST['stade'])) && isValidInput($_POST['stade'],3,'i',false))? $_POST['stade']:NULL;
     $date= ((!empty($_POST['datesaisie'])) && validateDate($_POST['datesaisie']))?$_POST['datesaisie']:NULL;
     if(empty($date))

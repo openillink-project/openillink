@@ -158,8 +158,9 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
             }
             $uid=((!empty($_POST['uid'])) && isValidInput($_POST['uid'],50, 's', false))?$_POST['uid']:NULL;
             if($pmid==''){
-                if(ereg("pmid:",$uid))
-                    $pmid=str_replace("pmid:","",$uid);
+                if(strpos('pmid:', $uid) !== false) {
+					$pmid=str_replace("pmid:","",$uid);
+				}
             }
             $remarques=((!empty($_POST['remarques'])) && isValidInput($_POST['remarques'],4000, 's', false))? $_POST['remarques']:NULL;
             $remarquespub=((!empty($_POST['remarquespub'])) && isValidInput($_POST['remarquespub'],4000, 's', false))? $_POST['remarquespub']:NULL;

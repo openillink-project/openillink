@@ -116,8 +116,9 @@ if (!empty($issn)){
 
 
 if($pmid==''){
-    if(ereg("pmid:",$uid))
+    if(strpos('pmid:', $uid) !== false) {
         $pmid=str_replace("pmid:","",$uid);
+	}
 }
 
 $remarques=((!empty($_POST['remarques'])) && isValidInput($_POST['remarques'],4000, 's', false))?$_POST['remarques']:'';

@@ -42,7 +42,7 @@ $redirguest = "Location: " . $monuri . "list.php?folder=guest";
 $validActionSet = array('logout', 'shibboleth');
 $action = (!empty($_GET['action']) && isValidInput($_GET['action'],10,'s',false,$validActionSet))?$_GET['action']:NULL;
 if (!empty($_COOKIE['illinkid'])) {
-	$complement = "&action=$action&monaut=$monaut&cookie=".$_COOKIE['illinkid'];
+	$complement = "&action=$action&monaut=$monaut";
 	if (empty($action) && ($monaut=="sadmin"))
 		header("$rediradmin".$complement);
 	if (empty($action) && ($monaut=="admin"))

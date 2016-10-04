@@ -1080,9 +1080,12 @@ function directory(urlpass) {
 
 
 
-function openlist( ) {
+function openlist(urlbase) {
+	if (urlbase === undefined || urlbase == "") {
+		urlbase = "../openlist/search.php?search=simple&q=";
+	}
     if  (document.commande.title.value != "") {
-        var monurl= "../openlist/search.php?search=simple&q=" + document.commande.title.value;
+        var monurl = urlbase + document.commande.title.value;
         window.open(monurl); }
     else
         alert("Rentrez un titre d'abord")

@@ -321,7 +321,7 @@ echo "</td></tr><tr><td>\n";
 echo $stitlemessage[$lang] . " * : </td><td>\n";
 echo "<input name=\"title\" type=\"text\" size=\"80\" value=\"\">\n";
 echo "&nbsp;\n";
-echo "<A HREF=\"javascript:openlist()\"><img src=\"img/find.png\" title=\"" . $atozlinkmessage[$lang] . "\"></a>\n";
+echo "<a href=\"javascript:openlist('".$periodical_title_search_url."')\"><img src=\"img/find.png\" title=\"" . $atozlinkmessage[$lang] . "\"></a>\n";
 echo "</td></tr><tr><td>\n";
 echo $yearmessage[$lang] . " : </td><td>\n";
 echo "<input name=\"date\" type=\"text\" size=\"3\" value=\"\">\n";

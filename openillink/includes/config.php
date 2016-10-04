@@ -115,6 +115,10 @@ $directoryurl1 = "http://www.univxyz.com/directory?ln=XNAMEX&fn=XFIRSTNAMEX";
 $directoryname2 = "Hosp. directory";
 $directoryurl2 = "http://www.univabc.com/ldap?nom=XNAMEX&prenom=XFIRSTNAMEX";
 
+// Define URL to periodicals database in order to let user search it from
+// the order submission form.
+$periodical_title_search_url = "../openlist/search.php?search=simple&q=";
+
 // Define the unique identifiers used on the lookup tool
 $lookupuid = array(
 			  array('name' => "PMID", 'code' => "pmid"),

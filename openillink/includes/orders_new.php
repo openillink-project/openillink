@@ -121,7 +121,6 @@ if($pmid==''){
 	}
 }
 
-$remarques=((!empty($_POST['remarques'])) && isValidInput($_POST['remarques'],4000, 's', false))?$_POST['remarques']:'';
 $remarquespub=((!empty($_POST['remarquespub'])) && isValidInput($_POST['remarquespub'],4000, 's', false))?$_POST['remarquespub']:'';
 $remarquespub=str_replace("<script>","",$remarquespub);
 $remarquespub=str_replace("</script>","",$remarquespub);
@@ -133,6 +132,7 @@ $remarquespub=str_replace("</script>","",$remarquespub);
 // START admin vars
 //
 if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
+    $remarques=((!empty($_POST['remarques'])) && isValidInput($_POST['remarques'],4000, 's', false))?$_POST['remarques']:'';
     $localisation= ((!empty($_POST['localisation'])) && isValidInput($_POST['localisation'],20,'s',false))? $_POST['localisation']:"";
     $stade=((!empty($_POST['stade'])) && isValidInput($_POST['stade'],3,'i',false))? $_POST['stade']:NULL;
     $date= ((!empty($_POST['datesaisie'])) && validateDate($_POST['datesaisie']))?$_POST['datesaisie']:NULL;
@@ -160,6 +160,7 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
 }
 else{
     // START public vars
+    $remarques = "";
     $date=date("Y-m-d");
     $date2=date("d/m/Y H:i:s");
     $bibliotheque="";

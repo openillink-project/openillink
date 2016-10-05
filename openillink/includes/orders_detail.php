@@ -89,14 +89,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             }
             $adresse = $enreg['adresse'].', '.$enreg['code_postal'].' '.$enreg['localite'];
             $titreper = $enreg['titre_periodique'];
-            $titreper = strtr($titreper, '&', ' ');
-            $titreper = strtr($titreper, '/', ' ');
-            $titreper = strtr($titreper, '-', ' ');
             $titreart = $enreg['titre_article'];
-            $titreart = strtr($titreart, '&', ' ');
-            $titreart = strtr($titreart, '/', ' ');
-            $titreart = strtr($titreart, '-', ' ');
-            $titreart = strtr($titreart, '?', ' ');
             echo "<div class=\"box\"><div class=\"box-content\">\n";
             echo "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n";
             echo "<tr><td valign=\"top\" width=\"74%\">\n";

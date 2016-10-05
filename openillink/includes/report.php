@@ -25,8 +25,9 @@ function prepareValue($value, $delimiter, $separator){
  * prepareLine add all values sequentially into a single line 
  * $values : array of values to concatenate
  */
-function prepareLine($values, $delimiter, $separator){
+function prepareLine($values, $delimiter, $separator, $replacements){
   $line = '';
+  $values = str_replace(array_keys($replacements), array_values($replacements), $values);
   if (! is_array($values))
     // values is actually a single value: the whole line consists of the value surrounded by delimiters
     $line = prepareValue($value, $delimiter, $separator);
@@ -75,6 +76,7 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 	  $sep = ";";
 	  $quote = "\"";
 	  $esc = "\\"; 
+	  $replacements = array('"' => '""');
 	 }
 	if ($format=='tab') {
 	  header('Content-Encoding: '.$charEncoding);
@@ -82,14 +84,15 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 	  $filename = $filename . ".tab.txt";
 	  $sep = "\t";
 	  $quote = "";
-	  $esc = ""; 
+	  $esc = "";
+	  $replacements = array();
 	}
 
 	// Stades à afficher - ne s'applique pas a l'option statistiques
 	header("Content-Disposition: attachment; filename=$filename");
 
 	$ligneTitre = (!empty($stade))? array("Rapport", "OpenILLink", $monbib, "du", $datedu, "au", $dateau, "Status: ", $stade) : array("Rapport", "OpenILLink", $monbib, "du", $datedu, "au", $dateau);
-	echo prepareLine($ligneTitre, $quote, $sep);
+	echo prepareLine($ligneTitre, $quote, $sep, $replacements);
 	echo PHP_EOL; // add empty line
 
 	if ($type=='liste_tout') {
@@ -105,7 +108,8 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 		$enreg = iimysqli_result_fetch_array($result2, MYSQLI_ASSOC);
 		if ($i == 0)
 			echo implode ($sep, array_keys($enreg)) . PHP_EOL;
-		$iml = $quote.implode($quote.$sep.$quote, $enreg).$quote;
+		$values = str_replace(array_keys($replacements), array_values($replacements), $enreg);
+		$iml = $quote.implode($quote.$sep.$quote, $values).$quote;
 		$tr1 = str_replace("\n"," ",$iml);
 		echo str_replace("\r"," ",$iml);
 		echo PHP_EOL;
@@ -131,7 +135,7 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 	  for ($i=0 ; $i<$total_results ; $i++){ 
 		$enreg = iimysqli_result_fetch_array($result2);
 		foreach ($fields as $field)
-		  echo $quote.$enreg[$field].$quote.$sep;
+		  echo $quote.str_replace(array_keys($replacements), array_values($replacements), $enreg[$field]).$quote.$sep;
 		 echo "\n";
 	  }
 	}
@@ -153,7 +157,7 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 		for ($i=0 ; $i<$total_results ; $i++) { 
 			$enreg = iimysqli_result_fetch_array($result2);
 			foreach ($fields as $field)
-			  echo $quote.$enreg[$field].$quote.$sep;
+			  echo $quote.str_replace(array_keys($replacements), array_values($replacements), $enreg[$field]).$quote.$sep;
 			echo "\n";
 		}
 	}

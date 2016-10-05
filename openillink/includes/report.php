@@ -91,6 +91,9 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 	// Stades à afficher - ne s'applique pas a l'option statistiques
 	header("Content-Disposition: attachment; filename=$filename");
 
+	// BOM header, as we output UTF-8
+	echo chr(0xEF).chr(0xBB).chr(0xBF);
+
 	$ligneTitre = (!empty($stade))? array("Rapport", "OpenILLink", $monbib, "du", $datedu, "au", $dateau, "Status: ", $stade) : array("Rapport", "OpenILLink", $monbib, "du", $datedu, "au", $dateau);
 	echo prepareLine($ligneTitre, $quote, $sep, $replacements);
 	echo PHP_EOL; // add empty line

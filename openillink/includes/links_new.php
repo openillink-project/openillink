@@ -84,7 +84,7 @@ if (!empty($_COOKIE['illinkid'])){
             echo $optionslibraries;
         }
         echo "</select></td></tr>\n";
-        echo "<tr><td><b>Effectuel un encodage des arguments de l'url</b></td>".
+        echo "<tr><td><b>Transformer les arguments de l'url d'UTF-8 vers ISO-8859-1</b></td>".
         '<td><input type="checkbox"  value="1" name="url_encoded" id="url_encoded" /></td></tr>';
         echo "<tr><td><b>Ignorer les mots du titre du périodique/livre</b></td>".
         "<td><input name=\"skip_words\" value=\"1\" type=\"checkbox\"> non signifiants ('of', 'the', 'The', '&', 'and', '-') | ".

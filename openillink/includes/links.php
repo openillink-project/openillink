@@ -76,7 +76,7 @@ if ($enreg['titre_article']!=''){
         while ($rowlinks = iimysqli_result_fetch_array($resultlinks)){
             $linktitle = $rowlinks["title"];
             $linkurl = $rowlinks["url"];
-            $linkurlencoded = true; // $rowlinks["url_encoded"]==1?true:false;
+            $linkurlencoded = $rowlinks["url_encoded"]==1?true:false;
             /* MDV - replace all placeholders with a single function call to replaceExistingPlaceHolders */
             //$linkurlreplace = str_replace("XTITLEX",urlencode ($enreg['titre_article']),$linkurl);
             $linkurlreplace = replaceExistingPlaceHolders($enreg,$enreg['titre_article'], $linkurl, $linkurlencoded);
@@ -102,7 +102,7 @@ if (($enreg['type_doc']=='article')||($enreg['type_doc']=='Article')||($enreg['t
             while ($rowlinks = iimysqli_result_fetch_array($resultlinks)){
                 $linktitle = $rowlinks["title"];
                 $linkurl = $rowlinks["url"];
-                $linkurlencoded = true; // $rowlinks["url_encoded"]==1?true:false;
+                $linkurlencoded = $rowlinks["url_encoded"]==1?true:false;
                 $linkskip_words = $rowlinks["skip_words"]==1?true:false;
                 $linkskip_after_mark = $rowlinks["skip_txt_after_mark"]==1?true:false;
                 /* MDV - replace all placeholders with a single function call to replaceExistingPlaceHolders */
@@ -132,7 +132,7 @@ if (($enreg['type_doc']=='article')||($enreg['type_doc']=='Article')||($enreg['t
             while ($rowlinks = iimysqli_result_fetch_array($resultlinks)){
                 $linktitle = $rowlinks["title"];
                 $linkurl = $rowlinks["url"];
-                $linkurlencoded = true; // $rowlinks["url_encoded"]==1?true:false;
+                $linkurlencoded = $rowlinks["url_encoded"]==1?true:false;
                 $linkskip_words = $rowlinks["skip_words"]==1?true:false;
                 $linkskip_after_mark = $rowlinks["skip_txt_after_mark"]==1?true:false;
 
@@ -166,7 +166,7 @@ if (in_array($enreg['type_doc'], $documentWithISBN, TRUE)){
             while ($rowlinks = iimysqli_result_fetch_array($resultlinks)){
                 $linktitle = $rowlinks["title"];
                 $linkurl = $rowlinks["url"];
-                $linkurlencoded = true; // $rowlinks["url_encoded"]==1?true:false;
+                $linkurlencoded = $rowlinks["url_encoded"]==1?true:false;
                 $linkskip_words = $rowlinks["skip_words"]==1?true:false;
                 $linkskip_after_mark = $rowlinks["skip_txt_after_mark"]==1?true:false;
                 /* MDV - replace all placeholders with a single function call to replaceExistingPlaceHolders */
@@ -195,7 +195,7 @@ if (in_array($enreg['type_doc'], $documentWithISBN, TRUE)){
             while ($rowlinks = iimysqli_result_fetch_array($resultlinks)){
                 $linktitle = $rowlinks["title"];
                 $linkurl = $rowlinks["url"];
-                $linkurlencoded = true; // $rowlinks["url_encoded"]==1?true:false;
+                $linkurlencoded = $rowlinks["url_encoded"]==1?true:false;
                 $linkskip_words = $rowlinks["skip_words"]==1?true:false;
                 $linkskip_after_mark = $rowlinks["skip_txt_after_mark"]==1?true:false;
                 // MDV - remplacement de tous les placeholders d'un coup
@@ -275,7 +275,7 @@ if ($nblinks > 0){
             $linkurl = $linkurl . "&id=" . $enreg['illinkid'];
         $linkurlreplace = $linkurl;
         $linkurlreplace = str_replace("XSIDX",$openurlsid,$linkurlreplace);
-        $linkurlencoded = true; // $rowlinks["url_encoded"]==1?true:false;
+        $linkurlencoded = $rowlinks["url_encoded"]==1?true:false;
         // MDV - remplacement de tous les placeholders d'un coup
         $linkurlreplace = replaceExistingPlaceHolders($enreg,$stitleclean,$linkurlreplace, $linkurlencoded);
         $listlinks.="<li><a href=\"" . htmlspecialchars($linkurlreplace) . "\" target=\"_blank\">" . htmlspecialchars($linktitle) . "</a></li>\n";

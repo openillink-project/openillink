@@ -141,7 +141,7 @@ if (!empty($_COOKIE['illinkid'])){
                     echo $optionslibraries;
                 }
                 echo "</select></td></tr>\n";
-                echo "<tr><td><b>Effectuel un encodage des arguments de l'url</b></td>".
+                echo "<tr><td><b>Transformer les arguments de l'url d'UTF-8 vers ISO-8859-1</b></td>".
                 '<td><input type="checkbox"  value="1" '.
                 (($linkurl_encoded == 1)?' checked="checked" ':'').
                 'name="url_encoded" id="url_encoded" /></td></tr>';

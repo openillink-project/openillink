@@ -8,6 +8,8 @@ if (!empty($_COOKIE['illinkid']))
 {
   if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user"))
   {
+   if (empty($_GET['do_report'])) {
+	// display form to setup report parameters
     require ("includes/headeradmin.php");
     echo "\n";
     echo "<br/><br/>\n";
@@ -20,13 +22,13 @@ if (!empty($_COOKIE['illinkid']))
     echo "<h1>Rapports et statitstiques</h1>\n";
     echo "<center>";
     echo "<table>\n";
-    echo "<form action=\"includes/report.php\" method=\"GET\">\n";
+    echo "<form action=\"reports.php\" method=\"GET\">\n";
     echo "<tr> <td>Période du</td> <td><input name=\"datedu\" type=\"text\" size=\"10\" value=\"".$beginDate/*madate*/. "\" /> au <input name=\"dateau\" type=\"text\" size=\"10\" value=\"".$endDate/*madate*/. "\" /> </td> </tr>\n";
     echo "<tr> <td>Type du rapport</td> <td> <select name=\"type\"> <option value=\"liste_tout\">Listing total</> <option value=\"liste_service\">Listing par service</> <option value=\"resume_service\">Résumé par service</> <option value=\"stats\">Statistiques</>  </select> </td> </tr>\n";
     /*<option value=\"groupe_service\">Listing par service groupé par mail</>*/ // option désactivtée suite à discussion avec IK
     //echo "<tr> <td>Status</td> <td> <select name=\"stade\"> <option value=\"tout\">Reçues et envoyées + Invoice + Soldées</> <option value=\"recue_invoice\">Reçue et envoyée + Invoice</> <option value=\"recue_envoyee\">Reçues et envoyées</> <option value=\"invoice\">Invoice</> <option value=\"soldee\">Soldées</> </select> </td> </tr>\n";
     echo "<tr> <td>Format du rapport</td> <td> <select name=\"format\"> <option value=\"csv\">text/csv</> <option value=\"tab\">texte/tabulé</>  </select> </td> </tr>\n";
-    echo "<tr><td /> <input type=\"hidden\" name=\"biblio\" value=\"". htmlspecialchars($monbib) ."\" /> <td> <input type=\"submit\" value=\"générer\" /> </td></tr>\n";
+    echo "<tr><td /> <input type=\"hidden\" name=\"biblio\" value=\"". htmlspecialchars($monbib) ."\" /> <td> <input type=\"submit\" name=\"do_report\" value=\"générer\" /> </td></tr>\n";
     echo "</form>\n";
     echo "</table>\n";
     echo "</center>";
@@ -50,6 +52,17 @@ if (!empty($_COOKIE['illinkid']))
     "Contient trois tableaux:<ul><li>commandes par statut (numéro total et en pourcentage);</li><li> commandes par localisation (numéro total et en pourcentage);</li><li> détail des commandes facturée par localisation (numéro total et en pourcentage)</li></ul>Uniquement les commandes avec statut soldé figurent dans cette statistique.<div/>");
     echo "</div></div>\n";
     require ("includes/footer.php");
+	
+	} else {
+		// output the report
+		require ("includes/report.php");
+		$datedu = ((!empty($_GET['datedu'])) && isValidInput($_GET['datedu'],10,'s',false)) ? $_GET['datedu'] : NULL;
+		$dateau = ((!empty($_GET['dateau'])) && isValidInput($_GET['dateau'],10,'s',false)) ? $_GET['dateau'] : NULL;
+		$type = ((!empty($_GET['type'])) && isValidInput($_GET['type'],25,'s',false)) ? $_GET['type'] : NULL;
+		$format = ((!empty($_GET['format'])) && isValidInput($_GET['format'],3,'s',false)) ? $_GET['format'] : NULL;
+		$stade = NULL;
+		do_report($datedu, $dateau, $type, $format, $stade, $monbib);
+	}
   }
 }
 else

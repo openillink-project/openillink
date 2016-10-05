@@ -215,7 +215,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "\n<br /><b>Commentaire public : </b>".nl2br(htmlspecialchars($enreg['remarquespub']));
             if ($enreg['remarques'])
                 echo "\n<br /><b>Commentaire professionnel : </b>".nl2br(htmlspecialchars($enreg['remarques']));
-            echo "\n<br /><br /><b>Historique de la commande : </b>\n<br />".htmlspecialchars($enreg['historique']);
+            echo "\n<br /><br /><b>Historique de la commande : </b>\n<br />".str_replace('&lt;br /&gt;', '<br />', htmlspecialchars($enreg['historique']));
             echo "</td>\n";
             echo "<td valign=\"top\" width=\"26%\">\n";
             require ("links.php");

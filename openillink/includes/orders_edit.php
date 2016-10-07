@@ -256,12 +256,12 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             echo "<Table Border=\"0\" Cellspacing=\"0\" Cellpadding=\"3\" width=\"100%\">\n";
             echo "<TR><TD>\n";
             echo $namemessage[$lang] . " * : </td><td><input name=\"nom\" type=\"text\" size=\"25\" value=\"".$enreg['nom']."\" onchange=\"textchanged('nom')\"></td><td>\n";
-            echo $firstnamemessage[$lang] . " * : </td><td><input name=\"prenom\" type=\"text\" size=\"25\" value=\"".$enreg['prenom']."\" onchange=\"textchanged('prenom')\">\n";
+            echo $firstnamemessage[$lang] . " * : </td><td><input name=\"prenom\" type=\"text\" size=\"25\" value=\"".$enreg['prenom']."\" onchange=\"textchanged('prenom')\"><span>\n";
             if ($directoryurl1 != "")
                 echo "&nbsp;<a href=\"javascript:directory('" . $directoryurl1 . "')\" title=\"" . $directory1message[$lang] . "\"><img src=\"img/directory1.png\"></a>\n";
             if ($directoryurl2 != "")
                 echo "<a href=\"javascript:directory('" . $directoryurl2 . "')\" title=\"" . $directory2message[$lang] . "\"><img src=\"img/directory2.png\"></a>\n";
-            echo "</td></tr><tr><td>\n";
+            echo "</span></td></tr><tr><td>\n";
             echo $unitmessage[$lang] . " * : </td><td>\n";
             $unitsortlang = "name1";
             if ($lang == "en")

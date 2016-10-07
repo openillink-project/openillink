@@ -34,87 +34,144 @@
 // my_contact_email
 // my_price_limit
 // my_delivery_email
+// 29.03.2016 MDV add input validation using checkInput defined into toolkit.php
 // 
-if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user"))
-{
-echo "<h2>Envoi de la commande à la NLM</h2>\n";
-echo "<FORM method=\"post\" action=\"http://wwwcf.nlm.nih.gov/mainweb/siebel/ill/index.cfm?stage=submit&lang=en\" name=\"ILLrequest\" id=\"ILLrequest\" enctype=\"multipart/form-data\" target=\"_blank\">\n";
-echo "<Table Border=\"0\" Cellspacing=\"0\" Cellpadding=\"3\" width=\"100%\">\n";
-echo "<TR><TD colspan=\"2\">\n";
-echo "I certify that the request complies with:</TD></TD></TR>\n";
-echo "<TR><TD colspan=\"2\">\n";
-echo "<INPUT TYPE=\"radio\" NAME=\"request\" value=\"108(g)(2) Guidelines (CCG)\">&&nbsp;108(g)(2) Guidelines (CCG)</TD></TR>\n";
-echo "<TR><TD colspan=\"2\">\n";
-echo "<INPUT TYPE=\"radio\" NAME=\"request\" value=\"other provision of copyright (CCL)\" checked>&nbsp;other provision of copyright (CCL)</TD></TR>\n";
-echo "<TR><TD>Authorized by: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"authorized\" value=\"".$enreg['nom'].", ".$enreg['prenom']."\"></TD></TR>\n";
-echo "<TR><TD>LIBID: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"libid\" value=\"" . $_GET['my_customer_code'] . "\"></TD></TR>\n";
-echo "<TR><TD>Borrowing Library: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"borrowing\" value=\"" . $_GET['my_customer_name'] . "\"></TD></TR>\n";
-echo "<TR><TD>Contact first name: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"firstname\" value=\"" . $_GET['my_contact_first_name'] . "\"></TD></TR>\n";
-echo "<TR><TD>Contact last name: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"lastname\" value=\"" . $_GET['my_contact_last_name'] . "\"></TD></TR>\n";
-echo "<TR><TD>Contact phone: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"phone\" value=\"" . $_GET['my_contact_phone'] . "\"></TD></TR>\n";
-echo "<TR><TD>Contact email: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"email\" VALUE=\"" . $_GET['my_contact_email'] . "\"></TD></TR>\n";
-echo "<TR><TD>PubMed ID: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"pubmedid\" VALUE=\"".$enreg['PMID']."\"></TD></TR>\n";
-echo "<TR><TD>NLM Unique ID: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"UniqueID\" VALUE=\"".$enreg['uid']."\"></TD></TR>\n";
-echo "<TR><TD>Title: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"title\" VALUE=\"".$enreg['titre_periodique']."\"></TD></TR>\n";
-if (($enreg['type_doc'] != "article")&&($enreg['type_doc'] != "bookitem")&&($enreg['type_doc'] != ""))
-echo "<TR><TD>Author: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"author\" VALUE=\"".$enreg['auteurs']."\"></TD></TR>\n";
-else
-echo "<TR><TD>Author: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"author\" VALUE=\"\"></TD></TR>\n";
-echo "<TR><TD>Article or chapter title: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"article\" VALUE=\"".$enreg['titre_article']."\"></TD></TR>\n";
-echo "<TR><TD>Article or chapter author: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"articleauthor\" VALUE=\"".$enreg['auteurs']."\"></TD></TR>\n";
-echo "<TR><TD>Publisher: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"publisher\" VALUE=\"".$enreg['edition']."\"></TD></TR>\n";
-echo "<TR><TD>Place: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"place\" VALUE=\"\"></TD></TR>\n";
-echo "<TR><TD>ISSN/ISBN: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"issn\" VALUE=\"".$enreg['issn']."\"></TD></TR>\n";
-echo "<TR><TD>Year: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"year\" VALUE=\"".$enreg['annee']."\"></TD></TR>\n";
-echo "<TR><TD>Volume: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"volume\" VALUE=\"".$enreg['volume']."\"></TD></TR>\n";
-echo "<TR><TD>Issue: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"issue\" VALUE=\"".$issue2."\"></TD></TR>\n";
-echo "<TR><TD>Pages: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"pages\" VALUE=\"".$enreg['pages']."\"></TD></TR>\n";
-echo "<TR><TD>Material Type :</TD><TD>\n";
-echo "<INPUT TYPE=\"radio\" NAME=\"material\" VALUE=\"Journal\"";
-if (($enreg['type_doc'] == "article")||($enreg['type_doc'] == "bookitem")||($enreg['type_doc'] == ""))
-echo " checked";
-echo " /> Journal | \n";
-echo "<INPUT TYPE=\"radio\" NAME=\"material\" VALUE=\"Monograph / Audiovisual\"";
-if (($enreg['type_doc'] != "article")&&($enreg['type_doc'] != "bookitem")&&($enreg['type_doc'] != ""))
-echo " checked";
-echo " /> Monograph / Audiovisual</TD></TR>\n";
-echo "<TR><TD>Maximum willing to pay: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"willingtopay\" VALUE=\"" . $_GET['my_price_limit'] . "\"></TD></TR>\n";
-echo "<TR><TD>Patron name/Reference #: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"patronname\" value=\"".$enreg['nom'].", ".$enreg['prenom']."\"></TD></TR>\n";
-echo "<TR><TD>Need before (MM/DD/YYYY): </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"needbefore\" value=\"\"></TD></TR>\n";
-echo "<TR><TD>Comments: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"comments\" VALUE=\"Internal ref. ".$enreg['illinkid']."\"></TD></TR>\n";
-echo "<TR><TD>Service Type:</TD><TD>\n";
-echo "<INPUT TYPE=\"radio\" NAME=\"service\" value=\"Copy\" checked /> Copy | \n";
-echo "<INPUT TYPE=\"radio\" NAME=\"service\" value=\"Color copy\" /> Color copy | \n";
-echo "<INPUT TYPE=\"radio\" NAME=\"service\" value=\"Loan (US and US territories only)\" /> Loan (US and US territories only)</TD></TR>\n";
-echo "<TR><TD>Deliver request via:</TD><TD>\n";
-echo "<INPUT TYPE=\"radio\" NAME=\"delivery\" value=\"EmailPDF\" checked /> Email PDF</TD></TR>\n";
-// echo "<INPUT TYPE=\"radio\" NAME=\"delivery\" value=\"WebPDF\"> Web PDF</TD></TR>\n";
-// echo "<INPUT TYPE=\"radio\" NAME=\"delivery\" value=\"ArielID\"> Ariel</TD></TR>\n";
-// echo "<INPUT TYPE=\"radio\" NAME=\"delivery\" value=\"OdysseyID\"> Odyssey</TD></TR>\n";
-// echo "<INPUT TYPE=\"radio\" NAME=\"delivery\" value=\"FaxID\"> Fax</TD></TR>\n";
-// echo "<INPUT TYPE=\"radio\" NAME=\"delivery\" value=\"Mail\"> Poste</TD></TR>\n";
-echo "<TR><TD>Email address: </TD><TD><INPUT TYPE=\"text\" size=\"60\" NAME=\"pdfemail\" VALUE=\"" . $_GET['my_delivery_email'] . "\"></TD></TR>\n";
-echo "<INPUT TYPE=\"hidden\" NAME=\"pdfweb\" VALUE=\"\">\n";
-echo "<INPUT TYPE=\"hidden\" NAME=\"ariel\" VALUE=\"\">\n";
-echo "<INPUT TYPE=\"hidden\" NAME=\"odyssey\" VALUE=\"\">\n";
-echo "<INPUT TYPE=\"hidden\" NAME=\"faxnumber\" VALUE=\"\">\n";
-echo "<INPUT TYPE=\"hidden\" NAME=\"altAddr\" VALUE=\"\">\n";
-echo "<INPUT TYPE=\"hidden\" NAME=\"mailName\" VALUE=\"\">\n";
-echo "<INPUT TYPE=\"hidden\" NAME=\"mailAddress\" VALUE=\"\">\n";
-echo "<INPUT TYPE=\"hidden\" NAME=\"mailCity\" VALUE=\"\">\n";
-echo "<INPUT TYPE=\"hidden\" NAME=\"mailState\" VALUE=\"\">\n";
-echo "<INPUT TYPE=\"hidden\" NAME=\"mailZip\" VALUE=\"\">\n";
-echo "<INPUT TYPE=\"hidden\" NAME=\"mailCountry\" VALUE=\"\">\n";
-echo "<INPUT TYPE=\"hidden\" NAME=\"mailAddress\" VALUE=\"\">\n";
-echo "<INPUT TYPE=\"hidden\" NAME=\"from\" value=\"http://www.nlm.nih.gov/psd/cas/illhome.html\">\n";
-// echo "<INPUT TYPE=\"reset\" VALUE=\"Cancel\"></TD></TR>\n";
-echo "<TR><TD></TD><TD><INPUT TYPE=\"submit\" NAME=\"send\" VALUE=\"Order\"></TD></TR></TABLE>\n";
-echo "</FORM>\n";
+
+require_once ("config.php");
+
+// create curl resource
+$ch = curl_init();
+
+// set url
+// $url = "http://wwwcf.nlm.nih.gov/mainweb/siebel/ill/index.cfm";
+// wwwcf.nlm.nih.gov/mainweb/siebel/ill/index.cfm
+
+curl_setopt($ch, CURLOPT_URL, "wwwcf.nlm.nih.gov/mainweb/siebel/ill/index.cfm");
+
+//return the transfer as a string
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+
+// set the UA
+curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+
+// Alternatively, lie, and pretend to be a browser
+// curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)');
+
+// $output contains the output string
+ curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+$output = curl_exec($ch);
+
+// Copyright & Authorization
+$replace[0] = "value=\"108(g)(2) Guidelines (CCG)\"";
+$replaceby[0] = $replace[0] . " checked ";
+
+// Authorized by
+$replace[1] = "id=\"authFirstName\" value=\"\"";
+$replaceby[1] = "id=\"authFirstName\" value=\"" . stripslashes($enreg['prenom']) . "\"";
+$replace[2] = "id=\"authLastName\" value=\"\"";
+$replaceby[2] = "id=\"authLastName\" value=\"" . stripslashes($enreg['nom']) . "\"";
+// Contact Person
+$replace[3] = "id=\"contactFirstName\" value=\"\"";
+$replaceby[3] = "id=\"contactFirstName\" value=\"".$configillmanagerfirstname."\""; 
+$replace[4] = "id=\"contactLastName\" value=\"\"";
+$replaceby[4] = "id=\"contactLastName\" value=\"".$configillmanagerlastname."\"";
+// Borrowing Library
+$replace[5] = "id=\"libid\" value=\"\"";
+$replaceby[5] = "id=\"libid\" value=\"".$configilllibid."\"";
+$replace[6] = "id=\"borrowing\" value=\"\"";
+$replaceby[6] = "id=\"borrowing\" value=\"".$configlibname."\"";//
+$replace[7] = "id=\"phone\" value=\"\"";
+$replaceby[7] = "id=\"phone\" value=\"".$configillmanagertel."\""; // 
+$replace[8] = "id=\"email\" value=\"\"";
+$replaceby[8] = "id=\"email\" value=\"".$configemaildelivery."\""; // 
+// Request Information
+if ($enreg['PMID']){
+    $replace[9] = "id=\"pubmedid\" value=\"\"";
+    $replaceby[9] = "id=\"pubmedid\" value=\"" . stripslashes($enreg['PMID']) . "\"";
 }
-else
-{
-require ("../includes/header.php");
-require ("../includes/loginfail.php");
-require ("../includes/footer.php");
+if ($enreg['issn']){
+    $replace[11] = "id=\"BookNumber\" value=\"\"";
+    $replaceby[11] = "id=\"BookNumber\" value=\"" . stripslashes($enreg['issn']) . "\"";
 }
+if ($enreg['titre_periodique']){
+    $replace[12] = "id=\"title\" value=\"\"";
+    $replaceby[12] = "id=\"title\" value=\"" . stripslashes($enreg['titre_periodique']) . "\"";
+}
+if ($enreg['auteurs']){
+    $replace[13] = "id=\"author\" value=\"\"";
+    $replaceby[13] = "id=\"author\" value=\"" . stripslashes($enreg['auteurs']) . "\"";
+}
+if ($enreg['titre_article']){
+    $replace[14] = "id=\"article\" value=\"\"";
+    $replaceby[14] = "id=\"article\" value=\"" . stripslashes($enreg['titre_article']) . "\"";
+}
+if ($enreg['auteurs']){
+    $replace[15] = "id=\"articleauthor\" value=\"\"";
+    $replaceby[15] = "id=\"articleauthor\" value=\"" . stripslashes($enreg['auteurs']) . "\"";
+}
+if ($_GET['publisher']){
+    $replace[16] = "id=\"publisher\" value=\"\"";
+    $replaceby[16] = "id=\"publisher\" value=\"" . stripslashes($enreg['auteurs']) . "\"";
+}
+if ($enreg['annee']){
+    $replace[17] = "id=\"year\" value=\"\"";
+    $replaceby[17] = "id=\"year\" value=\"" . stripslashes($enreg['annee']) . "\"";
+}
+if ($enreg['volume']){
+    $replace[18] = "id=\"volume\" value=\"\"";
+    $replaceby[18] = "id=\"volume\" value=\"" . stripslashes($enreg['volume']) . "\"";
+}
+if ($enreg['issue']){
+    $replace[19] = "id=\"issue\" value=\"\"";
+    $replaceby[19] = "id=\"issue\" value=\"" . stripslashes($enreg['issue']) . "\"";
+}
+if ($enreg['pages']){
+    $replace[20] = "id=\"pages\" value=\"\"";
+    $replaceby[20] = "id=\"pages\" value=\"" . stripslashes($enreg['pages']) . "\"";
+}
+if (($enreg['type_doc'] != "article")&&($enreg['type_doc'] != "bookitem")&&($enreg['type_doc'] != "")){
+    $replace[20] = "value=\"Journal\" checked />";
+    $replaceby[20] = "value=\"Journal\" />";
+    $replace[21] = "value=\"Monograph / Audiovisual\" />";
+    $replaceby[21] = "value=\"Monograph / Audiovisual\" checked />";
+}
+$replace[22] = "id=\"willingtopay\" value=\"\"";
+$replaceby[22] = "id=\"willingtopay\" value=\"".$configillmaxprice."\"";
+if ($enreg['nom']){
+    $replace[23] = "id=\"patronname\" value=\"\"";
+    $replaceby[23] = "id=\"patronname\" value=\"" . stripslashes($enreg['nom']) . "\"";
+}
+if ($enreg['remarques']){
+    $commentaire = stripslashes($enreg['remarques']);
+}
+else{
+    $commentaire = (isset($enreg['nom']) && isValidInput($enreg['nom'],100,'s',false))? stripslashes($enreg['nom'].", "):"";
+    $commentaire .= (isset($enreg['prenom']) && isValidInput($enreg['prenom'],100,'s',false))?stripslashes($enreg['prenom']." "):"";
+    $commentaire .= (isset($enreg['illinkid']) && isValidInput($enreg['illinkid'],8,'i',false))? "(Ref interne:".$enreg['illinkid'].")":"";
+}
+$replace[24] = '<textarea name="comments" id="comments" value="" onkeyup="return ismaxlength(this)" cols="60" rows="2" maxlength="128"></textarea>';
+$replaceby[24] = '<textarea name="comments" id="comments" value="" onkeyup="return ismaxlength(this)" cols="60" rows="2" maxlength="128">' . $commentaire . '</textarea>';
+// Service & Delivery Information
+$replace[25] = "name=\"service\" value=\"Copy\" />";
+$replaceby[25] = "name=\"service\" value=\"Copy\" checked />";
+$replace[26] = "name=\"delivery\" value=\"EmailPDF\" />";
+$replaceby[26] = "name=\"delivery\" value=\"EmailPDF\" checked />";
+$replace[27] = "id=\"pdfemail\" value=\"\"";
+$replaceby[27] = "id=\"pdfemail\" value=\"".$configemaildelivery."\"";
+
+
+$output = str_replace($replace, $replaceby , $output);
+// close curl resource to free up system resources
+curl_close($ch);
+ if(curl_error($ch)){
+    echo 'error:' . curl_error($ch);
+}
+elseif($output)
+    echo $output;
+else 
+    echo "output nok and error could not be retrieved";
+
 ?>

@@ -143,14 +143,14 @@ function handleHttpResponse() {
             else {
                 var issn = '';
             }
-            document.commande.atitle.value = atitle;
-            document.commande.auteurs.value = authors;
-            document.commande.title.value = journal;
-            document.commande.date.value = annee;
-            document.commande.volume.value = vol;
-            document.commande.issue.value = no;
-            document.commande.pages.value = pages;
-            document.commande.issn.value = issn;
+            document.commande.atitle.value = unescape_string(atitle);
+            document.commande.auteurs.value = unescape_string(authors);
+            document.commande.title.value = unescape_string(journal);
+            document.commande.date.value = unescape_string(annee);
+            document.commande.volume.value = unescape_string(vol);
+            document.commande.issue.value = unescape_string(no);
+            document.commande.pages.value = unescape_string(pages);
+            document.commande.issn.value = unescape_string(issn);
             document.commande.uid.value = "pmid:" + document.commande.uids.value;
             isWorking = false;
         }
@@ -305,14 +305,14 @@ function handleHttpResponse2() {
                 }
             }
             // alert("titred = " + titred + " titre2 = " + titre2 + " titre = " + titre);
-            document.commande.genre.value = docType;
-            document.commande.title.value = titre;
-            document.commande.atitle.value = article;
-            document.commande.auteurs.value = authors;
-            document.commande.date.value = annee;
-            document.commande.edition.value = edition + editeur;
-            document.commande.edition.value = edition + editeur;
-            document.commande.issn.value = issn;
+            document.commande.genre.value = unescape_string(docType);
+            document.commande.title.value = unescape_string(titre);
+            document.commande.atitle.value = unescape_string(article);
+            document.commande.auteurs.value = unescape_string(authors);
+            document.commande.date.value = unescape_string(annee);
+            document.commande.edition.value = unescape_string(edition + editeur);
+            document.commande.edition.value = unescape_string(edition + editeur);
+            document.commande.issn.value = unescape_string(issn);
             document.commande.uid.value = "RERO:" + document.commande.uids.value;
             isWorking2 = false;
         }
@@ -444,11 +444,11 @@ function handleHttpResponse3() {
             }
             // alert("titred = " + titred + " titre2 = " + titre2 + " titre = " + titre);
             document.commande.genre.value = "book";
-            document.commande.title.value = titre;
-            document.commande.auteurs.value = authors;
-            document.commande.date.value = annee;
-            document.commande.edition.value = edition + editeur;
-            document.commande.issn.value = issn;
+            document.commande.title.value = unescape_string(titre);
+            document.commande.auteurs.value = unescape_string(authors);
+            document.commande.date.value = unescape_string(annee);
+            document.commande.edition.value = unescape_string(edition + editeur);
+            document.commande.issn.value = unescape_string(issn);
             document.commande.uid.value = "ISBN:" + document.commande.uids.value;
             isWorking3 = false;
         }
@@ -618,15 +618,15 @@ function handleHttpResponse4() {
             if (typedoc == "book_content") {
                 document.commande.genre.value = "bookitem";
             }
-            document.commande.atitle.value = atitle;
-            document.commande.title.value = journal;
-            document.commande.auteurs.value = authors;
-            document.commande.date.value = annee;
-            document.commande.volume.value = vol;
-            document.commande.issue.value = no;
-            document.commande.pages.value = pages;
+            document.commande.atitle.value = unescape_string(atitle);
+            document.commande.title.value = unescape_string(journal);
+            document.commande.auteurs.value = unescape_string(authors);
+            document.commande.date.value = unescape_string(annee);
+            document.commande.volume.value = unescape_string(vol);
+            document.commande.issue.value = unescape_string(no);
+            document.commande.pages.value = unescape_string(pages);
             // document.commande.edition.value = typedoc;
-            document.commande.issn.value = issn;
+            document.commande.issn.value = unescape_string(issn);
             document.commande.uid.value = "DOI:" + document.commande.uids.value;
             isWorking4 = false;
         }
@@ -1263,6 +1263,16 @@ function remplirauto() {
     if (getCookie("envoi") != null)
         document.commande.envoi[getCookie("envoipos")].checked = true;
 
+function unescape_string(value) {
+	/* Helper function to unescape XML/HTML encoded strings.
+	   Useful since we are not parsing XML, but extracting the raw content.
+	*/
+	value = value.replace("&amp;", "&");
+	value = value.replace("&quot;", '"');
+	value = value.replace("&lt;", "<");
+	value = value.replace("&gt;", ">")
+	return value;
+}
 
 	// Retrieve parameters from URL
 	var url_parameters = new QueryData();

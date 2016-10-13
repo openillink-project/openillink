@@ -88,16 +88,21 @@ function displayMailText($monaut,
 
     if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut == "guest"))
     {
-      $subject = rawurlencode(html_entity_decode($mailAllTexts['fr']['commande']." (". $enreg['illinkid'].") : ".$titreper.".".$enreg['annee'].";".$enreg['volume'].":".$enreg['pages']));
-      $finalMailText .= "&nbsp;&nbsp;<a href=\"mailto:".htmlspecialchars(urlencode($mail))."?subject=".htmlspecialchars($subject);
+	  $short_titreper = (strlen($titreper) > 100) ? substr($titreper, 0, 90) . "[...]" : $titreper;
+	  $short_titreart = (strlen($titreart) > 110) ? substr($titreart, 0, 100) . "[...]" : $titreart;
+	  $short_auteurs = (strlen($enreg['auteurs']) > 50) ? substr($enreg['auteurs'], 0, 40) . "[...]" : $enreg['auteurs'];
+
+      $subject = rawurlencode(html_entity_decode($mailAllTexts['fr']['commande']." (". $enreg['illinkid'].") : ".$short_titreper.".".$enreg['annee'].";".$enreg['volume'].":".$enreg['pages']));
+      $finalMailText .= "&nbsp;&nbsp;<a href=\"";
+	  $final_url = "mailto:".htmlspecialchars(urlencode($mail))."?subject=".htmlspecialchars($subject);
       $commandeDet = "";
       $refDet = "";
       if ($enreg['titre_article']!= '')
-        $commandeDet .= rawurlencode($mailAllTexts['fr']['titre']." : ".html_entity_decode($titreart)."\r\n");
+        $commandeDet .= rawurlencode($mailAllTexts['fr']['titre']." : ".html_entity_decode($short_titreart)."\r\n");
       if ($enreg['auteurs']!= '')
-        $commandeDet .= rawurlencode($mailAllTexts['fr']['aut']." : ".html_entity_decode($enreg['auteurs'])."\r\n");
+        $commandeDet .= rawurlencode($mailAllTexts['fr']['aut']." : ".html_entity_decode($short_auteurs)."\r\n");
       if ($enreg['titre_periodique']!= '')
-        $commandeDet .= rawurlencode(html_entity_decode($mailAllTexts['fr']['src']." : ".$titreper."\r\n"));
+        $commandeDet .= rawurlencode(html_entity_decode($mailAllTexts['fr']['src']." : ".$short_titreper."\r\n"));
       if ($enreg['volume']!= '')
         $commandeDet .= rawurlencode($mailAllTexts['fr']['volume']." : ".$enreg['volume']."\r\n");
       if ($enreg['numero']!= '')
@@ -129,7 +134,9 @@ function displayMailText($monaut,
                rawurlencode($mailAllTexts['fr']['salutations']."\r\n").
                /*rawurlencode(stripslashes("*****************************************************\r\n")).*/
                rawurlencode($mailAllTexts['fr']['signature']);
-      $finalMailText .= "&amp;body=".htmlspecialchars(substr ( $body, 0 , 1959 ));
+	  $final_url .= "&amp;body=";
+	  $final_url .= substr ( htmlspecialchars($body), 0 , 2050 - strlen($final_url));
+      $finalMailText .= $final_url;
       $finalMailText .= "\" title=\"".htmlspecialchars($mailAllTexts['fr']['texteAideCurseur'])."\"><img src=\"img/email.gif\" height=\"20\"></a>\n";
     }
     echo $finalMailText; 

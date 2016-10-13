@@ -359,14 +359,36 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "<div class=\"box\"><div class=\"box-content\">\n";
                 echo "<div class=\"box\"><div class=\"box-content\">\n";
                 echo "<center><b>" . $lookupmessage[$lang] . " </b>\n";
+				$tid = "";
+				$uids = "";
+				if (!empty($enreg['PMID'])) {
+					$uids = $enreg['PMID'];
+					$tid = "pmid";
+				} else if (!empty($enreg['doi'])) {
+					$uids = $enreg['doi'];
+					$tid = "doi";
+				} else if (strpos($enreg['uid'], ":") !== false) {
+					// retrieve value from uid
+					$tid_and_uids = explode(":", $enreg['uid'], 2);
+					$tid = $tid_and_uids[0];
+					if ($tid == "WOSUT") {
+						$tid = "WOSID";
+					}
+					$uids = $tid_and_uids[1];
+				}
                 echo "<select name=\"tid\">\n";
                 $i = 0;
                 while ($lookupuid[$i]["name"]){
-                    echo "<option value=\"" . htmlspecialchars($lookupuid[$i]["code"]) . "\">" . htmlspecialchars($lookupuid[$i]["name"]) . "</option>\n";
+					$selected = "";
+					if (strpos(strtolower($lookupuid[$i]["code"]), strtolower($tid), 0 ) === 0) {
+						// best effort to select the right menu: code must start with uid prefix
+                        $selected = " selected ";
+					}
+                    echo "<option value=\"" . htmlspecialchars($lookupuid[$i]["code"]) . '"' . $selected. ">" . htmlspecialchars($lookupuid[$i]["name"]) . "</option>\n";
                     $i = $i + 1;
                 }
                 echo "</select>\n";
-                echo "<input name=\"uids\" type=\"text\" size=\"20\" value=\"\">\n";
+                echo "<input name=\"uids\" type=\"text\" size=\"20\" value=\"". htmlspecialchars($uids). "\">\n";
                 echo "<input type=\"button\" value=\"OK\" onclick=\"lookupid(); textchanged('ref écrasée par PMID');\"></center>\n";
                 echo "</div></div>\n";
                 echo "<div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";

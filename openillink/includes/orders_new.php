@@ -369,10 +369,12 @@ echo "\n";
         echo "<tr><td  width=\"90\" valign=\"top\"><b>UID</b></td>\n";
         echo "<td>".htmlspecialchars ($uid)."</td></tr>\n";
     }
-    if ($remarques) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>Commentaire professionnel</b></td>\n";
-        echo "<td>". nl2br(htmlspecialchars($remarques))."</td></tr>\n";
-    }
+	if (in_array($monaut, array('admin', 'sadmin','user'), true)){
+		if ($remarques) {
+			echo "<tr><td  width=\"90\" valign=\"top\"><b>Commentaire professionnel</b></td>\n";
+			echo "<td>". nl2br(htmlspecialchars($remarques))."</td></tr>\n";
+		}
+	}
     if ($remarquespub) {
         echo "<tr><td  width=\"90\" valign=\"top\"><b>Commentaire public</b></td>\n";
         echo "<td>". nl2br(htmlspecialchars($remarquespub))."</td></tr>\n";

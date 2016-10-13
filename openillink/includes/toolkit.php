@@ -237,6 +237,10 @@ function prof_print()
 
 function readStatus(&$codeIn = NULL, &$codeOut = NULL, &$codeTrash = NULL, &$codeSpecial = NULL)
 {
+	/*
+	Update the input arrays 'codeIn', 'codeOut', 'codeTrash' and 'codeSpecial' with status codes
+	configured to appear in folders 'In', 'Out' and 'Trash', as well as special codes.
+	*/
     $statusInfo = array();
     $statusReq = "SELECT * from status;";
     $statusRes = dbquery($statusReq);

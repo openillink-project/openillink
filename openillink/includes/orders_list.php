@@ -58,6 +58,7 @@ $link = dbconnect();
     $stringQuery = str_replace ( $pageParam , '',$stringQuery);
     $pageslinksurl = strlen($stringQuery) ? basename($_SERVER['PHP_SELF'])."?".$stringQuery : basename($_SERVER['PHP_SELF']);
 
+	// Preparing request to select all localizations of current library
     $reqLoc = "SELECT code FROM localizations WHERE library = ?";
     $resLoc = dbquery($reqLoc, array($monbib), "s");
     $nbLoc = iimysqli_num_rows($resLoc);
@@ -68,6 +69,7 @@ $link = dbconnect();
     }
     $locCond = empty($locList)?'':" OR orders.localisation IN ($locList) ";
 
+	// Preparing request to select all units/services of current library, for orders without localisation
     $reqServ = "SELECT code FROM units WHERE library = ?";
     $resServ = dbquery($reqServ, array($monbib), "s");
     $nbServ = iimysqli_num_rows($resServ);
@@ -78,6 +80,7 @@ $link = dbconnect();
     }
     $servCond = ($nbServ > 0 ?" OR orders.service IN ($servList) ":'');
 
+	// Prepare list of special statues: retrieve code configured for each folder/category
     $codeIn = array();
     $codeOut = array();
     $codeTrash = array();
@@ -90,18 +93,19 @@ $link = dbconnect();
         $listSpecial[$key] = "'".implode (  "','", $codeSpecial[$key])."'";
     }
 
-    $listBibIn = array();
-    $listBibIn[] = $monbib;
+
     /*
-    * MDV : a main library is library flagged as default
+    * If the current library is a main library (i.e. flagged as default), we need to retrieve orders from partners 
+	  libraries (i.e. have "shared orders") when these orders have a "new" status and no localization).
     */
+	$orphanOrdersCond = "";
     $reqIsMain ="SELECT libraries.default FROM libraries WHERE libraries.default = 1 AND libraries.code=?";
     $resIsMain = dbquery($reqIsMain, array($monbib), "s");
     $isMain = iimysqli_num_rows($resIsMain);
-    /*
-    * MDV : when working with a main library all sharing library orders has to be displayed as well
-    */
     if ($isMain > 0){
+	    $listBibIn = array();
+		$listBibIn[] = $monbib;
+		// Select "partners" libraries
         $reqSharing = 'SELECT libraries.code FROM libraries WHERE libraries.has_shared_ordres = 1';
         $resSharing = dbquery($reqSharing);
         $nbSharing = iimysqli_num_rows($resSharing);
@@ -109,33 +113,39 @@ $link = dbconnect();
             $currSharing = iimysqli_result_fetch_array($resSharing);
             $listBibIn[] = mysqli_real_escape_string($link, $currSharing['code']);
         }
+		$listInBib = "'".implode (  "','", $listBibIn)."'";
+		$orphanOrdersCond = $isMain?" OR ( orders.localisation = '' AND orders.stade IN (".$listSpecial['new'].")  AND orders.bibliotheque IN (".$listInBib.")) ":"";
     }
-    $listInBib = "'".implode (  "','", $listBibIn)."'";
-    $orphanOrdersCond = $isMain?" OR ( orders.localisation = '' AND orders.stade IN (".$listSpecial['new'].")  AND orders.bibliotheque IN (".$listInBib.")) ":"";
-    
+
+	// Building main query to retrieve orders, depending on the current folder (in, all, out, trash)
     $req2 = "SELECT orders.illinkid FROM orders ";
-    $conditionsParDefauts = " WHERE (".
-            "(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '".mysqli_real_escape_string($link, $madatej)."')) AND ".
-            "(orders.bibliotheque = '". mysqli_real_escape_string($link, $monbib)."' $locCond $servCond )) ".
-            "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '".mysqli_real_escape_string($link, $monbib)."') $orphanOrdersCond";
     $conditions = '';
+	// Apply these conditions when displaying "IN" folder or when searching:
+	//   - Display orders in status 'IN' and those in 'renew' (if expired) only if orders belong to current library or are localized, or (when no localization) in service for current library.
+	//   - Also display orders which are rejected for current library
+	//   - Also display order from shared/partners libraries if these orders are not localized and are new
+	$conditionsParDefauts = " WHERE (".
+	"(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '".mysqli_real_escape_string($link, $madatej)."')) AND ".
+	"(orders.bibliotheque = '". mysqli_real_escape_string($link, $monbib)."' $locCond $servCond )) ".
+	"OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '".mysqli_real_escape_string($link, $monbib)."') $orphanOrdersCond";
     switch ($folder){
         case 'in':
-            $conditions = "WHERE (".
-            "(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '".mysqli_real_escape_string($link, $madatej)."')) AND ".
-            "(orders.bibliotheque = '".mysqli_real_escape_string($link, $monbib)."' $locCond $servCond )) ".
-            "OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '".mysqli_real_escape_string($link, $monbib)."') $orphanOrdersCond";
+			// Apply "default" conditions
+            $conditions = $conditionsParDefauts;
             break;
         case 'out':
+			// Display orders in status for 'out' folder for current library (if localized or (when no localization) in service for current library).
             $conditions = "WHERE (orders.bibliotheque = '".mysqli_real_escape_string($link, $monbib)."' $locCond $servCond) AND orders.stade IN ($listOut) ";
             break;
         case 'all':
+			// Display all orders for current library (if localized or, when no localization, in service for current library).
             if ($monaut == "sadmin"){}
             else {
                 $conditions = "WHERE orders.bibliotheque = '".mysqli_real_escape_string($link, $monbib)."' $locCond  $servCond";
             }
             break;
         case 'trash':
+			// // Display orders in status for 'trash' for current library (whatever service or localization).
             $conditions = "WHERE orders.stade IN ($listTrash) AND orders.bibliotheque = '".mysqli_real_escape_string($link, $monbib)."' ";
             break;
         case 'guest':
@@ -152,17 +162,20 @@ $link = dbconnect();
             $conditions = "WHERE orders.mail = '".mysqli_real_escape_string($link, $mailGuest)."' ";
             break;
         case 'search':
+			// Will make use '$conditionsParDefauts' variable
             require_once ("search.php");
             break;
-        default:
+        default: // Just in case. Treat same as "IN" folder
             $conditions = $conditionsParDefauts;
             break;
     }
+	// Paging
     $from = (($page * $max_results) - $max_results);
     $req2 = "$req2 $conditions ORDER BY illinkid DESC LIMIT $from, $max_results";
 $debugOn = false;
     if ($debugOn)
         prof_flag("Before first query");
+	// Fetch orders ID for current page
     $result2 = dbquery($req2,NULL,NULL,NULL,$debugOn);
     if ($debugOn)
         prof_flag("After first query");

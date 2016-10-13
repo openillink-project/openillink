@@ -361,12 +361,14 @@ echo "<tr><td valign=\"top\">\n";
 echo $publiccommentsmessage[$lang] . " : \n";
 echo "</td><td valign=\"bottom\"><textarea name=\"remarquespub\" rows=\"2\" cols=\"60\" valign=\"bottom\"></textarea>\n";
 echo "</td></tr><tr><td></td><td>\n";
-echo "<input type=\"submit\" value=\"" . $submitmessage[$lang] . "\" onsubmit=\"javascript:okcooc();document.body.style.cursor = 'wait';\">&nbsp;&nbsp;\n";
-echo "<input type=\"reset\" value=\"" . $resetmessage[$lang] . "\">\n";
 echo "</td></tr>\n";
 echo "</table>\n";
 echo "</div></div>\n";
 echo "<div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
+echo '<div class="box-submit-buttons">';
+echo "<input type=\"submit\" value=\"" . $submitmessage[$lang] . "\" onsubmit=\"javascript:okcooc();document.body.style.cursor = 'wait';\">&nbsp;&nbsp;\n";
+echo "<input type=\"reset\" value=\"" . $resetmessage[$lang] . "\">\n";
+echo "</div>";
 echo "</form>\n";
 require ("includes/footer.php");
 ?>

@@ -459,16 +459,21 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo $publiccommentsmessage[$lang] . " : \n";
                 echo "</td><td valign=\"bottom\"><textarea name=\"remarquespub\" rows=\"2\" cols=\"60\" valign=\"bottom\" onchange=\"textchanged('remarquespub')\">".htmlspecialchars($enreg['remarquespub'])."</textarea>\n";
                 echo "</td></tr><tr><td></td><td>\n";
-                echo "<input type=\"submit\" value=\"" . $submitmessage[$lang] . "\" onsubmit=\"javascript:okcooc();document.body.style.cursor = 'wait';\">&nbsp;&nbsp;\n";
-                echo "<input type=\"reset\" value=\"" . $resetmessage[$lang] . "\">&nbsp;&nbsp;\n";
-                if ($monaut == "sadmin")
-                    echo "<input type=\"button\" value=\"Supprimer definitivement cette commande\" onClick=\"self.location='update.php?action=delete&amp;table=orders&amp;id=" . htmlspecialchars($id) . "'\">\n";
                 echo "</td></tr>\n";
                 echo "</table>\n";
                 echo "</div></div>\n";
                 echo "<div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
                 // END Document Fields
-                echo "</form>\n";
+				// BEGIN SUBMISSION BUTTONS
+				echo '<div class="box-submit-buttons">';
+				echo "<input type=\"submit\" value=\"" . $submitmessage[$lang] . "\" onsubmit=\"javascript:okcooc();document.body.style.cursor = 'wait';\">&nbsp;&nbsp;\n";
+                echo "<input type=\"reset\" value=\"" . $resetmessage[$lang] . "\">&nbsp;&nbsp;\n";
+                if ($monaut == "sadmin") {
+                    echo "<input type=\"button\" value=\"Supprimer definitivement cette commande\" onClick=\"self.location='update.php?action=delete&amp;table=orders&amp;id=" . htmlspecialchars($id) . "'\">\n";
+                }
+				echo "</div>";
+				// END SUBMISSION BUTTONS
+				echo "</form>\n";
                 echo "</td></tr></table>\n";
             }
             require ("footer.php");

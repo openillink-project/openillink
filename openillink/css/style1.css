@@ -434,6 +434,12 @@ li {
   margin-left: 15px;
 }
 
+/* Order submission button box */
+
+.box-submit-buttons {
+	padding-top: 10px;
+	text-align: center;
+}
 
 /* bubble help */
 

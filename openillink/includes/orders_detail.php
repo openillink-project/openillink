@@ -112,7 +112,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             if ($localisation)
                 echo "\n<br /><b>Localisation : </b>" . htmlspecialchars($locname) . " (" . htmlspecialchars($localisation) . ")";
             echo "<br /><b>Statut : \n";
-            echo "<a href=\"#\" onclick=\"return false\" title=\"".htmlspecialchars($statushelp)."\"><font color=\"".htmlspecialchars($statuscolor)."\">".htmlspecialchars($statusname)."</font></a></b>";
+            echo "<a href=\"#\" onclick=\"return false\" class=\"statusLink\" title=\"".htmlspecialchars($statushelp)."\"><font color=\"".htmlspecialchars($statuscolor)."\">".htmlspecialchars($statusname)."</font></a></b>";
             if ($statusspecial == "renew"){
                 if ($enreg['renouveler'])
                     echo " le ".htmlspecialchars($enreg['renouveler']);

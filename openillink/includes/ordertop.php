@@ -46,7 +46,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
     }
     echo "<br />\n";
     echo "<b>Statut : \n";
-    echo "<a href=\"#\" onclick=\"return false\" title=\"".htmlspecialchars($statushelp)."\"><font color=\"".htmlspecialchars($statuscolor)."\">".htmlspecialchars($statusname)."</font></a></b>";
+    echo "<a href=\"#\" class=\"statusLink\" onclick=\"return false\" title=\"".htmlspecialchars($statushelp)."\"><font color=\"".htmlspecialchars($statuscolor)."\">".htmlspecialchars($statusname)."</font></a></b>";
     if ((!empty($statusrenew)) && $statusrenew == 1){
         if (!empty($enreg['renouveler']))
             echo " le ".$enreg['renouveler'];

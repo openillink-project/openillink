@@ -458,6 +458,11 @@ li {
   margin: 2px 0px 2px 0px;
 }
 
+.statusLink:hover {
+	text-decoration: none;
+	cursor: default;
+}
+
 .maintenance {
   background-image: url("../img/sign-maintenance.png");
   background-repeat: no-repeat;

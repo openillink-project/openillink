@@ -49,8 +49,6 @@ if (empty($userid)){
 $referer=(!empty($_POST['referer']))? $_POST['referer'] :'';
 //$action=$_POST['action']; // TODO : is that code usefull or useless?
 $stade="";
-$stade="";
-
 
 // extended set of common vars
 $uid = ((!empty($_POST['uid'])) && isValidInput($_POST['uid'],50, 's', false))?$_POST['uid']:NULL;
@@ -126,6 +124,33 @@ $remarquespub=str_replace("<script>","",$remarquespub);
 $remarquespub=str_replace("</script>","",$remarquespub);
 //$remarquespub=str_replace("script","scrpt",$remarquespub);
 
+$bibliotheque="";
+$localisation="";
+$validation = 0;
+// retrieve default status for new orders
+$reqstatus="SELECT code FROM status WHERE status.special = ?";
+$resultstatus = dbquery($reqstatus,array('new'), 's');
+while ($rowstatus = iimysqli_result_fetch_array($resultstatus)){
+	$stade = $rowstatus["code"];
+}
+// retrieve default library, localization and validation constraint for given service
+if (!empty($service)){
+	$reqlibfromunits="SELECT library, validation FROM units WHERE units.code = ?";
+	$resultunits = dbquery($reqlibfromunits,array($service), 's');
+	while ($rowunits = iimysqli_result_fetch_array($resultunits)){
+		$bibliotheque = $rowunits["library"];
+		$localisation =  $rowunits["library"];
+		$validation =  $rowunits["validation"];
+	}
+}
+
+// If service require validation, retrieve default status
+if ($validation == 1){
+	$reqstatus="SELECT code FROM status WHERE status.special = ?";
+	$resultstatus = dbquery($reqstatus,array('tobevalidated'), 's');
+	while ($rowstatus = iimysqli_result_fetch_array($resultstatus))
+		$stade = $rowstatus["code"];
+}
 //
 // END common vars
 //
@@ -133,8 +158,11 @@ $remarquespub=str_replace("</script>","",$remarquespub);
 //
 if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
     $remarques=((!empty($_POST['remarques'])) && isValidInput($_POST['remarques'],4000, 's', false))?$_POST['remarques']:'';
-    $localisation= ((!empty($_POST['localisation'])) && isValidInput($_POST['localisation'],20,'s',false))? $_POST['localisation']:"";
-    $stade=((!empty($_POST['stade'])) && isValidInput($_POST['stade'],3,'i',false))? $_POST['stade']:NULL;
+    // overwrite localisation if given
+	$localisation= ((!empty($_POST['localisation'])) && isValidInput($_POST['localisation'],20,'s',false))? $_POST['localisation']: $localisation;
+	// overwrite stade with computed localization if left as default.
+    $stade=((!empty($_POST['stade'])) && isValidInput($_POST['stade'],3,'i',false) && $_POST['stade'] != "0")? $_POST['stade']:$stade;
+	echo " stade:". $stade;
     $date= ((!empty($_POST['datesaisie'])) && validateDate($_POST['datesaisie']))?$_POST['datesaisie']:NULL;
     if(empty($date))
         $date=date("Y-m-d");
@@ -150,7 +178,8 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
             $renouveler = date("Y-m-d", mktime(0, 0, 0, date("m")+1, date("d"), date("Y")));
         }
     }
-    $bibliotheque=((!empty($_POST['bibliotheque'])) && isValidInput($_POST['bibliotheque'],50, 's', false))?$_POST['bibliotheque']:'';
+	// overwrite bibliotheque if given
+    $bibliotheque=((!empty($_POST['bibliotheque'])) && isValidInput($_POST['bibliotheque'],50, 's', false))?$_POST['bibliotheque']:$bibliotheque;
     $prix=((!empty($_POST['prix'])) && isValidInput($_POST['prix'],4, 's', false))?$_POST['prix']:'';
     $prepaye=((!empty($_POST['avance'])) && isValidInput($_POST['avance'],3, 's', false))?$_POST['avance']:'';
     $urgent=((!empty($_POST['urgent'])) && isValidInput($_POST['urgent'],3, 's', false))?$_POST['urgent']:'';
@@ -163,36 +192,15 @@ else{
     $remarques = "";
     $date=date("Y-m-d");
     $date2=date("d/m/Y H:i:s");
-    $bibliotheque="";
-    $localisation="";
-    $validation = 0;
-    $reqstatus="SELECT code FROM status WHERE status.special = ?";
-    $resultstatus = dbquery($reqstatus,array('new'), 's');
-    while ($rowstatus = iimysqli_result_fetch_array($resultstatus))
-        $stade = $rowstatus["code"];
-    if (!empty($service)){
-        $reqlibfromunits="SELECT library, validation FROM units WHERE units.code = ?";
-        $resultunits = dbquery($reqlibfromunits,array($service), 's');
-        while ($rowunits = iimysqli_result_fetch_array($resultunits)){
-            $bibliotheque = $rowunits["library"];
-            $localisation =  $rowunits["library"];
-            $validation =  $rowunits["validation"];
-        }
-    }
-    if ($bibliotheque == ""){
-        $reqlibdefault="SELECT code FROM libraries WHERE libraries.default = ?";
-        $resultlibdefault = dbquery($reqlibdefault,array(1),'s');
-        while ($rowlibdefault = iimysqli_result_fetch_array($resultlibdefault)){
-            $bibliotheque = $rowlibdefault["code"];
-            $localisation =  $rowlibdefault["code"];
-        }
-    }
-    if ($validation == 1){
-        $reqstatus="SELECT code FROM status WHERE status.special = ?";
-        $resultstatus = dbquery($reqstatus,array('tobevalidated'), 's');
-        while ($rowstatus = iimysqli_result_fetch_array($resultstatus))
-            $stade = $rowstatus["code"];
-    }
+	// When no library found for given service, use main library and localization
+	if ($bibliotheque == ""){
+		$reqlibdefault="SELECT code FROM libraries WHERE libraries.default = ?";
+		$resultlibdefault = dbquery($reqlibdefault,array(1),'s');
+		while ($rowlibdefault = iimysqli_result_fetch_array($resultlibdefault)){
+			$bibliotheque = $rowlibdefault["code"];
+			$localisation =  $rowlibdefault["code"];
+		}
+	}
     // END public vars
 }
 

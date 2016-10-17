@@ -62,6 +62,10 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
             $adresse = $enreg['adresse'].', '.$enreg['code_postal'].' '.$enreg['localite'];
             $statusname = $statusInfo[$stade]['title1'];
             $statushelp = $statusInfo[$stade]['help1'];
+			$is_my_bib = ($monbib == $enreg['bibliotheque']);
+			$is_my_service = (in_array($enreg['service'], $servListArray));
+			$is_my_localisation = (in_array($localisation, $locListArray));
+			$is_shared = ((!empty($enreg['bibliotheque'])) && in_array($enreg['bibliotheque'], $sharedLibrariesArray) && empty($localisation) && in_array($stade, $codeSpecial['new']));
             if ((!empty($enreg)) && (!empty($enreg['special'])) && $enreg['special']==='renew'){
                 $statusrenew = 1;
             }

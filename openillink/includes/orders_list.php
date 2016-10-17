@@ -61,11 +61,13 @@ $link = dbconnect();
 	// Preparing request to select all localizations of current library
     $reqLoc = "SELECT code FROM localizations WHERE library = ?";
     $resLoc = dbquery($reqLoc, array($monbib), "s");
+	$locListArray = array(); // used in order_results.php
     $nbLoc = iimysqli_num_rows($resLoc);
     $locList = '';
     for ($l=0 ; $l<$nbLoc ; $l++){
         $currLoc = iimysqli_result_fetch_array($resLoc);
         $locList = empty($locList)?"'".mysqli_real_escape_string($link, $currLoc['code'])."'":$locList.",'".mysqli_real_escape_string($link, $currLoc['code'])."'";
+		$locListArray[] = $currLoc['code'];
     }
     $locCond = empty($locList)?'':" OR orders.localisation IN ($locList) ";
 
@@ -73,10 +75,12 @@ $link = dbconnect();
     $reqServ = "SELECT code FROM units WHERE library = ?";
     $resServ = dbquery($reqServ, array($monbib), "s");
     $nbServ = iimysqli_num_rows($resServ);
+	$servListArray = array(); // used in order_results.php
     $servList = '';
     for ($l=0 ; $l<$nbServ ; $l++){
         $currServ = iimysqli_result_fetch_array($resServ);
         $servList = empty($servList)?"'".mysqli_real_escape_string($link, $currServ['code'])."'":$servList.",'".mysqli_real_escape_string($link, $currServ['code'])."'";
+		$servListArray[] = $currServ['code'];
     }
     $servCond = ($nbServ > 0 ?" OR orders.service IN ($servList) ":'');
 
@@ -102,6 +106,7 @@ $link = dbconnect();
     $reqIsMain ="SELECT libraries.default FROM libraries WHERE libraries.default = 1 AND libraries.code=?";
     $resIsMain = dbquery($reqIsMain, array($monbib), "s");
     $isMain = iimysqli_num_rows($resIsMain);
+	$sharedLibrariesArray = array(); // used in order_results.php
     if ($isMain > 0){
 	    $listBibIn = array();
 		$listBibIn[] = $monbib;
@@ -112,6 +117,7 @@ $link = dbconnect();
         for ($l=0 ; $l<$nbSharing ; $l++){
             $currSharing = iimysqli_result_fetch_array($resSharing);
             $listBibIn[] = mysqli_real_escape_string($link, $currSharing['code']);
+			$sharedLibrariesArray[] = $currSharing['code'];
         }
 		$listInBib = "'".implode (  "','", $listBibIn)."'";
 		$orphanOrdersCond = $isMain?" OR ( orders.localisation = '' AND orders.stade IN (".$listSpecial['new'].")  AND orders.bibliotheque IN (".$listInBib.")) ":"";

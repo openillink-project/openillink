@@ -519,3 +519,12 @@ fieldset.organizedForm {
 .warning strong{
     font-size: 24px;
 }
+
+.notMyBib, .notMyLocalisation, .notMyService, .isSharedOrder {
+	background-color: #fb0;
+	padding:2px;
+	border-radius: 2px;
+	/*border: 1px solid #c38e08;*/
+    display: inline-block;
+	margin-left: 2px;
+}

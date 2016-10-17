@@ -280,4 +280,53 @@ function boxContent($class, $title, $mainTxt){
     return $boxedContent;
 }
 
+function getLibraryLocalizationCodes($monbib) {
+	/*
+		Returns the list of localization codes for the given library
+	*/
+	$locListArray = array();
+    $reqLoc = "SELECT code FROM localizations WHERE library = ?";
+    $resLoc = dbquery($reqLoc, array($monbib), "s");
+    $nbLoc = iimysqli_num_rows($resLoc);
+    for ($l=0 ; $l<$nbLoc ; $l++){
+        $currLoc = iimysqli_result_fetch_array($resLoc);
+		$locListArray[] = $currLoc['code'];
+    }
+	return $locListArray;
+}
+function getLibraryUnitCodes($monbib) {
+	/*
+		Returns the list of unit codes for the given library
+	*/
+	$servListArray = array();
+	$reqServ = "SELECT code FROM units WHERE library = ?";
+    $resServ = dbquery($reqServ, array($monbib), "s");
+    $nbServ = iimysqli_num_rows($resServ);
+    for ($l=0 ; $l<$nbServ ; $l++){
+        $currServ = iimysqli_result_fetch_array($resServ);
+		$servListArray[] = $currServ['code'];
+    }
+	return $servListArray;
+}
+
+function getSharingLibrariesForBib($monbib) {
+	/*
+		Returns the list of libraries sharing order with the given library
+	*/
+	$sharedLibrariesArray = array();
+    $reqIsMain ="SELECT libraries.default FROM libraries WHERE libraries.default = 1 AND libraries.code=?";
+    $resIsMain = dbquery($reqIsMain, array($monbib), "s");
+    $isMain = iimysqli_num_rows($resIsMain);
+    if ($isMain > 0){
+		// Select "partners" libraries
+        $reqSharing = 'SELECT libraries.code FROM libraries WHERE libraries.has_shared_ordres = 1';
+        $resSharing = dbquery($reqSharing);
+        $nbSharing = iimysqli_num_rows($resSharing);
+        for ($l=0 ; $l<$nbSharing ; $l++){
+            $currSharing = iimysqli_result_fetch_array($resSharing);
+			$sharedLibrariesArray[] = $currSharing['code'];
+        }
+    }
+	return $sharedLibrariesArray;
+}
 ?>

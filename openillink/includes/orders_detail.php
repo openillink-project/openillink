@@ -35,6 +35,17 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     $id= ((!empty($_GET['id'])) && isValidInput($_GET['id'],8,'s',false)) ? $_GET['id'] : NULL;
     $myhtmltitle = "Commandes de " . $configinstitution[$lang] . " : détail de la commande " . $id;
     if ($id){
+
+		$codeSpecial = array();
+		$codeIn = array();
+		$codeOut = array();
+		$codeTrash = array();
+		$statusInfo = readStatus($codeIn, $codeOut, $codeTrash, $codeSpecial);
+		$sharedLibrariesArray = getSharingLibrariesForBib($monbib);
+		$locListArray = getLibraryLocalizationCodes($monbib);
+		$servListArray = getLibraryUnitCodes($monbib);
+
+
         $req = "SELECT orders.*, status.title1 AS statusname, status.help1 AS statushelp, status.special AS statusspecial, status.color AS statuscolor, libraries.name1 AS libname, localizations.name1 AS locname, units.name1 AS unitname ".
         "FROM orders LEFT JOIN status ON orders.stade = status.code LEFT JOIN libraries ON orders.bibliotheque = libraries.code LEFT JOIN localizations ON orders.localisation = localizations.code LEFT JOIN units ON orders.service = units.code ".
         "WHERE orders.illinkid LIKE ? GROUP BY orders.illinkid ORDER BY orders.illinkid DESC";
@@ -58,6 +69,11 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             $statuscolor = $enreg['statuscolor'];
             $libname = $enreg['libname'];
             $libcode = $enreg['bibliotheque'];
+
+			$is_my_bib = ($monbib == $enreg['bibliotheque']);
+			$is_my_service = (in_array($enreg['service'], $servListArray));
+			$is_my_localisation = (in_array($localisation, $locListArray));
+			$is_shared = ((!empty($enreg['bibliotheque'])) && in_array($enreg['bibliotheque'], $sharedLibrariesArray) && empty($localisation) && in_array($stade, $codeSpecial['new']));
 
             if ($mail){
                 $pos1 = strpos($mail,';');
@@ -98,6 +114,9 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo " (<b><font color=\"red\">Commande URGENTE</font></b>)\n";
             if ($enreg['urgent']=='3' || $enreg['urgent']=='non')
                 echo " (<font color=\"SteelBlue\">Commande pas prioritaire</font>)\n";
+			if ($is_shared){
+				echo '<span class="isSharedOrder">Commande entrante partagée</span>';
+			}
             if (($enreg['type_doc']!='article') && ($enreg['type_doc']!='Article'))
                 echo "&nbsp;&nbsp;&nbsp;<img src=\"img/book.png\">";
             echo "<br /><b>Date de la commande : </b>".$date;
@@ -108,9 +127,19 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             if ($enreg['renouveler']>0)
                 echo "\n<br /><b>Date de renouvellement : </b>".htmlspecialchars($enreg['renouveler']);
             echo "\n<br /><b>Bibliothèque d'attribution : </b>";
-            echo htmlspecialchars($libname) . " (". htmlspecialchars($libcode).")";
-            if ($localisation)
-                echo "\n<br /><b>Localisation : </b>" . htmlspecialchars($locname) . " (" . htmlspecialchars($localisation) . ")";
+			if (!$is_my_bib) {
+				echo '<span class="notMyBib">'. htmlspecialchars($libname) . " (". htmlspecialchars($libcode).")" . '</span>';
+			} else {
+				echo htmlspecialchars($libname) . " (". htmlspecialchars($libcode).")";
+			}
+            if ($localisation) {
+				echo "\n<br /><b>Localisation : </b>" ;
+				if (!$is_my_localisation) {
+					echo '<span class="notMyLocalisation">'.htmlspecialchars($locname) . " (" . htmlspecialchars($localisation) . ")".'</span>';
+				} else {
+					echo htmlspecialchars($locname) . " (" . htmlspecialchars($localisation) . ")";
+				}
+			}
             echo "<br /><b>Statut : \n";
             echo "<a href=\"#\" onclick=\"return false\" class=\"statusLink\" title=\"".htmlspecialchars($statushelp)."\"><font color=\"".htmlspecialchars($statuscolor)."\">".htmlspecialchars($statusname)."</font></a></b>";
             if ($statusspecial == "renew"){
@@ -128,9 +157,14 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             }
             if ($enreg['adresse'])
                 echo "<br /><b>Adresse : </b>".htmlspecialchars($adresse);
-            if ($enreg['service'])
-                echo "<br /><b>Service : </b><a href=\"list.php?folder=search&champ=service&term=".htmlspecialchars(urlencode($enreg['service']))."\" title=\"chercher les commandes de ce service\">".htmlspecialchars($enreg['service'])."</a>\n";
-            if ($enreg['type_doc'])
+            if ($enreg['service']) {
+				$service_class = "";
+				if (!$is_my_service) {
+					$service_class = ' class="notMyService" ';
+				}
+                echo "<br /><b>Service : </b><a ".$service_class."href=\"list.php?folder=search&champ=service&term=".htmlspecialchars(urlencode($enreg['service']))."\" title=\"chercher les commandes de ce service\">".htmlspecialchars($enreg['service'])."</a>\n";
+            }
+			if ($enreg['type_doc'])
                 echo "<br /><b>Type de document : </b>".htmlspecialchars($enreg['type_doc']);
             echo "<br />\n";
             if ($enreg['titre_article'])

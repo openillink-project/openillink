@@ -29,9 +29,22 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
     echo "Commande no : ".$id."</a>\n";
     echo "  |  Date : ".$date;
     echo "  |  Bibliothèque d'attribution : ";
-    echo $enreg['bibliotheque'];
-    if ($enreg['localisation'])
-        echo "  |  Localisation : ".htmlspecialchars($localisation);
+	if (!$is_my_bib) {
+		echo '<span class="notMyBib">'. $enreg['bibliotheque'] . '</span>';
+	} else {
+		echo $enreg['bibliotheque'];
+	}
+    if ($enreg['localisation']){
+		echo "  |  Localisation : ";
+		if (!$is_my_localisation) {
+			echo '<span class="notMyLocalisation">'.htmlspecialchars($localisation).'</span>';
+		} else {
+			echo htmlspecialchars($localisation);
+		}
+	}
+	if ($is_shared){
+		echo '<span class="isSharedOrder">Commande entrante partagée</span>';
+	}
     if ($enreg['prepaye']=="on")
         echo "  |  <b><font color=\"green\">Payé à l'avance</b></font>";
     if (($enreg['type_doc']!='article') && ($enreg['type_doc']!='Article'))
@@ -62,9 +75,15 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
         echo "  |  <b>E-mail : </b><a href=\"list.php?folder=search&champ=email&term=".htmlspecialchars(urlencode ($mail))."\" title=\"chercher les commandes de cet email\">".htmlspecialchars($mail)."</a>\n";
     if ($enreg['adresse'])
         echo "  |  <b>Adresse : </b>".htmlspecialchars($adresse);
-    if ($enreg['service'])
-        echo "  |  <b>Service : </b><a href=\"list.php?folder=search&champ=service&term=".htmlspecialchars(urlencode ($enreg['service']))."\" title=\"chercher les commandes de ce service\">".htmlspecialchars($enreg['service'])."</a>";
-    echo "<br />\n";
+    if ($enreg['service']) {
+		echo "  |  <b>Service : </b>";
+		$service_class = "";
+		if (!$is_my_service) {
+			$service_class = ' class="notMyService" ';
+		}
+		echo "<a ".$service_class."href=\"list.php?folder=search&champ=service&term=".htmlspecialchars(urlencode ($enreg['service']))."\" title=\"chercher les commandes de ce service\">".htmlspecialchars($enreg['service'])."</a>";
+	}
+	echo "<br />\n";
     if ($enreg['titre_article'])
         echo "<b>Titre : </b><a href=\"list.php?folder=search&champ=atitle&term=".htmlspecialchars(urlencode ($enreg['titre_article']))."\" title=\"chercher les commandes pour ce titre\">".htmlspecialchars($enreg['titre_article'])."</a><br />\n";
     if ($enreg['auteurs'])

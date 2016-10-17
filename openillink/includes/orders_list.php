@@ -123,6 +123,11 @@ $link = dbconnect();
 		$orphanOrdersCond = $isMain?" OR ( orders.localisation = '' AND orders.stade IN (".$listSpecial['new'].")  AND orders.bibliotheque IN (".$listInBib.")) ":"";
     }
 
+	// Depending on the configured mode, we want to hide incoming orders from "In" folder if it is localized to other libraries
+	$additionalLocCond = "";
+	if ($displayAttributedOrderMode == 1) {
+		$additionalLocCond = " AND (orders.localisation = '' OR orders.localisation IS NULL OR orders.localisation IN ($locList) ) ";
+	}
 	// Building main query to retrieve orders, depending on the current folder (in, all, out, trash)
     $req2 = "SELECT orders.illinkid FROM orders ";
     $conditions = '';
@@ -132,7 +137,7 @@ $link = dbconnect();
 	//   - Also display order from shared/partners libraries if these orders are not localized and are new
 	$conditionsParDefauts = " WHERE (".
 	"(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '".mysqli_real_escape_string($link, $madatej)."')) AND ".
-	"(orders.bibliotheque = '". mysqli_real_escape_string($link, $monbib)."' $locCond $servCond )) ".
+	"((orders.bibliotheque = '". mysqli_real_escape_string($link, $monbib)."' $additionalLocCond) $locCond $servCond )) ".
 	"OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '".mysqli_real_escape_string($link, $monbib)."') $orphanOrdersCond";
     switch ($folder){
         case 'in':

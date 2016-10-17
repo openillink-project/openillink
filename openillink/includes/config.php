@@ -107,6 +107,11 @@ $auth_guest = "9";
 // display link for resending credentials
 $displayResendLink = true;
 
+// Mode to display library attributed orders in "IN" folder
+// - 0: display all orders attributed to library
+// - 1: display only orders attriburted to library when no localization or own localization
+$displayAttributedOrderMode = 1;
+
 // Define the name and search URL of directories used to make the home page links
 // to determine your URLs make a search with firstname "XFIRSTNAMEX" (without quotes) and name "XNAMEX", then copy the URL of the results page
 // if your directory allows only POST request, you can create a form imitating the search form and place on the forms folder

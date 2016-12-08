@@ -94,7 +94,7 @@ if (!empty($_COOKIE['illinkid'])){
         // echo "<td>".$libname5."</td>\n";
         echo "<td>".htmlspecialchars($libdef)."</td>\n";
         echo "<td>".htmlspecialchars($hasSharedOrders)."</td>\n";
-        if ((($monaut == "admin")&&($admin > 1))||($monaut == "sadmin")){
+        if (($monaut == "admin")||($monaut == "sadmin")){
             echo "<td><a href=\"edit.php?table=libraries&id=".htmlspecialchars($libid)."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
         }
         echo "</tr>\n";

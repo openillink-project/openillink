@@ -89,7 +89,7 @@ if (!empty($_COOKIE['illinkid'])){
 // echo "<td>".$locname4."</td>\n";
 // echo "<td>".$locname5."</td>\n";
             echo "<td>".htmlspecialchars($loclibrary)."</td>\n";
-            if ((($monaut == "admin")&&($admin > 1))||($monaut == "sadmin")){
+            if (($monaut == "admin")||($monaut == "sadmin")){
                 echo "<td><a href=\"edit.php?table=localizations&id=".htmlspecialchars($locid)."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
             }
             echo "</tr>\n";

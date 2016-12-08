@@ -102,7 +102,7 @@ if (($monaut == "admin")||($monaut == "sadmin")){
         else
             echo "Inactif";
         echo "</td>\n";
-        if ((($monaut == "admin")&&($admin > 2))||($monaut == "sadmin")){
+        if (($monaut == "admin")||($monaut == "sadmin")){
             echo "<td><a href=\"edit.php?table=users&id=".$user_id."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
         }
         echo "</tr>\n";

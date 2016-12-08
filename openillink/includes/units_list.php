@@ -112,7 +112,7 @@ echo "<td>".htmlspecialchars($unitip1)."</td>\n";
 echo "<td>".htmlspecialchars($unitip2)."</td>\n";
 echo "<td>".htmlspecialchars($unitipext)."</td>\n";
 echo "<td>".htmlspecialchars($validation)."</td>\n";
-if ((($monaut == "admin")&&($admin > 1))||($monaut == "sadmin"))
+if (($monaut == "admin")||($monaut == "sadmin"))
 {
 echo "<td><a href=\"edit.php?table=units&id=".htmlspecialchars($unitid)."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
 }

@@ -116,7 +116,7 @@ if (!empty($_COOKIE['illinkid'])){
             // echo "<td>".$statustrash."</td>\n";
             // echo "<td>".$statusrenew."</td>\n";
             // echo "<td>".$statusreject."</td>\n";
-            if ((($monaut == "admin")&&($admin > 1))||($monaut == "sadmin")){
+            if (($monaut == "admin")||($monaut == "sadmin")){
                 echo "<td><a href=\"edit.php?table=status&id=".htmlspecialchars($statusid)."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
             }
             echo "</tr>\n";

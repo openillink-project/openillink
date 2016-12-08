@@ -638,6 +638,12 @@ $guiLabelHelp5["de"]="Hilfe auf Spanisch";
 $guiLabelHelp5["it"]="Aiuto in spagnolo";
 $guiLabelHelp5["es"]="Help in Spanish";
 
+$guiLibrarySignature["fr"]="Signature (pour les emails envoyés à l'utilisateur)";
+$guiLibrarySignature["en"]="Signature (for emails sent to users)";
+$guiLibrarySignature["de"]="Signature (for emails sent to users)";
+$guiLibrarySignature["it"]="Signature (for emails sent to users)";
+$guiLibrarySignature["es"]="Signature (for emails sent to users)";
+
 $guiFolderIn["fr"]="Afficher les commandes avec ce statut dans la liste des commandes en entrée (IN)";
 $guiFolderIn["en"]="Display orders with this status in the IN listing";
 $guiFolderIn["de"]="Display orders with this status in the IN listing";

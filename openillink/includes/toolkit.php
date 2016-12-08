@@ -329,4 +329,14 @@ function getSharingLibrariesForBib($monbib) {
     }
 	return $sharedLibrariesArray;
 }
+function getLibrarySignature($monbib) {
+	/*
+		Returns the email signature for the given library
+	*/
+	$servListArray = array();
+	$req = "SELECT libraries.signature FROM libraries WHERE libraries.code = ?";
+    $res = dbquery($req, array($monbib), "s");
+    $signature = iimysqli_result_fetch_array($res);
+	return $signature['signature'];
+}
 ?>

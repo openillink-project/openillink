@@ -59,6 +59,7 @@ if (!empty($_COOKIE['illinkid'])){
                 $name["es"] = $enreg['name5'];
                 $libdef = $enreg['default'];
                 $hasSharedOrders = $enreg['has_shared_ordres'];
+				$signature = $enreg['signature'];
                 echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
                 echo "<input name=\"table\" type=\"hidden\" value=\"libraries\">\n";
                 echo "<input name=\"id\" type=\"hidden\" value=\"".$libid."\">\n";
@@ -80,10 +81,15 @@ if (!empty($_COOKIE['illinkid'])){
                 if ($libdef==1)
                     echo " checked";
                 echo "></td></tr>\n";
-                echo "<tr><td><b>Afficher les ordres entrants pour cette bibliothèque avec la bibliothèque principale</b></td><td><input name=\"hasSharedOrders\" value=\"1\" type=\"checkbox\"";
+                echo "<tr><td class=\"odd\"><b>Afficher les ordres entrants pour cette bibliothèque avec la bibliothèque principale</b></td><td class=\"odd\"><input name=\"hasSharedOrders\" value=\"1\" type=\"checkbox\"";
                 if ($hasSharedOrders==1)
                     echo " checked";
                 echo "></td></tr>\n";
+				echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
+				echo '<tr><td colspan="2">';
+				echo '<b><label for="signature">'.$guiLibrarySignature[$lang]. '</label></b><br/>';
+				echo '<textarea id="signature" name="signature" rows="5" cols="80">'. htmlspecialchars($signature) . '</textarea>';
+				echo '</td></tr>';
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
                 echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer les modifications\">\n";
                 echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=libraries'\">\n";

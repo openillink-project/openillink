@@ -60,15 +60,7 @@ $emailTxt['fr']['infoservice'] = "\r\nNouveau service : suivez vos commandes d'a
 $emailTxt['fr']['mentionDroitAuteur'] = "Selon les règles en vigueur sur les droits d'auteur, le fichier joint concernant cette publication ne doit être utilisée que pour votre usage personnel et à des fins de recherche scientifique. Elle ne doit pas être reproduite ni distribuée.\r\n";
 $emailTxt['fr']['salutations'] = "Meilleurs messages\r\n";
 $emailTxt['fr']['texteAideCurseur'] = "envoyer un message avec le document attaché au lecteur";
-$emailTxt['fr']['signature'] = "Votre service de Prêt entre bibliothèques.\r\n\r\n".
-"BIBLIOTHÈQUE UNIVERSITAIRE DE MÉDECINE \r\n".
-"CHUV BH 08 \r\n".
-"Rue du Bugnon 46 \r\n".
-"CH 1011 Lausanne SWITZERLAND \r\n".
-"Courriel : docdelivery@chuv.ch \r\n".
-"Tél. : +41 21 314 52 82 \r\n".
-/*"Fax : +41 21 314 50 70 \r\n".*/
-"Site web : http://www.bium.ch \r\n";
+$emailTxt['fr']['signature'] = "Votre service de Prêt entre bibliothèques.\r\n\r\n";
 /***************************************************/
 
 /***************************************************/
@@ -83,7 +75,8 @@ function displayMailText($monaut,
                          $nom,
                          $maillog,
                          $passwordg,
-                         $mail){
+                         $mail,
+						 $signature){
     $finalMailText = "";
 
     if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut == "guest"))
@@ -134,6 +127,7 @@ function displayMailText($monaut,
                rawurlencode($mailAllTexts['fr']['salutations']."\r\n").
                /*rawurlencode(stripslashes("*****************************************************\r\n")).*/
                rawurlencode($mailAllTexts['fr']['signature']);
+	  $body .= rawurlencode($signature);
 	  $final_url .= "&amp;body=";
 	  $final_url .= substr ( htmlspecialchars($body), 0 , 2050 - strlen($final_url));
       $finalMailText .= $final_url;

@@ -54,6 +54,11 @@ echo "<tr><td><b>".$guiLabelName5[$lang]."</b></td><td><input name=\"name5\" typ
 echo "<tr><td><b>Bibliothèque principale</b></td><td><input name=\"default\" value=\"1\" type=\"checkbox\"></td></tr>\n";
 echo "<tr><td><b>Afficher les ordres entrants pour cette bibliothèque avec la bibliothèque principale</b></td><td><input name=\"hasSharedOrders\" value=\"1\" type=\"checkbox\"></td></tr>\n";
 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
+echo '<tr><td colspan="2">';
+echo '<b><label for="signature">'.$guiLibrarySignature[$lang]. '</label></b><br/>';
+echo '<textarea id="signature" name="signature" rows="5" cols="80"></textarea>';
+echo '</td></tr>';
+echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
 echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer la nouvelle bibliothèque\">\n";
 echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=libraries'\"></td></tr>\n";
 echo "</table>\n";

@@ -44,7 +44,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 		$sharedLibrariesArray = getSharingLibrariesForBib($monbib);
 		$locListArray = getLibraryLocalizationCodes($monbib);
 		$servListArray = getLibraryUnitCodes($monbib);
-
+		$library_signature = getLibrarySignature($monbib);
 
         $req = "SELECT orders.*, status.title1 AS statusname, status.help1 AS statushelp, status.special AS statusspecial, status.color AS statuscolor, libraries.name1 AS libname, localizations.name1 AS locname, units.name1 AS unitname ".
         "FROM orders LEFT JOIN status ON orders.stade = status.code LEFT JOIN libraries ON orders.bibliotheque = libraries.code LEFT JOIN localizations ON orders.localisation = localizations.code LEFT JOIN units ON orders.service = units.code ".
@@ -153,7 +153,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "<br /><b>E-mail : </b><a href=\"list.php?folder=search&champ=email&term=".htmlspecialchars(urlencode($mail))."\" title=\"chercher les commandes pour cet email\">".htmlspecialchars($mail)."</a>\n";
                 $monhost = "http://" . $_SERVER['SERVER_NAME'];
                 $monuri = $monhost . rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . "/";
-                displayMailText($monaut, $monuri, $enreg, $emailTxt, $titreart, $titreper, $nom, $maillog, $passwordg, $mail);
+                displayMailText($monaut, $monuri, $enreg, $emailTxt, $titreart, $titreper, $nom, $maillog, $passwordg, $mail, $library_signature);
             }
             if ($enreg['adresse'])
                 echo "<br /><b>Adresse : </b>".htmlspecialchars($adresse);

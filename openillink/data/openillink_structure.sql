@@ -36,6 +36,8 @@ CREATE TABLE IF NOT EXISTS `libraries` (
   `name3` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `name4` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `name5` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `has_shared_ordres` tinyint(1) DEFAULT NULL,
+  `signature` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;

@@ -132,20 +132,22 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     echo "<option value=\"1\">" . $priorityurgmessage[$lang] . "</option>\n";
     echo "<option value=\"3\">" . $prioritynonemessage[$lang] . "</option>\n";
     echo "</select>\n";
-    echo "&nbsp;&nbsp;&nbsp;&nbsp;<label for=\"source\">" . $sourcemessage[$lang] . "</label> : \n";
-    echo "<select name=\"source\" id=\"source\" onchange=\"ajoutevaleur('source');\">\n";
-    echo "<option value=\"\"> </option>\n";
-    $reqsource = "SELECT arrivee FROM orders WHERE arrivee != '' GROUP BY arrivee ORDER BY arrivee ASC";
-    $optionssource = "";
-    $resultsource = dbquery($reqsource);
-    while ($rowsource = iimysqli_result_fetch_array($resultsource)){
-        $codesource = $rowsource["arrivee"];
-        $optionssource.="<option value=\"".htmlspecialchars($codesource)."\">".htmlspecialchars($codesource)."</option>\n";
-    }
-    echo $optionssource;
-    echo "<option value=\"new\">" . $addvaluemessage[$lang] . "</option>\n";
-    echo "</select>\n";
-    echo "&nbsp;<input name=\"sourcenew\" id=\"sourcenew\" type=\"text\" size=\"20\" value=\"\" style=\"display:none\">\n";
+	if ($displayFormOrderSourceField) {
+		echo "&nbsp;&nbsp;&nbsp;&nbsp;<label for=\"source\">" . $sourcemessage[$lang] . "</label> : \n";
+		echo "<select name=\"source\" id=\"source\" onchange=\"ajoutevaleur('source');\">\n";
+		echo "<option value=\"\"> </option>\n";
+		$reqsource = "SELECT arrivee FROM orders WHERE arrivee != '' GROUP BY arrivee ORDER BY arrivee ASC";
+		$optionssource = "";
+		$resultsource = dbquery($reqsource);
+		while ($rowsource = iimysqli_result_fetch_array($resultsource)){
+			$codesource = $rowsource["arrivee"];
+			$optionssource.="<option value=\"".htmlspecialchars($codesource)."\">".htmlspecialchars($codesource)."</option>\n";
+		}
+		echo $optionssource;
+		echo "<option value=\"new\">" . $addvaluemessage[$lang] . "</option>\n";
+		echo "</select>\n";
+		echo "&nbsp;<input name=\"sourcenew\" id=\"sourcenew\" type=\"text\" size=\"20\" value=\"\" style=\"display:none\">\n";
+	}
     echo "</td></tr><tr><td>\n";
 	echo '<label for="datesaisie">';
     echo "<a href=\"#\" title=\"" . $orderdatehelpmessage[$lang] . "\">" . $orderdatemessage[$lang] . "</a></label> : </td><td> \n";
@@ -171,10 +173,13 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 	echo '<label for="ref">';
     echo $refextmessage[$lang] . "</label> : &nbsp;\n";
     echo "<input name=\"ref\" id=\"ref\" type=\"text\" size=\"20\" value=\"\">&nbsp;&nbsp;&nbsp;\n";
-	echo '<label for="refinterbib">';
-    echo $refintmessage[$lang] . "</label> : &nbsp;\n";
-    echo "<input name=\"refinterbib\" id=\"refinterbib\" type=\"text\" size=\"20\" value=\"\"></td></tr>\n";
-    echo "<tr><td valign=\"top\">\n";
+	if ($displayFormInternalRefField) {
+		echo '<label for="refinterbib">';
+		echo $refintmessage[$lang] . "</label> : &nbsp;\n";
+		echo "<input name=\"refinterbib\" id=\"refinterbib\" type=\"text\" size=\"20\" value=\"\">";
+	}
+	echo "</td></tr>\n";
+	echo "<tr><td valign=\"top\">\n";
 	echo '<label for="remarques">';
     echo $commentsmessage[$lang] . "</label> : \n";
     echo "</td><td valign=\"bottom\" colspan=\"3\"><textarea name=\"remarques\" id=\"remarques\" rows=\"2\" cols=\"60\" valign=\"bottom\"></textarea>\n";

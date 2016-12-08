@@ -194,23 +194,25 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             // END Priority Field
 
             // Start Origin Field
-            echo "&nbsp;&nbsp;&nbsp;&nbsp;<label for=\"source\">" . $sourcemessage[$lang] . "</label> : \n";
-            echo "<select name=\"source\" id=\"source\" onchange=\"ajoutevaleur('source');\">\n";
-            echo "<option value=\"\"> </option>\n";
-            $reqsource = "SELECT arrivee FROM orders WHERE arrivee != '' GROUP BY arrivee ORDER BY arrivee ASC";
-            $optionssource = "";
-            $resultsource = dbquery($reqsource);
-            while ($rowsource = iimysqli_result_fetch_array($resultsource)){
-                $codesource = $rowsource["arrivee"];
-                $optionssource.="<option value=\"" . htmlspecialchars($codesource) . "\"";
-                if ($enreg['arrivee'] == $codesource)
-                    $optionssource.=" selected";
-                $optionssource.=">" . htmlspecialchars($codesource) . "</option>\n";
-            }
-            echo $optionssource;
-            echo "<option value=\"new\">" . $addvaluemessage[$lang] . "</option>\n";
-            echo "</select>\n";
-            echo "&nbsp;<input name=\"sourcenew\" id=\"sourcenew\" type=\"text\" size=\"20\" value=\"\" style=\"display:none\">\n";
+			if ($displayFormOrderSourceField) {
+				echo "&nbsp;&nbsp;&nbsp;&nbsp;<label for=\"source\">" . $sourcemessage[$lang] . "</label> : \n";
+				echo "<select name=\"source\" id=\"source\" onchange=\"ajoutevaleur('source');\">\n";
+				echo "<option value=\"\"> </option>\n";
+				$reqsource = "SELECT arrivee FROM orders WHERE arrivee != '' GROUP BY arrivee ORDER BY arrivee ASC";
+				$optionssource = "";
+				$resultsource = dbquery($reqsource);
+				while ($rowsource = iimysqli_result_fetch_array($resultsource)){
+					$codesource = $rowsource["arrivee"];
+					$optionssource.="<option value=\"" . htmlspecialchars($codesource) . "\"";
+					if ($enreg['arrivee'] == $codesource)
+						$optionssource.=" selected";
+					$optionssource.=">" . htmlspecialchars($codesource) . "</option>\n";
+				}
+				echo $optionssource;
+				echo "<option value=\"new\">" . $addvaluemessage[$lang] . "</option>\n";
+				echo "</select>\n";
+				echo "&nbsp;<input name=\"sourcenew\" id=\"sourcenew\" type=\"text\" size=\"20\" value=\"\" style=\"display:none\">\n";
+			}
             echo "</td></tr>\n";
             // END Origin Field
             // Start Dates
@@ -246,9 +248,13 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 			echo '<label for="ref">';
             echo $refextmessage[$lang] . "</label> : &nbsp;\n";
             echo "<input name=\"ref\" id=\"ref\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($enreg['ref'])."\" onchange=\"textchanged('ref fournisseur')\">&nbsp;&nbsp;&nbsp;\n";
-            echo '<label for="refinterbib">';
-			echo $refintmessage[$lang] . "</label> : &nbsp;\n";
-            echo "<input name=\"refinterbib\" id=\"refinterbib\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($enreg['refinterbib'])."\" onchange=\"textchanged('ref interne')\">\n";
+			if ($displayFormInternalRefField) {
+				echo '<label for="refinterbib">';
+				echo $refintmessage[$lang] . "</label> : &nbsp;\n";
+				echo "<input name=\"refinterbib\" id=\"refinterbib\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($enreg['refinterbib'])."\" onchange=\"textchanged('ref interne')\">\n";
+			} else {
+				echo "<input name=\"refinterbib\" id=\"refinterbib\" type=\"hidden\" value=\"".htmlspecialchars($enreg['refinterbib'])."\" >\n";
+			}
             echo "</td></tr>\n";
             // END Price Field and Internal references
             // Start Private Notes

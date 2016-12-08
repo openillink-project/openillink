@@ -35,9 +35,13 @@ require_once ("toolkit.php");
 $id="";
 $action="";
 $montitle = "Gestion des utilisateurs";
-$id=isValidInput($_GET['id'],11,'i',false)?$_GET['id']:'';
+if (!empty($_GET['id'])) {
+	$id=isValidInput($_GET['id'],11,'i',false)?$_GET['id']:'';
+}
 $validActionSet = array('updateprofile', 'update', 'new');
-$action=isValidInput($_GET['action'],15,'s',false,$validActionSet)?$_GET['action']:'';
+if (!empty($_GET['action'])) {
+	$action=isValidInput($_GET['action'],15,'s',false,$validActionSet)?$_GET['action']:'';
+}
 if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")||(($monaut == "user")&&($action == "updateprofile"))){
         if (($action == "updateprofile")||($id!="")){
@@ -111,21 +115,25 @@ if (!empty($_COOKIE['illinkid'])){
                         echo "<option value=\"1\"";
                         if ($admin == 1)
                             echo " selected";
+						if ($monaut != "sadmin") {
+							echo " disabled";
+						}
                         echo ">Super administrateur</option>\n";
                         echo "<option value=\"2\"";
                         if ($admin == 2)
                             echo " selected";
                         echo ">Administrateur</option>\n";
-                    }
-                    echo "<option value=\"3\"";
-                    if ($admin == 3)
-                        echo " selected";
-                    echo ">Collaborateur</option>\n";
-                    echo "<option value=\"9\"";
-                    if ($admin == 9)
-                        echo " selected";
-                    echo ">Invité</option>\n";
-                    echo "</select>\n";
+
+						echo "<option value=\"3\"";
+						if ($admin == 3)
+							echo " selected";
+						echo ">Collaborateur</option>\n";
+						echo "<option value=\"9\"";
+						if ($admin == 9)
+							echo " selected";
+						echo ">Invité</option>\n";
+						echo "</select>\n";
+					}
                     // Library field
                     if (($monaut == "admin")||($monaut == "sadmin")){
                         echo "<tr><td><b>Bibliothèque *</b></td><td>\n";

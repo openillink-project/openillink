@@ -77,6 +77,18 @@ if (!empty($_COOKIE['illinkid'])){
                 $mes = $mes . "<br/>la status est obligatoire";
             if ((empty($admin)) &&($action != "updateprofile"))
                 $mes = $mes . "<br/>le type d'utilisateur est obligatoire";
+			if (($monaut != "sadmin") && $admin == 1) {
+				// Not allowed to change to superadmin. Fallback to lower role
+				$admin = 2;
+			}
+			if ((($monaut != "admin") && ($monaut != "sadmin")) && $admin == 2) {
+				// Not allowed to change to admin. Fallback to lower role
+				$admin = 3;
+			}
+			if ((($monaut != "admin") && ($monaut != "sadmin") && ($monaut != "user")) && $admin == 3) {
+				// Not allowed to change to collaborator. Fallback to lower role
+				$admin = 9;
+			}
             if ((empty($newpassword1)) && ($action == "new"))
                 $mes = $mes . "<br/>le password est obligatoire";
             if (($newpassword2 !== $newpassword1)||(($newpassword2 == "")&&($action == "new")))

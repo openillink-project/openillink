@@ -168,6 +168,9 @@ function isValidInput($inputToCheck,
                       $type = 's',
                       $optional = true,
                       $controlSet = NULL){
+	/*
+	  Warning: "0" is not considered valid when 'optional' is true, due to behaviour of 'empty()' php function.
+	*/
     $isValid = $optional || (!empty($inputToCheck));
     if (isset($inputToCheck) && $isValid){
         $strCopy = strval($inputToCheck);

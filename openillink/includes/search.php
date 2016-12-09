@@ -57,7 +57,7 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
     $filtreStatut = '';
     if (!empty($statuscode)) {
         $statuscode = str_replace('_st','',$statuscode);
-        $statut = isValidInput($statuscode,6,'s',false)?$statuscode:'';
+        $statut = isValidInput($statuscode,6,'s',false) || $statuscode == "0" ? $statuscode : '';
         $filtreStatut = "  stade = ".mysqli_real_escape_string($link, $statut)." ";
     }
     $champValides = array('id', 'datecom', 'dateenv', 'datefact', 'statut', 'localisation', 'nom', 'email', 'service', 'issn', 'pmid', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all');

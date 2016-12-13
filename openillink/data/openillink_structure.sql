@@ -65,6 +65,8 @@ CREATE TABLE IF NOT EXISTS `links` (
   `active` tinyint(1) NOT NULL,
   `ordonnancement` int(3) DEFAULT NULL,
   `url_encoded` tinyint(1) DEFAULT NULL,
+  `skip_words` tinyint(1) NOT NULL,
+  `skip_txt_after_mark` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `title` (`title`),
   KEY `lib_code` (`library`)

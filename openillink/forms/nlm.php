@@ -36,8 +36,8 @@
 // my_delivery_email
 // 29.03.2016 MDV add input validation using checkInput defined into toolkit.php
 // 
-
-require_once ("config.php");
+if (file_exists ("config.php"))
+    require_once ("config.php");
 
 // create curl resource
 $ch = curl_init();

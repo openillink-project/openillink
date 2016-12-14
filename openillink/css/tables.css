@@ -776,3 +776,7 @@ a.feedbacklink {
     padding: 5px 5px 5px 5px;
 }
 
+
+table.genericEditFormOIL tr:nth-child(even) {background: #FFF;}
+table.genericEditFormOIL tr:nth-child(odd) {background: #e8edff;}
+table.genericEditFormOIL  tr:first-child {background: #FFF;}

@@ -240,15 +240,17 @@ li {
 }
 
 .headBarRow1b {
-	width: 100%;
-	height: 70px;
-        background: #f6f6f6 url(../img/openillink.png) left center no-repeat;
+    width: 100%;
+    height: 70px;
+    opacity: 0.50;
+	color:black;
+    background: url(../img/1280px-Bookshelf.jpg) no-repeat 0 30%;
 }
 
 .headBarRow1c {
 	width: 100%;
 	height: 70px;
-        background: #f6f6f6 url(../img/openlist.png) left center no-repeat;
+    background: #f6f6f6 url(../img/openlist.png) left center no-repeat;
 }
 
 /* navBar */
@@ -360,6 +362,14 @@ li {
 
 .subNav ul li a.selected, .subNav ul li a:hover {
 	color:#369;
+}
+h1.siteTitleBar{
+	font-weight: bold;
+	font-size: 40px;
+	color: white;
+	float:right;
+    opacity: 1.0;
+	padding-right:40px;
 }
 
 /* footer */

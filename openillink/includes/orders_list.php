@@ -82,7 +82,7 @@ $link = dbconnect();
         $servList = empty($servList)?"'".mysqli_real_escape_string($link, $currServ['code'])."'":$servList.",'".mysqli_real_escape_string($link, $currServ['code'])."'";
 		$servListArray[] = $currServ['code'];
     }
-    $servCond = ($nbServ > 0 ?" OR orders.service IN ($servList) ":'');
+    $servCond = ($nbServ > 0 ?" OR (orders.service IN ($servList) AND (orders.localisation IS NULL OR orders.localisation = ''))":'');
 
 	// Prepare list of special statues: retrieve code configured for each folder/category
     $codeIn = array();
@@ -177,13 +177,12 @@ $link = dbconnect();
             require_once ("search.php");
             break;
         default: // Just in case. Treat same as "IN" folder
-            $conditions = $conditionsParDefauts;
+			$conditions = $conditionsParDefauts;
             break;
     }
 	// Paging
     $from = (($page * $max_results) - $max_results);
     $req2 = "$req2 $conditions ORDER BY illinkid DESC LIMIT $from, $max_results";
-$debugOn = false;
     if ($debugOn)
         prof_flag("Before first query");
 	// Fetch orders ID for current page

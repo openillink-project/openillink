@@ -1,5 +1,5 @@
-# Openillink
-Openillink is a web based system designed to manage Inter library loans (ILL) and document delivery.
+# OpeniLLink
+OpeniLLink is a web based Inter Library Loan and document delivery management sytem based on OpenURL and currently used by some academic libraries in Switzerland
 
 ## Main features
  * Web-based forms to order articles and books

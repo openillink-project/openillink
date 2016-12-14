@@ -1,5 +1,5 @@
 # Openillink
-OpenLinker is a web based system designed to manage Inter library loans (ILL) and document delivery.
+Openillink is a web based system designed to manage Inter library loans (ILL) and document delivery.
 
 ## Main features
  * Web-based forms to order articles and books

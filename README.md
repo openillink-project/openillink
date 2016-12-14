@@ -17,4 +17,4 @@ OpenLinker is a web based system designed to manage Inter library loans (ILL) an
  * Apache
 
 ## Installation
-Please refer to the the install.txt file in the sources.
+Please refer to the [Openillink installation guide] (INSTALL.md)

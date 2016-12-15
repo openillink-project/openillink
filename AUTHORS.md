@@ -1,6 +1,6 @@
 # Contributors:
 
-The following people have contributed to the development of OpeniLLink:
+The following people have contributed to the development of OpenILLink:
 
 * Pablo Iriarte (CHUV) <pablo@iriarte.ch>
 * Jérôme Zbinden (CHUV) <jerome.zbinden@chuv.ch>

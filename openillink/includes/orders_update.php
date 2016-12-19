@@ -158,7 +158,7 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
             }
             $uid=((!empty($_POST['uid'])) && isValidInput($_POST['uid'],50, 's', false))?$_POST['uid']:NULL;
             if($pmid==''){
-                if(strpos('pmid:', $uid) !== false) {
+                if(strpos($uid, 'pmid:') !== false) {
 					$pmid=str_replace("pmid:","",$uid);
 				}
             }

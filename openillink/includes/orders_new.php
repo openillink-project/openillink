@@ -114,7 +114,7 @@ if (!empty($issn)){
 
 
 if($pmid==''){
-    if(strpos('pmid:', $uid) !== false) {
+    if(strpos($uid, 'pmid:') !== false) {
         $pmid=str_replace("pmid:","",$uid);
 	}
 }

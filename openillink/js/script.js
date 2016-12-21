@@ -1237,6 +1237,17 @@ cookie expires in one year (actually, 365 days)
     }
 }
 
+function unescape_string(value) {
+	/* Helper function to unescape XML/HTML encoded strings.
+	   Useful since we are not parsing XML, but extracting the raw content.
+	*/
+	value = value.replace("&amp;", "&");
+	value = value.replace("&quot;", '"');
+	value = value.replace("&lt;", "<");
+	value = value.replace("&gt;", ">")
+	return value;
+}
+
 function remplirauto() {
     if (getCookie("nom") != null)
         document.commande.nom.value = getCookie("nom");
@@ -1262,17 +1273,6 @@ function remplirauto() {
         document.commande.localite.value = getCookie("ville");
     if (getCookie("envoi") != null)
         document.commande.envoi[getCookie("envoipos")].checked = true;
-
-function unescape_string(value) {
-	/* Helper function to unescape XML/HTML encoded strings.
-	   Useful since we are not parsing XML, but extracting the raw content.
-	*/
-	value = value.replace("&amp;", "&");
-	value = value.replace("&quot;", '"');
-	value = value.replace("&lt;", "<");
-	value = value.replace("&gt;", ">")
-	return value;
-}
 
 	// Retrieve parameters from URL
 	var url_parameters = new QueryData();
@@ -1337,6 +1337,12 @@ function unescape_string(value) {
             document.commande.pid.value = get_url_parameter("pid");
         if (get_url_parameter("sid"))
             document.commande.sid.value = get_url_parameter("sid");
+		if (get_url_parameter("sid") == "Entrez:PubMed" && get_url_parameter("id")) {
+			// PubMed Linkout / Outside Tool: https://www.ncbi.nlm.nih.gov/books/NBK3803/
+            document.commande.uids.value = get_url_parameter("id").substr(5);
+			document.commande.tid.value = "pmid";
+			lookupid();
+		}
     }
 }
 

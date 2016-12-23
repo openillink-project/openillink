@@ -1277,46 +1277,53 @@ function remplirauto() {
 	// Retrieve parameters from URL
 	var url_parameters = new QueryData();
 
-	function get_url_parameter(key, defaultvalue){
-		/* Helper function to retrieve data from array */
+	function get_url_parameter(key, defaultvalue, optional_prefix){
+		/* Helper function to retrieve data from array 
+		   'optional_prefix' allows to search for a key that might be prefixed
+		*/
 		   if(defaultvalue === undefined) {
 			defaultvalue = "";
 		}
-		return (key in url_parameters) ? url_parameters[key] : defaultvalue;
+		if (optional_prefix === undefined) {
+			optional_prefix = "";
+		}
+		return (key in url_parameters) ? url_parameters[key] : (( optional_prefix + key in url_parameters) ? url_parameters[optional_prefix+key] : defaultvalue);
 	}
 
     // Attribution des valeurs recuperes de la requête dans les champs du formulaire
     if (location.search) {
-        document.commande.uid.value = get_url_parameter("id");
-        document.commande.title.value = get_url_parameter("title");
-        if (get_url_parameter("jtitle"))
-            document.commande.title.value = get_url_parameter("jtitle");
-        if (get_url_parameter("btitle"))
-            document.commande.title.value = get_url_parameter("btitle");
-        document.commande.atitle.value = get_url_parameter("atitle");
-        monauteur = get_url_parameter("aulast");
-        if (get_url_parameter("aufirst"))
-            monauteur = monauteur + ", " + get_url_parameter("aufirst");
+        document.commande.uid.value = get_url_parameter("id", "", "rft.");
+        document.commande.title.value = get_url_parameter("title", "", "rft.");
+        if (get_url_parameter("jtitle", "", "rft."))
+            document.commande.title.value = get_url_parameter("jtitle", "", "rft.");
+        if (get_url_parameter("btitle", "", "rft."))
+            document.commande.title.value = get_url_parameter("btitle", "", "rft.");
+        document.commande.atitle.value = get_url_parameter("atitle", "", "rft.");
+        monauteur = get_url_parameter("aulast", "", "rft.");
+        if (get_url_parameter("aufirst", "", "rft."))
+            monauteur = monauteur + ", " + get_url_parameter("aufirst", "", "rft.");
+		monauteur = get_url_parameter("rft.au", monauteur);
         document.commande.auteurs.value = monauteur;
-        document.commande.date.value = get_url_parameter("date");
-        document.commande.volume.value = get_url_parameter("volume");
-        document.commande.issue.value = get_url_parameter("issue");
-        document.commande.pages.value = get_url_parameter("pages");
-        if (!get_url_parameter("pages")) {
-            if (get_url_parameter("spage"))
-                document.commande.pages.value = get_url_parameter("spage")
-            if (get_url_parameter("epage"))
-                document.commande.pages.value = document.commande.pages.value + '-' + get_url_parameter("epage");
+		document.commande.edition.value = get_url_parameter("rft.edition");
+        document.commande.date.value = get_url_parameter("date", "", "rft.");
+        document.commande.volume.value = get_url_parameter("volume", "", "rft.");
+        document.commande.issue.value = get_url_parameter("issue", "", "rft.");
+        document.commande.pages.value = get_url_parameter("pages", "", "rft.");
+        if (!get_url_parameter("pages", "", "rft.")) {
+            if (get_url_parameter("spage", "", "rft."))
+                document.commande.pages.value = get_url_parameter("spage", "", "rft.")
+            if (get_url_parameter("epage", "", "rft."))
+                document.commande.pages.value = document.commande.pages.value + '-' + get_url_parameter("epage", "", "rft.");
         }
-        if (get_url_parameter("issn")) {
-            monissn = get_url_parameter("issn");
+        if (get_url_parameter("issn", "", "rft.")) {
+            monissn = get_url_parameter("issn", "", "rft.");
             var i = monissn.indexOf('-');
             if (i < 0)
                 monissn = monissn.substring(0,4) + '-' + monissn.substring(4, monissn.length);
             document.commande.issn.value = monissn;
         }
-        if (get_url_parameter("isbn"))
-            document.commande.issn.value = get_url_parameter("isbn");
+        if (get_url_parameter("isbn", "", "rft."))
+            document.commande.issn.value = get_url_parameter("isbn", "", "rft.");
         if (get_url_parameter("pmid"))
             document.commande.uid.value = 'pmid:' + get_url_parameter("pmid");
         if (get_url_parameter("id"))
@@ -1327,8 +1334,8 @@ function remplirauto() {
             if (get_url_parameter("doi"))
                 document.commande.uid.value = 'doi:' + get_url_parameter("doi");
         }
-        if (get_url_parameter("genre"))
-            document.commande.genre.value = get_url_parameter("genre");
+        if (get_url_parameter("genre", "", "rft."))
+            document.commande.genre.value = get_url_parameter("genre", "", "rft.");
         if (get_url_parameter("remarques"))
             document.commande.remarques.value = get_url_parameter("remarques");
         if (get_url_parameter("remarquespub"))

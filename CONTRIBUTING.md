@@ -24,7 +24,7 @@ We follow typical [GitHub flow](https://guides.github.com/introduction/flow/inde
 Take into consideration the following when contributing:
 
 1. **Make things easily configurable and reusable by others.**
-   * Use configuration variables ``CFG_*`` in ``constante.php``.
+   * Use configuration variables ``CFG_*`` in ``config.php``.
    * Make sure new features would not break existing behaviour functionality used by
      other production sites.
    * Write for general use cases rather than site-specific context.

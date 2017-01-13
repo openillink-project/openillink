@@ -26,11 +26,26 @@
 // ***************************************************************************
 // Order form for the NLM
 // 
+// The following customer values can be coded in the link URL :
+// - my_customer_username
+// - my_customer_password
+//
+// If the above values are not specified, then default values are read from config:
+// - nlmFormUsername
+// - nlmFormPassword
 // 
 error_reporting(E_ALL); ini_set("display_errors", 1);
 
 $username = $nlmFormUsername;
 $password = $nlmFormPassword;
+// overwrite default config with values set in URL, if they exist
+if (isset($_GET["my_customer_username"])) {
+	$username = $_GET['my_customer_username'];
+}
+if (isset($_GET["my_customer_password"])) {
+	$password = $_GET['my_customer_password'];
+}
+
 $atitleO = $enreg['titre_article'];
 $issnO = $enreg['issn'];
 $authorO = $enreg['auteurs'];
@@ -44,7 +59,7 @@ $commentO = 'réf.:'.$enreg['illinkid'];
 $maxPrix = $enreg['prix'];
 $anneeO = $enreg['annee'];
 // See API at https://relais.atlassian.net/wiki/display/ILL/OpenURL
-$url = 'https://relais.nlm.nih.gov/user/login.html?group=library&UL='.$username.'&UP='.$password.'&genre=Article&atitle='.$atitleO.'&aau='.$authorO.'&issn='.$issnO.'&rft_id=info:'.$rtfIdO['pmid'].'&rft_id=info:'.$rtfIdO['doi'].'&title='.$titleO.'&VS='.$volumeO.'&issue='.$issuenoO.'&PG='.$pagesO.'&NO='.$commentO.'&maxcst='.$maxPrix.'&PD='.$anneeO;
+$url = 'https://relais.nlm.nih.gov/user/login.html?group=library&UL='.urlencode($username).'&UP='.urlencode($password).'&genre=Article&atitle='.urlencode($atitleO).'&aau='.urlencode($authorO).'&issn='.urlencode($issnO).'&rft_id=info:'.urlencode($rtfIdO['pmid']).'&rft_id=info:'.urlencode($rtfIdO['doi']).'&title='.urlencode($titleO).'&VS='.urlencode($volumeO).'&issue='.urlencode($issuenoO).'&PG='.urlencode($pagesO).'&NO='.urlencode($commentO).'&maxcst='.urlencode($maxPrix).'&PD='.urlencode($anneeO);
 
 // hugly but prevent limits timeout effect on form loading
 set_time_limit(120);

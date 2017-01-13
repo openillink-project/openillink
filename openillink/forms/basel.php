@@ -26,10 +26,15 @@
 // ***************************************************************************
 // Order form for Basel Library network
 // 
-// The follow customer values must be coded in the link URL :
-// my_customer_code
-// my_customer_password
-// my_customer_name
+// The following customer values can be coded in the link URL :
+// - my_customer_code
+// - my_customer_password
+// - my_customer_name
+//
+// If the above values are not specified, then default values are read from config:
+// - configBaselCode
+// - configBaselPassword
+// - configBaselName
 // 
 require_once ("includes/config.php");
 require_once ("includes/authcookie.php");
@@ -40,6 +45,17 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     $customerCode = $configBaselCode;
     $customerPassword = $configBaselPassword;
     $customerName = $configBaselName;
+
+	// overwrite default config with values set in URL, if they exist
+	if (isset($_GET["my_customer_code"])) {
+		$customerCode = $_GET['my_customer_code'];
+	}
+	if (isset($_GET["my_customer_password"])) {
+		$customerPassword = $_GET['my_customer_password'];
+	}
+	if (isset($_GET["my_customer_name"])) {
+		$customerName = $_GET['my_customer_name'];
+	}
 
     $meduid = $enreg['PMID'];
     if (empty($meduid)) {

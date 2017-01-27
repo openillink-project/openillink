@@ -88,7 +88,7 @@ function displayMailText($monaut,
 
       $subject = rawurlencode(html_entity_decode($mailAllTexts['fr']['commande']." (". $enreg['illinkid'].") : ".$short_titreper.".".$enreg['annee'].";".$enreg['volume'].":".$enreg['pages']));
       $finalMailText .= "&nbsp;&nbsp;<a href=\"";
-	  $final_url = "mailto:".htmlspecialchars(urlencode($mail))."?subject=".htmlspecialchars($subject);
+	  $final_url = "mailto:".htmlspecialchars(urlencode(str_replace(" ", "", $mail)))."?subject=".htmlspecialchars($subject);
       $commandeDet = "";
       $refDet = "";
       if ($enreg['titre_article']!= '')

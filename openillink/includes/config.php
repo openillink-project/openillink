@@ -139,6 +139,7 @@ $lookupuid = array(
 			  array('name' => "ISBN (swissbib)", 'code' => "isbn_swissbib"),
 			  array('name' => "RERO ID", 'code' => "reroid"),
 			  array('name' => "WoS ID", 'code' => "wosid"),
+			  //array('name' => "Renouvaud MMS", 'code' => "renouvaudmms_swissbib"),
 			);
 
 // OpenURL parameters

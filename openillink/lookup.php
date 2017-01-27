@@ -49,6 +49,18 @@ if(isset($swissbib_identifier) && !empty($swissbib_identifier)){
     curl_close($ch);
 }
 
+$swissbib_renouvaud_identifier = !empty($_GET['swissbib-renouvaud-mms']) ? $_GET['swissbib-renouvaud-mms'] : null;
+/* Works for Renouvaud MMS. MMS ID can be 8 to 19 digits long */
+if(isset($swissbib_renouvaud_identifier) && !empty($swissbib_renouvaud_identifier)){
+	$swissbib_renouvaud_identifier = preg_replace('/[^0-9.]+/', '', $swissbib_renouvaud_identifier);
+    $swissbib_renouvaud_identifier = (isset($swissbib_renouvaud_identifier) &&  isValidInput($swissbib_renouvaud_identifier,19,'s',false))?trim($swissbib_renouvaud_identifier):NULL;
+    $url = "http://sru.swissbib.ch/sru/search/defaultdb?operation=searchRetrieve&recordSchema=info%3Asru%2Fschema%2Fjson&maximumRecords=1&startRecord=0&recordPacking=XML&availableDBs=defaultdb&sortKeys=Submit+query&query=+dc.anywhere+%3D+.EXLNZ-41BCULAUSA_NETWORK." . $swissbib_renouvaud_identifier . "+OR+dc.anywhere+%3D+.VAUD." . $swissbib_renouvaud_identifier;
+	//  $url = $_SERVER['QUERY_STRING'];
+    $ch = curl_init($url);
+    curl_exec($ch);
+    curl_close($ch);
+}
+
 $reroid = !empty($_GET['reroid']) ? $_GET['reroid'] : null;
 if(isset($reroid) && !empty($reroid)){
     $reroid = (isset($reroid) &&  isValidInput($reroid,50,'s',false))?trim($reroid):NULL;

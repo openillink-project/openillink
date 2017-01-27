@@ -263,6 +263,12 @@ $configlibraryemail["de"] = "illMail@library.net";
 $configlibraryemail["it"] = "illMail@library.net";
 $configlibraryemail["es"] = "illMail@library.net";
 
-
+// Location of discovery tool for record given by MMS ID.
+// "{MMS_ID}" will be replaced by actual MMS ID in these URL
+$configMMSdiscoveryurl["fr"] = "";
+$configMMSdiscoveryurl["en"] = "";
+$configMMSdiscoveryurl["de"] = "";
+$configMMSdiscoveryurl["it"] = "";
+$configMMSdiscoveryurl["es"] = "";
 
 ?>

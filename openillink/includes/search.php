@@ -63,6 +63,7 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
     $champValides = array('id', 'datecom', 'dateenv', 'datefact', 'statut', 'localisation', 'nom', 'email', 'service', 'issn', 'pmid', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all');
     $champ = ((!empty($_GET['champ'])) && isValidInput($_GET['champ'], 15, 's', false, $champValides))?$_GET['champ']:'';
     $term = (isset($_GET['term']))?$_GET['term']:'';
+	$myorders = ((!empty($_GET['myorders'])) && isValidInput($_GET['myorders'],1,'s',false,array("1")))?$_GET['myorders']:'';
     if (!empty($champ) && !empty($term)){
         if (empty($from))
             $from=0;
@@ -185,5 +186,9 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
             $conditions = $conditionsParDefauts;
         }
     }
+	if ($myorders == "1") {
+		$saisie_par_condition = " saisie_par = '".mysqli_real_escape_string($link, $monnom)."'";
+		$conditions = empty($conditions) ? (' WHERE '. $saisie_par_condition) : (str_replace("WHERE", "WHERE (", $conditions) . ') AND ' . $saisie_par_condition) ;
+	}
 }
 ?>

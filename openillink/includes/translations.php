@@ -805,4 +805,10 @@ $resendPwdTxt["emailResendTitle"]["de"] = "Password recovery";
 $resendPwdTxt["emailResendTitle"]["it"] = "Password recovery";
 $resendPwdTxt["emailResendTitle"]["es"] = "Password recovery";
 
+$searchForm["ordersSubmittedByMe"]["fr"] = "Commandes saisies par moi uniquement";
+$searchForm["ordersSubmittedByMe"]["en"] = "Orders submitted by me only";
+$searchForm["ordersSubmittedByMe"]["de"] = "Orders submitted by me only";
+$searchForm["ordersSubmittedByMe"]["it"] = "Orders submitted by me only";
+$searchForm["ordersSubmittedByMe"]["es"] = "Orders submitted by me only";
+
 ?>

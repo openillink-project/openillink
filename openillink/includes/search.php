@@ -117,9 +117,8 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
         }
         if($champ == 'issn'){
             $issn = isValidInput($term,50,'s',false)?$term:'';
-            $title = '%'.$issn.'%';
             $req2 = "SELECT illinkid FROM orders ";
-            $conditions = " WHERE  (issn like '".mysqli_real_escape_string($link, $issn)."' or eissn like '".mysqli_real_escape_string($link, $issn)."') and mail = '".mysqli_real_escape_string($link, $monnom)."'";
+            $conditions = " WHERE  (issn like '%".mysqli_real_escape_string($link, $issn)."%' or eissn like '%".mysqli_real_escape_string($link, $issn)."%')";
         }
         if($champ == 'pmid'){
             $pmid = isValidInput($term,50,'s',false)?$term:'';

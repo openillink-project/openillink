@@ -241,6 +241,13 @@ $firstmessage["de"] = "Document order form to the ";
 $firstmessage["it"] = "Formulario di richiesta di documenti presso ";
 $firstmessage["es"] = "Document order form to the ";
 
+// Optional second line message on order page
+$secondmessage["fr"] = "";
+$secondmessage["en"] = "";
+$secondmessage["de"] = "";
+$secondmessage["it"] = "";
+$secondmessage["es"] = "";
+
 $statusmessage["fr"] = "Statut";
 $statusmessage["en"] = "Status";
 $statusmessage["de"] = "Status";

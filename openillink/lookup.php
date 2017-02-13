@@ -86,7 +86,7 @@ if(isset($pmid) && !empty($pmid)){
 $doi = !empty($_GET['doi']) ? $_GET['doi'] : null;
 if(isset($doi) && !empty($doi)){
     $doi = (isset($doi) &&  isValidInput($doi,100,'s',false))?trim($doi):NULL;
-    $fp = fsockopen("www.crossref.org", 80, $errno, $errstr, 30);
+    $fp = fsockopen("ssl://doi.crossref.org", 443, $errno, $errstr, 30);
     if (!$fp) {
         echo "$errstr ($errno)<br />\n";
     }

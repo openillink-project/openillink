@@ -1,4 +1,7 @@
-# OpenILLink
+# OpenILLink @ UNIGE
+This is a fork of OpenILLink project used at UNIGE. If you are looking for the authoritative version please visit the OpenILLink project : https://github.com/openillink-project
+
+# About OpenILLink
 OpenILLink is a web based Inter Library Loan and document delivery management sytem based on OpenURL and currently used by some academic libraries in Switzerland
 
 ## Main features

@@ -165,10 +165,12 @@ $link = dbconnect();
             if ($nbGuest==1){
                 $guest = iimysqli_result_fetch_array($resGuest);
                 $mailGuest = $guest['email'];
+				$conditions = "WHERE saisie_par = '".mysqli_real_escape_string($link, $monnom)."' ";
             }
-            if (empty($mailGuest))
+            if (empty($mailGuest)) {
                 $mailGuest = ((!empty($monnom)) && isValidInput($monnom,100,'s',false))?$monnom:'';
-            $conditions = "WHERE orders.mail = '".mysqli_real_escape_string($link, $mailGuest)."' ";
+				$conditions = "WHERE orders.mail = '".mysqli_real_escape_string($link, $mailGuest)."' ";
+			}
             break;
         case 'search':
 			// Will make use '$conditionsParDefauts' variable

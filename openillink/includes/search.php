@@ -41,13 +41,14 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
         if ($nbGuest==1){
             $guest = iimysqli_result_fetch_array($resGuest);
             $mailGuest = $guest['email'];
+			$guestFilterAlone = " saisie_par = '".mysqli_real_escape_string($link, $monnom)."'";
+			$guestFilter = $guestFilterAlone . " AND ";
         }
-        if (empty($mailGuest))
+        if (empty($mailGuest)) {
             $mailGuest = ((!empty($monnom)) && isValidInput($monnom,100,'s',false))?$monnom:'';
-        
-        //$guestFilter = "mail = '".((isset($monnom) && isValidInput($monnom,100,'s',false))? $monnom : '')."' AND ";
-        $guestFilter = "mail = '". mysqli_real_escape_string($link, $mailGuest)."' AND ";
-        $guestFilterAlone = "mail = '".mysqli_real_escape_string($link, $mailGuest)."'";
+			$guestFilter = "mail = '". mysqli_real_escape_string($link, $mailGuest)."' AND ";
+			$guestFilterAlone = "mail = '".mysqli_real_escape_string($link, $mailGuest)."'";
+		}
     }
     else
         $guestFilter = '';

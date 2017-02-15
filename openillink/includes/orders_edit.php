@@ -404,6 +404,9 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 					if ($tid == "WOSUT") {
 						$tid = "WOSID";
 					}
+					if ($tid == "MMS") {
+						$tid = "renouvaudmms_swissbib";
+					}
 					$uids = $tid_and_uids[1];
 				}
                 echo "<select name=\"tid\" id=\"tid\">\n";

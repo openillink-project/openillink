@@ -228,11 +228,14 @@ if ($mes){
 else{
     // No errors, searching duplicates
     // Recherche de doublons par PMID ou par volume année et pages
+	$pages_array = preg_split("/[\s,-]+/", $pages);
+	$start_page = reset($pages_array); // Retrieve first value, in a php < 5.4 compatible manner
+	$start_page_regexp = '^' . preg_quote($start_page) . '([^0-9]|$)';
     $req2 = "";
     if ($pmid!=''){
-        if (($vol!='') && ($annee!='') && ($pages!='')) {
-            $req2 = "SELECT illinkid FROM orders WHERE PMID LIKE ? OR (annee LIKE ? AND volume LIKE ? AND pages LIKE ?) ORDER BY illinkid DESC";
-            $param2 = array($pmid, $annee, $vol, $pages);
+        if (($vol!='') && ($annee!='') && ($start_page!='')) {
+            $req2 = "SELECT illinkid FROM orders WHERE PMID LIKE ? OR (annee LIKE ? AND volume LIKE ? AND pages RLIKE ?) ORDER BY illinkid DESC";
+            $param2 = array($pmid, $annee, $vol, $start_page_regexp);
             $typeparam2 = 'ssss';
         }
         else {
@@ -242,9 +245,9 @@ else{
         }
     }
     else{
-        if (($vol!='') && ($annee!='') && ($pages!='')){
-            $req2 = "SELECT illinkid FROM orders WHERE annee LIKE ? AND volume LIKE ? AND pages LIKE ? ORDER BY illinkid DESC";
-            $param2 = array($annee, $vol, $pages);
+        if (($vol!='') && ($annee!='') && ($start_page!='')){
+            $req2 = "SELECT illinkid FROM orders WHERE annee LIKE ? AND volume LIKE ? AND pages RLIKE ? ORDER BY illinkid DESC";
+            $param2 = array($annee, $vol, $start_page_regexp);
             $typeparam2 = 'sss';
         }
     }

@@ -160,7 +160,6 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
 	$localisation= ((!empty($_POST['localisation'])) && isValidInput($_POST['localisation'],20,'s',false))? $_POST['localisation']: $localisation;
 	// overwrite stade with computed localization if left as default.
     $stade=((!empty($_POST['stade'])) && isValidInput($_POST['stade'],3,'i',false) && $_POST['stade'] != "0")? $_POST['stade']:$stade;
-	echo " stade:". $stade;
     $date= ((!empty($_POST['datesaisie'])) && validateDate($_POST['datesaisie']))?$_POST['datesaisie']:NULL;
     if(empty($date))
         $date=date("Y-m-d");

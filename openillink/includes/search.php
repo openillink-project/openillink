@@ -41,13 +41,14 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
         if ($nbGuest==1){
             $guest = iimysqli_result_fetch_array($resGuest);
             $mailGuest = $guest['email'];
+			$guestFilterAlone = " saisie_par = '".mysqli_real_escape_string($link, $monnom)."'";
+			$guestFilter = $guestFilterAlone . " AND ";
         }
-        if (empty($mailGuest))
+        if (empty($mailGuest)) {
             $mailGuest = ((!empty($monnom)) && isValidInput($monnom,100,'s',false))?$monnom:'';
-        
-        //$guestFilter = "mail = '".((isset($monnom) && isValidInput($monnom,100,'s',false))? $monnom : '')."' AND ";
-        $guestFilter = "mail = '". mysqli_real_escape_string($link, $mailGuest)."' AND ";
-        $guestFilterAlone = "mail = '".mysqli_real_escape_string($link, $mailGuest)."'";
+			$guestFilter = "mail = '". mysqli_real_escape_string($link, $mailGuest)."' AND ";
+			$guestFilterAlone = "mail = '".mysqli_real_escape_string($link, $mailGuest)."'";
+		}
     }
     else
         $guestFilter = '';
@@ -63,6 +64,7 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
     $champValides = array('id', 'datecom', 'dateenv', 'datefact', 'statut', 'localisation', 'nom', 'email', 'service', 'issn', 'pmid', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all');
     $champ = ((!empty($_GET['champ'])) && isValidInput($_GET['champ'], 15, 's', false, $champValides))?$_GET['champ']:'';
     $term = (isset($_GET['term']))?$_GET['term']:'';
+	$myorders = ((!empty($_GET['myorders'])) && isValidInput($_GET['myorders'],1,'s',false,array("1")))?$_GET['myorders']:'';
     if (!empty($champ) && !empty($term)){
         if (empty($from))
             $from=0;
@@ -117,9 +119,8 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
         }
         if($champ == 'issn'){
             $issn = isValidInput($term,50,'s',false)?$term:'';
-            $title = '%'.$issn.'%';
             $req2 = "SELECT illinkid FROM orders ";
-            $conditions = " WHERE  (issn like '".mysqli_real_escape_string($link, $issn)."' or eissn like '".mysqli_real_escape_string($link, $issn)."') and mail = '".mysqli_real_escape_string($link, $monnom)."'";
+            $conditions = " WHERE  (issn like '%".mysqli_real_escape_string($link, $issn)."%' or eissn like '%".mysqli_real_escape_string($link, $issn)."%')";
         }
         if($champ == 'pmid'){
             $pmid = isValidInput($term,50,'s',false)?$term:'';
@@ -186,5 +187,9 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
             $conditions = $conditionsParDefauts;
         }
     }
+	if ($myorders == "1") {
+		$saisie_par_condition = " saisie_par = '".mysqli_real_escape_string($link, $monnom)."'";
+		$conditions = empty($conditions) ? (' WHERE '. $saisie_par_condition) : (str_replace("WHERE", "WHERE (", $conditions) . ') AND ' . $saisie_par_condition) ;
+	}
 }
 ?>

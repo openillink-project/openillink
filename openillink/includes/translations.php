@@ -185,7 +185,7 @@ $trashbox["fr"] = "Trash";
 $trashbox["en"] = "Trash";
 $trashbox["de"] = "Trash";
 $trashbox["it"] = "Cestino";
-$trashbox["es"] = "Trash";
+$trashbox["es"] = "Basura";
 
 $adminhelp["fr"] = "Administration des utilisateurs et des valeurs";
 $adminhelp["en"] = "Administration of users and values";
@@ -240,6 +240,13 @@ $firstmessage["en"] = "Document order form to the ";
 $firstmessage["de"] = "Document order form to the ";
 $firstmessage["it"] = "Formulario di richiesta di documenti presso ";
 $firstmessage["es"] = "Document order form to the ";
+
+// Optional second line message on order page
+$secondmessage["fr"] = "";
+$secondmessage["en"] = "";
+$secondmessage["de"] = "";
+$secondmessage["it"] = "";
+$secondmessage["es"] = "";
 
 $statusmessage["fr"] = "Statut";
 $statusmessage["en"] = "Status";
@@ -371,13 +378,13 @@ $namemessage["fr"] = "Nom";
 $namemessage["en"] = "Family name";
 $namemessage["de"] = "Family name";
 $namemessage["it"] = "Cognome";
-$namemessage["es"] = "Family name";
+$namemessage["es"] = "Appellido";
 
 $firstnamemessage["fr"] = "Prénom";
 $firstnamemessage["en"] = "First name";
 $firstnamemessage["de"] = "First name";
 $firstnamemessage["it"] = "Nome";
-$firstnamemessage["es"] = "First name";
+$firstnamemessage["es"] = "Nombre";
 
 $directory1message["fr"] = "Chercher le nom dans l'annuaire de l'hôpital";
 $directory1message["en"] = "Search the name in the directory of the hospital";
@@ -443,19 +450,19 @@ $citymessage["fr"] = "Localité";
 $citymessage["en"] = "City";
 $citymessage["de"] = "City";
 $citymessage["it"] = "Città";
-$citymessage["es"] = "City";
+$citymessage["es"] = "Ciudad";
 
 $dispomessage["fr"] = "Si disponible à la bibliothèque";
 $dispomessage["en"] = "If available at the library";
 $dispomessage["de"] = "If available at the library";
 $dispomessage["it"] = "Se disponibile alla biblioteca";
-$dispomessage["es"] = "If available at the library";
+$dispomessage["es"] = "Si es disponible en la biblioteca";
 
 $dispofactmessage["fr"] = "envoi par e-mail (facturé)";
 $dispofactmessage["en"] = "send by e-mail (billed)";
 $dispofactmessage["de"] = "send by e-mail (billed)";
 $dispofactmessage["it"] = "invio per mail(fatturato)";
-$dispofactmessage["es"] = "send by e-mail (billed)";
+$dispofactmessage["es"] = "enviado por e-mail (facturado)";
 
 $disponotfactmessage["fr"] = "m'avertir et je passe faire la copie (non facturé)";
 $disponotfactmessage["en"] = "let me know and I come to make a copy (not billed)";
@@ -497,7 +504,7 @@ $yearmessage["fr"] = "Année";
 $yearmessage["en"] = "Year";
 $yearmessage["de"] = "Year";
 $yearmessage["it"] = "Anno";
-$yearmessage["es"] = "Year";
+$yearmessage["es"] = "Año";
 
 $volumemessage["fr"] = "Vol.";
 $volumemessage["en"] = "Vol.";
@@ -521,7 +528,7 @@ $pagesmessage["fr"] = "Pages";
 $pagesmessage["en"] = "Pages";
 $pagesmessage["de"] = "Pages";
 $pagesmessage["it"] = "Pagine";
-$pagesmessage["es"] = "Pages";
+$pagesmessage["es"] = "Paginas";
 
 $atitlemessage["fr"] = "Titre de l'article ou du chapitre";
 $atitlemessage["en"] = "Title of article or book chapter";
@@ -565,13 +572,13 @@ $resetmessage["de"] = "Reset";
 $resetmessage["it"] = "Annulla";
 $resetmessage["es"] = "Reset";
 
-$poweredmessage["fr"] = "Site propulsé par <a href=\"http://www.openlinker.org\" target=\"_blank\">OpenLinker</a><br />";
-$poweredmessage["en"] = "Powered by <a href=\"http://www.openlinker.org\" target=\"_blank\">OpenLinker</a><br />";
-$poweredmessage["de"] = "Powered by <a href=\"http://www.openlinker.org\" target=\"_blank\">OpenLinker</a><br />";
-$poweredmessage["it"] = "Powered by <a href=\"http://www.openlinker.org\" target=\"_blank\">OpenLinker</a><br />";
-$poweredmessage["es"] = "Powered by <a href=\"http://www.openlinker.org\" target=\"_blank\">OpenLinker</a><br />";
+$poweredmessage["fr"] = "Site propulsé par <a href=\"https://github.com/openillink-project\" target=\"_blank\">OpeniLLink-project</a><br />";
+$poweredmessage["en"] = "Powered by <a href=\"https://github.com/openillink-project\" target=\"_blank\">OpeniLLink-project</a><br />";
+$poweredmessage["de"] = "Powered by <a href=\"https://github.com/openillink-project\" target=\"_blank\">OpeniLLink-project</a><br />";
+$poweredmessage["it"] = "Powered by <a href=\"https://github.com/openillink-project\" target=\"_blank\">OpeniLLink-project</a><br />";
+$poweredmessage["es"] = "Powered by <a href=\"https://github.com/openillink-project\" target=\"_blank\">OpeniLLink-project</a><br />";
 
-$copyrightmessage["fr"] = "&copy; <a href=\"http://www.pablog.ch\" target=\"_blank\">Pablo Iriarte</a>,  <a href=\"http://jankrause.net\" target=\"_blank\">Jan Krause</a>, <a href=\"http://www.chuv.ch/bdfm/\" target=\"_blank\">BiUM</a>/<a href=\"http://www.chuv.ch\">CHUV</a> Lausanne, <a href=\"http://www.unige.ch/medecine/bibliotheque/\" target=\"_blank\">BFM</a>, <a href=\"http://www.unige.ch\" target=\"_blank\">UNIGE</a> Genève";
+$copyrightmessage["fr"] = "&copy; <a href=\"http://www.pablog.ch\" target=\"_blank\">Pablo Iriarte</a>,  <a href=\"http://jankrause.net\" target=\"_blank\">Jan Krause</a>, <a href=\"http://www.bium.ch\" target=\"_blank\">BiUM</a>/<a href=\"http://www.chuv.ch\">CHUV</a> Lausanne, <a href=\"http://www.unige.ch/medecine/bibliotheque/\" target=\"_blank\">BFM</a>, <a href=\"http://www.unige.ch\" target=\"_blank\">UNIGE</a> Genève";
 
 $openIllinkOfficialTitle["fr"]="Openillink v2";
 $openIllinkOfficialTitle["en"]="Openillink v2";
@@ -804,5 +811,11 @@ $resendPwdTxt["emailResendTitle"]["en"] = "Password recovery";
 $resendPwdTxt["emailResendTitle"]["de"] = "Password recovery";
 $resendPwdTxt["emailResendTitle"]["it"] = "Password recovery";
 $resendPwdTxt["emailResendTitle"]["es"] = "Password recovery";
+
+$searchForm["ordersSubmittedByMe"]["fr"] = "Commandes saisies par moi uniquement";
+$searchForm["ordersSubmittedByMe"]["en"] = "Orders submitted by me only";
+$searchForm["ordersSubmittedByMe"]["de"] = "Orders submitted by me only";
+$searchForm["ordersSubmittedByMe"]["it"] = "Orders submitted by me only";
+$searchForm["ordersSubmittedByMe"]["es"] = "Orders submitted by me only";
 
 ?>

@@ -28,9 +28,11 @@
 //
 require_once('connexion.php');
 require_once('toolkit.php');
+require_once('translations.php');
 
-$controlSet = array('id', 'datecom', 'dateenv', 'datefact', 'statut', 'localisation', 'nom', 'email', 'service', 'issn', 'pmid', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all');
+$controlSet = array('id', 'datecom', 'dateenv', 'datefact', 'statut', 'localisation', 'nom', 'email', 'service', 'issn', 'pmid', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all', 'myorders');
 $champ = ((!empty($_GET['champ'])) && isValidInput($_GET['champ'],12,'s',false,$controlSet))?$_GET['champ']:'';
+$myorders = ((!empty($_GET['myorders'])) && isValidInput($_GET['myorders'],1,'s',false,array("1")))?$_GET['myorders']:'';
 
 echo "<div class=\"box\"><div class=\"box-content\">\n";
 echo "<form action=\"list.php\" method=\"GET\" enctype=\"x-www-form-encoded\" name=\"recherche\">\n";
@@ -144,6 +146,9 @@ foreach ($allStatus as $status){
 }
 echo "</select>";
 echo "</p>";
+if ($monaut != 'guest'){
+	echo '<input type="checkbox" '.('1' == $myorders ? ' checked="checked" ' : '').'name="myorders" value="1" id="searchordersbyme"/><label for="searchordersbyme">'.htmlspecialchars($searchForm["ordersSubmittedByMe"][$lang]).'</label>';
+}
 echo "<p><strong>Utilisation:</strong> Recherche et filtre peuvent être utilisées de manière cumulée ou séparément</p>";
 echo "<input type=\"submit\" value=\"Ok\">";
 echo "</form>\n";

@@ -37,6 +37,9 @@ $mybodyonload = "document.commande.nom.focus(); remplirauto();";
 if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     require ("includes/headeradmin.php");
     echo "<h1><center>" . $firstmessage[$lang] . "<a href=\"" . $configlibraryurl[$lang] . "\" target=\"_blank\">" . $configlibrary[$lang] . "</a></center></h1>\n";
+	if (isset($secondmessage)) {
+		echo "<h2><center>" . $secondmessage[$lang] . "</center></h2>\n";
+	}
     echo "<script type=\"text/javascript\">\n";
     echo "function textchanged(changes) {\n";
     echo "document.fiche.modifs.value = document.fiche.modifs.value + changes + ' - ';\n";
@@ -195,6 +198,9 @@ else{
     if ($monaut == "")
         require ("includes/header.php");
     echo "<h1><center>" . $firstmessage[$lang] . "<a href=\"" . $configlibraryurl[$lang] . "\" target=\"_blank\">" . $configlibrary[$lang] . "</a></center></h1>\n";
+	if (isset($secondmessage)) {
+		echo "<h2><center>" . $secondmessage[$lang] . "</center></h2>\n";
+	}
     echo "<div class=\"box\"><div class=\"box-content\">\n";
     echo "<b><font color=\"red\">" . $alertmessage[$lang] . "</font></b><br />" . $informationmessage[$lang] . " : <a href=\"mailto:" . $configlibraryemail[$lang] . "\">" . $configlibraryemail[$lang] . "</a>\n";
     echo "</div></div>\n";

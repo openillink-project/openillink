@@ -4,7 +4,7 @@
 -- Contenu de la table `links`
 --
 
-INSERT INTO `links` (`id`, `title`, `url`, `search_issn`, `search_isbn`, `search_ptitle`, `search_btitle`, `search_atitle`, `order_ext`, `order_form`, `openurl`, `library`, `active`) VALUES
+INSERT INTO `links` (`id`, `title`, `url`, `search_issn`, `search_isbn`, `search_ptitle`, `search_btitle`, `search_atitle`, `order_ext`, `order_form`, `openurl`, `library`, `active`, `ordonnancement`, `url_encoded`, `skip_words`, `skip_txt_after_mark`) VALUES
 (3, 'Google', 'http://www.google.ch/search?hl=fr&newwindow=1&q=%22XTITLEX%22', 0, 0, 0, 0, 1, 0, 0, 0, 'LIB1', 1, 0, 1, 0, 0),
 (2, 'PubMed', 'http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?otool=mycode&orig_db=PubMed&db=PubMed&cmd=Search&otool=mycode&term=XTITLEX', 0, 0, 0, 0, 1, 0, 0, 0, 'LIB1', 1, 0, 1, 0, 0),
 (4, 'RERO', 'http://opac.rero.ch/gateway?function=INITREQ&search=SCAN&rootsearch=SCAN&u1=4&t1=XTITLEX', 0, 0, 0, 0, 1, 0, 0, 0, 'LIB1', 1, 0, 1, 0, 0),

@@ -108,6 +108,7 @@ if (isset($ut) && !empty($ut)){
     $ut = trim($ut);
     $url = "http://www2.unil.ch/openillink/openlinker/isi/wos.php?ut=".$ut;
     $ch = curl_init($url);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_exec($ch);
     curl_close($ch);
 }

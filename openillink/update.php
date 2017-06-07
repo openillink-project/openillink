@@ -32,7 +32,7 @@ require_once ("includes/toolkit.php");
 
 if (!empty($_COOKIE['illinkid'])){
     // switch from table parameter
-    $validTableSet = array('orders', 'users', 'libraries', 'units', 'status', 'localizations', 'links');
+    $validTableSet = array('orders', 'users', 'libraries', 'units', 'status', 'localizations', 'links', 'folders');
     $table = ((!empty($_GET['table'])) && isValidInput($_GET['table'],13,'s',false,$validTableSet))? $_GET['table']:NULL;
     if (empty($table))
         $table = ((!empty($_POST['table'])) && isValidInput($_POST['table'],13,'s',false,$validTableSet))? $_POST['table']:'';
@@ -57,6 +57,9 @@ if (!empty($_COOKIE['illinkid'])){
         break;
         case 'links':
         require ("includes/links_update.php");
+        break;
+        case 'folders':
+        require ("includes/folders_update.php");
         break;
         default:
         require ("includes/orders_update.php");

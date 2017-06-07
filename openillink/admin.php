@@ -51,6 +51,8 @@ if (!empty($_COOKIE['illinkid'])){
             echo "<ul><li><h3><a href=\"new.php?table=units\">Créer une nouvelle unité/service</a></h2></li></ul>\n";
             echo "<li><h2><a href=\"list.php?table=links\">Gestion des liens sortants</a></h2></li>\n";
             echo "<ul><li><h3><a href=\"new.php?table=links\">Créer un nouveau lien sortant</a></h2></li></ul>\n";
+            echo "<li><h2><a href=\"list.php?table=folders\">Gestion des filtres</a></h2></li>\n";
+            echo "<ul><li><h3><a href=\"new.php?table=folders\">Créer un nouveau filtre</a></h2></li></ul>\n";
             echo "<br/><br/>\n";
             echo "<li><h2><a href=\"emptytrash.php\">Vider la corbeille</a></h2></li>\n";
         }

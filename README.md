@@ -17,7 +17,7 @@ OpenILLink is a web based Inter Library Loan and document delivery management sy
  * Apache
 
 ## Installation
-Please refer to the [OpenILLink installation guide] (INSTALL.md)
+Please refer to the [OpenILLink installation guide](INSTALL.md)
 
 ## Contributing
-Please refer to [CONTRIBUTING guide] (CONTRIBUTING.md)
+Please refer to [CONTRIBUTING guide](CONTRIBUTING.md) and [Native Language Support](ABOUT-NLS.md)

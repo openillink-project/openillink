@@ -27,32 +27,95 @@
 //
 // Translations of terms used on front-end
 
-if ($langautodetect = 1){
-    // Define language from URL (priority) or from browser prefs
-    $langs = array("fr", "en", "de", "it", "es");
-    if (empty($_REQUEST["lang"])){
-        if (!empty($_SERVER["HTTP_ACCEPT_LANGUAGE"])){
-            $lang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2);
-            if(!in_array($lang, $langs)){
-                // default language
-                $lang = "fr";
+require_once('vendor/php-gettext/gettext.inc');
+$config_available_langs = array("fr", "en", "de", "it", "es");
+
+function format_string($string, array $args = array()) {
+    /*
+    String formatting with named placeholders.
+
+    For example:
+    format_string("this is %foo and %bar", array('foo' => "min", '%bar' => "max"));
+    */
+    $updated_array_args = array();
+    foreach($args as $key => $value){
+        $updated_array_args["%".$key] = $value;
+    }
+    return strtr($string, $updated_array_args);
+}
+
+function parse_browser_preferred_languages() {
+    /*
+     Returns the preferred language requested by the browser in $_SERVER["HTTP_ACCEPT_LANGUAGE".
+
+     Adapted from https://stackoverflow.com/a/11161193
+    */
+    preg_match_all('/([a-z]{1,8}(-[a-z]{1,8})*)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?/i', $_SERVER["HTTP_ACCEPT_LANGUAGE"], $parsed_accepted_langs);
+    $langs = $parsed_accepted_langs[1];
+    $ranks = $parsed_accepted_langs[4];
+    $rank_for_lang = array();
+    for($i=0; $i<count($langs); $i++) {
+        $rank_for_lang[$langs[$i]] = (float) (!empty($ranks[$i]) ? $ranks[$i] : 1);
+    }
+    // Define a comparison function to order based on rank and most specific region
+    $compare_langs = function ($a, $b) use ($rank_for_lang) {
+        if ($rank_for_lang[$a] > $rank_for_lang[$b])
+            return -1;
+        elseif ($rank_for_lang[$a] < $rank_for_lang[$b])
+            return 1;
+        elseif (strlen($a) > strlen($b))
+            return -1;
+        elseif (strlen($a) < strlen($b))
+            return 1;
+        else
+            return 0;
+    };
+
+    uksort($rank_for_lang, $compare_langs);
+    return $rank_for_lang;
+}
+
+function get_user_language() {
+    /*
+       Returns the preferred user language. Only return values among the existing
+       OpenILLink translations. If langauge is not set or does not belong to the existing
+       translations, return the default language configured in configdefaultlang
+    */
+    global $config_available_langs;
+    if (!isset($configdefaultlang)) {
+        // If default language is not defined, use English
+        $configdefaultlang = "en";
+    }
+    // When no information is provided, use default
+    $lang = $configdefaultlang;
+    // When browser sends preferred language
+    if ($langautodetect = 1 &&
+        empty($_REQUEST["lang"]) &&
+        !empty($_SERVER["HTTP_ACCEPT_LANGUAGE"])) {
+        $browser_preferred_langs = parse_browser_preferred_languages();
+        foreach ($browser_preferred_langs as $browser_preferred_lang => $score ) {
+            if (in_array(substr($browser_preferred_lang, 0, 2), $config_available_langs)) {
+                $lang = substr($browser_preferred_lang, 0, 2);
+                break;
             }
         }
-        else{
-            // default language
-            $lang = "fr"; 
-        }
     }
-    else{
+
+    // When language is set in URL, use it (if possible)
+    if (!empty($_REQUEST["lang"]) && in_array($_REQUEST["lang"], $config_available_langs)) {
         $lang = $_REQUEST["lang"];
     }
+    return $lang;
 }
-else{
-    if (empty($_REQUEST["lang"]))
-        $lang = "fr";
-    else
-        $lang = $_REQUEST["lang"];
-}
+
+$lang = get_user_language();
+// We use the language as domain to simplify the requirement on installed locale with gettext.
+// https://stackoverflow.com/questions/15541747/use-php-gettext-without-having-to-install-locales
+$domain = $lang;
+T_setlocale(LC_MESSAGES, 'default');
+T_bindtextdomain($domain, dirname(__FILE__) . "/locale" );
+T_bind_textdomain_codeset($domain, 'UTF-8');
+T_textdomain($domain);
 
 // Document types (based on OpenURL spec)
 $doctypes[0]["code"] = "article";
@@ -284,12 +347,6 @@ $prioritynormmessage["de"] = "Normal";
 $prioritynormmessage["it"] = "Normale";
 $prioritynormmessage["es"] = "Normal";
 
-$priorityurgmessage["fr"] = "Urgente";
-$priorityurgmessage["en"] = "Urgent";
-$priorityurgmessage["de"] = "Urgent";
-$priorityurgmessage["it"] = "Urgente";
-$priorityurgmessage["es"] = "Urgent";
-
 $prioritynonemessage["fr"] = "Pas prioritaire";
 $prioritynonemessage["en"] = "Not a priority";
 $prioritynonemessage["de"] = "Not a priority";
@@ -319,12 +376,6 @@ $orderdatemessage["en"] = "Order date";
 $orderdatemessage["de"] = "Order date";
 $orderdatemessage["it"] = "Data dell'ordine";
 $orderdatemessage["es"] = "Order date";
-
-$ordersentdatemessage["fr"] = "Date d'envoi";
-$ordersentdatemessage["en"] = "Date of shipment";
-$ordersentdatemessage["de"] = "Date of shipment";
-$ordersentdatemessage["it"] = "Data dell'invio";
-$ordersentdatemessage["es"] = "Date of shipment";
 
 $orderfactdatemessage["fr"] = "Date de facturation";
 $orderfactdatemessage["en"] = "Invoice date";
@@ -373,18 +424,6 @@ $informationmessage["en"] = "Contact us by email for more information (pricing, 
 $informationmessage["de"] = "Contact us by email for more information (pricing, billing, etc.)";
 $informationmessage["it"] = "Per più informazioni (tariffe, fatturazione, etc.) vogliate contattarci per mail";
 $informationmessage["es"] = "Contact us by email for more information (pricing, billing, etc.)";
-
-$namemessage["fr"] = "Nom";
-$namemessage["en"] = "Family name";
-$namemessage["de"] = "Family name";
-$namemessage["it"] = "Cognome";
-$namemessage["es"] = "Appellido";
-
-$firstnamemessage["fr"] = "Prénom";
-$firstnamemessage["en"] = "First name";
-$firstnamemessage["de"] = "First name";
-$firstnamemessage["it"] = "Nome";
-$firstnamemessage["es"] = "Nombre";
 
 $directory1message["fr"] = "Chercher le nom dans l'annuaire de l'hôpital";
 $directory1message["en"] = "Search the name in the directory of the hospital";

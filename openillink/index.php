@@ -132,7 +132,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 	echo '<label for="urgent">';
     echo $prioritymessage[$lang] . "</label> : <select name=\"urgent\" id=\"urgent\">\n";
     echo "<option value=\"2\" selected>" . $prioritynormmessage[$lang] . "</option>\n";
-    echo "<option value=\"1\">" . $priorityurgmessage[$lang] . "</option>\n";
+    echo "<option value=\"1\">" . __("Urgent") . "</option>\n";
     echo "<option value=\"3\">" . $prioritynonemessage[$lang] . "</option>\n";
     echo "</select>\n";
 	if ($displayFormOrderSourceField) {
@@ -157,7 +157,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     echo "<input name=\"datesaisie\" id=\"datesaisie\" type=\"text\" size=\"10\" value=\"\" class=\"tcal\">\n";
     echo "</td><td>\n";
 	echo '<label for="envoye">';
-    echo $ordersentdatemessage[$lang] . "</label> : </td><td>\n";
+    echo __("Date of shipment") . "</label> : </td><td>\n";
     echo "<input name=\"envoye\" id=\"envoye\" type=\"text\" size=\"10\" value=\"\" class=\"tcal\">\n";
     echo "</td></tr><tr><td>\n";
 	echo '<label for="facture">';
@@ -226,9 +226,9 @@ echo "<div class=\"box\"><div class=\"box-content\">\n";
 echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"3\" width=\"100%\">\n";
 echo "<tr><td>\n";
 echo '<label for="nom">';
-echo $namemessage[$lang] . " *</label> : </td><td><input name=\"nom\" id=\"nom\" type=\"text\" size=\"30\" value=\"\"></td><td>\n";
+echo __("Name") . " *</label> : </td><td><input name=\"nom\" id=\"nom\" type=\"text\" size=\"30\" value=\"\"></td><td>\n";
 echo '<label for="prenom">';
-echo $firstnamemessage[$lang] . " *</label> : </td><td><input name=\"prenom\" id=\"prenom\" type=\"text\" size=\"30\" value=\"\">\n";
+echo __("First name") . " *</label> : </td><td><input name=\"prenom\" id=\"prenom\" type=\"text\" size=\"30\" value=\"\">\n";
 if ($directoryurl1 != "")
     echo "&nbsp;<a href=\"javascript:directory('$directoryurl1')\" title=\"" . $directory1message[$lang] . "\"><img src=\"img/directory1.png\"></a>\n";
 if ($directoryurl2 != "")

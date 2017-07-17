@@ -148,8 +148,11 @@ $openurlsid = "OpenILLink:DemoDB";
 // Autodetect language from browser settings (0 inactive, 1 active)
 $langautodetect = 0;
 
+// Default language when it cannot be determined or does not exist among OpenILLink translations
+$configdefaultlang = "en";
+
 // See the others values on tranlations.php
-require ("translations.php");
+require_once("translations.php");
 
 
 // shibboleth authentication (0 inactive, 1 active)

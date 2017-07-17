@@ -202,7 +202,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             echo "<option value=\"1\"";
             if ($enreg['urgent']=='1')
                 echo " selected";
-            echo ">" . $priorityurgmessage[$lang] . "</option>\n";
+            echo ">" . __("Urgent") . "</option>\n";
             echo "<option value=\"3\"";
             if ($enreg['urgent']=='3')
                 echo " selected";
@@ -239,7 +239,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             echo "<input name=\"datesaisie\" id=\"datesaisie\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['date'])."\" class=\"tcal\" onchange=\"textchanged('datesaisie')\">\n";
             echo "</td><td>\n";
 			echo '<label for="envoye">';
-            echo $ordersentdatemessage[$lang] . "</label> : </td><td>\n";
+            echo _("Date of shipment") . "</label> : </td><td>\n";
             echo "<input name=\"envoye\" id=\"envoye\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['envoye'])."\" class=\"tcal\" onchange=\"textchanged('envoye')\">\n";
             echo "</td></tr><tr><td>\n";
 			echo '<label for="facture">';
@@ -290,9 +290,9 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"3\" width=\"100%\">\n";
             echo "<tr><td>\n";
 			echo '<label for="nom">';
-            echo $namemessage[$lang] . " *</label> : </td><td><input name=\"nom\" id=\"nom\" type=\"text\" size=\"25\" value=\"".htmlspecialchars($enreg['nom'])."\" onchange=\"textchanged('nom')\"></td><td>\n";
+            echo __("Name") . " *</label> : </td><td><input name=\"nom\" id=\"nom\" type=\"text\" size=\"25\" value=\"".htmlspecialchars($enreg['nom'])."\" onchange=\"textchanged('nom')\"></td><td>\n";
             echo '<label for="prenom">';
-			echo $firstnamemessage[$lang] . " *</label> : </td><td><input name=\"prenom\" id=\"prenom\" type=\"text\" size=\"25\" value=\"".htmlspecialchars($enreg['prenom'])."\" onchange=\"textchanged('prenom')\"><span>\n";
+			echo __("First name") . " *</label> : </td><td><input name=\"prenom\" id=\"prenom\" type=\"text\" size=\"25\" value=\"".htmlspecialchars($enreg['prenom'])."\" onchange=\"textchanged('prenom')\"><span>\n";
             if ($directoryurl1 != "")
                 echo "&nbsp;<a href=\"javascript:directory('" . $directoryurl1 . "')\" title=\"" . $directory1message[$lang] . "\"><img src=\"img/directory1.png\"></a>\n";
             if ($directoryurl2 != "")

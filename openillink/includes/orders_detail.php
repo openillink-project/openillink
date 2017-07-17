@@ -120,7 +120,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "&nbsp;&nbsp;&nbsp;<img src=\"img/book.png\">";
             echo "<br /><b>Date de la commande : </b>".$date;
             if ($enreg['envoye']>0)
-                echo "\n<br /><b>Date d'envoi : </b>".htmlspecialchars($enreg['envoye']);
+                echo "\n<br /><b>". __("Date of shipment") ." : </b>".htmlspecialchars($enreg['envoye']);
             if ($enreg['facture']>0)
                 echo "\n<br /><b>Date de facturation : </b>".htmlspecialchars($enreg['facture']);
             if ($enreg['renouveler']>0)

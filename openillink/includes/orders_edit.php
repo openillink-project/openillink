@@ -165,9 +165,27 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "<optgroup label=\"" . $localisationextmessage[$lang] . "\">\n";
                 echo $optionslocalisationext;
             }
-            if ($localisationok = 0){
+            if (0 == $localisationok){
+                // Localization has not been found in current library. Fetch label from db if it exists
+                $localisation_label = array($lang => $enreg['localisation']);
+                $library_label = array($lang => "");
+                $localization_label_query = "SELECT localizations.name1, localizations.name2, localizations.name3, localizations.name4, localizations.name5, libraries.name1 as library_name1, libraries.name2 as library_name2, libraries.name3 as library_name3, libraries.name4 as library_name4, libraries.name5 as library_name5 FROM localizations LEFT JOIN libraries ON localizations.library=libraries.code WHERE localizations.code = ?";
+                $localization_label_result = dbquery($localization_label_query, array($enreg['localisation']), 's');
+                while ($row_localisation_labels = iimysqli_result_fetch_array($localization_label_result)){
+                    $localisation_label["fr"] = $row_localisation_labels["name1"];
+                    $localisation_label["en"] = $row_localisation_labels["name2"];
+                    $localisation_label["de"] = $row_localisation_labels["name3"];
+                    $localisation_label["it"] = $row_localisation_labels["name4"];
+                    $localisation_label["es"] = $row_localisation_labels["name5"];
+                    $library_label["fr"] = $row_localisation_labels["library_name1"];
+                    $library_label["en"] = $row_localisation_labels["library_name2"];
+                    $library_label["de"] = $row_localisation_labels["library_name3"];
+                    $library_label["it"] = $row_localisation_labels["library_name4"];
+                    $library_label["es"] = $row_localisation_labels["library_name5"];
+                }
+
                 echo "<optgroup label=\"Others\">\n";
-                echo "<option value=\"" . htmlspecialchars($enreg['localisation']) . "\"> " . htmlspecialchars($enreg['localisation']) . "</option>\n";
+                echo "<option value=\"" . htmlspecialchars($enreg['localisation']) . "\" selected> " . htmlspecialchars($library_label[$lang]) . " - " . htmlspecialchars($localisation_label[$lang]) . " (" . htmlspecialchars($enreg['localisation'] . ")") . "</option>\n";
             }
             echo "</select>\n";
             // END Localization Field

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
@@ -24,50 +24,30 @@
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
-// Record edit form (order, library, unit, etc.)
+// Folders displayed on the header
 //
+require_once("toolkit.php");
+require_once("connexion.php");
 
-require_once ("includes/config.php");
-require_once ("includes/authcookie.php");
-require_once ("includes/toolkit.php");
 
-if (!empty($_COOKIE['illinkid'])){
-    // switch from table parameter
-    $table = safeSetInput($_GET['table'],20);
-    switch ($table){
-        case 'orders':
-            require ("includes/orders_edit.php");
-            break;
-        case 'users':
-            require ("includes/users_edit.php");
-            break;
-        case 'libraries':
-            require ("includes/libraries_edit.php");
-            break;
-        case 'units':
-            require ("includes/units_edit.php");
-            break;
-        case 'status':
-            require ("includes/status_edit.php");
-            break;
-        case 'localizations':
-            require ("includes/localizations_edit.php");
-            break;
-        case 'links':
-            require ("includes/links_edit.php");
-            break;
-        case 'folders':
-            require ("includes/folders_edit.php");
-            break;
-        default:
-            require ("includes/orders_edit.php");
-            break;
+
+$reqfolders="SELECT id, title, description, query FROM folders WHERE active = 1 AND (user = '" . $monlog . "' OR library = '" . $monbib . "') ORDER BY position, title ASC";
+$listfolders="";
+$resultfolders = dbquery($reqfolders);
+$nbfolders = iimysqli_num_rows($resultfolders);
+if ($nbfolders > 0){
+	$listfolders.= " | ";
+	while ($rowfolders = iimysqli_result_fetch_array($resultfolders)){
+		$idfolder = $rowfolders["id"];
+		$titlefolder = $rowfolders["title"];
+		$descriptionfolder = $rowfolders["description"];
+		$queryfolder = $rowfolders["query"];
+		$listfolders.="<li><a href=\"list.php?folder=perso&folderid=" . htmlspecialchars($idfolder) . "\" title=\"" . htmlspecialchars($descriptionfolder) . "\"";
+		if ($idfolder == $folderid)
+			$listfolders.=" class=\"selected\"";
+		$listfolders.=">" . htmlspecialchars($titlefolder) . "</a></li>\n";
+	}
+	echo $listfolders;
 }
-// end of switch
-}
-else{
-    require ("includes/header.php");
-    require ("includes/loginfail.php");
-    require ("includes/footer.php");
-}
+
 ?>

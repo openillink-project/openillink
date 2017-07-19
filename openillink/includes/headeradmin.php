@@ -45,6 +45,25 @@ header ('Content-type: text/html; charset=utf-8');
 error_reporting(-1);
 ini_set('display_errors', 'On');
 
+// paniers à afficher : in / out / sent / default = in
+if(!isset($_GET['folder']))
+{
+$folder = "in";
+}
+else
+{ 
+$folder = $_GET['folder'];
+}
+if(!isset($_GET['folderid']))
+{
+$folderid = 0;
+}
+else
+{ 
+$folderid = $_GET['folderid'];
+}
+// echo $folder;
+
 echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n";
 echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"" . $lang . "\" xml:lang=\"" . $lang . "\" >\n";
 echo "<head>\n";
@@ -61,16 +80,16 @@ echo "<style type=\"text/css\" media=\"all\">\n @import url(\"$fileStyle1\");\n 
 echo "<style type=\"text/css\" media=\"print\">\n @import url(\"$fileStyle2\");\n </style>\n";
 echo "<style type=\"text/css\" media=\"all\">\n @import url(\"$fileStyleTable\");\n </style>\n";
 echo "<style type=\"text/css\" media=\"all\">\n @import url(\"$fileStyleCalendar\");\n </style>\n";
-echo '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>'.
-"<script>window.jQuery || document.write('<script src=\"js/jquery-2.1.4.min.js\" type=\"text/javascript\"><\/script>')</script>";
+echo "<script type=\"text/javascript\" src=\"//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js\"></script>\n";
+echo "<script>window.jQuery || document.write('<script src=\"js/jquery-2.1.4.min.js\" type=\"text/javascript\"><\/script>')</script>\n";
 echo "<script type=\"text/javascript\" src=\"$scriptJs\"></script>\n";
 echo "<script type=\"text/javascript\" src=\"$calendarJs\"></script>\n";
 
 echo "</head>\n";
 if (!empty($mybodyonload))
-    echo "<body onload=\"" . $mybodyonload . "\">\n";
+	echo "<body onload=\"" . $mybodyonload . "\">\n";
 else
-    echo "<body onload=\"\">\n";
+	echo "<body onload=\"\">\n";
 echo "<div class=\"page\">\n";
 echo "<div class=\"headBar\">\n";
 echo "\n";
@@ -82,23 +101,40 @@ echo "<div class=\"topNavArea\">\n";
 echo "<ul>\n";
 
 echo "<li><b>".htmlspecialchars($monnom)."</b>&nbsp;<a href=\"$fileLogin?action=logout\" title=\"Logout\">[" . $logout[$lang] . "]</a></li>\n";
-echo "| &nbsp;&nbsp;<li><a href=\"$fileIndex\" class=\"selected\" title=\"" . $neworder[$lang] . "\">" . $neworder[$lang] . "</a></li>\n";
+echo "| <li><a href=\"$fileIndex\" title=\"" . $neworder[$lang] . "\">" . $neworder[$lang] . "</a></li>\n";
 if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
-    echo "| &nbsp;<li><a href=\"$fileList?folder=in\" title=\"" . $inhelp[$lang] . "\">" . $inbox[$lang] . "</a></li>\n";
-    echo "<li><a href=\"$fileList?folder=out\" title=\"" . $outhelp[$lang] . "\">" . $outbox[$lang] . "</a></li>\n";
-    echo "<li><a href=\"$fileList?folder=all\" title=\"" . $allhelp[$lang] . "\">" . $allbox[$lang] . "</a></li>\n";
-    echo "<li><a href=\"$fileList?folder=trash\" title=\"" . $trashhelp[$lang] . "\">" . $trashbox[$lang] . "</a></li>\n";
+	echo "| &nbsp;<li><a href=\"$fileList?folder=in\" title=\"" . $inhelp[$lang] . "\"";
+	if ($folder == 'in')
+		echo " class=\"selected\"";
+	echo ">" . $inbox[$lang] . "</a></li>\n";
+	echo "<li><a href=\"$fileList?folder=out\" title=\"" . $outhelp[$lang] . "\"";
+	if ($folder == 'out')
+		echo " class=\"selected\"";
+	echo ">" . $outbox[$lang] . "</a></li>\n";
+	echo "<li><a href=\"$fileList?folder=all\" title=\"" . $allhelp[$lang] . "\"";
+	if ($folder == 'all')
+		echo " class=\"selected\"";
+	echo ">" . $allbox[$lang] . "</a></li>\n";
+	echo "<li><a href=\"$fileList?folder=trash\" title=\"" . $trashhelp[$lang] . "\"";
+	if ($folder == 'trash')
+		echo " class=\"selected\"";
+	echo ">" . $trashbox[$lang] . "</a></li>\n";
+	
+	// Folders personalized
+	require_once ("folders.php");
+	
+
 ///** begin test
-    echo "| &nbsp;&nbsp;<li><a href=\"$fileAdmin\" title=\"" . $adminhelp[$lang] . "\">" . $admindisp[$lang] . "</a></li>\n";
-    if (($monaut == "admin")||($monaut == "sadmin")){
+	echo "| &nbsp;&nbsp;<li><a href=\"$fileAdmin\" title=\"" . $adminhelp[$lang] . "\">" . $admindisp[$lang] . "</a></li>\n";
+	if (($monaut == "admin")||($monaut == "sadmin")){
 ///** end test
 
-        echo "| &nbsp;&nbsp;<li><a href=\"$fileReports\" title=\"" . $reporthelp[$lang] . "\">" . $reportdisp[$lang] . "</a></li>\n";
-        //echo "| &nbsp;&nbsp;<li><a href=\"help.php\" title=\"" . $helphelp[$lang] . "\">" . $helpdisp[$lang] . "</a></li>\n";
-    }
+		echo "| &nbsp;&nbsp;<li><a href=\"$fileReports\" title=\"" . $reporthelp[$lang] . "\">" . $reportdisp[$lang] . "</a></li>\n";
+		//echo "| &nbsp;&nbsp;<li><a href=\"help.php\" title=\"" . $helphelp[$lang] . "\">" . $helpdisp[$lang] . "</a></li>\n";
+	}
 }
 if ($monaut == "guest"){
-    echo "<li><a href=\"$fileList?folder=guest\" title=\"" . $myordershelp[$lang] . "\">" . $myorders[$lang] . "</a></li>\n";
+	echo "<li><a href=\"$fileList?folder=guest\" title=\"" . $myordershelp[$lang] . "\">" . $myorders[$lang] . "</a></li>\n";
 }
 // Link to journals database
 echo "| &nbsp;&nbsp;<li><a href=\"" . $atozlinkurl[$lang] . "\" title=\"" . $atozname[$lang] . "\">" . $atozname[$lang] . "</a></li>\n";

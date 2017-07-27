@@ -4,6 +4,7 @@
 // ***************************************************************************
 // This file is part of OpenILLink software.
 // Copyright (C) 2017 UNIGE.
+// Copyright (C) 2017 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -32,13 +33,13 @@ require_once ("connexion.php");
 require_once ("toolkit.php");
 
 $id="";
-$montitle = "Gestion des filtres";
+$montitle = __("Filters management");
 $id= ((!empty($_GET['id'])) && isValidInput($_GET['id'],11,'s',false)) ? $_GET['id'] : "";
 if (!empty($_COOKIE['illinkid'])){
 	if (($monaut == "admin")||($monaut == "sadmin")){
 		if ($id!=""){
-			$myhtmltitle = $configname[$lang] . " : édition du filtre " . $id;
-			$montitle = "Gestion des filtres : édition de la fiche " . $id;
+			$myhtmltitle = $configname[$lang] . " : ". format_string(__("edition of filter %id_filter"), array('id_filter' => $id));
+			$montitle = format_string(__("Filters management : edition of card %id_card"), array('id_card' => $id));
 			require ("headeradmin.php");
 			$req = "SELECT * FROM folders WHERE id = ?";
 			$result = dbquery($req, array($id), 'i');
@@ -61,17 +62,17 @@ if (!empty($_COOKIE['illinkid'])){
 				echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($folderid)."\">\n";
 				echo "<input name=\"action\" type=\"hidden\" value=\"update\">\n";
 				echo "<table id=\"hor-zebra\" class=\"genericEditFormOIL\">\n";
-				echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer les modifications\">\n";
-				echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=folders'\">\n";
-				echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=folders&id=" . $folderid . "'\"></td></tr>\n";
+				echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
+				echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=folders'\">\n";
+				echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=folders&id=" . $folderid . "'\"></td></tr>\n";
 				echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
 				echo "<tr><td><b>Titre *</b></td><td>\n";
 				echo "<input name=\"title\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($foldertitle) . "\"></td></tr>\n";
 				echo "</td></tr>\n";
-				echo "<tr><td><b>Description *</b></td><td>\n";
+				echo "<tr><td><b>".__("Description")." *</b></td><td>\n";
 				echo "<input name=\"description\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($folderdescription) . "\"></td></tr>\n";
 				echo "</td></tr>\n";
-				echo "<tr><td><b>Attribué à *</b></td><td>\n";
+				echo "<tr><td><b>".__("Attributed to")." *</b></td><td>\n";
 				echo "user <select name=\"user\">\n";
 				$requsers="SELECT login, name FROM users ORDER BY name ASC";
 				$optionsusers="<option value=\"\"></option>";
@@ -89,7 +90,7 @@ if (!empty($_COOKIE['illinkid'])){
 					echo $optionsusers;
 				}
 				echo "</select>&nbsp;&nbsp;&nbsp;\n";
-				echo "| &nbsp;&nbsp;bibliothèque </b>&nbsp;&nbsp;\n";
+				echo "| &nbsp;&nbsp;".__("Library")." </b>&nbsp;&nbsp;\n";
 				echo "<select name=\"libraryassigned\">\n";
 				$reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
 				$optionslibraries="<option value=\"\"></option>";
@@ -112,7 +113,7 @@ if (!empty($_COOKIE['illinkid'])){
 				}
 				echo "</select></td></tr>\n";
 
-				echo "<tr><td><b>Position</b></td><td>\n";
+				echo "<tr><td><b>".__("Position")."</b></td><td>\n";
 				echo "<input name=\"position\" type=\"text\" size=\"10\" value=\"" . htmlspecialchars($folderposition) . "\"></td></tr>\n";
 				echo "</td></tr>\n";
 
@@ -121,21 +122,21 @@ if (!empty($_COOKIE['illinkid'])){
 					echo " checked";
 				echo "></td></tr>\n";
 
-				echo "<tr><td><b>Requête *</b></td><td>\n";
+				echo "<tr><td><b>".__("Query")." *</b></td><td>\n";
 				echo "<textarea name=\"query\" id=\"query\" rows=\"3\" cols=\"60\" valign=\"bottom\">" . htmlspecialchars($folderquery) . "</textarea></td></tr>\n";
 
 				echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-				echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer les modifications\">\n";
-				echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=folders'\">\n";
-				echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=folders&id=" . $folderid . "'\"></td></tr>\n";
+				echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
+				echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=folders'\">\n";
+				echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=folders&id=" . $folderid . "'\"></td></tr>\n";
 				echo "</table>\n";
 				echo "</form><br /><br />\n";
 				require ("footer.php");
 			}
 			else{
 				echo "<center><br/><b><font color=\"red\">\n";
-				echo "La fiche " . $id . " n'a pas été trouvé dans la base.</b></font>\n";
-				echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche ou contactez l'administrateur de la base : " . $configemail . "</b></center><br /><br /><br /><br />\n";
+				echo format_string(__("The card %id_card was not found in the database."), array('id_card' => $id))."</b></font>\n";
+				echo "<br /><br /><b>".__("Please restart your search or contact the database administrator")." : " . $configemail . "</b></center><br /><br /><br /><br />\n";
 				require ("footer.php");
 			}
 		}
@@ -143,8 +144,8 @@ if (!empty($_COOKIE['illinkid'])){
 			require ("header.php");
 			//require ("menurech.php");
 			echo "<center><br/><b><font color=\"red\">\n";
-			echo "La fiche n'a pas été trouvé dans la base.</b></font>\n";
-			echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche ou contactez l'administrateur de la base : " . $configemail . "</b></center><br /><br /><br /><br />\n";
+			echo __("The card was not found in the database."). "</b></font>\n";
+			echo "<br /><br /><b>".__("Please restart your search or contact the database administrator")." : " . $configemail . "</b></center><br /><br /><br /><br />\n";
 			echo "<br /><br />\n";
 			echo "</ul>\n";
 			echo "\n";
@@ -154,7 +155,7 @@ if (!empty($_COOKIE['illinkid'])){
 	else{
 		require ("header.php");
 		echo "<center><br/><b><font color=\"red\">\n";
-		echo "Vos droits sont insuffisants pour éditer cette fiche</b></font></center><br /><br /><br /><br />\n";
+		echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
 		require ("footer.php");
 	}
 }

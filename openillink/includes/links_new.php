@@ -26,45 +26,45 @@
 // ***************************************************************************
 // links table : record creation form
 // 
-require ("config.php");
+require_once ("config.php");
 require ("authcookie.php");
 require_once ("connexion.php");
 
 if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")){
-        $myhtmltitle = $configname[$lang] . " : nouveau lien externe ";
+        $myhtmltitle = $configname[$lang] . " : " .__("New external link");
         require ("headeradmin.php");
-        echo "<h1>Gestion des liens : Création d'une nouvelle fiche </h1>\n";
+        echo "<h1>".__("Links management : New card creation")."</h1>\n";
         echo "<br /></b>";
         echo "<ul>\n";
         echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
         echo "<input name=\"table\" type=\"hidden\" value=\"links\">\n";
         echo "<input name=\"action\" type=\"hidden\" value=\"new\">\n";
         echo "<table id=\"hor-zebra\">\n";
-        echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer le nouveau lien \">\n";
-        echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=links'\"></td></tr>\n";
+        echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save the new link")."\">\n";
+        echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=links'\"></td></tr>\n";
         echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-        echo "<tr><td><b>Nom *</b></td><td>\n";
+        echo "<tr><td><b>".__("Name")." *</b></td><td>\n";
         echo "<input name=\"title\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
         echo "</td></tr>\n";
         echo "<tr><td class=\"odd\"><b>URL *</b></td><td class=\"odd\"><input name=\"url\" type=\"text\" size=\"50\" value=\"\">&nbsp;&nbsp;";
         echo "<input name=\"openurl\" value=\"1\" type=\"checkbox\"> OpenURL</td></tr>\n";
         /* MDV - 13.05.2015 : added line to update link position in the displayed list of link  in the table*/
-        echo "<tr><td><b>Position dans la liste</b></td><td><input name=\"ordonnancement\" type=\"text\" size=\"5\" value=\"\">&nbsp;&nbsp;</td></tr>";
-        echo "<tr><td><b>Lien de recherche par identifiant</b></td><td>";
+        echo "<tr><td><b>".__("Position in the list")."</b></td><td><input name=\"ordonnancement\" type=\"text\" size=\"5\" value=\"\">&nbsp;&nbsp;</td></tr>";
+        echo "<tr><td><b>".__("Search link by identifier")."</b></td><td>";
         echo "<input name=\"search_issn\" value=\"1\" type=\"checkbox\">ISSN &nbsp;&nbsp;|&nbsp;&nbsp; ";
         echo "<input name=\"search_isbn\" value=\"1\" type=\"checkbox\">ISBN";
         echo "</td></tr>\n";
-        echo "<tr><td class=\"odd\"><b>Lien de recherche par titre</b></td><td class=\"odd\">";
-        echo "<input name=\"search_ptitle\" value=\"1\" type=\"checkbox\">de périodique &nbsp;&nbsp;|&nbsp;&nbsp; ";
-        echo "<input name=\"search_btitle\" value=\"1\" type=\"checkbox\">du livre&nbsp;&nbsp;|&nbsp;&nbsp; ";
-        echo "<input name=\"search_atitle\" value=\"1\" type=\"checkbox\">de l'article ou du chapitre\n";
+        echo "<tr><td class=\"odd\"><b>".__("Search link by title")."</b></td><td class=\"odd\">";
+        echo "<input name=\"search_ptitle\" value=\"1\" type=\"checkbox\">".__("of journal")." &nbsp;&nbsp;|&nbsp;&nbsp; ";
+        echo "<input name=\"search_btitle\" value=\"1\" type=\"checkbox\">".__("of book")."&nbsp;&nbsp;|&nbsp;&nbsp; ";
+        echo "<input name=\"search_atitle\" value=\"1\" type=\"checkbox\">".__("of article or chapter")."\n";
         echo "</td></tr>\n";
         echo "<tr><td><b>Lien de commande</b></td><td>";
-        echo "<input name=\"order_ext\" value=\"1\" type=\"checkbox\">Formulaire externe &nbsp;&nbsp;|&nbsp;&nbsp; ";
-        echo "<input name=\"order_form\" value=\"1\" type=\"checkbox\">Formulaire interne\n";
+        echo "<input name=\"order_ext\" value=\"1\" type=\"checkbox\">".__("External form")." &nbsp;&nbsp;|&nbsp;&nbsp; ";
+        echo "<input name=\"order_form\" value=\"1\" type=\"checkbox\">".__("Internal form")."\n";
         echo "</td></tr>\n";
-        echo "<tr><td class=\"odd\"><b>Bibliothèque d'attribution</b></td><td class=\"odd\">\n";
+        echo "<tr><td class=\"odd\"><b>".__("Assignment library")."</b></td><td class=\"odd\">\n";
         echo "<select name=\"library\">\n";
         $reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
         $optionslibraries="";
@@ -84,15 +84,15 @@ if (!empty($_COOKIE['illinkid'])){
             echo $optionslibraries;
         }
         echo "</select></td></tr>\n";
-        echo "<tr><td><b>Transformer les arguments de l'url d'UTF-8 vers ISO-8859-1</b></td>".
+        echo "<tr><td><b>".__("Transform url arguments from UTF-8 to ISO-8859-1")."</b></td>".
         '<td><input type="checkbox"  value="1" name="url_encoded" id="url_encoded" /></td></tr>';
-        echo "<tr><td><b>Ignorer les mots du titre du périodique/livre</b></td>".
-        "<td><input name=\"skip_words\" value=\"1\" type=\"checkbox\"> non signifiants ('of', 'the', 'The', '&', 'and', '-') | ".
-        "<input name=\"skip_txt_after_mark\" value=\"1\" type=\"checkbox\"> après le symbole (':', '=', '.', ';', '(')</td></tr>\n";
-        echo "<tr><td><b>Lien actif</b></td><td><input name=\"active\" value=\"1\" type=\"checkbox\" checked></td></tr>\n";
+        echo "<tr><td><b>".__("Ignore the words in title of the journal / book")."/b></td>".
+        "<td><input name=\"skip_words\" value=\"1\" type=\"checkbox\"> ".__("not significants")." ('of', 'the', 'The', '&', 'and', '-') | ".
+        "<input name=\"skip_txt_after_mark\" value=\"1\" type=\"checkbox\"> ".__("after the symbol")." (':', '=', '.', ';', '(')</td></tr>\n";
+        echo "<tr><td><b>".__("Active link")."</b></td><td><input name=\"active\" value=\"1\" type=\"checkbox\" checked></td></tr>\n";
         echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-        echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer le nouveau lien \">\n";
-        echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=links'\"></td></tr>\n";
+        echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save new link")."\">\n";
+        echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=links'\"></td></tr>\n";
         echo "</table>\n";
         echo "</form><br /><br />\n";
         require ("footer.php");
@@ -100,7 +100,7 @@ if (!empty($_COOKIE['illinkid'])){
     else{
         require ("header.php");
         echo "<center><br/><b><font color=\"red\">\n";
-        echo "Vos droits sont insuffisants pour consulter cette page</b></font></center><br /><br /><br /><br />\n";
+        echo __("Your rights are insufficient to view this page")."</b></font></center><br /><br /><br /><br />\n";
         require ("footer.php");
     }
 }

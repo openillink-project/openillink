@@ -4,6 +4,7 @@
 // ***************************************************************************
 // This file is part of OpenILLink software.
 // Copyright (C) 2017 UNIGE.
+// Copyright (C) 2017 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -32,11 +33,11 @@ require_once ("connexion.php");
 
 if (!empty($_COOKIE['illinkid'])){
 	if (($monaut == "admin")||($monaut == "sadmin")){
-		$myhtmltitle = $configname[$lang] . " : gestion des filtres";
+		$myhtmltitle = $configname[$lang] . " : ".__("filters management");
 		require ("headeradmin.php");
 		echo "\n";
 		// Folders List
-		echo "<h1>Gestion des filtres</h1>\n";
+		echo "<h1>".__("Filters management")."</h1>\n";
 		$req = "SELECT * FROM folders ORDER BY title ASC, user ASC";// LIMIT ?, ?";
 		$result = dbquery($req);//, array(0,200), 'ii');
 		$total_results = iimysqli_num_rows($result);
@@ -45,9 +46,9 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "</center>\n";
 		echo "<b><br/>".$total_results;
 		if ($total_results == 1)
-			echo " filtre trouvé</b></font>\n";
+			echo " ".__("filter found")."</b></font>\n";
 		else
-			echo " filtres trouvés</b></font>\n";
+			echo " ".__("filters found")."</b></font>\n";
 		echo "<br/>";
 		echo "<br/>";
 		echo "<table id=\"one-column-emphasis\" summary=\"\">\n";
@@ -57,13 +58,13 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "\n";
 		echo "<thead>\n";
 		echo "<tr>\n";
-		echo "<th scope=\"col\">Titre</th>\n";
-		echo "<th scope=\"col\">Description</th>\n";
-		echo "<th scope=\"col\">Recherche</th>\n";
-		echo "<th scope=\"col\">User</th>\n";
-		echo "<th scope=\"col\">Bibliothèque</th>\n";
-		echo "<th scope=\"col\">Position dans le menu</th>\n";
-		echo "<th scope=\"col\">filtre actif</th>\n";
+		echo "<th scope=\"col\">".__("Title")."</th>\n";
+		echo "<th scope=\"col\">".__("Description")."</th>\n";
+		echo "<th scope=\"col\">".__("Search")."</th>\n";
+		echo "<th scope=\"col\">".__("Utilisateur")."</th>\n";
+		echo "<th scope=\"col\">".__("Library")."</th>\n";
+		echo "<th scope=\"col\">".__("Menu position")."</th>\n";
+		echo "<th scope=\"col\">".__("Active filter")."</th>\n";
 		echo "<th scope=\"col\"></th>\n";
 		echo "</tr>\n";
 		echo "</thead>\n";
@@ -91,7 +92,7 @@ if (!empty($_COOKIE['illinkid'])){
 			echo "<td>".htmlspecialchars($folderposition)."</td>\n";
 			echo "<td>".htmlspecialchars($folderactive)."</td>\n";
 			if (($monaut == "admin")||($monaut == "sadmin")){
-				echo "<td><a href=\"edit.php?table=folders&amp;id=".htmlspecialchars($folderid)."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
+				echo "<td><a href=\"edit.php?table=folders&amp;id=".htmlspecialchars($folderid)."\"><img src=\"img/edit.png\" title=\"".__("Edit the card")."\" width=\"20\"></a></td>";
 			}
 			echo "</tr>\n";
 		}
@@ -99,14 +100,14 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "</table>\n";
 		echo "\n";
 		echo "<br/><br/><ul>\n";
-		echo "<b><a href=\"new.php?table=folders\">Ajouter un nouveau filtre </a></b>\n";
+		echo "<b><a href=\"new.php?table=folders\">".__("Add a new filter")."</a></b>\n";
 		echo "<br/><br/>\n";
 		echo "</ul>\n";
 		require ("footer.php");
 	}
 	else{
 		require ("header.php");
-		echo "Vos droits sont insuffisants pour consulter cette page</b></font></center><br /><br /><br /><br />\n";
+		echo __("Your rights are insufficient to edit this page")."</b></font></center><br /><br /><br /><br />\n";
 		require ("footer.php");
 	}
 }

@@ -26,17 +26,17 @@
 // ***************************************************************************
 // Status table : List of all the status defined on the internal ILL network
 // 
-require ("config.php");
+require_once ("config.php");
 require ("authcookie.php");
 require_once ("connexion.php");
 
 if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")){
-        $myhtmltitle = $configname[$lang] . " : gestion des étapes de la commande";
+        $myhtmltitle = format_string(__("%institution_name : edition of the order steps"), array('institution_name' => $configinstitution[$lang]));
         require ("headeradmin.php");
         echo "\n";
         // Status List
-        echo "<h1>Gestion des étapes de la commande</h1>\n";
+        echo "<h1>".__("Order steps management")."</h1>\n";
         $req = "SELECT * FROM status ORDER BY title1 ASC";// LIMIT 0, 200";
         $result = dbquery($req);
         $total_results = iimysqli_num_rows($result);
@@ -45,9 +45,9 @@ if (!empty($_COOKIE['illinkid'])){
         echo "</center>\n";
         echo "<b><br/>".$total_results;
         if ($total_results == 1)
-            echo " étape trouvée</b></font>\n";
+            echo " ".__("order step found")."</b></font>\n";
         else
-            echo " étapes trouvées</b></font>\n";
+            echo " ".__("order steps found")."</b></font>\n";
         echo "<br/>";
         echo "<br/>";
         echo "<table id=\"one-column-emphasis\" summary=\"\">\n";
@@ -58,15 +58,15 @@ if (!empty($_COOKIE['illinkid'])){
         echo "<thead>\n";
         echo "<tr>\n";
         echo "<th scope=\"col\">code</th>\n";
-        echo "<th scope=\"col\">".$guiLabelName1[$lang]."</th>\n";
-        echo "<th scope=\"col\">".$guiLabelHelp1[$lang]."</th>\n";
+        echo "<th scope=\"col\">".__("Name in French")."</th>\n";
+        echo "<th scope=\"col\">".__("Help in French")."</th>\n";
         // echo "<th scope=\"col\">title2</th>\n";
         // echo "<th scope=\"col\">title3</th>\n";
         // echo "<th scope=\"col\">title4</th>\n";
         // echo "<th scope=\"col\">title5</th>\n";
-        echo "<th scope=\"col\">".$guiListing[$lang]."</th>\n";
-        echo "<th scope=\"col\">".$guiStatusSpecial[$lang]."</th>\n";
-        echo "<th scope=\"col\">".$guiEdit[$lang]."</th>\n";
+        echo "<th scope=\"col\">".__("Display in listing")."</th>\n";
+        echo "<th scope=\"col\">".__("Add special status flag")."</th>\n";
+        echo "<th scope=\"col\">".__("Edit")."</th>\n";
         echo "</tr>\n";
         echo "</thead>\n";
         echo "<tbody>\n";
@@ -116,7 +116,7 @@ if (!empty($_COOKIE['illinkid'])){
             // echo "<td>".$statusrenew."</td>\n";
             // echo "<td>".$statusreject."</td>\n";
             if (($monaut == "admin")||($monaut == "sadmin")){
-                echo "<td><a href=\"edit.php?table=status&id=".htmlspecialchars($statusid)."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
+                echo "<td><a href=\"edit.php?table=status&id=".htmlspecialchars($statusid)."\"><img src=\"img/edit.png\" title=\"".__("Edit record")."\" width=\"20\"></a></td>";
             }
             echo "</tr>\n";
         }
@@ -124,14 +124,14 @@ if (!empty($_COOKIE['illinkid'])){
         echo "</table>\n";
         echo "\n";
         echo "<br/><br/><ul>\n";
-        echo "<b><a href=\"new.php?table=status\">Ajouter une nouvelle étape</a></b>\n";
+        echo "<b><a href=\"new.php?table=status\">".__("Add a new step")."</a></b>\n";
         echo "<br/><br/>\n";
         echo "</ul>\n";
         require ("footer.php");
     }
     else{
         require ("header.php");
-        echo "Vos droits sont insuffisants pour consulter cette page</b></font></center><br /><br /><br /><br />\n";
+        echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
         require ("footer.php");
     }
 }

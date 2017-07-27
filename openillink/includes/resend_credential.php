@@ -33,15 +33,15 @@ function resendPwd($to, $pwd, $textsArray, $language, $configemail){
 <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 <html>
 <head>
-<title>".$textsArray["emailResendTitle"][$language]."</title>
+<title>".__("OpenILLink resend password")."</title>
 </head>
 <body>
-<p>".$textsArray["openingTxt"][$language]."</p>
-<p>".$textsArray["par1Txt"][$language]."</p>
-<p>".$textsArray["par2Txt"][$language]."</p>
-<p>".sprintf($textsArray["par4Txt"][$language], $pwd)."</p>
-<p>".$textsArray["par3Txt"][$language]."</p>
-".$textsArray["bibSignature"][$language]."
+<p>".__("Hello")."</p>
+<p>".__("Someone, probably you , has requested the password for the OpenILLink system account associated with this email address.")."</p>
+<p>".__("This account allows you to review list of your document orders.")."</p>
+<p>".sprintf(__("Your password is: %s"), $pwd)."</p>
+<p>".__("If you have not made ​​that request thank you to let us know.")."</p>
+".str_replace("/n","<br>",$configadresse[$language])."
 </body>
 </html>
 ";

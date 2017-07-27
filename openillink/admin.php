@@ -38,26 +38,26 @@ if (!empty($_COOKIE['illinkid'])){
         echo "<ul>\n";
         // echo "<li><h2><a href=\"adminsearch.php\">Recherche administrateur</a></h2></li>\n";
         if (($monaut == "admin")||($monaut == "sadmin")){
-            echo "<li><h2><a href=\"list.php?table=users\">Gestion des utilisateurs</a></h2></li>\n";
-            echo "<ul><li><h3><a href=\"new.php?table=users\">Créer un nouvel utilisateur</a></h3></li>\n";
-            echo "<li><h3><a href=\"edit.php?table=users&action=updateprofile\">Modifier mes codes d'accès</a></h2></li></ul>\n";
-            echo "<li><h2><a href=\"list.php?table=libraries\">Gestion des bibliothèques</a></h2></li>\n";
-            echo "<ul><li><h3><a href=\"new.php?table=libraries\">Créer une nouvelle bibliothèque</a></h2></li></ul>\n";
-            echo "<li><h2><a href=\"list.php?table=localizations\">Gestion des localisations</a></h2></li>\n";
-            echo "<ul><li><h3><a href=\"new.php?table=localizations\">Créer une nouvelle localisation</a></h2></li></ul>\n";
-            echo "<li><h2><a href=\"list.php?table=status\">Gestion des étapes de la commande</a></h2></li>\n";
-            echo "<ul><li><h3><a href=\"new.php?table=status\">Créer une nouvelle étape de la commande</a></h2></li></ul>\n";
-            echo "<li><h2><a href=\"list.php?table=units\">Gestion des unités/services</a></h2></li>\n";
-            echo "<ul><li><h3><a href=\"new.php?table=units\">Créer une nouvelle unité/service</a></h2></li></ul>\n";
-            echo "<li><h2><a href=\"list.php?table=links\">Gestion des liens sortants</a></h2></li>\n";
-            echo "<ul><li><h3><a href=\"new.php?table=links\">Créer un nouveau lien sortant</a></h2></li></ul>\n";
-            echo "<li><h2><a href=\"list.php?table=folders\">Gestion des filtres</a></h2></li>\n";
-            echo "<ul><li><h3><a href=\"new.php?table=folders\">Créer un nouveau filtre</a></h2></li></ul>\n";
+            echo "<li><h2><a href=\"list.php?table=users\">". __("User management") ."</a></h2></li>\n";
+            echo "<ul><li><h3><a href=\"new.php?table=users\">". __("Create a new user") ."</a></h3></li>\n";
+            echo "<li><h3><a href=\"edit.php?table=users&action=updateprofile\">". __("Change my access codes") ."</a></h2></li></ul>\n";
+            echo "<li><h2><a href=\"list.php?table=libraries\">". __("Librairies management") ."</a></h2></li>\n";
+            echo "<ul><li><h3><a href=\"new.php?table=libraries\">". __("Create a new library") ."</a></h2></li></ul>\n";
+            echo "<li><h2><a href=\"list.php?table=localizations\">". __("Localisations management") ."</a></h2></li>\n";
+            echo "<ul><li><h3><a href=\"new.php?table=localizations\">". __("Create a new localisation") ."</a></h2></li></ul>\n";
+            echo "<li><h2><a href=\"list.php?table=status\">". __("Order steps management") ."</a></h2></li>\n";
+            echo "<ul><li><h3><a href=\"new.php?table=status\">". __("Create a new order step") ."</a></h2></li></ul>\n";
+            echo "<li><h2><a href=\"list.php?table=units\">". __("Management of units / services") ."</a></h2></li>\n";
+            echo "<ul><li><h3><a href=\"new.php?table=units\">". __("Create a new unit / service") ."</a></h2></li></ul>\n";
+            echo "<li><h2><a href=\"list.php?table=links\">". __("Managing outgoings links") ."</a></h2></li>\n";
+            echo "<ul><li><h3><a href=\"new.php?table=links\">". __("Create a new outgoing link") ."</a></h2></li></ul>\n";
+            echo "<li><h2><a href=\"list.php?table=folders\">". __("Filters management") ."</a></h2></li>\n";
+            echo "<ul><li><h3><a href=\"new.php?table=folders\">". __("Create a new filter") ."</a></h2></li></ul>\n";
             echo "<br/><br/>\n";
             echo "<li><h2><a href=\"emptytrash.php\">Vider la corbeille</a></h2></li>\n";
         }
         else
-            echo "<li><h2><a href=\"edit.php?table=users&action=updateprofile\">Modifier mes codes d'accès</a></h2></li>\n";
+            echo "<li><h2><a href=\"edit.php?table=users&action=updateprofile\">". __("Change my access codes") ."</a></h2></li>\n";
         echo "</ul>\n";
         echo "<br/><br/>\n";
         echo "\n";

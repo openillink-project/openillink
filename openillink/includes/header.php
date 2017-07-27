@@ -60,13 +60,13 @@ echo "<div class=\"page\">\n";
 echo "<div class=\"headBar\">\n";
 echo "\n";
 echo "<div class=\"headBarRow1b\">\n";
-echo "<h1 class=\"siteTitleBar\">".$openIllinkOfficialTitle[$lang]."</h1>";
+echo "<h1 class=\"siteTitleBar\">". $sitetitle[$lang] ."</h1>";
 echo "</div>\n";
 echo "<div class=\"headBarRow2\">\n";
 echo "<div class=\"topNavArea\">\n";
 echo "<ul>\n";
-echo "<li><a href=\"index.php\" class=\"selected\" title=\"" . $neworder[$lang] . "\">" . $neworder[$lang] . "</a></li>\n";
-echo "| &nbsp;&nbsp;&nbsp;<li><a href=\"login.php\" title=\"" . $loginmessage[$lang] . "\">" . $loginmessage[$lang] . "</a></li>\n";
+echo "<li><a href=\"index.php\" class=\"selected\" title=\"" . __("New Order") . "\">" . __("New Order") . "</a></li>\n";
+echo "| &nbsp;&nbsp;&nbsp;<li><a href=\"login.php\" title=\"" . __("Login") . "\">" . __("Login") . "</a></li>\n";
 // Link to journals database
 echo "| &nbsp;&nbsp;&nbsp;<li><a href=\"" . $atozlinkurl[$lang] . "\" title=\"" . $atozname[$lang] . "\">" . $atozname[$lang] . "</a></li>\n";
 // Languages links : uncomment for activation

@@ -32,20 +32,20 @@ require_once('connexion.php');
 echo "<div id=\"illinks\">\n";
 echo "<div class=\"box\"><div class=\"box-content\">\n";
 echo "<ul><li><a href=\"edit.php?table=orders&amp;id=".htmlspecialchars($enreg['illinkid'])."\"><b><font color=\"red\">\n";
-echo "Editer la commande</font></a></b></li>\n";
+echo __("Edit order")."</font></a></b></li>\n";
 // echo "<ul><li><b><font color=\"grey\">\n";
-// echo "Editer la commande [en maintenance]</font></b></li>\n";
+// echo __("Edit order [under maintenance]")."</font></b></li>\n";
 if ($directoryurl1 != ""){
    $mydirectory1search = str_replace("XNAMEX", urlencode($enreg['nom']),$directoryurl1);
    $mydirectory1search = str_replace("XFIRSTNAMEX",urlencode ($enreg['prenom']),$mydirectory1search);
-   echo "<li><a href=\"" . htmlspecialchars($mydirectory1search) . "\" target=_blank title=\"" . $directory1message[$lang] . "\">\n";
+   echo "<li><a href=\"" . htmlspecialchars($mydirectory1search) . "\" target=_blank title=\"" . __("Search the name in the directory of the hospital") . "\">\n";
    echo $directoryname1 . "</a></li>\n";
 }
 
 if ($directoryurl2 != ""){
    $mydirectory2search = str_replace("XNAMEX",urlencode ($enreg['nom']),$directoryurl2);
    $mydirectory2search = str_replace("XFIRSTNAMEX",urlencode ($enreg['prenom']),$mydirectory2search);
-   echo "<li><a href=\"" . htmlspecialchars($mydirectory2search) . "\" target=_blank title=\"" . $directory2message[$lang] . "\">\n";
+   echo "<li><a href=\"" . htmlspecialchars($mydirectory2search) . "\" target=_blank title=\"" . __("Search the name in the directory of the university") . "\">\n";
    echo $directoryname2 . "</a></li>\n";
 }
 echo "</ul>\n";
@@ -72,7 +72,7 @@ if ($enreg['titre_article']!=''){
     $resultlinks = dbquery($reqlinks, array($monbib), "s");
     $nblinks = iimysqli_num_rows($resultlinks);
     if ($nblinks > 0){
-        echo "</ul><b>Chercher par titre d'article</b>\n";
+        echo "</ul><b>".__("Search by article title")."</b>\n";
         while ($rowlinks = iimysqli_result_fetch_array($resultlinks)){
             $linktitle = $rowlinks["title"];
             $linkurl = $rowlinks["url"];
@@ -98,7 +98,7 @@ if (($enreg['type_doc']=='article')||($enreg['type_doc']=='Article')||($enreg['t
         $resultlinks = dbquery($reqlinks, array($monbib), "s");
         $nblinks = iimysqli_num_rows($resultlinks);
         if ($nblinks > 0){
-            echo "<b>Chercher par ISSN</b>\n";
+            echo "<b>".__("Search by ISSN")."</b>\n";
             while ($rowlinks = iimysqli_result_fetch_array($resultlinks)){
                 $linktitle = $rowlinks["title"];
                 $linkurl = $rowlinks["url"];
@@ -128,7 +128,7 @@ if (($enreg['type_doc']=='article')||($enreg['type_doc']=='Article')||($enreg['t
         $resultlinks = dbquery($reqlinks, array($monbib), "s");
         $nblinks = iimysqli_num_rows($resultlinks);
         if ($nblinks > 0){
-            echo "<b>Chercher par titre du périodique</b>\n";
+            echo "<b>".__("Search by journal title")."</b>\n";
             while ($rowlinks = iimysqli_result_fetch_array($resultlinks)){
                 $linktitle = $rowlinks["title"];
                 $linkurl = $rowlinks["url"];
@@ -162,7 +162,7 @@ if (in_array($enreg['type_doc'], $documentWithISBN, TRUE)){
         $resultlinks = dbquery($reqlinks, array($monbib), "s");
         $nblinks = iimysqli_num_rows($resultlinks);
         if ($nblinks > 0){
-            echo "<b>Chercher par ISBN</b>\n";
+            echo "<b>".__("Search by ISBN")."</b>\n";
             while ($rowlinks = iimysqli_result_fetch_array($resultlinks)){
                 $linktitle = $rowlinks["title"];
                 $linkurl = $rowlinks["url"];
@@ -191,7 +191,7 @@ if (in_array($enreg['type_doc'], $documentWithISBN, TRUE)){
         $resultlinks = dbquery($reqlinks, array($monbib), "s");
         $nblinks = iimysqli_num_rows($resultlinks);
         if ($nblinks > 0){
-            echo "<b>Chercher par titre du livre</b>\n";
+            echo "<b>".__("Search by book title")."</b>\n";
             while ($rowlinks = iimysqli_result_fetch_array($resultlinks)){
                 $linktitle = $rowlinks["title"];
                 $linkurl = $rowlinks["url"];
@@ -218,7 +218,7 @@ $listlinks="";
 $resultlinks = dbquery($reqlinks, array($monbib), "s");
 $nblinks = iimysqli_num_rows($resultlinks);
 if ($nblinks > 0){
-    echo "<b>Traiter la commande</b>\n";
+    echo "<b>".__("Processing the order")."</b>\n";
     while ($rowlinks = iimysqli_result_fetch_array($resultlinks)){
         $linktitle = $rowlinks["title"];
         $linkurl = $rowlinks["url"];

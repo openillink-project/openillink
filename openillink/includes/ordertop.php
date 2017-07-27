@@ -27,16 +27,16 @@
 // Orders common informations displayed on the lists
 //
 if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut == "guest")){
-    echo "Commande no : ".$id."</a>\n";
-    echo "  |  Date : ".$date;
-    echo "  |  Bibliothèque d'attribution : ";
+    echo format_string(__("Order number %order_id"), array('order_id' => $id)). "</a>\n";
+    echo "  |  ".__("Date")." : ".$date;
+    echo "  |  ".__("Assignment library")." : ";
 	if (!$is_my_bib) {
 		echo '<span class="notMyBib">'. $enreg['bibliotheque'] . '</span>';
 	} else {
 		echo $enreg['bibliotheque'];
 	}
     if ($enreg['localisation']){
-		echo "  |  Localisation : ";
+		echo "  |  ".__("Localisation")." : ";
 		if (!$is_my_localisation) {
 			echo '<span class="notMyLocalisation">'.htmlspecialchars($localisation).'</span>';
 		} else {
@@ -44,10 +44,10 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
 		}
 	}
 	if ($is_shared){
-		echo '<span class="isSharedOrder">Commande entrante partagée</span>';
+		echo '<span class="isSharedOrder">'.__("Shared incoming command").'</span>';
 	}
     if ($enreg['prepaye']=="on")
-        echo "  |  <b><font color=\"green\">Payé à l'avance</b></font>";
+        echo "  |  <b><font color=\"green\">".__("Paid in advance")."</b></font>";
     if (($enreg['type_doc']!='article') && ($enreg['type_doc']!='Article'))
         echo "&nbsp;&nbsp;&nbsp;<img src=\"img/book.png\">";
     if ($monaut != "guest"){
@@ -59,61 +59,61 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
             echo "&nbsp;&nbsp;&nbsp;<a href=\"#\" class=\"info\" onclick=\"return false\"><img src=\"img/alert.png\"><span>".htmlspecialchars($enreg['remarquespub'])."</span></a>";
     }
     echo "<br />\n";
-    echo "<b>Statut : \n";
+    echo "<b>". __("Status") ." : \n";
     echo "<a href=\"#\" class=\"statusLink\" onclick=\"return false\" title=\"".htmlspecialchars($statushelp)."\"><font color=\"".htmlspecialchars($statuscolor)."\">".htmlspecialchars($statusname)."</font></a></b>";
     if ((!empty($statusrenew)) && $statusrenew == 1){
         if (!empty($enreg['renouveler']))
             echo " le ".$enreg['renouveler'];
     }
     if ($enreg['urgent']=='1' || $enreg['urgent']=='oui')
-        echo " | <b><font color=\"red\">Commande URGENTE</font></b>\n";
+        echo " | <b><font color=\"red\">".__("Urgent order")."</font></b>\n";
     if ($enreg['urgent']=='3' || $enreg['urgent']=='non')
-        echo " | <font color=\"SteelBlue\">Commande pas prioritaire</font>\n";
+        echo " | <font color=\"SteelBlue\">".__("Non-priority order")."</font>\n";
     echo "<br />\n";
-    echo "<b>Lecteur : </b><a href=\"list.php?folder=search&champ=nom&term=".htmlspecialchars(urlencode ($nom))."\" title=\"chercher les commandes de ce lecteur\">\n";
+    echo "<b>". __("User") ." : </b><a href=\"list.php?folder=search&champ=nom&term=".htmlspecialchars(urlencode ($nom))."\" title=\"".__("Non-priority order")."\">\n";
     echo htmlspecialchars($nom)."</a>\n";
     if ($mail)
-        echo "  |  <b>E-mail : </b><a href=\"list.php?folder=search&champ=email&term=".htmlspecialchars(urlencode ($mail))."\" title=\"chercher les commandes de cet email\">".htmlspecialchars($mail)."</a>\n";
+        echo "  |  <b>". __("E-mail") ." : </b><a href=\"list.php?folder=search&champ=email&term=".htmlspecialchars(urlencode ($mail))."\" title=\"". __("Search for commands from this email") ."\">".htmlspecialchars($mail)."</a>\n";
     if ($enreg['adresse'])
-        echo "  |  <b>Adresse : </b>".htmlspecialchars($adresse);
+        echo "  |  <b>". __("Address") ." : </b>".htmlspecialchars($adresse);
     if ($enreg['service']) {
-		echo "  |  <b>Service : </b>";
+		echo "  |  <b>". __("Service") ." : </b>";
 		$service_class = "";
 		if (!$is_my_service) {
 			$service_class = ' class="notMyService" ';
 		}
-		echo "<a ".$service_class."href=\"list.php?folder=search&champ=service&term=".htmlspecialchars(urlencode ($enreg['service']))."\" title=\"chercher les commandes de ce service\">".htmlspecialchars($enreg['service'])."</a>";
+		echo "<a ".$service_class."href=\"list.php?folder=search&champ=service&term=".htmlspecialchars(urlencode ($enreg['service']))."\" title=\"".__("Search for commands from this service") ."\">".htmlspecialchars($enreg['service'])."</a>";
 	}
 	echo "<br />\n";
     if ($enreg['titre_article'])
-        echo "<b>Titre : </b><a href=\"list.php?folder=search&champ=atitle&term=".htmlspecialchars(urlencode ($enreg['titre_article']))."\" title=\"chercher les commandes pour ce titre\">".htmlspecialchars($enreg['titre_article'])."</a><br />\n";
+        echo "<b>". __("Title") ." : </b><a href=\"list.php?folder=search&champ=atitle&term=".htmlspecialchars(urlencode ($enreg['titre_article']))."\" title=\"". __("Search for commands from this title") ."\">".htmlspecialchars($enreg['titre_article'])."</a><br />\n";
     if ($enreg['auteurs'])
-        echo "<b>Auteur(s) : </b>".htmlspecialchars($enreg['auteurs'])."<br />\n";
+        echo "<b>". __("Author(s)") ." : </b>".htmlspecialchars($enreg['auteurs'])."<br />\n";
     if ($enreg['titre_periodique']){
         if (in_array($enreg['type_doc'],array('article', 'Article'), TRUE))
-            echo "<b>P&eacute;riodique : </b>\n";
+            echo "<b>". __("Journal") ." : </b>\n";
         if ($enreg['type_doc']=='journal')
-            echo "<b>P&eacute;riodique : </b>\n";
+            echo "<b>". __("Journal") ." : </b>\n";
         if (in_array($enreg['type_doc'],array('Livre', 'book'), TRUE))
-            echo "<b>Livre : </b>\n";
+            echo "<b>". __("Book") ." : </b>\n";
         if (in_array($enreg['type_doc'],array('thesis', 'These', 'Thèse'), TRUE))
-            echo "<b>Th&egrave;se : </b>\n";
+            echo "<b>". __("Thesis") ." : </b>\n";
         if (in_array($enreg['type_doc'],array('Chapitre', 'preprint', 'bookitem'), TRUE))
-            echo "<b>In : </b>\n";
+            echo "<b>". __("In") ." : </b>\n";
         if (in_array($enreg['type_doc'],array('autre', 'Autre', 'other'), TRUE))
-            echo "<b>In : </b>\n";
+            echo "<b>". __("In") ." : </b>\n";
         if (in_array($enreg['type_doc'],array('Congres', 'proceeding', 'conference'), TRUE))
-            echo "<b>In : </b>\n";
-        echo "</b><a href=\"list.php?folder=search&champ=title&term=".htmlspecialchars(urlencode ($enreg['titre_periodique']))."\" title=\"chercher les commandes pour ce titre\">".htmlspecialchars($enreg['titre_periodique'])."</a><br />\n";
+            echo "<b>". __("In") ." : </b>\n";
+        echo "</b><a href=\"list.php?folder=search&champ=title&term=".htmlspecialchars(urlencode ($enreg['titre_periodique']))."\" title=\"". __("Search for commands from this title") ."\">".htmlspecialchars($enreg['titre_periodique'])."</a><br />\n";
     }
     if ($enreg['volume'])
-        echo "<b>Vol. : </b>".htmlspecialchars($enreg['volume'])."  |  ";
+        echo "<b>". __("Volume") ." : </b>".htmlspecialchars($enreg['volume'])."  |  ";
     if ($enreg['numero'])
-        echo "<b>Issue : </b>".htmlspecialchars($enreg['numero'])."  |  ";
+        echo "<b>". __("Issue") ." : </b>".htmlspecialchars($enreg['numero'])."  |  ";
     if ($enreg['pages'])
-        echo "<b>Pages : </b>".htmlspecialchars($enreg['pages'])."  |  ";
+        echo "<b>". __("Pages") ." : </b>".htmlspecialchars($enreg['pages'])."  |  ";
     if ($enreg['annee'])
-        echo "<b>Ann&eacute;e : </b>".htmlspecialchars($enreg['annee']);
+        echo "<b>". __("Year") ." : </b>".htmlspecialchars($enreg['annee']);
     if ($enreg['PMID']) {
 		if ($enreg['volume'] or $enreg['pages'] or $enreg['annee']) {
 			echo "  |  ";

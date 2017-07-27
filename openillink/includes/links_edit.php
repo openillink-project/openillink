@@ -32,13 +32,13 @@ require_once ("connexion.php");
 require_once ("includes/toolkit.php");
 
 $id="";
-$montitle = "Gestion des liens";
+$montitle = __("Links management");
 $id= ((!empty($_GET['id'])) && isValidInput($_GET['id'],11,'s',false)) ? $_GET['id'] : "";
 if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")){
         if ($id!=""){
-            $myhtmltitle = $configname[$lang] . " : édition du lien " . $id;
-            $montitle = "Gestion des liens : édition de la fiche " . $id;
+            $myhtmltitle = $configname[$lang] . " : ".format_string(__("edition of link %id_link"), array('id_link' => $id));
+            $montitle = format_string(__("Links management : edition of card %id_card"), array('id_card' => htmlspecialchars($id)));
             require ("headeradmin.php");
             $req = "SELECT * FROM links WHERE id = ?";
             $result = dbquery($req, array($id), 'i');
@@ -70,9 +70,9 @@ if (!empty($_COOKIE['illinkid'])){
                 echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($linkid)."\">\n";
                 echo "<input name=\"action\" type=\"hidden\" value=\"update\">\n";
                 echo "<table id=\"hor-zebra\" class=\"genericEditFormOIL\">\n";
-                echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer les modifications\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=links'\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=links&id=" . $linkid . "'\"></td></tr>\n";
+                echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
+                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=links'\">\n";
+                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=links&id=" . $linkid . "'\"></td></tr>\n";
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
                 echo "<tr><td><b>Nom *</b></td><td>\n";
                 echo "<input name=\"title\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($linktitle) . "\"></td></tr>\n";
@@ -84,7 +84,7 @@ if (!empty($_COOKIE['illinkid'])){
                 echo "> OpenURL</td></tr>\n";
                 /* MDV - 15.12.2015 : added line to update link position in the displayed list of link  in the table*/
                 echo "<tr><td><b>Position dans la liste</b></td><td><input name=\"ordonnancement\" type=\"text\" size=\"5\" value=\"" . htmlspecialchars($linkordonnancement). "\">&nbsp;&nbsp;</td></tr>";
-                echo "<tr><td><b>Lien de recherche par identifiant</b></td><td>";
+                echo "<tr><td><b>".__("Search link by identifier")."</b></td><td>";
                 echo "<input name=\"search_issn\" value=\"1\" type=\"checkbox\"";
                 if ($linksearch_issn == 1)
                     echo " checked";
@@ -94,31 +94,31 @@ if (!empty($_COOKIE['illinkid'])){
                     echo " checked";
                 echo ">ISBN";
                 echo "</td></tr>\n";
-                echo "<tr><td><b>Lien de recherche par titre</b></td><td>";
+                echo "<tr><td><b>".__("Search link by title")."</b></td><td>";
                 echo "<input name=\"search_ptitle\" value=\"1\" type=\"checkbox\"";
                 if ($linksearch_ptitle == 1)
                     echo " checked";
-                echo ">de périodique&nbsp;&nbsp;|&nbsp;&nbsp; ";
+                echo ">".__("of journal")."&nbsp;&nbsp;|&nbsp;&nbsp; ";
                 echo "<input name=\"search_btitle\" value=\"1\" type=\"checkbox\"";
                 if ($linksearch_btitle == 1)
                     echo " checked";
-                echo ">du livre&nbsp;&nbsp;|&nbsp;&nbsp; ";
+                echo ">".__("of book")."&nbsp;&nbsp;|&nbsp;&nbsp; ";
                 echo "<input name=\"search_atitle\" value=\"1\" type=\"checkbox\"";
                 if ($linksearch_atitle == 1)
                     echo " checked";
-                echo ">Titre d'article ou chapitre\n";
+                echo ">".__("Article or chapter title")."\n";
                 echo "</td></tr>\n";
-                echo "<tr><td><b>Lien de commande</b></td><td>";
+                echo "<tr><td><b>".__("Order link")."</b></td><td>";
                 echo "<input name=\"order_ext\" value=\"1\" type=\"checkbox\"";
                 if ($linkorder_ext == 1)
                     echo " checked";
-                echo ">Formulaire externe &nbsp;&nbsp;|&nbsp;&nbsp; ";
+                echo ">".__("External form")." &nbsp;&nbsp;|&nbsp;&nbsp; ";
                 echo "<input name=\"order_form\" value=\"1\" type=\"checkbox\"";
                 if ($linkorder_form == 1)
                     echo " checked";
-                echo ">Formulaire interne\n";
+                echo ">".__("Internal form")."Formulaire interne\n";
                 echo "</td></tr>\n";
-                echo "<tr><td><b>Bibliothèque d'attribution</b></td><td>\n";
+                echo "<tr><td><b>".__("Assignment library")."</b></td><td>\n";
                 echo "<select name=\"library\">\n";
                 $reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
                 $optionslibraries="";
@@ -140,31 +140,31 @@ if (!empty($_COOKIE['illinkid'])){
                     echo $optionslibraries;
                 }
                 echo "</select></td></tr>\n";
-                echo "<tr><td><b>Transformer les arguments de l'url d'UTF-8 vers ISO-8859-1</b></td>".
+                echo "<tr><td><b>".__("Transform url arguments from UTF-8 to ISO-8859-1")."</b></td>".
                 '<td><input type="checkbox"  value="1" '.
                 (($linkurl_encoded == 1)?' checked="checked" ':'').
                 'name="url_encoded" id="url_encoded" /></td></tr>';
-                echo "<tr><td><b>Ignorer les mots du titre du périodique/livre</b></td>".
+                echo "<tr><td><b>".__("Ignore the words in title of the journal / book")."</b></td>".
                 "<td><input name=\"skip_words\" value=\"1\" type=\"checkbox\"".
-                ($linkskip_words == 1?" checked":'')."> non signifiants ('of', 'the', 'The', '&', 'and', '-') | ".
+                ($linkskip_words == 1?" checked":'')."> ".__("not significants")." ('of', 'the', 'The', '&', 'and', '-') | ".
                 "<input name=\"skip_txt_after_mark\" value=\"1\" type=\"checkbox\"".
-                ($linkskip_txt_after_mark == 1?" checked":'')."> après le symbole (':', '=', '.', ';', '(')</td></tr>\n";
-                echo "<tr><td><b>Lien actif</b></td><td><input name=\"active\" value=\"1\" type=\"checkbox\"";
+                ($linkskip_txt_after_mark == 1?" checked":'')."> ".__("after the symbol")." (':', '=', '.', ';', '(')</td></tr>\n";
+                echo "<tr><td><b>".__("Active link")."</b></td><td><input name=\"active\" value=\"1\" type=\"checkbox\"";
                 if ($linkactive == 1)
                     echo " checked";
                 echo "></td></tr>\n";
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-                echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer les modifications\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=links'\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=links&id=" . $linkid . "'\"></td></tr>\n";
+                echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
+                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=links'\">\n";
+                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=links&id=" . $linkid . "'\"></td></tr>\n";
                 echo "</table>\n";
                 echo "</form><br /><br />\n";
                 require ("footer.php");
             }
             else{
                 echo "<center><br/><b><font color=\"red\">\n";
-                echo "La fiche " . $id . " n'a pas été trouvé dans la base.</b></font>\n";
-                echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche ou contactez l'administrateur de la base : " . $configemail . "</b></center><br /><br /><br /><br />\n";
+                echo format_string(__("The card %id_card was not found in the database."), array('id_card' => htmlspecialchars($id)))."</b></font>\n";
+                echo "<br /><br /><b>".__("Please restart your search or contact the database administrator")." : " . $configemail . "</b></center><br /><br /><br /><br />\n";
                 require ("footer.php");
             }
         }
@@ -172,8 +172,8 @@ if (!empty($_COOKIE['illinkid'])){
             require ("header.php");
             //require ("menurech.php");
             echo "<center><br/><b><font color=\"red\">\n";
-            echo "La fiche n'a pas été trouvé dans la base.</b></font>\n";
-            echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche ou contactez l'administrateur de la base : " . $configemail . "</b></center><br /><br /><br /><br />\n";
+            echo __("The card %id_card was not found in the database.")."</b></font>\n";
+            echo "<br /><br /><b>".__("Please restart your search or contact the database administrator") . $configemail . "</b></center><br /><br /><br /><br />\n";
             echo "<br /><br />\n";
             echo "</ul>\n";
             echo "\n";
@@ -183,7 +183,7 @@ if (!empty($_COOKIE['illinkid'])){
     else{
         require ("header.php");
         echo "<center><br/><b><font color=\"red\">\n";
-        echo "Vos droits sont insuffisants pour éditer cette fiche</b></font></center><br /><br /><br /><br />\n";
+        echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
         require ("footer.php");
     }
 }

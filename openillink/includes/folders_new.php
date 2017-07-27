@@ -4,6 +4,7 @@
 // ***************************************************************************
 // This file is part of OpenILLink software.
 // Copyright (C) 2017 UNIGE.
+// Copyright (C) 2017 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -34,29 +35,29 @@ if (!empty($_COOKIE['illinkid'])){
 	if (($monaut == "admin")||($monaut == "sadmin")){
 		$myhtmltitle = $configname[$lang] . " : nouveau filtre ";
 		require ("headeradmin.php");
-		echo "<h1>Gestion des filtres : Création d'une nouvelle fiche </h1>\n";
+		echo "<h1>".__("Filters management : New card creation")."</h1>\n";
 		echo "<br /></b>";
 		echo "<ul>\n";
 		echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
 		echo "<input name=\"table\" type=\"hidden\" value=\"folders\">\n";
 		echo "<input name=\"action\" type=\"hidden\" value=\"new\">\n";
 		echo "<table id=\"hor-zebra\">\n";
-		echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer le nouveau filtre \">\n";
-		echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=folders'\"></td></tr>\n";
+		echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save the new filter")."\">\n";
+		echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=folders'\"></td></tr>\n";
 		echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
 
 		// title
-		echo "<tr><td><b>Titre *</b></td><td>\n";
+		echo "<tr><td><b>".__("Title")." *</b></td><td>\n";
 		echo "<input name=\"title\" type=\"text\" size=\"40\" value=\"\"></td></tr>\n";
 		echo "</td></tr>\n";
 
 		// description
-		echo "<tr><td><b>Description *</b></td><td>\n";
+		echo "<tr><td><b>".__("Description")." *</b></td><td>\n";
 		echo "<input name=\"description\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
 		echo "</td></tr>\n";
 
 		// user assigned to
-		echo "<tr><td><b>Attribué à *</b></td><td>\n";
+		echo "<tr><td><b>".__("Attributed to")." *</b></td><td>\n";
 		echo "user <select name=\"user\">\n";
 		echo "<option value=\"\"></option>";
 		$requsers="SELECT name, login FROM users ORDER BY name ASC";
@@ -75,7 +76,7 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "</select> &nbsp;&nbsp;| &nbsp;&nbsp; \n";
 
 		// library assigned to
-		echo "bibliothèque </b>&nbsp;&nbsp;\n";
+		echo __("library")." </b>&nbsp;&nbsp;\n";
 		echo "<select name=\"libraryassigned\">\n";
 		echo "<option value=\"\"></option>";
 		$reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
@@ -98,12 +99,12 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "</select></td></tr>\n";
 
 		// position
-		echo "<tr><td><b>Position *</b></td><td>\n";
+		echo "<tr><td><b>".__("Position")." *</b></td><td>\n";
 		echo "<input name=\"position\" type=\"text\" size=\"10\" value=\"\"></td></tr>\n";
 		echo "</td></tr>\n";
 
 		// Actif / unactif
-		echo "<tr><td><b>filtre actif</b></td>";
+		echo "<tr><td><b>".__("active filter")."</b></td>";
 		echo "<td><input name=\"active\" value=\"1\" type=\"checkbox\" checked></td></tr>\n";
 		echo "</td></tr>\n";
 		echo "</table>\n";
@@ -112,11 +113,11 @@ if (!empty($_COOKIE['illinkid'])){
 		// *****************************************************************************************
 		// *****************************************************************************************
 		// Start Query
-		echo "<h2>Critères 1</h2>\n";
+		echo "<h2>".__("Criterion")." 1</h2>\n";
 		echo "<table id=\"hor-zebra\">\n";
 
 		// library
-		echo "<tr><td><b>Bibliothèque d'attribution 1</b></td><td>\n";
+		echo "<tr><td><b>".__("Assignment library")." 1</b></td><td>\n";
 		echo "<select name=\"library1\">\n";
 		echo "<option value=\"\"></option>";
 		$reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
@@ -182,7 +183,7 @@ if (!empty($_COOKIE['illinkid'])){
 			$optionsstatus.="<option value=\"" . htmlspecialchars($labelCode) . "\">".htmlspecialchars($labelStatus)."</option>\n";
 		}
 
-		echo "<tr><td class=\"odd\"><b>AND Statut 1</b></td><td class=\"odd\">\n";
+		echo "<tr><td class=\"odd\"><b>AND ".__("Status")." 1</b></td><td class=\"odd\">\n";
 		echo "<select name=\"statuscode1\">\n";
 		echo "<option value=\"\"></option>";
 		echo $optionsstatus;
@@ -222,10 +223,10 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "</td></tr>\n";
 
 		// select localisations
-		echo "<tr><td><b>AND Localisation 1</b></td><td>\n";
+		echo "<tr><td><b>AND ".__("Localization")." 1</b></td><td>\n";
 		echo "<select name=\"localisation1\">\n";
 		echo "<option value=\"\"></option>";
-		echo "<optgroup label=\"" . $localisationintmessage[$lang] . "\">\n";
+		echo "<optgroup label=\"" . __("Our Localizations") . "\">\n";
 		$reqlocalisation="SELECT code, library, name1, name2, name3, name4, name5 FROM localizations WHERE library = ? ORDER BY name1 ASC";
 		$optionslocalisation="";
 		$resultlocalisation = dbquery($reqlocalisation, array($monbib), "s");
@@ -255,7 +256,7 @@ if (!empty($_COOKIE['illinkid'])){
 				$namelocalisationext["es"] = $rowlocalisationext["name5"];
 				$optionslocalisationext.="<option value=\"".htmlspecialchars($codelocalisationext)."\">" . htmlspecialchars($namelocalisationext[$lang]) . "</option>\n";
 			}
-			echo "<optgroup label=\"" . htmlspecialchars($localisationextmessage[$lang]) . "\">\n";
+			echo "<optgroup label=\"" . htmlspecialchars(__("Network libraries")) . "\">\n";
 			echo $optionslocalisationext;
 		}
 		echo "</select>\n";
@@ -265,10 +266,10 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "<tr><td></td><td>\n";
 		echo "<select name=\"localisation2\">\n";
 		echo "<option value=\"\"></option>";
-		echo "<optgroup label=\"" . $localisationintmessage[$lang] . "\">\n";
+		echo "<optgroup label=\"" . __("Our Localizations") . "\">\n";
 		echo $optionslocalisation;
 		// select other libraries
-		echo "<optgroup label=\"" . htmlspecialchars($localisationextmessage[$lang]) . "\">\n";
+		echo "<optgroup label=\"" . htmlspecialchars(__("Network libraries")) . "\">\n";
 		echo $optionslocalisationext;
 		echo "</select>\n";
 		echo " &nbsp; OR  &nbsp; \n";
@@ -277,10 +278,10 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "<tr><td></td><td>\n";
 		echo "<select name=\"localisation3\">\n";
 		echo "<option value=\"\"></option>";
-		echo "<optgroup label=\"" . $localisationintmessage[$lang] . "\">\n";
+		echo "<optgroup label=\"" . __("Our Localizations") . "\">\n";
 		echo $optionslocalisation;
 		// select other libraries
-		echo "<optgroup label=\"" . htmlspecialchars($localisationextmessage[$lang]) . "\">\n";
+		echo "<optgroup label=\"" . htmlspecialchars(__("Network libraries")) . "\">\n";
 		echo $optionslocalisationext;
 		echo "</select>\n";
 		echo " &nbsp; OR  &nbsp; \n";
@@ -289,10 +290,10 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "<tr><td></td><td>\n";
 		echo "<select name=\"localisation4\">\n";
 		echo "<option value=\"\"></option>";
-		echo "<optgroup label=\"" . $localisationintmessage[$lang] . "\">\n";
+		echo "<optgroup label=\"" . __("Our Localizations") . "\">\n";
 		echo $optionslocalisation;
 		// select other libraries
-		echo "<optgroup label=\"" . htmlspecialchars($localisationextmessage[$lang]) . "\">\n";
+		echo "<optgroup label=\"" . htmlspecialchars(__("Network libraries")) . "\">\n";
 		echo $optionslocalisationext;
 		echo "</select>\n";
 		echo " &nbsp; OR  &nbsp; \n";
@@ -301,17 +302,17 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "<tr><td></td><td>\n";
 		echo "<select name=\"localisation5\">\n";
 		echo "<option value=\"\"></option>";
-		echo "<optgroup label=\"" . $localisationintmessage[$lang] . "\">\n";
+		echo "<optgroup label=\"" . __("Our Localizations") . "\">\n";
 		echo $optionslocalisation;
 		// select other libraries
-		echo "<optgroup label=\"" . htmlspecialchars($localisationextmessage[$lang]) . "\">\n";
+		echo "<optgroup label=\"" . htmlspecialchars(__("Network libraries")) . "\">\n";
 		echo $optionslocalisationext;
 		echo "</select>\n";
 		echo "</td></tr>";
 
 
 		// units
-		echo "<tr><td class=\"odd\"><b>AND " . $unitmessage[$lang] . " 1</b></td><td class=\"odd\">\n";
+		echo "<tr><td class=\"odd\"><b>AND " . __("Unit") . " 1</b></td><td class=\"odd\">\n";
 		$unitsortlang = "name1";
 		if ($lang == "en")
 			$unitsortlang = "name2";
@@ -370,7 +371,7 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "</td></tr>\n";
 
 
-		echo "<tr><td><b>AND Compte 1</b></td><td>\n";
+		echo "<tr><td><b>AND ".__("Account")." 1</b></td><td>\n";
 		echo "<select name=\"compte1\">\n";
 		echo "<option value=\"\"></option>\n";
 		echo "<option value=\"empty\">Vide</option>";
@@ -379,12 +380,12 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "</td></tr>\n";
 
 
-		echo "<tr><td><b>AND date de renouvellement 1 </b></td><td>\n";
+		echo "<tr><td><b>AND ".__("Renewal date")." 1 </b></td><td>\n";
 		echo "<select name=\"renewdate1\">\n";
 		echo "<option value=\"\"></option>\n";
-		echo "<option value=\"past\">Pasée</option>";
-		echo "<option value=\"futur\">Future</option>";
-		echo "<option value=\"day\">Date du jour</option>";
+		echo "<option value=\"past\">".__("Past")."</option>";
+		echo "<option value=\"futur\">".__("Futur")."</option>";
+		echo "<option value=\"day\">".__("Day's date")."</option>";
 		echo "</select>\n";
 		echo "</td></tr>\n";
 
@@ -396,8 +397,8 @@ if (!empty($_COOKIE['illinkid'])){
 		// *****************************************************************************************
 		// *****************************************************************************************
 		// Start Query 2
-		echo "<h2>Critères 2</h2>\n";
-		echo "Combiner au précedent avec : <select name=\"bool1\">\n";
+		echo "<h2>".__("Criterion")." 2</h2>\n";
+		echo __("Combine with the previous one:")." <select name=\"bool1\">\n";
 		echo "<option value=\"AND\">AND</option>";
 		echo "<option value=\"OR\">OR</option>";
 		echo "<option value=\"NOT\">NOT</option>";
@@ -406,7 +407,7 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "<table id=\"hor-zebra\">\n";
 
 		// library
-		echo "<tr><td><b>Bibliothèque d'attribution 2</b></td><td>\n";
+		echo "<tr><td><b>".__("Assignment library")." 2</b></td><td>\n";
 		echo "<select name=\"library6\">\n";
 		echo "<option value=\"\"></option>";
 		$reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
@@ -472,7 +473,7 @@ if (!empty($_COOKIE['illinkid'])){
 			$optionsstatus.="<option value=\"" . htmlspecialchars($labelCode) . "\">".htmlspecialchars($labelStatus)."</option>\n";
 		}
 
-		echo "<tr><td class=\"odd\"><b>AND Statut 2</b></td><td class=\"odd\">\n";
+		echo "<tr><td class=\"odd\"><b>AND ".__("Status")." 2</b></td><td class=\"odd\">\n";
 		echo "<select name=\"statuscode6\">\n";
 		echo "<option value=\"\"></option>";
 		echo $optionsstatus;
@@ -512,10 +513,10 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "</td></tr>\n";
 
 		// select localisations
-		echo "<tr><td><b>AND Localisation 2</b></td><td>\n";
+		echo "<tr><td><b>AND ".__("Localization")." 2</b></td><td>\n";
 		echo "<select name=\"localisation6\">\n";
 		echo "<option value=\"\"></option>";
-		echo "<optgroup label=\"" . $localisationintmessage[$lang] . "\">\n";
+		echo "<optgroup label=\"". __("Our Localizations") . "\">\n";
 		$reqlocalisation="SELECT code, library, name1, name2, name3, name4, name5 FROM localizations WHERE library = ? ORDER BY name1 ASC";
 		$optionslocalisation="";
 		$resultlocalisation = dbquery($reqlocalisation, array($monbib), "s");
@@ -545,7 +546,7 @@ if (!empty($_COOKIE['illinkid'])){
 				$namelocalisationext["es"] = $rowlocalisationext["name5"];
 				$optionslocalisationext.="<option value=\"".htmlspecialchars($codelocalisationext)."\">" . htmlspecialchars($namelocalisationext[$lang]) . "</option>\n";
 			}
-			echo "<optgroup label=\"" . htmlspecialchars($localisationextmessage[$lang]) . "\">\n";
+			echo "<optgroup label=\"" . htmlspecialchars(__("Network libraries")) . "\">\n";
 			echo $optionslocalisationext;
 		}
 		echo "</select>\n";
@@ -555,10 +556,10 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "<tr><td></td><td>\n";
 		echo "<select name=\"localisation7\">\n";
 		echo "<option value=\"\"></option>";
-		echo "<optgroup label=\"" . $localisationintmessage[$lang] . "\">\n";
+		echo "<optgroup label=\"" . __("Our Localizations") . "\">\n";
 		echo $optionslocalisation;
 		// select other libraries
-		echo "<optgroup label=\"" . htmlspecialchars($localisationextmessage[$lang]) . "\">\n";
+		echo "<optgroup label=\"" . htmlspecialchars(__("Network libraries")) . "\">\n";
 		echo $optionslocalisationext;
 		echo "</select>\n";
 		echo " &nbsp; OR  &nbsp; \n";
@@ -567,10 +568,10 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "<tr><td></td><td>\n";
 		echo "<select name=\"localisation8\">\n";
 		echo "<option value=\"\"></option>";
-		echo "<optgroup label=\"" . $localisationintmessage[$lang] . "\">\n";
+		echo "<optgroup label=\"" . __("Our Localizations") . "\">\n";
 		echo $optionslocalisation;
 		// select other libraries
-		echo "<optgroup label=\"" . htmlspecialchars($localisationextmessage[$lang]) . "\">\n";
+		echo "<optgroup label=\"" . htmlspecialchars(__("Network libraries")) . "\">\n";
 		echo $optionslocalisationext;
 		echo "</select>\n";
 		echo " &nbsp; OR  &nbsp; \n";
@@ -579,10 +580,10 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "<tr><td></td><td>\n";
 		echo "<select name=\"localisation9\">\n";
 		echo "<option value=\"\"></option>";
-		echo "<optgroup label=\"" . $localisationintmessage[$lang] . "\">\n";
+		echo "<optgroup label=\"" . __("Our Localizations") . "\">\n";
 		echo $optionslocalisation;
 		// select other libraries
-		echo "<optgroup label=\"" . htmlspecialchars($localisationextmessage[$lang]) . "\">\n";
+		echo "<optgroup label=\"" . htmlspecialchars(__("Network libraries")) . "\">\n";
 		echo $optionslocalisationext;
 		echo "</select>\n";
 		echo " &nbsp; OR  &nbsp; \n";
@@ -591,17 +592,17 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "<tr><td></td><td>\n";
 		echo "<select name=\"localisation10\">\n";
 		echo "<option value=\"\"></option>";
-		echo "<optgroup label=\"" . $localisationintmessage[$lang] . "\">\n";
+		echo "<optgroup label=\"" . __("Our Localizations") . "\">\n";
 		echo $optionslocalisation;
 		// select other libraries
-		echo "<optgroup label=\"" . htmlspecialchars($localisationextmessage[$lang]) . "\">\n";
+		echo "<optgroup label=\"" . htmlspecialchars(__("Network libraries")) . "\">\n";
 		echo $optionslocalisationext;
 		echo "</select>\n";
 		echo "</td></tr>";
 
 
 		// units
-		echo "<tr><td class=\"odd\"><b>AND " . $unitmessage[$lang] . " 2</b></td><td class=\"odd\">\n";
+		echo "<tr><td class=\"odd\"><b>AND " . __("Unit") . " 2</b></td><td class=\"odd\">\n";
 		$unitsortlang = "name1";
 		if ($lang == "en")
 			$unitsortlang = "name2";
@@ -660,7 +661,7 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "</td></tr>\n";
 
 
-		echo "<tr><td><b>AND Compte 2</b></td><td>\n";
+		echo "<tr><td><b>AND ".__("Account")." 2</b></td><td>\n";
 		echo "<select name=\"compte2\">\n";
 		echo "<option value=\"\"></option>\n";
 		echo "<option value=\"empty\">Vide</option>";
@@ -669,12 +670,12 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "</td></tr>\n";
 
 
-		echo "<tr><td><b>AND date de renouvellement 2 </b></td><td>\n";
+		echo "<tr><td><b>AND ".__("Renewal date")." 2 </b></td><td>\n";
 		echo "<select name=\"renewdate2\">\n";
 		echo "<option value=\"\"></option>\n";
-		echo "<option value=\"past\">Pasée</option>";
-		echo "<option value=\"futur\">Future</option>";
-		echo "<option value=\"day\">Date du jour</option>";
+		echo "<option value=\"past\">".__("Past")."</option>";
+		echo "<option value=\"futur\">".__("Futur")."</option>";
+		echo "<option value=\"day\">".__("Day's date")."</option>";
 		echo "</select>\n";
 		echo "</td></tr>\n";
 
@@ -696,7 +697,7 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "<table id=\"hor-zebra\">\n";
 
 		// library
-		echo "<tr><td><b>Bibliothèque d'attribution 3</b></td><td>\n";
+		echo "<tr><td><b>".__("Assignment library")." 3</b></td><td>\n";
 		echo "<select name=\"library11\">\n";
 		echo "<option value=\"\"></option>";
 		$reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
@@ -762,7 +763,7 @@ if (!empty($_COOKIE['illinkid'])){
 			$optionsstatus.="<option value=\"" . htmlspecialchars($labelCode) . "\">".htmlspecialchars($labelStatus)."</option>\n";
 		}
 
-		echo "<tr><td class=\"odd\"><b>AND Statut 3</b></td><td class=\"odd\">\n";
+		echo "<tr><td class=\"odd\"><b>AND ".__("Status")." 3</b></td><td class=\"odd\">\n";
 		echo "<select name=\"statuscode11\">\n";
 		echo "<option value=\"\"></option>";
 		echo $optionsstatus;
@@ -802,10 +803,10 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "</td></tr>\n";
 
 		// select localisations
-		echo "<tr><td><b>AND Localisation 3</b></td><td>\n";
+		echo "<tr><td><b>AND ".__("Localization")." 3</b></td><td>\n";
 		echo "<select name=\"localisation11\">\n";
 		echo "<option value=\"\"></option>";
-		echo "<optgroup label=\"" . $localisationintmessage[$lang] . "\">\n";
+		echo "<optgroup label=\"" . __("Our Localizations") . "\">\n";
 		$reqlocalisation="SELECT code, library, name1, name2, name3, name4, name5 FROM localizations WHERE library = ? ORDER BY name1 ASC";
 		$optionslocalisation="";
 		$resultlocalisation = dbquery($reqlocalisation, array($monbib), "s");
@@ -835,7 +836,7 @@ if (!empty($_COOKIE['illinkid'])){
 				$namelocalisationext["es"] = $rowlocalisationext["name5"];
 				$optionslocalisationext.="<option value=\"".htmlspecialchars($codelocalisationext)."\">" . htmlspecialchars($namelocalisationext[$lang]) . "</option>\n";
 			}
-			echo "<optgroup label=\"" . htmlspecialchars($localisationextmessage[$lang]) . "\">\n";
+			echo "<optgroup label=\"" . htmlspecialchars(__("Network libraries")) . "\">\n";
 			echo $optionslocalisationext;
 		}
 		echo "</select>\n";
@@ -845,10 +846,10 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "<tr><td></td><td>\n";
 		echo "<select name=\"localisation12\">\n";
 		echo "<option value=\"\"></option>";
-		echo "<optgroup label=\"" . $localisationintmessage[$lang] . "\">\n";
+		echo "<optgroup label=\"" . __("Our Localizations") . "\">\n";
 		echo $optionslocalisation;
 		// select other libraries
-		echo "<optgroup label=\"" . htmlspecialchars($localisationextmessage[$lang]) . "\">\n";
+		echo "<optgroup label=\"" . htmlspecialchars(__("Network libraries")) . "\">\n";
 		echo $optionslocalisationext;
 		echo "</select>\n";
 		echo " &nbsp; OR  &nbsp; \n";
@@ -857,10 +858,10 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "<tr><td></td><td>\n";
 		echo "<select name=\"localisation13\">\n";
 		echo "<option value=\"\"></option>";
-		echo "<optgroup label=\"" . $localisationintmessage[$lang] . "\">\n";
+		echo "<optgroup label=\"" . __("Our Localizations") . "\">\n";
 		echo $optionslocalisation;
 		// select other libraries
-		echo "<optgroup label=\"" . htmlspecialchars($localisationextmessage[$lang]) . "\">\n";
+		echo "<optgroup label=\"" . htmlspecialchars(__("Network libraries")) . "\">\n";
 		echo $optionslocalisationext;
 		echo "</select>\n";
 		echo " &nbsp; OR  &nbsp; \n";
@@ -869,10 +870,10 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "<tr><td></td><td>\n";
 		echo "<select name=\"localisation14\">\n";
 		echo "<option value=\"\"></option>";
-		echo "<optgroup label=\"" . $localisationintmessage[$lang] . "\">\n";
+		echo "<optgroup label=\"" . __("Our Localizations") . "\">\n";
 		echo $optionslocalisation;
 		// select other libraries
-		echo "<optgroup label=\"" . htmlspecialchars($localisationextmessage[$lang]) . "\">\n";
+		echo "<optgroup label=\"" . htmlspecialchars(__("Network libraries")) . "\">\n";
 		echo $optionslocalisationext;
 		echo "</select>\n";
 		echo " &nbsp; OR  &nbsp; \n";
@@ -881,17 +882,17 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "<tr><td></td><td>\n";
 		echo "<select name=\"localisation15\">\n";
 		echo "<option value=\"\"></option>";
-		echo "<optgroup label=\"" . $localisationintmessage[$lang] . "\">\n";
+		echo "<optgroup label=\"" . __("Our Localizations") . "\">\n";
 		echo $optionslocalisation;
 		// select other libraries
-		echo "<optgroup label=\"" . htmlspecialchars($localisationextmessage[$lang]) . "\">\n";
+		echo "<optgroup label=\"" . htmlspecialchars(__("Network libraries")) . "\">\n";
 		echo $optionslocalisationext;
 		echo "</select>\n";
 		echo "</td></tr>";
 
 
 		// units
-		echo "<tr><td class=\"odd\"><b>AND " . $unitmessage[$lang] . " 3</b></td><td class=\"odd\">\n";
+		echo "<tr><td class=\"odd\"><b>AND " . __("Unit") . " 3</b></td><td class=\"odd\">\n";
 		$unitsortlang = "name1";
 		if ($lang == "en")
 			$unitsortlang = "name2";
@@ -950,7 +951,7 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "</td></tr>\n";
 
 
-		echo "<tr><td><b>AND Compte 3</b></td><td>\n";
+		echo "<tr><td><b>AND ".__("Account")." 3</b></td><td>\n";
 		echo "<select name=\"compte3\">\n";
 		echo "<option value=\"\"></option>\n";
 		echo "<option value=\"empty\">Vide</option>";
@@ -959,19 +960,19 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "</td></tr>\n";
 
 
-		echo "<tr><td><b>AND date de renouvellement 3 </b></td><td>\n";
+		echo "<tr><td><b>AND ".__("Renewal date")." 3 </b></td><td>\n";
 		echo "<select name=\"renewdate3\">\n";
 		echo "<option value=\"\"></option>\n";
-		echo "<option value=\"past\">Pasée</option>";
-		echo "<option value=\"futur\">Future</option>";
-		echo "<option value=\"day\">Date du jour</option>";
+		echo "<option value=\"past\">".__("Past")."</option>";
+		echo "<option value=\"futur\">".__("Futur")."</option>";
+		echo "<option value=\"day\">".__("Day's date")."</option>";
 		echo "</select>\n";
 		echo "</td></tr>\n";
 
 
 		echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-		echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer le nouveau filtre \">\n";
-		echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=folders'\"></td></tr>\n";
+		echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save the new filter")."\">\n";
+		echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=folders'\"></td></tr>\n";
 		echo "</table>\n";
 		echo "</form><br /><br />\n";
 		require ("footer.php");
@@ -979,7 +980,7 @@ if (!empty($_COOKIE['illinkid'])){
 	else{
 		require ("header.php");
 		echo "<center><br/><b><font color=\"red\">\n";
-		echo "Vos droits sont insuffisants pour consulter cette page</b></font></center><br /><br /><br /><br />\n";
+		echo __("Your rights are insufficient to view this page")."</b></font></center><br /><br /><br /><br />\n";
 		require ("footer.php");
 	}
 }

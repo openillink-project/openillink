@@ -45,37 +45,37 @@ if (!empty($_COOKIE['illinkid']))
     $endDate = date("d.m.Y",mktime(0, 0, 0, 12, 31, date("Y")-1));
 
     // contenu ici
-    echo "<h1>Rapports et statitstiques</h1>\n";
+    echo "<h1>".__("Reports and statistics")."</h1>\n";
     echo "<center>";
     echo "<table>\n";
     echo "<form action=\"reports.php\" method=\"GET\">\n";
-    echo "<tr> <td>Période du</td> <td><input name=\"datedu\" type=\"text\" size=\"10\" value=\"".$beginDate/*madate*/. "\" /> au <input name=\"dateau\" type=\"text\" size=\"10\" value=\"".$endDate/*madate*/. "\" /> </td> </tr>\n";
-    echo "<tr> <td>Type du rapport</td> <td> <select name=\"type\"> <option value=\"liste_tout\">Listing total</> <option value=\"liste_service\">Listing par service</> <option value=\"resume_service\">Résumé par service</> <option value=\"stats\">Statistiques</>  </select> </td> </tr>\n";
+    echo "<tr> <td>".__("Period from")."</td> <td><input name=\"datedu\" type=\"text\" size=\"10\" value=\"".$beginDate/*madate*/. "\" /> ".__("to the")." <input name=\"dateau\" type=\"text\" size=\"10\" value=\"".$endDate/*madate*/. "\" /> </td> </tr>\n";
+    echo "<tr> <td>".__("Type of report")."</td> <td> <select name=\"type\"> <option value=\"liste_tout\">".__("Total listing")."</> <option value=\"liste_service\">".__("Listing by service")."</> <option value=\"resume_service\">".__("Summary by service")."</> <option value=\"stats\">".__("Statistics")."</>  </select> </td> </tr>\n";
     /*<option value=\"groupe_service\">Listing par service groupé par mail</>*/ // option désactivtée suite à discussion avec IK
     //echo "<tr> <td>Status</td> <td> <select name=\"stade\"> <option value=\"tout\">Reçues et envoyées + Invoice + Soldées</> <option value=\"recue_invoice\">Reçue et envoyée + Invoice</> <option value=\"recue_envoyee\">Reçues et envoyées</> <option value=\"invoice\">Invoice</> <option value=\"soldee\">Soldées</> </select> </td> </tr>\n";
-    echo "<tr> <td>Format du rapport</td> <td> <select name=\"format\"> <option value=\"csv\">text/csv</> <option value=\"tab\">texte/tabulé</>  </select> </td> </tr>\n";
-    echo "<tr><td /> <input type=\"hidden\" name=\"biblio\" value=\"". htmlspecialchars($monbib) ."\" /> <td> <input type=\"submit\" name=\"do_report\" value=\"générer\" /> </td></tr>\n";
+    echo "<tr> <td>".__("Report Format")."</td> <td> <select name=\"format\"> <option value=\"csv\">".__("text/csv")."</> <option value=\"tab\">".__("text/tab")."</>  </select> </td> </tr>\n";
+    echo "<tr><td /> <input type=\"hidden\" name=\"biblio\" value=\"". htmlspecialchars($monbib) ."\" /> <td> <input type=\"submit\" name=\"do_report\" value=\"".__("Generate")."\" /> </td></tr>\n";
     echo "</form>\n";
     echo "</table>\n";
     echo "</center>";
 
-    echo "<h1>Quel option choisir?</h1>";
-    echo boxContent('liste_tout', "LISTING TOTAL", "<div>Liste des commandes dont la date d’envoi est inclue dans la période indiquée lors de la génération du fichier ; la liste des résultats est triée par date d’envoi décroissante et reporte toutes les colonnes de la table.</div>".
-    '<div>Liste des colonnes actuellement disponibles :<br/>'.
+    echo "<h1>".__("Which option to choose?")."</h1>";
+    echo boxContent('liste_tout', "LISTING TOTAL", "<div>".__("List of commands whose sending date is included in the period indicated when the file was generated; The result list is sorted by decreasing send date and reports all columns in the table.")."</div>".
+    '<div>'.__("List of currently available columns:").'<br/>'.
     'refinterbib, nom, prénom, mail, illinkid, date , envoye, prix, localisation, type_doc, titre_periodique, annee, numero, pages, titre_article, stade, uid, issn, eissn</div>'.
-    '<div>Cette liste peut changer dynamiquement à l’ajout des nouvelles colonnes.</div>');
+    '<div>'.__("This list can change dynamically when new columns are added.").'</div>');
 
     echo boxContent('liste_service', "LISTING PAR SERVICE", 
-    "<div>Le document généré avec cette option détaille les commandes avec statut « Reçue et envoyée au client », qui sont assignées à la bibliothèque à laquelle l’utilisateur qui génère la statistique est rattaché.</div>".
-    "<div>Les commandes retenues sont uniquement celles pour qui la date de saisie ou la date d’envoi est comprise dans l’intervalle de dates indiqué au moment de la génération du document.</div>".
-    "<div>Pour chaque commande les colonnes suivantes sont renseignées :<br/>".
+    "<div>".__("The document generated with this option details the commands with the status 'Received and sent to the client', which are assigned to the library to the user who generates the statistic is attached.")."</div>".
+    "<div>".__("The selected orders are only those for which the date of entry or the date of sending is within the range of dates indicated at the time of the generation of the document.")."</div>".
+    "<div>".__("For each order, the following columns are filled in:")."<br/>".
     "refinterbib, nom, prénom, mail, illinkid, date, envoye, prix, localisation, type_doc, titre_periodique, annee, volume, numero, pages, titre_article, stade, uid, issn, eissn.</div>");
 
     echo boxContent('resume_service', "RÉSUMÉ PAR SERVICE", 
-    "<div>Liste des commandes regroupées par service, sont détaillées:<ul><li>l’organisation (qui reste en principe vide à l’heure actuelle);</li><li>le service i.e. l’unité qui a fait la demande, désigné par son code;</li><li>le CGRA du service, i.e. l’unité qui a effectué la demande;</li><li>le nombre de commandes pour le service/CGRA;</li><li>le prix, correspondant au montant total facturé pour l’ensemble des commandes selon les données renseignées dans openillink.</li></ul>Uniquement les commandes avec statut « Reçue et envoyée au client » sont prises en compte.</div><div/>");
+    "<div>".__("List of orders grouped by service, are detailed:")."<ul><li>".__("The organization (which in principle is empty at the moment);")."</li><li>".__("The service i.e. the unit that made the request, designated by its code;")."</li><li>".__("The CGRA of the service, i.e. the unit that made the request;")."</li><li>".__("The number of orders for the service / CGRA;")."</li><li>".__("The price, corresponding to the total amount invoiced for all orders according to the data entered in openillink.")."</li></ul>".__("Only orders with status 'Received and sent to the customer' are taken into account.")."</div><div/>");
 
-    echo boxContent('stats', "STATISTIQUES", 
-    "Contient trois tableaux:<ul><li>commandes par statut (numéro total et en pourcentage);</li><li> commandes par localisation (numéro total et en pourcentage);</li><li> détail des commandes facturée par localisation (numéro total et en pourcentage)</li></ul>Uniquement les commandes avec statut soldé figurent dans cette statistique.<div/>");
+    echo boxContent('stats', "STATISTIQUES", __("Contains three tables:").
+    "<ul><li>".__("Orders by status (total number and percentage);")."</li><li>".__("Orders by location (total number and percentage);")."</li><li>".__("Order detail invoiced by location (total number and percentage)")."</li></ul>".__("Only sales-ordered orders are included in this statistic.")."<div/>");
     echo "</div></div>\n";
     require ("includes/footer.php");
 	

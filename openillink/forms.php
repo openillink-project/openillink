@@ -65,7 +65,7 @@ if (!empty($_COOKIE['illinkid'])){
                 include ($myform);
         }
         else{
-            echo "<br/><br/><center><b>Missing id or form parameters</b></center><br/><br/><br/><br/>\n";
+            echo "<br/><br/><center><b>".__("Missing id or form parameters")."</b></center><br/><br/><br/><br/>\n";
             require ("includes/footer.php");
         }
     }

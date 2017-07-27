@@ -26,17 +26,17 @@
 // ***************************************************************************
 // Units table : record creation form
 // 
-require ("config.php");
+require_once ("config.php");
 require ("authcookie.php");
 require_once ("connexion.php");
 if (!empty($_COOKIE['illinkid']))
 {
 if (($monaut == "admin")||($monaut == "sadmin"))
 {
-$myhtmltitle = $configname[$lang] . " : nouvelle unité du réseau ";
+$myhtmltitle = $configname[$lang] . " : ".__("New network unit");
 require ("headeradmin.php");
 
-echo "<h1>Gestion des unités : Création d'une nouvelle fiche </h1>\n";
+echo "<h1>".__("Units management : new unit record")."</h1>\n";
 echo "<br /></b>";
 echo "<ul>\n";
 echo "<script type=\"text/javascript\">\n";
@@ -56,18 +56,18 @@ echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\"
 echo "<input name=\"table\" type=\"hidden\" value=\"units\">\n";
 echo "<input name=\"action\" type=\"hidden\" value=\"new\">\n";
 echo "<table id=\"hor-zebra\">\n";
-echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer la nouvelle unité \">\n";
-echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=units'\"></td></tr>\n";
+echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save new unit")."\">\n";
+echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=units'\"></td></tr>\n";
 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-echo "<tr><td><b>Code *</b></td><td>\n";
+echo "<tr><td><b>".__("Code")." *</b></td><td>\n";
 echo "<input name=\"code\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
 echo "</td></tr>\n";
-echo "<tr><td class=\"odd\"><b>".$guiLabelName1[$lang]." *</b></td><td class=\"odd\"><input name=\"name1\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-echo "<tr><td><b>".$guiLabelName2[$lang]."</b></td><td><input name=\"name2\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-echo "<tr><td class=\"odd\"><b>".$guiLabelName3[$lang]."</b></td><td class=\"odd\"><input name=\"name3\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-echo "<tr><td><b>".$guiLabelName4[$lang]."</b></td><td><input name=\"name4\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-echo "<tr><td class=\"odd\"><b>".$guiLabelName5[$lang]."</b></td><td class=\"odd\"><input name=\"name5\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-echo "<tr><td><b>Bibliothèque d'attribution</b></td><td>\n";
+echo "<tr><td class=\"odd\"><b>".__("Name in French")." *</b></td><td class=\"odd\"><input name=\"name1\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+echo "<tr><td><b>".__("Name in English")."</b></td><td><input name=\"name2\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+echo "<tr><td class=\"odd\"><b>".__("Name in German")."</b></td><td class=\"odd\"><input name=\"name3\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+echo "<tr><td><b>".__("Name in Italian")."</b></td><td><input name=\"name4\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+echo "<tr><td class=\"odd\"><b>".__("Name in Spanish")."</b></td><td class=\"odd\"><input name=\"name5\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+echo "<tr><td><b>".__("Assignment library")."</b></td><td>\n";
 echo "<select name=\"library\">\n";
 $reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
 $optionslibraries="";
@@ -89,7 +89,7 @@ $optionslibraries.=">" . htmlspecialchars($namelibraries[$lang]) . "</option>\n"
 echo $optionslibraries;
 }
 echo "</select></td></tr>\n";
-echo "<tr><td class=\"odd\"><b>".$guiDepartment[$lang]."</b></td><td class=\"odd\">\n";
+echo "<tr><td class=\"odd\"><b>".__("Department")."</b></td><td class=\"odd\">\n";
 echo "<select name=\"department\" id=\"department\" onchange=\"ajoutevaleur('department');\">\n";
 echo "<option value=\"\"> </option>\n";
 $reqdepartment = "SELECT department FROM units WHERE department != '' GROUP BY department ORDER BY department ASC";
@@ -102,11 +102,11 @@ $optionsdepartment.="<option value=\"" . htmlspecialchars($codedepartment) . "\"
 $optionsdepartment.=">" . htmlspecialchars($codedepartment) . "</option>\n";
 }
 echo $optionsdepartment;
-echo "<option value=\"new\">" . $addvaluemessage[$lang] . "</option>\n";
+echo "<option value=\"new\">" . __("Add new value...") . "</option>\n";
 echo "</select>\n";
 echo "&nbsp;<input name=\"departmentnew\" id=\"departmentnew\" type=\"text\" size=\"30\" value=\"\" style=\"display:none\">\n";
 echo "</td></tr>\n";
-echo "<tr><td><b>".$guiFaculty[$lang]."</b></td><td>\n";
+echo "<tr><td><b>".__("Faculty")."</b></td><td>\n";
 echo "<select name=\"faculty\" id=\"faculty\" onchange=\"ajoutevaleur('faculty');\">\n";
 echo "<option value=\"\"> </option>\n";
 $reqfaculty = "SELECT faculty FROM units WHERE faculty != '' GROUP BY faculty ORDER BY faculty ASC";
@@ -119,16 +119,16 @@ $optionsfaculty.="<option value=\"" . htmlspecialchars($codefaculty) . "\"";
 $optionsfaculty.=">" . htmlspecialchars($codefaculty) . "</option>\n";
 }
 echo $optionsfaculty;
-echo "<option value=\"new\">" . $addvaluemessage[$lang] . "</option>\n";
+echo "<option value=\"new\">" . __("Add new value...") . "</option>\n";
 echo "</select>\n";
 echo "&nbsp;<input name=\"facultynew\" id=\"facultynew\" type=\"text\" size=\"30\" value=\"\" style=\"display:none\">\n";
 echo "</td></tr>\n";
-echo "<tr><td class=\"odd\"><b>Affichage selon IP</b></td><td class=\"odd\"><input name=\"ip1\" value=\"1\" type=\"checkbox\">IP interne 1 &nbsp;&nbsp;|&nbsp;&nbsp; <input name=\"ip2\" value=\"1\" type=\"checkbox\">IP interne 2 &nbsp;&nbsp;|&nbsp;&nbsp; <input name=\"ipext\" value=\"1\" type=\"checkbox\">IP externe</td></tr>\n";
-echo "<tr><td><b>".$guiNeedValidation[$lang]."</b></td><td>\n";
+echo "<tr><td class=\"odd\"><b>".__("IP-based display")."</b></td><td class=\"odd\"><input name=\"ip1\" value=\"1\" type=\"checkbox\">".__("Internal IP 1")." &nbsp;&nbsp;|&nbsp;&nbsp; <input name=\"ip2\" value=\"1\" type=\"checkbox\">".__("Internal IP 2")." &nbsp;&nbsp;|&nbsp;&nbsp; <input name=\"ipext\" value=\"1\" type=\"checkbox\">IP externe</td></tr>\n";
+echo "<tr><td><b>".__("Need validation")."</b></td><td>\n";
 echo "<input name=\"validation\" value=\"1\" type=\"checkbox\"></td></tr>\n";
 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer la nouvelle unité \">\n";
-echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=units'\"></td></tr>\n";
+echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save new unit")."\">\n";
+echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=units'\"></td></tr>\n";
 echo "</table>\n";
 echo "</form><br /><br />\n";
 require ("footer.php");
@@ -137,7 +137,7 @@ else
 {
 require ("header.php");
 echo "<center><br/><b><font color=\"red\">\n";
-echo "Vos droits sont insuffisants pour consulter cette page</b></font></center><br /><br /><br /><br />\n";
+echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
 require ("footer.php");
 }
 }

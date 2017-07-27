@@ -28,7 +28,7 @@
 //
 $link=mysql_connect("$configmysqlhost","$configmysqllogin","$configmysqlpwd");
 $db = "$configmysqldb";
-mysql_select_db($db,$link) or die("Impossible de se connecter à $db");
+mysql_select_db($db,$link) or die(format_string(__("Impossible to connect to %database"), array('database' => $db)));
 mysql_set_charset('utf8',$link);
 $charset = mysql_client_encoding($link);
 ?>

@@ -27,20 +27,20 @@
 // Units table : List of all the units defined on the internal ILL network
 // 
 
-require ("config.php");
+require_once ("config.php");
 require ("authcookie.php");
 require_once ("connexion.php");
 if (!empty($_COOKIE['illinkid']))
 {
 if (($monaut == "admin")||($monaut == "sadmin"))
 {
-$myhtmltitle = $configname[$lang] . " : gestion des unités";
+$myhtmltitle = $configname[$lang] . " : ".__("Units management");
 require ("headeradmin.php");
 echo "\n";
 // 
 // Localizations List
 // 
-echo "<h1>Gestion des unités du réseau</h1>\n";
+echo "<h1>".__("Management of network units")."</h1>\n";
 $req = "SELECT * FROM units ORDER BY name1 ASC, code ASC";// LIMIT 0, 200";
 $result = dbquery($req);
 $total_results = iimysqli_num_rows($result);
@@ -50,9 +50,9 @@ $nb = $total_results;
 echo "</center>\n";
 echo "<b><br/>".$total_results;
 if ($total_results == 1)
-echo " unité trouvée</b></font>\n";
+echo " ".__("unit found")."</b></font>\n";
 else
-echo " unités trouvées</b></font>\n";
+echo " ".__("units found")."</b></font>\n";
 echo "<br/>";
 echo "<br/>";
 
@@ -63,20 +63,20 @@ echo "</colgroup>\n";
 echo "\n";
 echo "<thead>\n";
 echo "<tr>\n";
-echo "<th scope=\"col\">code</th>\n";
-echo "<th scope=\"col\">".$guiLabelName1[$lang]."</th>\n";
+echo "<th scope=\"col\">".__("Code")."</th>\n";
+echo "<th scope=\"col\">".__("Name in French")."</th>\n";
 // echo "<th scope=\"col\">name2</th>\n";
 // echo "<th scope=\"col\">name3</th>\n";
 // echo "<th scope=\"col\">name4</th>\n";
 // echo "<th scope=\"col\">name5</th>\n";
-echo "<th scope=\"col\">".$guiLibrary[$lang]."</th>\n";
-echo "<th scope=\"col\">".$guiDepartment[$lang]."</th>\n";
-echo "<th scope=\"col\">".$guiFaculty[$lang]."</th>\n";
-echo "<th scope=\"col\">ip int.1</th>\n";
-echo "<th scope=\"col\">ip int.2</th>\n";
-echo "<th scope=\"col\">ip ext.</th>\n";
-echo "<th scope=\"col\">".$guiNeedValidation[$lang]."</th>\n";
-echo "<th scope=\"col\">".$guiEdit[$lang]."</th>\n";
+echo "<th scope=\"col\">".__("Library")."</th>\n";
+echo "<th scope=\"col\">".__("Department")."</th>\n";
+echo "<th scope=\"col\">".__("Faculty")."</th>\n";
+echo "<th scope=\"col\">".__("ip int.1")."</th>\n";
+echo "<th scope=\"col\">".__("ip int.2")."</th>\n";
+echo "<th scope=\"col\">".__("ip ext.")."</th>\n";
+echo "<th scope=\"col\">".__("Need validation")."</th>\n";
+echo "<th scope=\"col\">".__("Edit")."</th>\n";
 echo "</tr>\n";
 echo "</thead>\n";
 echo "<tbody>\n";
@@ -121,7 +121,7 @@ echo "</tbody>\n";
 echo "</table>\n";
 echo "\n";
 echo "<br/><br/><ul>\n";
-echo "<b><a href=\"new.php?table=units\">Ajouter une nouvelle unité </a></b>\n";
+echo "<b><a href=\"new.php?table=units\">".__("Add a new unit")." </a></b>\n";
 echo "<br/><br/>\n";
 echo "</ul>\n";
 require ("footer.php");
@@ -129,7 +129,7 @@ require ("footer.php");
 else
 {
 require ("header.php");
-echo "Vos droits sont insuffisants pour consulter cette page</b></font></center><br /><br /><br /><br />\n";
+echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
 require ("footer.php");
 }
 }

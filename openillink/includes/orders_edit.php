@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
@@ -32,7 +32,7 @@ require_once ("includes/toolkit.php");
 
 if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     $id= ((!empty($_GET['id'])) && isValidInput($_GET['id'],8,'s',false)) ? $_GET['id'] : NULL;
-    $myhtmltitle = "Commandes de " . $configinstitution[$lang] . " : edition de la commande " . htmlspecialchars($id);
+    $myhtmltitle = format_string(__("%institution_name: order %order_id edition"), array('institution_name' => $configinstitution[$lang], 'order_id' => $id));
     if ($id){
         $req = "select * from orders where illinkid like ? order by illinkid desc";
         $result = dbquery($req, array($id), 'i');
@@ -62,10 +62,10 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 // echo "<input name=\"referer\" type=\"hidden\"  value=\"".$enreg['referer']."\">\n";
             echo "<input name=\"doi\" type=\"hidden\"  value=\"".htmlspecialchars($enreg['doi'])."\">\n";
             echo "<input name=\"historique\" type=\"hidden\"  value=\"".htmlspecialchars($enreg['historique'])."\">\n";
-            echo "<b><font color=\"red\">Modification de la commande ".htmlspecialchars($id)."</font></b>\n";
+            echo "<b><font color=\"red\">".format_string(__("Order %order_id modification"), array('order_id' => htmlspecialchars($id)))."</font></b>\n";
             echo "<input name=\"action\" type=\"hidden\" value=\"update\">\n";
             echo "<input name=\"modifs\" type=\"hidden\" value=\"\">\n";
-            echo "&nbsp;&nbsp;|&nbsp;&nbsp;<b><label for=\"bibliotheque\">Attribuée à la bibliothèque</label></b> <select name=\"bibliotheque\" id=\"bibliotheque\" onchange=\"textchanged('bibliotheque')\">\n";
+            echo "&nbsp;&nbsp;|&nbsp;&nbsp;<b><label for=\"bibliotheque\">".__("Attributed to library")."</label></b> <select name=\"bibliotheque\" id=\"bibliotheque\" onchange=\"textchanged('bibliotheque')\">\n";
             $reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
             $optionslibraries="";
             $resultlibraries = dbquery($reqlibraries);
@@ -87,7 +87,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo $optionslibraries;
             }
             echo "</select>\n";
-            echo "&nbsp;&nbsp;|&nbsp;&nbsp;<input type=\"submit\" value=\"" . $submitmessage[$lang] . "\" onsubmit=\"javascript:okcooc();document.body.style.cursor = 'wait';\"\n";
+            echo "&nbsp;&nbsp;|&nbsp;&nbsp;<input type=\"submit\" value=\"" . __("Submit") . "\" onsubmit=\"javascript:okcooc();document.body.style.cursor = 'wait';\">\n";
             echo "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n";
             echo "<tr><td valign=\"top\" width=\"90%\">\n";
             echo "<div class=\"box\"><div class=\"box-content\">\n";
@@ -96,7 +96,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             echo "<tr><td colspan=\"4\">\n";
             // Begin Status Field
 			echo '<label for="stade">';
-            echo $statusmessage[$lang] . " *</label> : \n";
+            echo __("Status") . " *</label> : \n";
             echo "<select name=\"stade\" id=\"stade\" onchange=\"textchanged('stade')\">\n";
             $reqstatus="SELECT code, title1, title2, title3, title4, title5 FROM status ORDER BY code ASC";
             $optionsstatus="";
@@ -120,10 +120,10 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             $localisationok = 0;
             echo "&nbsp;&nbsp;&nbsp;&nbsp;\n";
 			echo '<label for="localisation">';
-            echo $localisationmessage[$lang] . "</label> : &nbsp;\n";
+            echo __("Localization") . "</label> : &nbsp;\n";
             echo "<select name=\"localisation\" id=\"localisation\" onchange=\"textchanged('localisation')\">\n";
             echo "<option value=\"\"></option>";
-            echo "<optgroup label=\"" . $localisationintmessage[$lang] . "\">\n";
+            echo "<optgroup label=\"" . __("Our Localizations") . "\">\n";
             $reqlocalisation="SELECT code, library, name1, name2, name3, name4, name5 FROM localizations WHERE library = ? ORDER BY name1 ASC";
             $optionslocalisation="";
             $resultlocalisation = dbquery($reqlocalisation,array($monbib),'s');
@@ -162,7 +162,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                     }
                     $optionslocalisationext.=">" . htmlspecialchars($namelocalisationext[$lang]) . "</option>\n";
                 }
-                echo "<optgroup label=\"" . $localisationextmessage[$lang] . "\">\n";
+                echo "<optgroup label=\"" . __("Network libraries") . "\">\n";
                 echo $optionslocalisationext;
             }
             if (0 == $localisationok){
@@ -193,12 +193,12 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             // Start Priority Field
             echo "<tr><td colspan=\"4\">\n";
 			echo '<label for="urgent">';
-            echo $prioritymessage[$lang] . "</label> : \n";
+            echo __("Priority") . "</label> : \n";
             echo "<select name=\"urgent\" id=\"urgent\" onchange=\"textchanged('priorite')\">\n";
             echo "<option value=\"2\"";
             if ($enreg['urgent']=='2')
                 echo " selected";
-            echo ">" . $prioritynormmessage[$lang] . "</option>\n";
+            echo ">" . __("Normal") . "</option>\n";
             echo "<option value=\"1\"";
             if ($enreg['urgent']=='1')
                 echo " selected";
@@ -206,13 +206,13 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             echo "<option value=\"3\"";
             if ($enreg['urgent']=='3')
                 echo " selected";
-            echo ">" . $prioritynonemessage[$lang] . "</option>\n";
+            echo ">" . __("Not a priority") . "</option>\n";
             echo "</select>\n";
             // END Priority Field
 
             // Start Origin Field
 			if ($displayFormOrderSourceField) {
-				echo "&nbsp;&nbsp;&nbsp;&nbsp;<label for=\"source\">" . $sourcemessage[$lang] . "</label> : \n";
+				echo "&nbsp;&nbsp;&nbsp;&nbsp;<label for=\"source\">" . __("Origin of the order") . "</label> : \n";
 				echo "<select name=\"source\" id=\"source\" onchange=\"ajoutevaleur('source');\">\n";
 				echo "<option value=\"\"> </option>\n";
 				$reqsource = "SELECT arrivee FROM orders WHERE arrivee != '' GROUP BY arrivee ORDER BY arrivee ASC";
@@ -226,7 +226,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 					$optionssource.=">" . htmlspecialchars($codesource) . "</option>\n";
 				}
 				echo $optionssource;
-				echo "<option value=\"new\">" . $addvaluemessage[$lang] . "</option>\n";
+				echo "<option value=\"new\">" . __("Add new value...") . "</option>\n";
 				echo "</select>\n";
 				echo "&nbsp;<input name=\"sourcenew\" id=\"sourcenew\" type=\"text\" size=\"20\" value=\"\" style=\"display:none\">\n";
 			}
@@ -235,39 +235,41 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             // Start Dates
             echo "<tr><td>\n";
 			echo '<label for="datesaisie">';
-            echo "<a href=\"#\" title=\"" . $orderdatehelpmessage[$lang] . "\">" . $orderdatemessage[$lang] . "</a></label> : </td><td> \n";
+            echo "<a href=\"#\" title=\"" . __("to be completed only if different from the current date") . "\">" . __("Order date") . "</a></label> : </td><td> \n";
             echo "<input name=\"datesaisie\" id=\"datesaisie\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['date'])."\" class=\"tcal\" onchange=\"textchanged('datesaisie')\">\n";
             echo "</td><td>\n";
 			echo '<label for="envoye">';
-            echo _("Date of shipment") . "</label> : </td><td>\n";
+            echo __("Date of shipment") . "</label> : </td><td>\n";
             echo "<input name=\"envoye\" id=\"envoye\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['envoye'])."\" class=\"tcal\" onchange=\"textchanged('envoye')\">\n";
             echo "</td></tr><tr><td>\n";
 			echo '<label for="facture">';
-            echo $orderfactdatemessage[$lang] . "</label> : </td><td>\n";
+            echo __("Invoice date") . "</label> : </td><td>\n";
             echo "<input name=\"facture\" id=\"facture\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['facture'])."\" class=\"tcal\" onchange=\"textchanged('facture')\">\n";
             echo "</td><td>\n";
 			echo '<label for="renouveler">';
-            echo $orderrenewdatemessage[$lang] . "</label> : </td><td>\n";
+
+            echo __("To be renewed on") . "</label> : </td><td>\n";
             echo "<input name=\"renouveler\" id=\"renouveler\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['renouveler'])."\" class=\"tcal\" onchange=\"textchanged('renouveler')\">\n";
             echo "</td></tr>\n";
+
             // END Dates
             // START Price Field and Internal references
             echo "<tr><td colspan=\"4\">\n";
 			echo '<label for="prix">';
-            echo $pricemessage[$lang] . "</label> : &nbsp;\n";
+            echo format_string(__("Price (%currency)"), array('currency' => $currency)) . "</label> : &nbsp;\n";
             echo "<input name=\"prix\" id=\"prix\" type=\"text\" size=\"5\" value=\"".htmlspecialchars($enreg['prix'])."\" onchange=\"textchanged('prix')\">\n";
             echo "&nbsp;&nbsp;(<input type=\"checkbox\" name=\"avance\" id=\"avance\" value=\"on\"";
             if ($enreg['prepaye']=='on')
                 echo " checked";
-            echo " onclick=\"textchanged('prepaye')\"/><label for=\"avance\">" . $paidadvmessage[$lang] . "</label>) &nbsp;&nbsp;&nbsp;&nbsp;\n";
+            echo " onclick=\"textchanged('prepaye')\"/><label for=\"avance\">" . __("order paid in advance") . "</label>) &nbsp;&nbsp;&nbsp;&nbsp;\n";
             echo "</td></tr>\n";
             echo "<tr><td colspan=\"4\">\n";
 			echo '<label for="ref">';
-            echo $refextmessage[$lang] . "</label> : &nbsp;\n";
+            echo __("Provider Ref.") . "</label> : &nbsp;\n";
             echo "<input name=\"ref\" id=\"ref\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($enreg['ref'])."\" onchange=\"textchanged('ref fournisseur')\">&nbsp;&nbsp;&nbsp;\n";
 			if ($displayFormInternalRefField) {
 				echo '<label for="refinterbib">';
-				echo $refintmessage[$lang] . "</label> : &nbsp;\n";
+				echo __("Internal ref. to the library") . "</label> : &nbsp;\n";
 				echo "<input name=\"refinterbib\" id=\"refinterbib\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($enreg['refinterbib'])."\" onchange=\"textchanged('ref interne')\">\n";
 			} else {
 				echo "<input name=\"refinterbib\" id=\"refinterbib\" type=\"hidden\" value=\"".htmlspecialchars($enreg['refinterbib'])."\" >\n";
@@ -277,7 +279,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             // Start Private Notes
             echo "<tr><td valign=\"top\">\n";
 			echo '<label for="remarques">';
-            echo $commentsmessage[$lang] . "</label> : \n";
+            echo __("Professional Notes") . "</label> : \n";
             echo "</td><td valign=\"bottom\" colspan=\"3\"><textarea name=\"remarques\" id=\"remarques\" rows=\"2\" cols=\"68\" valign=\"bottom\" onchange=\"textchanged('remarques')\">".htmlspecialchars($enreg['remarques'])."</textarea>\n";
             echo "</td></tr>\n";
             // END Private Notes
@@ -294,12 +296,12 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             echo '<label for="prenom">';
 			echo __("First name") . " *</label> : </td><td><input name=\"prenom\" id=\"prenom\" type=\"text\" size=\"25\" value=\"".htmlspecialchars($enreg['prenom'])."\" onchange=\"textchanged('prenom')\"><span>\n";
             if ($directoryurl1 != "")
-                echo "&nbsp;<a href=\"javascript:directory('" . $directoryurl1 . "')\" title=\"" . $directory1message[$lang] . "\"><img src=\"img/directory1.png\"></a>\n";
+                echo "&nbsp;<a href=\"javascript:directory('" . $directoryurl1 . "')\" title=\"" . __("Search the name in the directory of the hospital") . "\"><img src=\"img/directory1.png\"></a>\n";
             if ($directoryurl2 != "")
-                echo "<a href=\"javascript:directory('" . $directoryurl2 . "')\" title=\"" . $directory2message[$lang] . "\"><img src=\"img/directory2.png\"></a>\n";
+                echo "<a href=\"javascript:directory('" . $directoryurl2 . "')\" title=\"" . __("Search the name in the directory of the university") . "\"><img src=\"img/directory2.png\"></a>\n";
             echo "</span></td></tr><tr><td>\n";
 			echo '<label for="service">';
-            echo $unitmessage[$lang] . " *</label> : </td><td>\n";
+            echo __("Unit") . " *</label> : </td><td>\n";
             $unitsortlang = "name1";
             if ($lang == "en")
                 $unitsortlang = "name2";
@@ -335,7 +337,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "</select>\n";
                 echo "</td><td>\n";
 				echo '<label for="servautre">';
-                echo $unitothermessage[$lang] . "</label> : </td><td>\n";
+                echo __("Other unit") . "</label> : </td><td>\n";
                 echo "<input name=\"servautre\" id=\"servautre\" type=\"text\" size=\"30\" value=\"";
                 if ($unitsok == 0)
                     echo htmlspecialchars($enreg['service']);
@@ -344,11 +346,11 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 if ($ip1 == 1){
                     echo "<tr><td>\n";
 					echo '<label for="cgra">';
-                    echo $cgramessage[$lang] . "</label> : \n";
+                    echo __("Budget heading") . "</label> : \n";
                     echo "</td><td>\n";
                     echo "<input name=\"cgra\" id=\"cgra\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['cgra'])."\" onchange=\"textchanged('cgra')\"></td><td>\n";
                     echo '<label for="cgrb">';
-					echo $cgrbmessage[$lang] . "</label> : </td><td>\n";
+					echo __("Budget subheading") . "</label> : </td><td>\n";
                     echo "<input name=\"cgrb\" id=\"cgrb\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['cgrb'])."\" onchange=\"textchanged('cgrb')\">\n";
                     echo "</td></tr>\n";
                 }
@@ -358,45 +360,45 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 }
                 echo "<tr><td>\n";
 				echo '<label for="mail">';
-                echo $emailmessage[$lang] . " *</label> : </td><td>\n";
+                echo __("E-Mail") . " *</label> : </td><td>\n";
                 echo "<input name=\"mail\" id=\"mail\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['mail'])."\" onchange=\"textchanged('email')\"></td><td>\n";
                 echo '<label for="tel">';
-				echo $telmessage[$lang] . "</label> : </td><td>\n";
+				echo __("Tel.") . "</label> : </td><td>\n";
                 echo "<input name=\"tel\" id=\"tel\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['tel'])."\" onchange=\"textchanged('tel')\">\n";
                 echo "</td></tr>\n";
                 echo "<tr><td valign=\"top\">\n";
 				echo '<label for="adresse">';
-                echo $addressmessage[$lang] . "</label> :\n";
+                echo __("Private address") . "</label> :\n";
                 echo "</td><td>\n";
 				echo "<input name=\"adresse\" id=\"adresse\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['adresse'])."\" onchange=\"textchanged('adresse')\">\n";
                 echo "</td><td>\n";
                 echo '<label for="postal">';
-				echo $cpmessage[$lang] . "</label> : </td><td>\n";
+				echo __("Zip code") . "</label> : </td><td>\n";
                 echo "<input name=\"postal\" id=\"postal\" type=\"text\" size=\"5\" value=\"".htmlspecialchars($enreg['code_postal'])."\" onchange=\"textchanged('code postal')\">\n";
                 echo "&nbsp;\n";
                 echo '<label for="localite">';
-				echo $citymessage[$lang] . "</label> :\n";
+				echo __("City") . "</label> :\n";
                 echo "<input name=\"localite\" id=\"localite\" type=\"text\" size=\"7\" value=\"".htmlspecialchars($enreg['localite'])."\" onchange=\"textchanged('localite')\">\n";
                 echo "</td></tr><tr><td valign=\"top\" colspan=\"4\">\n";
-				echo $dispomessage[$lang] . " : \n";
+				echo __("If available at the library") . " : \n";
                 echo "<input type=\"radio\" name=\"envoi\" id=\"envoimail\" value=\"mail\"";
                 if ($enreg['envoi_par']=='mail')
                     echo " checked";
                 echo " onclick=\"textchanged('envoi')\"/>\n";
 				echo '<label for="envoimail">';
-                echo $dispofactmessage[$lang] . "</label>&nbsp;\n";
+                echo __("send by e-mail (billed)") . "</label>&nbsp;\n";
                 echo "<input type=\"radio\" name=\"envoi\" id=\"envoisurplace\" value=\"surplace\"";
                 if ($enreg['envoi_par']=='surplace')
                     echo " checked";
                 echo " onclick=\"textchanged('envoi')\"/>\n";
 				echo '<label for="envoisurplace">';
-                echo $disponotfactmessage[$lang] . "</label>\n";
+                echo __("let me know and I come to make a copy (not billed)") . "</label>\n";
                 echo "</td></tr>\n";
                 echo "<tr>\n";
                 echo "<td valign=\"top\" colspan=\"4\">\n";
                 echo "<input type=\"checkbox\" name=\"cooc\" id=\"cooc\" value=\"on\" />\n";
 				echo '<label for="cooc">';
-                echo $savecookiemessage[$lang] . "</label>&nbsp;&nbsp;|&nbsp;&nbsp;(<A HREF=\"javascript:coocout()\">" . $deletecookiemessage[$lang] . "</a>)\n";
+                echo __("Remember data for future orders (cookies allowed)") . "</label>&nbsp;&nbsp;|&nbsp;&nbsp;(<A HREF=\"javascript:coocout()\">" . __("delete the cookie") . "</a>)\n";
                 echo "</td></tr>\n";
                 echo "</Table>\n";
                 echo "\n";
@@ -406,7 +408,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 // START Document Fields
                 echo "<div class=\"box\"><div class=\"box-content\">\n";
                 echo "<div class=\"box\"><div class=\"box-content\">\n";
-                echo "<center><b><label for=\"tid\">" . $lookupmessage[$lang] . "</label> </b>\n";
+                echo "<center><b><label for=\"tid\">" . __("Fill in the order using") . "</label> </b>\n";
 				$tid = "";
 				$uids = "";
 				if (!empty($enreg['PMID'])) {
@@ -452,52 +454,52 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                     echo "<option value=\"" . htmlspecialchars($doctypes[$i]["code"]) . "\"";
                     if ($enreg['type_doc']==$doctypes[$i]["code"])
                         echo " selected";
-                    echo ">" . htmlspecialchars($doctypes[$i][$lang]) . "</option>\n";
+                    echo ">" . htmlspecialchars($doctypes[$i]["name"]) . "</option>\n";
                     $i = $i + 1;
                 }
                 echo "</select>\n";
                 echo "<div class=\"formdoc\">\n";
                 echo "</td></tr><tr><td>\n";
 				echo '<label for="title">';
-                echo $stitlemessage[$lang] . " *</label> : </td><td>\n";
+                echo __("Title of journal or book") . " *</label> : </td><td>\n";
                 echo "<input name=\"title\" id=\"title\" type=\"text\" size=\"80\" value=\"".htmlspecialchars($enreg['titre_periodique'])."\" onchange=\"textchanged('titre_periodique')\">\n";
                 echo "&nbsp;\n";
-                echo "<a href=\"javascript:openlist('".$periodical_title_search_url."')\"><img src=\"img/find.png\" title=\"" . $atozlinkmessage[$lang] . "\"></a>\n";
+                echo "<a href=\"javascript:openlist('".$periodical_title_search_url."')\"><img src=\"img/find.png\" title=\"" . __("check on journals database") . "\"></a>\n";
                 echo "</td></tr><tr><td>\n";
 				echo '<label for="date">';
-                echo $yearmessage[$lang] . " *</label> : </td><td>\n";
+                echo __("Year") . " *</label> : </td><td>\n";
                 echo "<input name=\"date\" id=\"date\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($enreg['annee'])."\" onchange=\"textchanged('date')\">\n";
                 echo "&nbsp;\n";
 				echo '<label for="volume">';
-                echo $volumemessage[$lang] . " *</label> : \n";
+                echo __("Vol.") . " *</label> : \n";
                 echo "<input name=\"volume\" id=\"volume\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($enreg['volume'])."\" onchange=\"textchanged('volume')\">\n";
                 echo "&nbsp;\n";
 				echo '<label for="issue">';
-                echo $issuemessage[$lang] . "</label> : \n";
+                echo __("(Issue)") . "</label> : \n";
                 echo "<input name=\"issue\" id=\"issue\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($enreg['numero'])."\" onchange=\"textchanged('numero')\">\n";
                 echo "&nbsp;\n";
 				echo '<label for="suppl">';
-                echo $supplementmessage[$lang] . "</label> : \n";
+                echo __("Suppl.") . "</label> : \n";
                 echo "<input name=\"suppl\" id=\"suppl\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($enreg['supplement'])."\" onchange=\"textchanged('suppl')\">\n";
                 echo "&nbsp;\n";
 				echo '<label for="pages">';
-                echo $pagesmessage[$lang] . " *</label> : \n";
+                echo __("Pages") . " *</label> : \n";
                 echo "<input name=\"pages\" id=\"pages\" type=\"text\" size=\"4\" value=\"".htmlspecialchars($enreg['pages'])."\" onchange=\"textchanged('pages')\">\n";
                 echo "</td></tr><tr><td>\n";
 				echo '<label for="atitle">';
-                echo $atitlemessage[$lang] . "</label> : \n";
+                echo __("Title of article or book chapter") . "</label> : \n";
                 echo "</td><td>\n";
                 $titreart = $enreg['titre_article'];
                 echo "<input name=\"atitle\" id=\"atitle\" type=\"text\" size=\"80\" value=\"".htmlspecialchars($titreart)."\" onchange=\"textchanged('titre_article')\">\n";
                 echo "</td></tr><tr><td>\n";
 				echo '<label for="auteurs">';
-                echo $authorsmessage[$lang] . "</label> : \n";
+                echo __("Author(s)") . "</label> : \n";
                 echo "</td><td>\n";
                 echo "<input name=\"auteurs\" id=\"auteurs\" type=\"text\" size=\"80\" value=\"".htmlspecialchars($enreg['auteurs'])."\" onchange=\"textchanged('auteurs')\">\n";
                 echo "</td></tr>\n";
                 echo "<tr><td>\n";
 				echo '<label for="edition">';
-                echo $editionmessage[$lang] . "</label> : \n";
+                echo __("Edition (for books)") . "</label> : \n";
                 echo "</td><td>\n";
                 echo "<input name=\"edition\" id=\"edition\" type=\"text\" size=\"14\" value=\"".htmlspecialchars($enreg['edition'])."\" onchange=\"textchanged('edition')\">\n";
                 echo "&nbsp;\n";
@@ -517,7 +519,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "</td></tr></div>\n";
                 echo "<tr><td valign=\"top\">\n";
 				echo '<label for="remarquespub">';
-                echo $publiccommentsmessage[$lang] . "</label> : \n";
+                echo __("Notes") . "</label> : \n";
                 echo "</td><td valign=\"bottom\"><textarea name=\"remarquespub\" id=\"remarquespub\" rows=\"2\" cols=\"60\" valign=\"bottom\" onchange=\"textchanged('remarquespub')\">".htmlspecialchars($enreg['remarquespub'])."</textarea>\n";
                 echo "</td></tr><tr><td></td><td>\n";
                 echo "</td></tr>\n";
@@ -527,8 +529,8 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 // END Document Fields
 				// BEGIN SUBMISSION BUTTONS
 				echo '<div class="box-submit-buttons">';
-				echo "<input type=\"submit\" value=\"" . $submitmessage[$lang] . "\" onsubmit=\"javascript:okcooc();document.body.style.cursor = 'wait';\">&nbsp;&nbsp;\n";
-                echo "<input type=\"reset\" value=\"" . $resetmessage[$lang] . "\">&nbsp;&nbsp;\n";
+				echo "<input type=\"submit\" value=\"" . __("Submit") . "\" onsubmit=\"javascript:okcooc();document.body.style.cursor = 'wait';\">&nbsp;&nbsp;\n";
+                echo "<input type=\"reset\" value=\"" . __("Reset") . "\">&nbsp;&nbsp;\n";
                 if ($monaut == "sadmin") {
                     echo "<input type=\"button\" value=\"Supprimer definitivement cette commande\" onClick=\"self.location='update.php?action=delete&amp;table=orders&amp;id=" . htmlspecialchars($id) . "'\">\n";
                 }

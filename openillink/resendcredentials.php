@@ -35,15 +35,15 @@ require_once ('includes/toolkit.php');
     $commande = $formSubmitted ? ( isValidInput($_POST['commande'],8,'i')?$_POST['commande']:NULL):NULL;
 
     $resendOk = false;
-    $orderResendLabel = "Numéro d'une de vos commandes avec cette adresse e-mail";
-    $emailResendLabel = "Adresse mail";
-    $title_resend_form = 'OpenILLink récupération de mot de passe';
-    $warningNokTxt = "<p class='warning'><strong>&#9888;  </strong>Des informations manquent ou sont incorrectes, merci de vérifier.</p>";
-    $infoEmptyTxt = "<p class='info'>Merci de remplir tous les champs du formulaire.</p>";
-    $btnConfirmTxt = "Valider";
-    $infoSendOk = '<p><h1>Merci !</h1></p>'.
-    "<p>Le mot de passe vous a été renvoyé à l'adresse %s; veuillez vérifier votre boîte à lettres électronique.</p>".
-    "<p>En cas de souci merci de <a href='mailto:%s'>nous contacter</a>.</p>";
+    $orderResendLabel = __("Number of your orders with this e-mail address");
+    $emailResendLabel = __("Mail address");
+    $title_resend_form = __("OpenILLink password recovery");
+    $warningNokTxt = "<p class='warning'><strong>&#9888;  </strong>".__("Information is missing or incorrect, please check.")."</p>";
+    $infoEmptyTxt = "<p class='info'>".__("Please fill in all fields on the form.")."</p>";
+    $btnConfirmTxt = __("Submit");
+    $infoSendOk = "<p><h1>".__("Thank you !")."</h1></p>".
+    "<p>".__("The password was returned to you at address %s; Please check your mailbox.")."</p>".
+    "<p>".__("In case of concern please") . "<a href='mailto:%s'>" . __("contact us") . "</a>" . ".</p>";
 
     $resend_form_html = "<div>".
         '<form id="resend_OIL_credentials" name="resend_OIL_credentials" action="resendcredentials.php" method="post">'.

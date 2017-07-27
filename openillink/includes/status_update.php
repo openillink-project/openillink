@@ -26,7 +26,7 @@
 // ***************************************************************************
 // Status table : creation and update of records
 // 
-require ("config.php");
+require_once ("config.php");
 require ("authcookie.php");
 require_once ("connexion.php");
 require_once ("toolkit.php");
@@ -73,18 +73,18 @@ if (!empty($_COOKIE['illinkid'])){
             $enregcode = iimysqli_result_fetch_array($resultcode);
             $idcode = $enregcode['id'];
             if (($nbcode == 1)&&($action == "new"))
-                $mes = $mes . "<br/>le code '" . htmlspecialchars($code) . "' existe déjà dans la base, veuillez choisir un autre";
+                $mes = $mes . "<br/>".format_string(__("The code %code already exists in database. Please choose another one."), array('code' => htmlspecialchars($code)));
             if (($nbcode == 1)&&($action != "new")&&($idcode != $id))
-                $mes = $mes . "<br/>le code '" . htmlspecialchars($code) . "' est déjà attribué à une autre étape, veuillez choisir un autre";
+                $mes = $mes . "<br/>".format_string(__("The code %code is already attributed to a localization. Please choose another one."), array('code' => htmlspecialchars($code)));
             if ($title1 == "")
-                $mes = $mes . "<br/>le nom1 est obligatoire";
+                $mes = $mes . "<br/>".__("name1 is required");
             if ($code == "")
-                $mes = $mes . "<br/>le code est obligatoire (et doit être un nombre)";
+                $mes = $mes . "<br/>".__("Code is required (and must be a number)");
             if ($mes != ""){
                 require ("headeradmin.php");
                 echo "<center><br/><b><font color=\"red\">\n";
                 echo $mes."</b></font>\n";
-                echo "<br /><br /><a href=\"javascript:history.back();\"><b>retour au formulaire</a></b></center><br /><br /><br /><br />\n";
+                echo "<br /><br /><a href=\"javascript:history.back();\"><b>".__("Back to the form")."</a></b></center><br /><br /><br /><br />\n";
                 require ("footer.php");
             }
             else{
@@ -93,7 +93,7 @@ if (!empty($_COOKIE['illinkid'])){
                     if ($id != ""){
                         require ("headeradmin.php");
                         $reqid = "SELECT * FROM status WHERE id = ?";
-                        $myhtmltitle = $configname[$lang] . " : édition de l'étape " . htmlspecialchars($id);
+                        $myhtmltitle = format_string(__("%institution_name : edition of the order step %order_id"), array('institution_name' => $configinstitution[$lang], 'order_id' => htmlspecialchars($id)));
                         $resultid = dbquery($reqid, array($id), 'i');
                         $nb = iimysqli_num_rows($resultid);
                         if ($nb == 1){
@@ -102,14 +102,14 @@ if (!empty($_COOKIE['illinkid'])){
                             $params = array($title1, $title2, $title3, $title4, $title5, $help1, $help2, $help3, $help4, $help5, $in, $out, $trash, $special, $color, $code, $id);
                             $resultupdate = dbquery($query, $params,'ssssssssssiiissii') or die("Error : ".mysqli_error());
                             echo "<center><br/><b><font color=\"green\">\n";
-                            echo "La modification de la fiche " . htmlspecialchars($id) . " a été enregistrée avec succès</b></font>\n";
-                            echo "<br/><br/><br/><a href=\"list.php?table=status\">Retour à la liste des étapes</a></center>\n";
+                            echo __("Your order has been successfully modified")."</b></font>\n";
+                            echo "<br/><br/><br/><a href=\"list.php?table=status\">".__("Back to the order steps")."</a></center>\n";
                             require ("footer.php");
                         }
                         else{
                             echo "<center><br/><b><font color=\"red\">\n";
-                            echo "La modification n'a pas été enregistrée car l'identifiant de la fiche " . htmlspecialchars($id) . " n'a pas été trouvée dans la base.</b></font>\n";
-                            echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche ou contactez l'administrateur de la base : " . $configemail . "</b></center><br /><br /><br /><br />\n";
+                            echo format_string(__("The change was not saved because the identifier of record  %order_id was not found in the database."), array('order_id' => htmlspecialchars($id))). "</b></font>\n";
+                            echo "<br /><br /><b>".__("Please retry your search")."</b></center><br /><br /><br /><br />\n";
                             require ("footer.php");
                         }
                     }
@@ -117,8 +117,8 @@ if (!empty($_COOKIE['illinkid'])){
                         require ("headeradmin.php");
                         //require ("menurech.php");
                         echo "<center><br/><b><font color=\"red\">\n";
-                        echo "La modification n'a pas été enregistrée car il manque l'identifiant de la fiche</b></font>\n";
-                        echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche</b></center><br /><br /><br /><br />\n";
+                        echo __("The modification was not saved because it lacks the identifier of the form")."</b></font>\n";
+                        echo "<br /><br /><b>".__("Please retry your search")."</b></center><br /><br /><br /><br />\n";
                         require ("footer.php");
                     }
                 }
@@ -131,8 +131,8 @@ if (!empty($_COOKIE['illinkid'])){
 					$params = array($title1, $title2, $title3, $title4, $title5, $help1, $help2, $help3, $help4, $help5, $code, $in, $out, $trash, $special, $color);
 					$id = dbquery($query, $params,'ssssssssssiiiiss') or die("Error : ".mysqli_error());
 					echo "<center><br/><b><font color=\"green\">\n";
-					echo "La nouvelle fiche " . htmlspecialchars($id) . " a été enregistrée avec succès</b></font>\n";
-					echo "<br/><br/><br/><a href=\"list.php?table=status\">Retour à la liste des étapes</a></center>\n";
+					echo format_string(__("The new card %id_card has been successfully registered"),array('id_card' => htmlspecialchars($id)))."</b></font>\n";
+					echo "<br/><br/><br/><a href=\"list.php?table=status\">".__("Back to the order steps list")."</a></center>\n";
 					echo "</center>\n";
 					echo "\n";
 					require ("footer.php");
@@ -143,30 +143,30 @@ if (!empty($_COOKIE['illinkid'])){
         // Début de la suppresion
         if ($action == "delete"){
             $id=((isset($_GET['id'])) && isValidInput($_GET['id'],11,'i',false))? $_GET['id']:NULL;
-            $myhtmltitle = $configname[$lang] . " : confirmation pour la suppresion d'une étape de la commande";
+            $myhtmltitle = $configname[$lang] . " : ".__("Confirmation for deleting an order step");
             require ("headeradmin.php");
             echo "<center><br/><br/><br/><b><font color=\"red\">\n";
-            echo "Voulez-vous vraiement supprimer la fiche " . htmlspecialchars($id) . "?</b></font>\n";
+            echo format_string(__("Do you really want to delete the card %id_card ?"),array('id_card' => htmlspecialchars($id)))."</b></font>\n";
             echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
             echo "<input name=\"table\" type=\"hidden\" value=\"status\">\n";
             echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($id)."\">\n";
             echo "<input name=\"action\" type=\"hidden\" value=\"deleteok\">\n";
             echo "<br /><br />\n";
-            echo "<input type=\"submit\" value=\"Confirmer la suppression de la fiche " . htmlspecialchars($id) . " en cliquant ici\">\n";
+            echo "<input type=\"submit\" value=\"".format_string(__("Confirm the deletion of the card %id_card by clicking here"),array('id_card' => htmlspecialchars($id)))."\">\n";
             echo "</form>\n";
-            echo "<br/><br/><br/><a href=\"list.php?table=status\">Retour à la liste des étapes</a></center>\n";
+            echo "<br/><br/><br/><a href=\"list.php?table=status\">".__("Back to the order steps list")."</a></center>\n";
             echo "</center>\n";
             echo "\n";
             require ("footer.php");
         }
         if ($action == "deleteok"){
-            $myhtmltitle = $configname[$lang] . " : supprimer une étape de la commande";
+            $myhtmltitle = $configname[$lang] . " : ".__("Delete an order step");
             require ("headeradmin.php");
             $query = "DELETE FROM status WHERE status.id = ?";
             $result = dbquery($query, array($id), 'i') or die("Error : ".mysqli_error());
             echo "<center><br/><b><font color=\"green\">\n";
-            echo "La fiche " . htmlspecialchars($id) . " a été supprimée avec succès</b></font>\n";
-            echo "<br/><br/><br/><a href=\"list.php?table=status\">Retour à la liste des étapes</a></center>\n";
+            echo format_string(__("The card %id_card has been successfully deleted"),array('id_card' => htmlspecialchars($id)))."</b></font>\n";
+            echo "<br/><br/><br/><a href=\"list.php?table=status\">".__("Back to the order steps list")."</a></center>\n";
             echo "</center>\n";
             echo "\n";
             require ("footer.php");
@@ -176,7 +176,7 @@ if (!empty($_COOKIE['illinkid'])){
     else{
         require ("header.php");
         echo "<center><br/><b><font color=\"red\">\n";
-        echo "Vos droits sont insuffisants pour consulter cette page</b></font></center><br /><br /><br /><br />\n";
+        echo __("Your rights are insufficient to edit this page")."</b></font></center><br /><br /><br /><br />\n";
         require ("footer.php");
     }
 }

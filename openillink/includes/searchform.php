@@ -39,24 +39,24 @@ echo "<form action=\"list.php\" method=\"GET\" enctype=\"x-www-form-encoded\" na
 echo "<input name=\"action\" type=\"hidden\" value=\"recherche\">\n";
 echo "<input name=\"folder\" type=\"hidden\" value=\"search\">\n";
 echo "<p>";
-echo "<label for=\"champ\"><strong>Chercher </strong></label>\n";
+echo "<label for=\"champ\"><strong>".__("Search")." </strong></label>\n";
 echo "<select name=\"champ\">\n";
 echo "<OPTION VALUE=\"id\"";
 if ((!empty($champ)) && ($champ=='id') )
     echo " selected";
-echo ">No de commande</option>\n";
+echo ">".__("Order number")."</option>\n";
 echo "<OPTION VALUE=\"datecom\"";
 if ((isset($champ))&&($champ=='datecom'))
     echo " selected";
-echo ">Date de la commande (AAAA-MM-JJ)</option>\n";
+echo ">".__("Order date (YYY-MM-DD)")."</option>\n";
 echo "<OPTION VALUE=\"dateenv\"";
 if ((!empty($champ))&&($champ=='dateenv'))
     echo " selected";
-echo ">Date d'envoi (AAAA-MM-JJ)</option>\n";
+echo ">".__("Sending date (YYY-MM-DD)")."</option>\n";
 echo "<OPTION VALUE=\"datefact\"";
 if ((!empty($champ))&&($champ=='datefact'))
     echo " selected";
-echo ">Date de facturation (AAAA-MM-JJ)</option>\n";
+echo ">".__("Billing date (YYY-MM-DD)")."</option>\n";
 /*
 echo "<OPTION VALUE=\"statut\"";
 if ((!empty($champ))&&($champ=='statut'))
@@ -66,19 +66,19 @@ echo ">Statut</option>\n";
 echo "<OPTION VALUE=\"localisation\"";
 if ((!empty($champ))&&($champ=='localisation'))
     echo " selected";
-echo ">Localisation</option>\n";
+echo ">".__("Localization")."</option>\n";
 echo "<OPTION VALUE=\"nom\"";
 if ((!empty($champ))&&($champ=='nom'))
     echo " selected";
-echo ">Nom du lecteur</option>\n";
+echo ">".__("User name")."</option>\n";
 echo "<OPTION VALUE=\"email\"";
 if ((!empty($champ))&&($champ=='email'))
     echo " selected";
-echo ">E-mail du lecteur</option>\n";
+echo ">".__("User e-mail")."</option>\n";
 echo "<OPTION VALUE=\"service\"";
 if ((!empty($champ))&&($champ=='service'))
     echo " selected";
-echo ">Service</option>\n";
+echo ">".__("Service")."</option>\n";
 echo "<OPTION VALUE=\"issn\"";
 if ((!empty($champ))&&($champ=='issn'))
     echo " selected";
@@ -90,27 +90,27 @@ echo ">PMID</option>\n";
 echo "<OPTION VALUE=\"title\"";
 if ((!empty($champ))&&($champ=='title'))
     echo " selected";
-echo ">Titre du p&eacute;riodique</option>\n";
+echo ">".__("Journal title")."</option>\n";
 echo "<OPTION VALUE=\"atitle\"";
 if ((!empty($champ))&&($champ=='atitle'))
     echo " selected";
-echo ">Titre de l'article</option>\n";
+echo ">".__("Article title")."</option>\n";
 echo "<OPTION VALUE=\"auteurs\"";
 if ((!empty($champ))&&($champ=='auteurs'))
     echo " selected";
-echo ">Auteurs</option>\n";
+echo ">".__("Author(s)")."</option>\n";
 echo "<OPTION VALUE=\"reff\"";
 if ((!empty($champ))&&($champ=='reff'))
     echo " selected";
-echo ">Ref. fournisseur (no Subito...)</option>\n";
+echo ">".__("Provider ref. (Subito n˚)")."</option>\n";
 echo "<OPTION VALUE=\"refb\"";
 if ((!empty($champ))&&($champ=='refb'))
     echo " selected";
-echo ">Ref. interne à la bibliothèque</option>\n";
+echo ">".__("Internal library ref.")."</option>\n";
 echo "<OPTION VALUE=\"all\"";
 if ((!empty($champ))&&($champ=='all'))
     echo " selected";
-echo ">Partout</option>\n";
+echo ">".__("All over")."</option>\n";
 echo "</select>\n";
 //echo "<font class=\"titleblack10\"> = &nbsp;\n";
 $allStatus = readStatus();
@@ -132,7 +132,7 @@ echo "</span></a>&nbsp;\n";
 */
 
 echo "<p>";
-echo "<label for=\"statuscode\"><strong>Filtrer par statut </strong></label>";
+echo "<label for=\"statuscode\"><strong>".__("Filter by status")." </strong></label>";
 echo "<select name=\"statuscode\">\n";
 echo '<option value="0"></option>';
 foreach ($allStatus as $status){
@@ -147,9 +147,9 @@ foreach ($allStatus as $status){
 echo "</select>";
 echo "</p>";
 if ($monaut != 'guest'){
-	echo '<input type="checkbox" '.('1' == $myorders ? ' checked="checked" ' : '').'name="myorders" value="1" id="searchordersbyme"/><label for="searchordersbyme">'.htmlspecialchars($searchForm["ordersSubmittedByMe"][$lang]).'</label>';
+	echo '<input type="checkbox" '.('1' == $myorders ? ' checked="checked" ' : '').'name="myorders" value="1" id="searchordersbyme"/><label for="searchordersbyme">'.htmlspecialchars(__("Orders submitted by me only")).'</label>';
 }
-echo "<p><strong>Utilisation:</strong> Recherche et filtre peuvent être utilisées de manière cumulée ou séparément</p>";
+echo "<p><strong>".__("Use").":</strong> ".__("Search and filter can be used cumulatively or separately")."</p>";
 echo "<input type=\"submit\" value=\"Ok\">";
 echo "</form>\n";
 echo "</div></div><div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";

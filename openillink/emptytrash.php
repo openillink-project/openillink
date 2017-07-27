@@ -40,33 +40,33 @@ if (!empty($_COOKIE['illinkid'])){
         echo "\n";
         echo "<br/><br/>\n";
         // Liens pour les administrateurs
-        echo "<h1>Vider la corbeille</h1>\n";
+        echo "<h1>". __("Empty trash") ."</h1>\n";
         echo "<br/>\n";
         if ($action == "deleteall"){
             $query = "DELETE orders.* FROM status, orders WHERE orders.stade = status.code AND status.trash = 1";
             $result = dbquery($query);
             if ($result){
                 echo "<center><br/><b><font color=\"green\">\n";
-                echo "La corbeille a été supprimée avec succès</b></font>\n";
+                echo __("The trash was successfully deleted") ."</b></font>\n";
             }
             else{
                echo "<center><br/><b><font color=\"red\">\n";
-               echo "La corbeille n'a pas pu être supprimée</b></font>\n";
+               echo __("The trash could not be deleted") ."</b></font>\n";
             }
-            echo "<br/><br/><br/><a href=\"list.php?table=orders\">Retour à la liste des commandes</a></center>\n";
+            echo "<br/><br/><br/><a href=\"list.php?table=orders\">". __("Return to the orders list") ."</a></center>\n";
             echo "</center>\n";
             echo "\n";
             require ("includes/footer.php");
         }
         else{
             echo "<center><br/><br/><br/><b><font color=\"red\">\n";
-            echo "Voulez-vous vraiement vider la corbeille définitivement?</b></font>\n";
+            echo __("Do you really want to empty the trash definitely?") ."</b></font>\n";
             echo "<form action=\"emptytrash.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
             echo "<input name=\"action\" type=\"hidden\" value=\"deleteall\">\n";
             echo "<br /><br />\n";
-            echo "<input type=\"submit\" value=\"Confirmer la suppression des commandes dans la corbeille en cliquant ici\">\n";
+            echo "<input type=\"submit\" value=\"". __("Confirm deleting orders in the trash by clicking here") ."\">\n";
             echo "</form>\n";
-            echo "<br/><br/><br/><a href=\"list.php?table=orders\">Retour à la liste des commandes</a></center>\n";
+            echo "<br/><br/><br/><a href=\"list.php?table=orders\">". __("Return to the orders list") ."</a></center>\n";
             echo "</center>\n";
             echo "\n";
             require ("includes/footer.php");
@@ -75,7 +75,7 @@ if (!empty($_COOKIE['illinkid'])){
     else {
         require ("includes/header.php");
         echo "<center><br/><b><font color=\"red\">\n";
-        echo "Vos droits sont insuffisants pour consulter cette page</b></font></center><br /><br /><br /><br />\n";
+        echo __("Your rights are insufficient to view this page") ."</b></font></center><br /><br /><br /><br />\n";
         require ("includes/footer.php");
     }
 }

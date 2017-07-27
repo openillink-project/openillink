@@ -26,20 +26,20 @@
 // ***************************************************************************
 // Units table : edit form
 // 
-require ("config.php");
+require_once ("config.php");
 require ("authcookie.php");
 require_once ("connexion.php");
 require_once ("toolkit.php");
 
 $id="";
-$montitle = "Gestion des unités";
+$montitle = __("Units management");
 $id=isValidInput($_GET['id'],11,'i',false)?$_GET['id']:'';
 if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")){
         if ($id!=""){
             $req = "SELECT * FROM units WHERE id = ?";
-            $myhtmltitle = $configname[$lang] . " : édition de la unité " . htmlspecialchars($id);
-            $montitle = "Gestion des unités : édition de la fiche " . htmlspecialchars($id);
+            $myhtmltitle = $configname[$lang] . " : ". format_string(__("edition of the unit %id"), array('id' => $id));
+            $montitle = format_string(__("Units management : edition of the unit %id"), array('id' => $id));
             require ("headeradmin.php");
             $result = dbquery($req, array($id), "i");
             $nb = iimysqli_num_rows($result);
@@ -80,18 +80,18 @@ if (!empty($_COOKIE['illinkid'])){
                 echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($unitid)."\">\n";
                 echo "<input name=\"action\" type=\"hidden\" value=\"update\">\n";
                 echo "<table id=\"hor-zebra\">\n";
-                echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer les modifications\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=units'\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=units&id=" . htmlspecialchars($unitid) . "'\"></td></tr>\n";
+                echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
+                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=units'\">\n";
+                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=units&id=" . htmlspecialchars($unitid) . "'\"></td></tr>\n";
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
                 echo "<tr><td><b>Code *</b></td><td>\n";
                 echo "<input name=\"code\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($unitcode) . "\"></td></tr>\n";
                 echo "</td></tr>\n";
-                echo "<tr><td class=\"odd\"><b>".$guiLabelName1[$lang]." *</b></td><td class=\"odd\"><input name=\"name1\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["fr"]) . "\"></td></tr>\n";
-                echo "<tr><td><b>".$guiLabelName2[$lang]."</b></td><td><input name=\"name2\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["en"]) . "\"></td></tr>\n";
-                echo "<tr><td class=\"odd\"><b>".$guiLabelName3[$lang]."</b></td><td class=\"odd\"><input name=\"name3\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["de"]) . "\"></td></tr>\n";
-                echo "<tr><td><b>".$guiLabelName4[$lang]."</b></td><td><input name=\"name4\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["it"]) . "\"></td></tr>\n";
-                echo "<tr><td class=\"odd\"><b>".$guiLabelName5[$lang]."</b></td><td class=\"odd\"><input name=\"name5\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["es"]) . "\"></td></tr>\n";
+                echo "<tr><td class=\"odd\"><b>".__("Name in French")." *</b></td><td class=\"odd\"><input name=\"name1\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["fr"]) . "\"></td></tr>\n";
+                echo "<tr><td><b>".__("Name in English")."</b></td><td><input name=\"name2\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["en"]) . "\"></td></tr>\n";
+                echo "<tr><td class=\"odd\"><b>".__("Name in German")."</b></td><td class=\"odd\"><input name=\"name3\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["de"]) . "\"></td></tr>\n";
+                echo "<tr><td><b>".__("Name in Italian")."</b></td><td><input name=\"name4\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["it"]) . "\"></td></tr>\n";
+                echo "<tr><td class=\"odd\"><b>".__("Name in Spanish")."</b></td><td class=\"odd\"><input name=\"name5\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["es"]) . "\"></td></tr>\n";
                 echo "<tr><td><b>Bibliothèque d'attribution</b></td><td>\n";
                 echo "<select name=\"library\">\n";
                 $reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
@@ -114,7 +114,7 @@ if (!empty($_COOKIE['illinkid'])){
                     echo $optionslibraries;
                 }
                 echo "</select></td></tr>\n";
-                echo "<tr><td class=\"odd\"><b>".$guiDepartment[$lang]."</b></td><td class=\"odd\">\n";
+                echo "<tr><td class=\"odd\"><b>".__("Department")."</b></td><td class=\"odd\">\n";
                 echo "<select name=\"department\" id=\"department\" onchange=\"ajoutevaleur('department');\">\n";
                 echo "<option value=\"\"> </option>\n";
                 $reqdepartment = "SELECT department FROM units WHERE department != '' GROUP BY department ORDER BY department ASC";
@@ -128,11 +128,11 @@ if (!empty($_COOKIE['illinkid'])){
                     $optionsdepartment.=">" . htmlspecialchars($codedepartment) . "</option>\n";
                 }
                 echo $optionsdepartment;
-                echo "<option value=\"new\">" . $addvaluemessage[$lang] . "</option>\n";
+                echo "<option value=\"new\">" . __("Add new value...") . "</option>\n";
                 echo "</select>\n";
                 echo "&nbsp;<input name=\"departmentnew\" id=\"departmentnew\" type=\"text\" size=\"30\" value=\"\" style=\"display:none\">\n";
                 echo "</td></tr>\n";
-                echo "<tr><td><b>".$guiFaculty[$lang]."</b></td><td>\n";
+                echo "<tr><td><b>".__("Faculty")."</b></td><td>\n";
                 echo "<select name=\"faculty\" id=\"faculty\" onchange=\"ajoutevaleur('faculty');\">\n";
                 echo "<option value=\"\"> </option>\n";
                 $reqfaculty = "SELECT faculty FROM units WHERE faculty != '' GROUP BY faculty ORDER BY faculty ASC";
@@ -146,40 +146,40 @@ if (!empty($_COOKIE['illinkid'])){
                     $optionsfaculty.=">" . htmlspecialchars($codefaculty) . "</option>\n";
                 }
                 echo $optionsfaculty;
-                echo "<option value=\"new\">" . $addvaluemessage[$lang] . "</option>\n";
+                echo "<option value=\"new\">" . __("Add new value...") . "</option>\n";
                 echo "</select>\n";
                 echo "&nbsp;<input name=\"facultynew\" id=\"facultynew\" type=\"text\" size=\"30\" value=\"\" style=\"display:none\">\n";
                 echo "</td></tr>\n";
-                echo "<tr><td class=\"odd\"><b>Affichage selon IP</b></td><td class=\"odd\">\n";
+                echo "<tr><td class=\"odd\"><b>".__("IP-based display")."</b></td><td class=\"odd\">\n";
                 echo "<input name=\"ip1\" value=\"1\" type=\"checkbox\"";
                 if ($unitip1 == 1)
                     echo " checked";
-                echo ">IP interne 1 &nbsp;&nbsp;|&nbsp;&nbsp; \n";
+                echo ">".__("Internal IP 1")." &nbsp;&nbsp;|&nbsp;&nbsp; \n";
                 echo "<input name=\"ip2\" value=\"1\" type=\"checkbox\"";
                 if ($unitip2 == 1)
                     echo " checked";
-                echo ">IP interne 2 &nbsp;&nbsp;|&nbsp;&nbsp; \n";
+                echo ">".__("Internal IP 2")." &nbsp;&nbsp;|&nbsp;&nbsp; \n";
                 echo "<input name=\"ipext\" value=\"1\" type=\"checkbox\"";
                 if ($unitipext == 1)
                     echo " checked";
-                echo ">IP externe</td></tr>\n";
-                echo "<tr><td><b>".$guiNeedValidation[$lang]."</b></td><td>\n";
+                echo ">".__("External IP")."</td></tr>\n";
+                echo "<tr><td><b>".__("Need validation")."</b></td><td>\n";
                 echo "<input name=\"validation\" value=\"1\" type=\"checkbox\"";
                 if ($validation == 1)
                     echo " checked";
                 echo "></td></tr>\n";
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-                echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer les modifications\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=units'\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=units&id=" . htmlspecialchars($unitid) . "'\"></td></tr>\n";
+                echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
+                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=units'\">\n";
+                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=units&id=" . htmlspecialchars($unitid) . "'\"></td></tr>\n";
                 echo "</table>\n";
                 echo "</form><br /><br />\n";
                 require ("footer.php");
             }
             else{
                 echo "<center><br/><b><font color=\"red\">\n";
-                echo "La fiche " . htmlspecialchars($id) . " n'a pas été trouvée dans la base.</b></font>\n";
-                echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche ou contactez l'administrateur de la base : " . $configemail . "</b></center><br /><br /><br /><br />\n";
+                echo __("The record was not found in the database.")."</b></font>\n";
+                echo "<br /><br /><b>".__("Please restart your search or contact the database administrator")." : " . $configemail . "</b></center><br /><br /><br /><br />\n";
                 require ("footer.php");
             }
         }
@@ -187,8 +187,8 @@ if (!empty($_COOKIE['illinkid'])){
             require ("header.php");
             //require ("menurech.php");
             echo "<center><br/><b><font color=\"red\">\n";
-            echo "La fiche n'a pas été trouvée dans la base.</b></font>\n";
-            echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche ou contactez l'administrateur de la base : " . $configemail . "</b></center><br /><br /><br /><br />\n";
+            echo __("The record was not found in the database.")."</b></font>\n";
+            echo "<br /><br /><b>".__("Please restart your search or contact the database administrator")." : " . $configemail . "</b></center><br /><br /><br /><br />\n";
             echo "<br /><br />\n";
             echo "</ul>\n";
             echo "\n";
@@ -198,7 +198,7 @@ if (!empty($_COOKIE['illinkid'])){
     else{
         require ("header.php");
         echo "<center><br/><b><font color=\"red\">\n";
-        echo "Vos droits sont insuffisants pour éditer cette fiche</b></font></center><br /><br /><br /><br />\n";
+        echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
         require ("footer.php");
     }
 }

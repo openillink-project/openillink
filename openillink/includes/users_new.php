@@ -26,38 +26,38 @@
 // ***************************************************************************
 // Table users : formulaire de création d'une nouvelle fiche
 //
-require ("config.php");
+require_once ("config.php");
 require ("authcookie.php");
 require_once ("connexion.php");
 
 if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")){
-        $myhtmltitle = "Commandes de " . $configinstitution[$lang] . " : nouvelle fiche utilisateur ";
+        $myhtmltitle = $configname[$lang] . " : ".__("New user");
         require ("headeradmin.php");
-        echo "<h1>Gestion des utilisateurs : Création d'une nouvelle fiche </h1>\n";
+        echo "<h1>".__("Users management : new user")."</h1>\n";
         echo "<br /></b>";
         echo "<ul>\n";
         echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
         echo "<input name=\"table\" type=\"hidden\" value=\"users\">\n";
         echo "<input name=\"action\" type=\"hidden\" value=\"new\">\n";
         echo "<table id=\"hor-zebra\">\n";
-        echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer\">\n";
-        echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=users'\"></td></tr>\n";
+        echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
+        echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=users'\"></td></tr>\n";
         echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-        echo "<tr><td class=\"odd\"><b>Nom *</b></td><td class=\"odd\"><input name=\"name\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-        echo "<tr><td><b>E-mail</b></td><td><input name=\"email\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-        echo "<tr><td class=\"odd\"><b>Login *</b></td><td class=\"odd\"><input name=\"login\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-        echo "<tr><td><b>Status *</b></td><td><input type=\"radio\" name=\"status\" value=\"1\"/> Actif  |  <input type=\"radio\" name=\"status\" value=\"0\"/> Inactif</td></tr>\n";
-        echo "<tr><td class=\"odd\"><b>Droits *</b></td><td class=\"odd\">\n";
+        echo "<tr><td class=\"odd\"><b>".__("Name")." *</b></td><td class=\"odd\"><input name=\"name\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+        echo "<tr><td><b>".__("E-Mail")."</b></td><td><input name=\"email\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+        echo "<tr><td class=\"odd\"><b>".__("Username")." *</b></td><td class=\"odd\"><input name=\"login\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+        echo "<tr><td><b>".__("Status")." *</b></td><td><input type=\"radio\" name=\"status\" value=\"1\"/> ".__("Active")."  |  <input type=\"radio\" name=\"status\" value=\"0\"/> ".__("Inactive")."</td></tr>\n";
+        echo "<tr><td class=\"odd\"><b>".__("Rights")." *</b></td><td class=\"odd\">\n";
         echo "<select name=\"admin\" id=\"admin\">\n";
         if ($monaut == "sadmin"){
-            echo "<option value=\"1\">Super administrateur</option>\n";
-            echo "<option value=\"2\">Administrateur</option>\n";
+            echo "<option value=\"1\">".__("Super Administrator")."</option>\n";
+            echo "<option value=\"2\">".__("Administrator")."</option>\n";
         }
-        echo "<option value=\"3\">Collaborateur</option>\n";
-        echo "<option value=\"9\">Invité</option>\n";
+        echo "<option value=\"3\">".__("Collaborator")."</option>\n";
+        echo "<option value=\"9\">".__("Guest")."</option>\n";
         echo "</select></td></tr>\n";
-        echo "<tr><td><b>Bibliothèque *</b></td><td>\n";
+        echo "<tr><td><b>".__("Library")." *</b></td><td>\n";
         echo "<select name=\"library\">\n";
         $reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
         $optionslibraries="";
@@ -79,11 +79,11 @@ if (!empty($_COOKIE['illinkid'])){
             echo $optionslibraries;
         }
         echo "</select></td></tr>\n";
-        echo "<tr><td class=\"odd\"><b>Password *</b></td><td class=\"odd\"><input name=\"newpassword1\" type=\"password\" size=\"30\" value=\"\"></td></tr>\n";
-        echo "<tr><td><b>Confirmation du password *</b></td><td><input name=\"newpassword2\" type=\"password\" size=\"30\" value=\"\"></td></tr>\n";
+        echo "<tr><td class=\"odd\"><b>".__("Password")." *</b></td><td class=\"odd\"><input name=\"newpassword1\" type=\"password\" size=\"30\" value=\"\"></td></tr>\n";
+        echo "<tr><td><b>".__("Confirm password")." *</b></td><td><input name=\"newpassword2\" type=\"password\" size=\"30\" value=\"\"></td></tr>\n";
         echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-        echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer\">\n";
-        echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=users'\"></td></tr>\n";
+        echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
+        echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=users'\"></td></tr>\n";
         echo "</table>\n";
         echo "</form><br /><br />\n";
         require ("footer.php");
@@ -91,7 +91,7 @@ if (!empty($_COOKIE['illinkid'])){
     else {
         require ("header.php");
         echo "<center><br/><b><font color=\"red\">\n";
-        echo "Vos droits sont insuffisants pour consulter cette page</b></font></center><br /><br /><br /><br />\n";
+        echo __("Your rights are insufficient to edit this card")."<</b></font></center><br /><br /><br /><br />\n";
         require ("footer.php");
     }
 }

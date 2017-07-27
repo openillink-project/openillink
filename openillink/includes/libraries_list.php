@@ -27,18 +27,18 @@
 // Libraries table : List of all the libraries defined on the internal ILL network
 // 
 
-require ("config.php");
+require_once ("config.php");
 require ("authcookie.php");
 require_once ("connexion.php");
 
 if (!empty($_COOKIE['illinkid'])){
   if (($monaut == "admin")||($monaut == "sadmin")){
-    $myhtmltitle = $configname[$lang] . " : gestion des utilisateurs";
+    $myhtmltitle = $configname[$lang] . " : ".__("users management");
     require ("headeradmin.php");
     echo "\n";
 
     // Libraries List
-    echo "<h1>Gestion des bibliothèques du réseau</h1>\n";
+    echo "<h1>".__("Managing network libraries")."</h1>\n";
     $req = "SELECT * FROM libraries ORDER BY name1 ASC";// LIMIT ?, ?";
     $result = dbquery($req);//, array(0,200), 'ii');
     $total_results = iimysqli_num_rows($result);
@@ -48,9 +48,9 @@ if (!empty($_COOKIE['illinkid'])){
     echo "</center>\n";
     echo "<b><br/>".$total_results;
     if ($total_results == 1)
-        echo " bibliothèque trouvée</b></font>\n";
+        echo " ".__("library found")."</b></font>\n";
     else
-        echo " bibliothèques trouvées</b></font>\n";
+        echo " ".__("libraries found")."</b></font>\n";
     echo "<br/>";
     echo "<br/>";
 
@@ -62,14 +62,14 @@ if (!empty($_COOKIE['illinkid'])){
     echo "<thead>\n";
     echo "<tr>\n";
     echo "<th scope=\"col\">code</th>\n";
-    echo "<th scope=\"col\">".$guiLabelName1[$lang]."</th>\n";
+    echo "<th scope=\"col\">".__("Name in French")."</th>\n";
 // echo "<th scope=\"col\">name2</th>\n";
 // echo "<th scope=\"col\">name3</th>\n";
 // echo "<th scope=\"col\">name4</th>\n";
 // echo "<th scope=\"col\">name5</th>\n";
-    echo "<th scope=\"col\">default</th>\n";
-    echo "<th scope=\"col\">Ordres entrants partagés</th>\n";
-    echo "<th scope=\"col\">".$guiEdit[$lang]."</th>\n";
+    echo "<th scope=\"col\">".__("default")."</th>\n";
+    echo "<th scope=\"col\">".__("Shared incoming orders")."</th>\n";
+    echo "<th scope=\"col\">".__("Edit")."</th>\n";
     echo "</tr>\n";
     echo "</thead>\n";
     echo "<tbody>\n";
@@ -94,7 +94,7 @@ if (!empty($_COOKIE['illinkid'])){
         echo "<td>".htmlspecialchars($libdef)."</td>\n";
         echo "<td>".htmlspecialchars($hasSharedOrders)."</td>\n";
         if (($monaut == "admin")||($monaut == "sadmin")){
-            echo "<td><a href=\"edit.php?table=libraries&id=".htmlspecialchars($libid)."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
+            echo "<td><a href=\"edit.php?table=libraries&id=".htmlspecialchars($libid)."\"><img src=\"img/edit.png\" title=\"".__("Edit the card")."\" width=\"20\"></a></td>";
         }
         echo "</tr>\n";
     }
@@ -102,14 +102,14 @@ if (!empty($_COOKIE['illinkid'])){
     echo "</table>\n";
     echo "\n";
     echo "<br/><br/><ul>\n";
-    echo "<b><a href=\"new.php?table=libraries\">Ajouter une nouvelle bibliothèque</a></b>\n";
+    echo "<b><a href=\"new.php?table=libraries\">".__("Add a new library")."</a></b>\n";
     echo "<br/><br/>\n";
     echo "</ul>\n";
     require ("footer.php");
   }
   else {
     require ("header.php");
-    echo "Vos droits sont insuffisants pour consulter cette page</b></font></center><br /><br /><br /><br />\n";
+    echo __("Your rights are insufficient to edit this page")."</b></font></center><br /><br /><br /><br />\n";
     require ("footer.php");
   }
 }

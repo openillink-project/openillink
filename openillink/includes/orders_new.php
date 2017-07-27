@@ -202,15 +202,15 @@ else{
 }
 
 $ip=$_SERVER['REMOTE_ADDR'];
-$historique='Commande saisie par ' . $userid . ' le ' . $date2;
+$historique= format_string(__("Order entered by %user_id on the %date"), array('user_id' => $userid, 'date' => $date2));
 if (empty($nom))
-    $mes="le nom est obligatoire";
+    $mes= __("name required");
 if (empty($service) && empty($servautre))
-    $mes=$mes."<br>le nom du service ou de l'institution est obligatoire";
+    $mes=$mes."<br>".__("service or organisation name is required");
 if (empty($journal))
-    $mes=$mes."<br>le titre du périodique ou du livre est obligatoire";
+    $mes=$mes."<br>".__("journal or book title is required");
 if (empty($mail) && empty($adresse))
-    $mes=$mes."<br>le e-mail ou l'adresse privée sont obligatoires";
+    $mes=$mes."<br>".__("e-mail or private address are required");
 if ($mes){
     if (in_array ( $monaut, array('admin', 'sadmin', 'user'), true ))
         require ("headeradmin.php");
@@ -220,7 +220,7 @@ if ($mes){
     echo "<div class=\"box\"><div class=\"box-content\">\n";
     echo "<center><b><font color=\"red\">\n";
     echo $mes."</b></font>\n";
-    echo "<br /><br /><a href=\"javascript:history.back();\"><b>retour au formulaire de saisie</a></b></center><br />\n";
+    echo "<br /><br /><a href=\"javascript:history.back();\"><b>".__("Back to entry form")."</a></b></center><br />\n";
     echo "</div></div><div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
     require ("footer.php");
 // Error message
@@ -257,7 +257,7 @@ else{
         if ($nb > 0){
             if ($remarques)
                 $remarques = $remarques."\r\n";
-            $remarques = $remarques."ATTENTION POSSIBLE DOUBLON DE LA COMMANDE";
+            $remarques = $remarques. __("Warning. Possible duplicate of the command.");
             for ($i=0 ; $i<$nb ; $i++){
                 $enreg2 = iimysqli_result_fetch_array($result2);
                 $doublon = $enreg2['illinkid'];
@@ -289,68 +289,68 @@ if ($debugOn){
 }
 echo "<br/>\n";
 echo "\n";
-    echo "<center><b><font color=\"green\">Votre commande a été enregistrée avec succès et sera traitée prochainement</b></center></font>\n";
+    echo "<center><b><font color=\"green\">".__("Your order has been successfully registered and will be processed soon")."</b></center></font>\n";
     echo "<div class=\"hr\"><hr></div>\n";
     echo "<table align=\"center\">\n";
     echo "</td></tr>\n";
-    echo "<tr><td width=\"90\"><b>Commande</b></td>\n";
+    echo "<tr><td width=\"90\"><b>".__("Order")."</b></td>\n";
     echo "<td><b>$monno</b></td></tr>\n";
-    echo "<tr><td width=\"90\"><b>Nom</b></td>\n";
+    echo "<tr><td width=\"90\"><b>".__("Name")."</b></td>\n";
     echo "<td>".htmlspecialchars($nom). ", ". htmlspecialchars($prenom)."</td></tr>\n";
     if ($mail) {
-        echo "<tr><td width=\"90\"><b>Courriel</b></td>\n";
+        echo "<tr><td width=\"90\"><b>".__("E-Mail")."</b></td>\n";
         echo "<td>".htmlspecialchars($mail)."</td></tr>\n";
     }
     if ($service) {
-        echo "<tr><td width=\"90\"><b>Service</b></td>\n";
+        echo "<tr><td width=\"90\"><b>".__("Service")."</b></td>\n";
         echo "<td>".htmlspecialchars($service)."</td></tr>\n";
     }
     if ($tel) {
-        echo "<tr><td width=\"90\"><b>Tél.</b></td>\n";
+        echo "<tr><td width=\"90\"><b>".__("Tel.")."</b></td>\n";
         echo "<td>" . htmlspecialchars($tel) . "</td></tr>\n";
     }
     if ($adresse) {
-        echo "<tr><td width=\"90\"><b>Adresse</b></td>\n";
+        echo "<tr><td width=\"90\"><b>".__("Address")."</b></td>\n";
         echo "<td>" . htmlspecialchars ($adresse) . " ; " . htmlspecialchars ($postal) . ", " . htmlspecialchars ($localite) ."</td></tr>\n";
     }
-    echo "<tr><td width=\"90\"><b>Document</b></td>\n";
+    echo "<tr><td width=\"90\"><b>".__("Document")."</b></td>\n";
     echo "<td>".htmlspecialchars($typedoc)."</td></tr>\n";
     if ($titre) {
-        echo "<tr><td width=\"90\"><b>Titre</b></td>\n";
+        echo "<tr><td width=\"90\"><b>".__("Title")."</b></td>\n";
         echo "<td>" . htmlspecialchars ($titre) . "</td></tr>\n";
     }
     if ($auteurs) {
-        echo "<tr><td width=\"90\"><b>Auteurs</b></td>\n";
+        echo "<tr><td width=\"90\"><b>".__("Authors")."</b></td>\n";
         echo "<td>" . htmlspecialchars ($auteurs) . "</td></tr>\n";
     }
     if ($typedoc=='Article')
-        echo "<tr><td width=\"90\"><b>Périodique</b></td>\n";
+        echo "<tr><td width=\"90\"><b>".__("Journal")."</b></td>\n";
     else
-        echo "<tr><td width=\"90\"><b>Titre du livre</b></td>\n";
+        echo "<tr><td width=\"90\"><b>".__("Book title")."</b></td>\n";
     echo "<td>" . htmlspecialchars ($journal) . "</td>\n";
     echo "</tr><tr>\n";
     if ($annee) {
-        echo "<td width=\"90\"><b>Année</b></td>\n";
+        echo "<td width=\"90\"><b>".__("Year")."</b></td>\n";
         echo "<td>".htmlspecialchars ($annee)."</td></tr>\n";
     }
     if ($vol) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>Volume</b></td>\n";
+        echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Volume")."</b></td>\n";
         echo "<td>".htmlspecialchars ($vol)."</td></tr>\n";
     }
     if ($no) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>Numéro</b></td>\n";
+        echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Number")."</b></td>\n";
         echo "<td>".htmlspecialchars ($no)."</td></tr>\n";
     }
     if ($suppl) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>Suppl.</b></td>\n";
+        echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Suppl.")."</b></td>\n";
         echo "<td>".htmlspecialchars ($suppl)."</td></tr>\n";
     }
     if ($pages) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>Pages</b></td>\n";
+        echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Pages")."</b></td>\n";
         echo "<td>".htmlspecialchars ($pages)."</td></tr>\n";
     }
     if ($edition) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>Edition</b></td>\n";
+        echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Edition")."</b></td>\n";
         echo "<td>".htmlspecialchars ($edition)."</td></tr>\n";
     }
     if ($isbn) {
@@ -379,17 +379,17 @@ echo "\n";
     }
 	if (in_array($monaut, array('admin', 'sadmin','user'), true)){
 		if ($remarques) {
-			echo "<tr><td  width=\"90\" valign=\"top\"><b>Commentaire professionnel</b></td>\n";
+			echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Professional comment")."</b></td>\n";
 			echo "<td>". nl2br(htmlspecialchars($remarques))."</td></tr>\n";
 		}
 	}
     if ($remarquespub) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>Commentaire public</b></td>\n";
+        echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Public comment")."</b></td>\n";
         echo "<td>". nl2br(htmlspecialchars($remarquespub))."</td></tr>\n";
     }
     echo "</table>\n";
     echo "<div class=\"hr\"><hr></div>\n";
-    echo "<b><center><a href=\"index.php\">Remplir une nouvelle commande</a></center></b>\n";
+    echo "<b><center><a href=\"index.php\">".__("Fill in a new order")."</a></center></b>\n";
     echo "</div></div><div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
     require ("footer.php");
 }

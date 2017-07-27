@@ -94,47 +94,47 @@ echo "<div class=\"page\">\n";
 echo "<div class=\"headBar\">\n";
 echo "\n";
 echo "<div class=\"headBarRow1b\">\n";
-echo "<h1 class=\"siteTitleBar\">".$openIllinkOfficialTitle[$lang]."</h1>";
+echo "<h1 class=\"siteTitleBar\">". $sitetitle[$lang] ."</h1>";
 echo "</div>\n";
 echo "<div class=\"headBarRow2\">\n";
 echo "<div class=\"topNavArea\">\n";
 echo "<ul>\n";
 
-echo "<li><b>".htmlspecialchars($monnom)."</b>&nbsp;<a href=\"$fileLogin?action=logout\" title=\"Logout\">[" . $logout[$lang] . "]</a></li>\n";
-echo "| <li><a href=\"$fileIndex\" title=\"" . $neworder[$lang] . "\">" . $neworder[$lang] . "</a></li>\n";
+echo "<li><b>".htmlspecialchars($monnom)."</b>&nbsp;<a href=\"$fileLogin?action=logout\" title=\"Logout\">[" . __("Logout") . "]</a></li>\n";
+echo "| <li><a href=\"$fileIndex\" title=\"" . __("New Order") . "\">" . __("New Order") . "</a></li>\n";
 if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
-	echo "| &nbsp;<li><a href=\"$fileList?folder=in\" title=\"" . $inhelp[$lang] . "\"";
+	echo "| &nbsp;<li><a href=\"$fileList?folder=in\" title=\"" . __("Inbox") . "\"";
 	if ($folder == 'in')
 		echo " class=\"selected\"";
-	echo ">" . $inbox[$lang] . "</a></li>\n";
-	echo "<li><a href=\"$fileList?folder=out\" title=\"" . $outhelp[$lang] . "\"";
+	echo ">" . __("In") . "</a></li>\n";
+	echo "<li><a href=\"$fileList?folder=out\" title=\"" . __("Orders sent to the outside and not yet received") . "\"";
 	if ($folder == 'out')
 		echo " class=\"selected\"";
-	echo ">" . $outbox[$lang] . "</a></li>\n";
-	echo "<li><a href=\"$fileList?folder=all\" title=\"" . $allhelp[$lang] . "\"";
+	echo ">" . __("Out") . "</a></li>\n";
+	echo "<li><a href=\"$fileList?folder=all\" title=\"" . __("All orders") . "\"";
 	if ($folder == 'all')
 		echo " class=\"selected\"";
-	echo ">" . $allbox[$lang] . "</a></li>\n";
-	echo "<li><a href=\"$fileList?folder=trash\" title=\"" . $trashhelp[$lang] . "\"";
+	echo ">" . __("All") . "</a></li>\n";
+	echo "<li><a href=\"$fileList?folder=trash\" title=\"" . __("Orders deleted") . "\"";
 	if ($folder == 'trash')
 		echo " class=\"selected\"";
-	echo ">" . $trashbox[$lang] . "</a></li>\n";
+	echo ">" . __("Trash") . "</a></li>\n";
 	
 	// Folders personalized
 	require_once ("folders.php");
 	
 
 ///** begin test
-	echo "| &nbsp;&nbsp;<li><a href=\"$fileAdmin\" title=\"" . $adminhelp[$lang] . "\">" . $admindisp[$lang] . "</a></li>\n";
+	echo "| &nbsp;&nbsp;<li><a href=\"$fileAdmin\" title=\"" . __("Administration of users and values") . "\">" . __("Administration") . "</a></li>\n";
 	if (($monaut == "admin")||($monaut == "sadmin")){
 ///** end test
 
-		echo "| &nbsp;&nbsp;<li><a href=\"$fileReports\" title=\"" . $reporthelp[$lang] . "\">" . $reportdisp[$lang] . "</a></li>\n";
-		//echo "| &nbsp;&nbsp;<li><a href=\"help.php\" title=\"" . $helphelp[$lang] . "\">" . $helpdisp[$lang] . "</a></li>\n";
+		echo "| &nbsp;&nbsp;<li><a href=\"$fileReports\" title=\"" . __("Obtain configured reports") . "\">" . __("Reports") . "</a></li>\n";
+		//echo "| &nbsp;&nbsp;<li><a href=\"help.php\" title=\"" . __("Help topics") . "\">" . __("Help") . "</a></li>\n";
 	}
 }
 if ($monaut == "guest"){
-	echo "<li><a href=\"$fileList?folder=guest\" title=\"" . $myordershelp[$lang] . "\">" . $myorders[$lang] . "</a></li>\n";
+	echo "<li><a href=\"$fileList?folder=guest\" title=\"" . __("See all my orders") . "\">" . __("My orders") . "</a></li>\n";
 }
 // Link to journals database
 echo "| &nbsp;&nbsp;<li><a href=\"" . $atozlinkurl[$lang] . "\" title=\"" . $atozname[$lang] . "\">" . $atozname[$lang] . "</a></li>\n";

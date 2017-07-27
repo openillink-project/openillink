@@ -32,14 +32,14 @@ require_once ("authcookie.php");
 require_once ("connexion.php");
 require_once ("includes/toolkit.php");
 
-$montitle = "Gestion des bibliothèques";
+$montitle = __("Libraries management");
 $id = ((!empty($_GET['id'])) && isValidInput($_GET['id'],11,'s',false)) ? $_GET['id']:"";
 if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")){
         if ($id!=""){
             $req = "SELECT * FROM libraries WHERE id = ?";
-            $myhtmltitle = "Commandes de l'".$configinstitution[$lang].": édition de la bibliothèque ". htmlspecialchars($id);
-            $montitle = "Gestion des bibliothèques : édition de la fiche " . htmlspecialchars($id);
+            $myhtmltitle = format_string(__("%institution_name command: Librairies management : Edition of the library %id_library"), array('id_library' => htmlspecialchars($id), 'institution_name' => $configinstitution[$lang]));
+            $montitle = format_string(__("Librairies management : edition of card %id_card"), array('id_card' => htmlspecialchars($id)));
             require ("headeradmin.php");
             $result = dbquery($req, array($id), 's');
             $nb = iimysqli_num_rows($result);
@@ -63,43 +63,43 @@ if (!empty($_COOKIE['illinkid'])){
                 echo "<input name=\"id\" type=\"hidden\" value=\"".$libid."\">\n";
                 echo "<input name=\"action\" type=\"hidden\" value=\"update\">\n";
                 echo "<table id=\"hor-zebra\">\n";
-                echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer les modifications\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=libraries'\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=libraries&id=" . htmlspecialchars($libid) . "'\"></td></tr>\n";
+                echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save the changes")."\">\n";
+                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=libraries'\">\n";
+                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=libraries&id=" . htmlspecialchars($libid) . "'\"></td></tr>\n";
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-                echo "<tr><td><b>Code *</b></td><td>\n";
+                echo "<tr><td><b>".__("Code")." *</b></td><td>\n";
                 echo "<input name=\"code\" type=\"text\" size=\"30\" value=\"" . htmlspecialchars($libcode) . "\"></td></tr>\n";
                 echo "</td></tr>\n";
-                echo "<tr><td class=\"odd\"><b>".$guiLabelName1[$lang]." *</b></td><td class=\"odd\"><input name=\"name1\" type=\"text\" size=\"30\" value=\"" . htmlspecialchars($name["fr"]) . "\"></td></tr>\n";
-                echo "<tr><td><b>".$guiLabelName2[$lang]."</b></td><td><input name=\"name2\" type=\"text\" size=\"30\" value=\"" . htmlspecialchars($name["en"]) . "\"></td></tr>\n";
-                echo "<tr><td class=\"odd\"><b>".$guiLabelName3[$lang]."</b></td><td class=\"odd\"><input name=\"name3\" type=\"text\" size=\"30\" value=\"" . htmlspecialchars($name["de"]) . "\"></td></tr>\n";
-                echo "<tr><td><b>".$guiLabelName4[$lang]."</b></td><td><input name=\"name4\" type=\"text\" size=\"30\" value=\"" . htmlspecialchars($name["it"]) . "\"></td></tr>\n";
-                echo "<tr><td class=\"odd\"><b>".$guiLabelName5[$lang]."</b></td><td class=\"odd\"><input name=\"name5\" type=\"text\" size=\"30\" value=\"" . htmlspecialchars($name["es"]) . "\"></td></tr>\n";
+                echo "<tr><td class=\"odd\"><b>".__("Name in French")." *</b></td><td class=\"odd\"><input name=\"name1\" type=\"text\" size=\"30\" value=\"" . htmlspecialchars($name["fr"]) . "\"></td></tr>\n";
+                echo "<tr><td><b>".__("Name in English")."</b></td><td><input name=\"name2\" type=\"text\" size=\"30\" value=\"" . htmlspecialchars($name["en"]) . "\"></td></tr>\n";
+                echo "<tr><td class=\"odd\"><b>".__("Name in German")."</b></td><td class=\"odd\"><input name=\"name3\" type=\"text\" size=\"30\" value=\"" . htmlspecialchars($name["de"]) . "\"></td></tr>\n";
+                echo "<tr><td><b>".__("Name in Italian")."</b></td><td><input name=\"name4\" type=\"text\" size=\"30\" value=\"" . htmlspecialchars($name["it"]) . "\"></td></tr>\n";
+                echo "<tr><td class=\"odd\"><b>".__("Name in Spanish")."</b></td><td class=\"odd\"><input name=\"name5\" type=\"text\" size=\"30\" value=\"" . htmlspecialchars($name["es"]) . "\"></td></tr>\n";
                 echo "<tr><td><b>Default</b></td><td><input name=\"default\" value=\"1\" type=\"checkbox\"";
                 if ($libdef==1)
                     echo " checked";
                 echo "></td></tr>\n";
-                echo "<tr><td class=\"odd\"><b>Afficher les ordres entrants pour cette bibliothèque avec la bibliothèque principale</b></td><td class=\"odd\"><input name=\"hasSharedOrders\" value=\"1\" type=\"checkbox\"";
+                echo "<tr><td class=\"odd\"><b>".__("Show incoming orders for this library with the main library")."</b></td><td class=\"odd\"><input name=\"hasSharedOrders\" value=\"1\" type=\"checkbox\"";
                 if ($hasSharedOrders==1)
                     echo " checked";
                 echo "></td></tr>\n";
 				echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
 				echo '<tr><td colspan="2">';
-				echo '<b><label for="signature">'.$guiLibrarySignature[$lang]. '</label></b><br/>';
+				echo '<b><label for="signature">'.__("Signature (for emails sent to users)"). '</label></b><br/>';
 				echo '<textarea id="signature" name="signature" rows="5" cols="80">'. htmlspecialchars($signature) . '</textarea>';
 				echo '</td></tr>';
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-                echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer les modifications\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=libraries'\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=libraries&id=" . htmlspecialchars($libid) . "'\"></td></tr>\n";
+                echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save the changes")."\">\n";
+                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=libraries'\">\n";
+                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=libraries&id=" . htmlspecialchars($libid) . "'\"></td></tr>\n";
                 echo "</table>\n";
                 echo "</form><br /><br />\n";
                 require ("footer.php");
             }
             else{
                 echo "<center><br/><b><font color=\"red\">\n";
-                echo "La fiche " . htmlspecialchars($id) . " n'a pas été trouvée dans la base.</b></font>\n";
-                echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche ou contactez l'administrateur de la base : " . $configemail . "</b></center><br /><br /><br /><br />\n";
+                echo format_string(__("The card %id_card was not found in the database."), array('id_card' => htmlspecialchars($id)))."</b></font>\n";
+                echo "<br /><br /><b>".__("Please restart your search or contact the database administrator")." : " . $configemail . "</b></center><br /><br /><br /><br />\n";
                 require ("footer.php");
             }
         }
@@ -107,8 +107,8 @@ if (!empty($_COOKIE['illinkid'])){
             require ("header.php");
             //require ("menurech.php");
             echo "<center><br/><b><font color=\"red\">\n";
-            echo "La fiche n'a pas été trouvée dans la base.</b></font>\n";
-            echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche ou contactez l'administrateur de la base : " . $configemail . "</b></center><br /><br /><br /><br />\n";
+            echo __("The card %id_card was not found in the database.")."</b></font>\n";
+            echo "<br /><br /><b>".__("Please restart your search or contact the database administrator")." : " . $configemail . "</b></center><br /><br /><br /><br />\n";
             echo "<br /><br />\n";
             echo "</ul>\n";
             echo "\n";
@@ -118,7 +118,7 @@ if (!empty($_COOKIE['illinkid'])){
     else{
         require ("header.php");
         echo "<center><br/><b><font color=\"red\">\n";
-        echo "Vos droits sont insuffisants pour éditer cette fiche</b></font></center><br /><br /><br /><br />\n";
+        echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
         require ("footer.php");
     }
 }

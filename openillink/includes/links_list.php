@@ -26,17 +26,17 @@
 // ***************************************************************************
 // Links table : List of deep links used to search databases or transfert orders into axternal systems
 //
-require ("config.php");
+require_once ("config.php");
 require ("authcookie.php");
 require_once ("connexion.php");
 
 if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")){
-        $myhtmltitle = $configname[$lang] . " : gestion des liens";
+        $myhtmltitle = $configname[$lang] . " : ".__("links management");
         require ("headeradmin.php");
         echo "\n";
         // Localizations List
-        echo "<h1>Gestion des liens externes</h1>\n";
+        echo "<h1>".__("Management of external links")."</h1>\n";
         $req = "SELECT * FROM links ORDER BY library ASC, title ASC";// LIMIT ?, ?";
         $result = dbquery($req);//, array(0,200), 'ii');
         $total_results = iimysqli_num_rows($result);
@@ -45,9 +45,9 @@ if (!empty($_COOKIE['illinkid'])){
         echo "</center>\n";
         echo "<b><br/>".$total_results;
         if ($total_results == 1)
-            echo " lien trouvé</b></font>\n";
+            echo " ".__("link found")."</b></font>\n";
         else
-            echo " liens trouvés</b></font>\n";
+            echo " ".__("links found")."</b></font>\n";
         echo "<br/>";
         echo "<br/>";
         echo "<table id=\"one-column-emphasis\" summary=\"\">\n";
@@ -57,14 +57,14 @@ if (!empty($_COOKIE['illinkid'])){
         echo "\n";
         echo "<thead>\n";
         echo "<tr>\n";
-        echo "<th scope=\"col\">Nom</th>\n";
-        echo "<th scope=\"col\">URL</th>\n";
-        echo "<th scope=\"col\">Recherche par</th>\n";
-        echo "<th scope=\"col\">Formulaire de commande</th>\n";
+        echo "<th scope=\"col\">".__("Name")."</th>\n";
+        echo "<th scope=\"col\">".__("URL")."</th>\n";
+        echo "<th scope=\"col\">".__("Search by")."</th>\n";
+        echo "<th scope=\"col\">".__("Order form")."</th>\n";
         /*echo "<th scope=\"col\">OpenURL</th>\n";*/
-        echo "<th scope=\"col\">Bibliothèque</th>\n";
-        echo "<th scope=\"col\">Position dans la liste</th>\n";
-        echo "<th scope=\"col\">Lien actif</th>\n";
+        echo "<th scope=\"col\">".__("Library")."</th>\n";
+        echo "<th scope=\"col\">".__("List position")."</th>\n";
+        echo "<th scope=\"col\">".__("Active link")."</th>\n";
         echo "<th scope=\"col\"></th>\n";
         echo "</tr>\n";
         echo "</thead>\n";
@@ -103,26 +103,26 @@ if (!empty($_COOKIE['illinkid'])){
                 $separateur = " ; ";
             }
             if ($linksearch_ptitle == 1){
-                echo $separateur . "Titre du périodique";
+                echo $separateur .__("Journal title");
                 $separateur = " ; ";
             }
             if ($linksearch_btitle == 1){
-                echo $separateur . "Titre du livre";
+                echo $separateur .__("Book title");
                 $separateur = " ; ";
             }
             if ($linksearch_atitle == 1){
-                echo $separateur . "Titre de l'article";
+                echo $separateur .__("Article title");
                 $separateur = " ; ";
             }
             echo "</td>\n";
             echo "<td>";
             $separateur = "";
             if ($linkorder_ext == 1){
-                echo "Externe";
+                echo __("External");
                 $separateur = " ; ";
             }
             if ($linkorder_form == 1){
-                echo "Interne";
+                echo __("Internal");
                 $separateur = " ; ";
             }
             echo "</td>\n";
@@ -131,7 +131,7 @@ if (!empty($_COOKIE['illinkid'])){
             echo "<td>".htmlspecialchars($linkposition)."</td>\n";
             echo "<td>".htmlspecialchars($linkactive)."</td>\n";
             if (($monaut == "admin")||($monaut == "sadmin")){
-                echo "<td><a href=\"edit.php?table=links&amp;id=".htmlspecialchars($linkid)."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
+                echo "<td><a href=\"edit.php?table=links&amp;id=".htmlspecialchars($linkid)."\"><img src=\"img/edit.png\" title=\"".__("Edit card")."\" width=\"20\"></a></td>";
             }
             echo "</tr>\n";
         }
@@ -139,14 +139,14 @@ if (!empty($_COOKIE['illinkid'])){
         echo "</table>\n";
         echo "\n";
         echo "<br/><br/><ul>\n";
-        echo "<b><a href=\"new.php?table=links\">Ajouter un nouveau lien </a></b>\n";
+        echo "<b><a href=\"new.php?table=links\">".__("Add a new link")."</a></b>\n";
         echo "<br/><br/>\n";
         echo "</ul>\n";
         require ("footer.php");
     }
     else{
         require ("header.php");
-        echo "Vos droits sont insuffisants pour consulter cette page</b></font></center><br /><br /><br /><br />\n";
+        echo __("Your rights are insufficient to edit this page")."</b></font></center><br /><br /><br /><br />\n";
         require ("footer.php");
     }
 }

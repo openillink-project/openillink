@@ -118,6 +118,7 @@ T_bind_textdomain_codeset($domain, 'UTF-8');
 T_textdomain($domain);
 
 // Document types (based on OpenURL spec)
+/* MR mis dans config
 $doctypes[0]["code"] = "article";
 $doctypes[1]["code"] = "preprint";
 $doctypes[2]["code"] = "book";
@@ -181,9 +182,11 @@ $doctypes[8]["en"] = "Other";
 $doctypes[8]["de"] = "Other";
 $doctypes[8]["it"] = "Other";
 $doctypes[8]["es"] = "Other";
+*/
 
 // Commons terms
 
+/*
 $loginmessage["fr"] = "Se connecter";
 $loginmessage["en"] = "Login";
 $loginmessage["de"] = "Login";
@@ -262,12 +265,6 @@ $admindisp["de"] = "Administration";
 $admindisp["it"] = "Amministrazione";
 $admindisp["es"] = "Administration";
 
-$reporthelp["fr"] = "Obtention des statistiques configurées";
-$reporthelp["en"] = "Obtain configured reports";
-$reporthelp["de"] = "Obtain configured reports";
-$reporthelp["it"] = "Ottenere le statistiche configurate";
-$reporthelp["es"] = "Obtain configured reports";
-
 $reportdisp["fr"] = "Statistiques";
 $reportdisp["en"] = "Reports";
 $reportdisp["de"] = "Reports";
@@ -303,8 +300,9 @@ $firstmessage["en"] = "Document order form to the ";
 $firstmessage["de"] = "Document order form to the ";
 $firstmessage["it"] = "Formulario di richiesta di documenti presso ";
 $firstmessage["es"] = "Document order form to the ";
-
+*/
 // Optional second line message on order page
+/*
 $secondmessage["fr"] = "";
 $secondmessage["en"] = "";
 $secondmessage["de"] = "";
@@ -408,7 +406,7 @@ $refextmessage["it"] = "Ref. fornitore";
 $refextmessage["es"] = "Provider Ref.";
 
 $refintmessage["fr"] = "Réf. interne à la bibliothèque";
-$refintmessage["en"] = "Ref. internal to the library";
+$refintmessage["en"] = "Internal ref. to the library";
 $refintmessage["de"] = "Ref. internal to the library";
 $refintmessage["it"] = "Ref. interna alla biblioteca";
 $refintmessage["es"] = "Ref. internal to the library";
@@ -756,14 +754,14 @@ $guiEdit["en"] = "Edit";
 $guiEdit["de"] = "Edit";
 $guiEdit["it"] = "Edit";
 $guiEdit["es"] = "Edit";
-
+*/
 
 
 
 
 
 /* Texts for mail resend (cfr resend_credential.php)*/
-
+/*
 $resendPwdTxt["subject"]["fr"] = "OpenILLink récupération de mot de passe";
 $resendPwdTxt["subject"]["en"] = "OpenILLink resend password";
 $resendPwdTxt["subject"]["de"] = "OpenILLink resend password";
@@ -789,7 +787,7 @@ $resendPwdTxt["par2Txt"]["it"] = "This account allows you to review list of your
 $resendPwdTxt["par2Txt"]["es"] = "This account allows you to review list of your document orders.";
 
 $resendPwdTxt["par3Txt"]["fr"] = "Si vous n'avez pas fait cette demande merci de nous le signaler.";
-$resendPwdTxt["par3Txt"]["en"] = "f you have not made ​​that request thank you to let us know.";
+$resendPwdTxt["par3Txt"]["en"] = "If you have not made ​​that request thank you to let us know.";
 $resendPwdTxt["par3Txt"]["de"] = "f you have not made ​​that request thank you to let us know.";
 $resendPwdTxt["par3Txt"]["it"] = "f you have not made ​​that request thank you to let us know.";
 $resendPwdTxt["par3Txt"]["es"] = "f you have not made ​​that request thank you to let us know.";
@@ -856,5 +854,5 @@ $searchForm["ordersSubmittedByMe"]["en"] = "Orders submitted by me only";
 $searchForm["ordersSubmittedByMe"]["de"] = "Orders submitted by me only";
 $searchForm["ordersSubmittedByMe"]["it"] = "Orders submitted by me only";
 $searchForm["ordersSubmittedByMe"]["es"] = "Orders submitted by me only";
-
+*/
 ?>

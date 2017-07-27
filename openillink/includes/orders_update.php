@@ -171,14 +171,14 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
             if (empty($nom))
                 $mes="le nom est obligatoire";
             if (empty($journal))
-                $mes=$mes."<br>le titre du périodique ou du livre est obligatoire";
+                $mes=$mes."<br>". __("journal or book title is required");
             if ($mes){
                 require ("headeradmin.php");
                 echo "\n";
                 echo "<div class=\"box\"><div class=\"box-content\">\n";
                 echo "<center><b><font color=\"red\">\n";
                 echo $mes."</b></font>\n";
-                echo "<br /><br /><a href=\"javascript:history.back();\"><b>retour au formulaire de saisie</a></b></center><br />\n";
+                echo "<br /><br /><a href=\"javascript:history.back();\"><b>".__("Back to entry form")."</a></b></center><br />\n";
                 echo "</div></div><div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
                 require ("footer.php");
             }
@@ -192,68 +192,68 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
                 echo "\n";
                 echo "<div class=\"box\"><div class=\"box-content\">\n";
                 echo "\n";
-                echo "<center><b><font color=\"green\">Votre commande a été modifiée avec succès</b></center></font>\n";
+                echo "<center><b><font color=\"green\">".__("Your order has been successfully modified")."</b></center></font>\n";
                 echo "<div class=\"hr\"><hr></div>\n";
                 echo "<table align=\"center\">\n";
                 echo "</td></tr>\n";
-                echo "<tr><td width=\"90\"><b>Commande</b></td>\n";
+                echo "<tr><td width=\"90\"><b>".__("Order")."</b></td>\n";
                 echo "<td><b>".htmlspecialchars($id)."</b></td></tr>\n";
-                echo "<tr><td width=\"90\"><b>Nom</b></td>\n";
+                echo "<tr><td width=\"90\"><b>".__("Name")."</b></td>\n";
                 echo "<td>".htmlspecialchars($nom).", ".htmlspecialchars($prenom)."</td></tr>\n";
                 if ($mail) {
-                    echo "<tr><td width=\"90\"><b>Courriel</b></td>\n";
+                    echo "<tr><td width=\"90\"><b>".__("E-Mail")."</b></td>\n";
                     echo "<td>".htmlspecialchars($mail)."</td></tr>\n";
                 }
                 if ($service) {
-                    echo "<tr><td width=\"90\"><b>Service</b></td>\n";
+                    echo "<tr><td width=\"90\"><b>".__("Service")."</b></td>\n";
                     echo "<td>".htmlspecialchars($service)."</td></tr>\n";
                 }
                 if ($tel) {
-                    echo "<tr><td width=\"90\"><b>Tél.</b></td>\n";
+                    echo "<tr><td width=\"90\"><b>".__("Tel.")."</b></td>\n";
                     echo "<td>" . htmlspecialchars($tel) . "</td></tr>\n";
                 }
                 if ($adresse) {
-                    echo "<tr><td width=\"90\"><b>Adresse</b></td>\n";
+                    echo "<tr><td width=\"90\"><b>".__("Address")."</b></td>\n";
                     echo "<td>" . htmlspecialchars($adresse) . " ; " . htmlspecialchars($postal) . ", " . htmlspecialchars($localite) ."</td></tr>\n";
                 }
-                echo "<tr><td width=\"90\"><b>Document</b></td>\n";
+                echo "<tr><td width=\"90\"><b>".__("Document")."</b></td>\n";
                 echo "<td>".htmlspecialchars($typedoc)."</td></tr>\n";
                 if ($titre) {
-                    echo "<tr><td width=\"90\"><b>Titre</b></td>\n";
+                    echo "<tr><td width=\"90\"><b>".__("Title")."</b></td>\n";
                     echo "<td>" . htmlspecialchars($titre) . "</td></tr>\n";
                 }
                 if ($auteurs) {
-                    echo "<tr><td width=\"90\"><b>Auteurs</b></td>\n";
+                    echo "<tr><td width=\"90\"><b>".__("Authors")."</b></td>\n";
                     echo "<td>" . htmlspecialchars($auteurs) . "</td></tr>\n";
                 }
                 if ($typedoc=='Article')
-                    echo "<tr><td width=\"90\"><b>Périodique</b></td>\n";
+                    echo "<tr><td width=\"90\"><b>".__("Journal")."</b></td>\n";
                 else
-                    echo "<tr><td width=\"90\"><b>Titre du livre</b></td>\n";
+                    echo "<tr><td width=\"90\"><b>".__("Book title")."</b></td>\n";
                 echo "<td>" . htmlspecialchars($journal) . "</td>\n";
                 echo "</tr><tr>\n";
                 if ($annee) {
-                    echo "<td width=\"90\"><b>Année</b></td>\n";
+                    echo "<td width=\"90\"><b>".__("Year")."</b></td>\n";
                     echo "<td>".htmlspecialchars($annee)."</td></tr>\n";
                 }
                 if ($vol) {
-                    echo "<tr><td  width=\"90\" valign=\"top\"><b>Volume</b></td>\n";
+                    echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Volume")."</b></td>\n";
                     echo "<td>".htmlspecialchars($vol)."</td></tr>\n";
                 }
                 if ($no) {
-                    echo "<tr><td  width=\"90\" valign=\"top\"><b>Numéro</b></td>\n";
+                    echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Number")."</b></td>\n";
                     echo "<td>".htmlspecialchars($no)."</td></tr>\n";
                 }
                 if ($suppl) {
-                    echo "<tr><td  width=\"90\" valign=\"top\"><b>Suppl.</b></td>\n";
+                    echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Suppl.")."</b></td>\n";
                     echo "<td>".htmlspecialchars($suppl)."</td></tr>\n";
                 }
                 if ($pages) {
-                    echo "<tr><td  width=\"90\" valign=\"top\"><b>Pages</b></td>\n";
+                    echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Pages")."</b></td>\n";
                     echo "<td>".htmlspecialchars($pages)."</td></tr>\n";
                 }
                 if ($edition) {
-                    echo "<tr><td  width=\"90\" valign=\"top\"><b>Edition</b></td>\n";
+                    echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Edition")."</b></td>\n";
                     echo "<td>".htmlspecialchars($edition)."</td></tr>\n";
                 }
                 if ($isbn) {
@@ -277,17 +277,17 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
                     echo "<td>".htmlspecialchars($uid)."</td></tr>\n";
                 }
                 if ($remarques) {
-                    echo "<tr><td  width=\"90\" valign=\"top\"><b>Commentaire professionnel</b></td>\n";
+                    echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Professional comment")."</b></td>\n";
                     echo "<td>".nl2br(htmlspecialchars($remarques))."</td></tr>\n";
                 }
                 if ($remarquespub) {
-                    echo "<tr><td  width=\"90\" valign=\"top\"><b>Commentaire public</b></td>\n";
+                    echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Public comment")."</b></td>\n";
                     echo "<td>".nl2br(htmlspecialchars($remarquespub))."</td></tr>\n";
                 }
                 /*echo "<tr><td>localisation:</td><td>$localisation;</td></tr>\n";*/
                 echo "</table>\n";
                 echo "<div class=\"hr\"><hr></div>\n";
-                echo "<b><center><a href=\"detail.php?table=orders&amp;id=".htmlspecialchars($id)."\">Retourner à la fiche de commande</a></center></b>\n";
+                echo "<b><center><a href=\"detail.php?table=orders&amp;id=".htmlspecialchars($id)."\">".__("Return to the order form")."</a></center></b>\n";
                 echo "</div></div><div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
             }
         }
@@ -301,18 +301,18 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
     // Début de la suppresion
     if ($action == "delete"){
         if (($monaut == "admin")||($monaut == "sadmin")){
-            $myhtmltitle = $configname[$lang] . " : confirmation pour la suppresion de la commande " . htmlspecialchars($id);
+            $myhtmltitle = format_string(__("%institution_name : confirmation for deletion of the order %order_id"), array('institution_name' => $configname[$lang], 'order_id' => $id));
             require ("headeradmin.php");
             echo "<center><br/><br/><br/><b><font color=\"red\">\n";
-            echo "Voulez-vous vraiement supprimer la fiche " . htmlspecialchars($id) . "?</b></font>\n";
+            echo format_string(__("Are you sure you want to delete record %order_id ?"), array('order_id' => htmlspecialchars($id))). "</b></font>\n";
             echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
             echo "<input name=\"table\" type=\"hidden\" value=\"orders\">\n";
             echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($id)."\">\n";
             echo "<input name=\"action\" type=\"hidden\" value=\"deleteok\">\n";
             echo "<br /><br />\n";
-            echo "<input type=\"submit\" value=\"Confirmer la suppression de la fiche " . htmlspecialchars($id) . " en cliquant ici\">\n";
+            echo "<input type=\"submit\" value=\"".format_string(__("Confirm the deletion of order %order_id by clicking here"), array('order_id' => htmlspecialchars($id)))."\">\n";
             echo "</form>\n";
-            echo "<br/><br/><br/><a href=\"list.php?table=orders\">Retour à la liste des commandes</a></center>\n";
+            echo "<br/><br/><br/><a href=\"list.php?table=orders\">".__("Return to the orders list")."</a></center>\n";
             echo "</center>\n";
             echo "\n";
         }
@@ -327,13 +327,13 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
     if ($action == "deleteok"){
         if (($monaut == "admin")||($monaut == "sadmin")){
             $id = ((!empty($_POST['id'])) && isValidInput($_POST['id'],8,'i',false)) ? $_POST['id'] : NULL;
-            $myhtmltitle = $configname[$lang] . " : suppresion de la commande " . htmlspecialchars($id);
+            $myhtmltitle = format_string(__("%institution_name : deletion of the order %order_id"), array('institution_name' => $configname[$lang], 'order_id' => $id));
             require ("headeradmin.php");
             $query = "DELETE FROM orders WHERE orders.illinkid = ?";
             $result = dbquery($query, array($id), 's') or die("Error : ".mysqli_error());
             echo "<center><br/><b><font color=\"green\">\n";
-            echo "La fiche " . htmlspecialchars($id) . " a été supprimée avec succès</b></font>\n";
-            echo "<br/><br/><br/><a href=\"list.php?table=orders\">Retour à la liste des commandes</a></center>\n";
+            echo format_string(__("The order %order_id has been successfully deleted"), array('order_id' => htmlspecialchars($id)))."</b></font>\n";
+            echo "<br/><br/><br/><a href=\"list.php?table=orders\">".__("Return to the orders list")."</a></center>\n";
             echo "</center>\n";
             echo "\n";
         }

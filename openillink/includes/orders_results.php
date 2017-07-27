@@ -41,9 +41,9 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
     }
 */
     if ($total_results == 1)
-        echo "<b>" . $total_results." commande trouv&eacute;e</b>\n";
+        echo "<b>" . format_string(__("%total_results order found"), array('total_results' => $total_results))."</b>\n";
     else
-        echo "<b>" . $total_results." commandes trouv&eacute;es</b>\n";
+        echo "<b>" . format_string(__("%total_results orders found"), array('total_results' => $total_results))."</b>\n";
     echo "<br />";
     echo "<br />";
 
@@ -74,7 +74,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
             echo "<tr><td valign=\"top\" width=\"20\">&nbsp;</td>\n";
             echo "<td valign=\"top\" align=\"left\">\n";
             if ($monaut != "guest")
-                echo "<a href=\"detail.php?table=orders&id=".$id."\" title=\"voir la notice compl&egrave;te\">\n";
+                echo "<a href=\"detail.php?table=orders&id=".$id."\" title=\"".__("See full record")."\">\n";
             require ("ordertop.php");
             echo "<br>\n";
             echo "</td></tr>\n";

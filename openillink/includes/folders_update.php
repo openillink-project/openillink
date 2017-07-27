@@ -4,6 +4,7 @@
 // ***************************************************************************
 // This file is part of OpenILLink software.
 // Copyright (C) 2017 UNIGE.
+// Copyright (C) 2017 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -401,25 +402,25 @@ if (!empty($_COOKIE['illinkid'])){
 		if (($action == "update")||($action == "new")){
 			// Tester les champs obligatoires
 			if ($foldertitle == "")
-				$mes = $mes . "<br/>le Titre du filtre est obligatoire";
+				$mes = $mes . "<br/>".__("Filter Title is required");
 			if ($folderdescription == "")
-				$mes = $mes . "<br/>la description est obligatoire";
+				$mes = $mes . "<br/>".__("Description is required");
 			if (($folderuser == "") && ($folderlibrary == ""))
-				$mes = $mes . "<br/>l'utilisateur ou la bibliothèque d'assignation est obligatoire";
+				$mes = $mes . "<br/>".__("User or assignment of the library is required");
 			if (($folderquery == "") && ($folderqueryedit == ""))
-				$mes = $mes . "<br/>une recherche au moins est obligatoire";
+				$mes = $mes . "<br/>".__("At least one search is required");
 			if ($mes != ""){
 				require ("headeradmin.php");
 				echo "<center><br/><b><font color=\"red\">\n";
 				echo $mes."</b></font>\n";
-				echo "<br /><br /><a href=\"javascript:history.back();\"><b>retour au formulaire</a></b></center><br /><br /><br /><br />\n";
+				echo "<br /><br /><a href=\"javascript:history.back();\"><b>".__("Back to form")."</a></b></center><br /><br /><br /><br />\n";
 				require ("footer.php");
 			}
 			else{
 				// Début de l'édition
 				if ($action == "update"){
 					if ($id != ""){
-						$myhtmltitle = $configname[$lang] . " : édition de la fiche du filtre " . htmlspecialchars($id);
+						$myhtmltitle = $configname[$lang] . " : ".__("edition of the filter card")." " . htmlspecialchars($id);
 						require ("headeradmin.php");
 						$reqid = "SELECT * FROM folders WHERE id = ?";
 						$resultid = dbquery($reqid, array($id), 'i');
@@ -433,16 +434,16 @@ if (!empty($_COOKIE['illinkid'])){
 							'WHERE folders.id=?';
 							$params = array($foldertitle, $folderdescription, $folderqueryedit, $folderuser, $folderlibrary, $folderactive, $folderposition, $id);
 							$typeParam = 'sssssiii';
-							$resultupdate = dbquery($query, $params, $typeParam) or die("Error : ".mysqli_error());
+							$resultupdate = dbquery($query, $params, $typeParam) or die(__("Error")." : ".mysqli_error());
 							echo "<center><br/><b><font color=\"green\">\n";
-							echo "La modification de la fiche ".htmlspecialchars($id)." a été enregistrée avec succès</b></font>\n";
-							echo "<br/><br/><br/><a href=\"list.php?table=folders\">Retour à la liste de filtres</a></center>\n";
+							echo format_string(__("The modification of the card %id_card has been successfully registered"),array('id_card' => htmlspecialchars($id)))."</b></font>\n";
+							echo "<br/><br/><br/><a href=\"list.php?table=folders\">".__("Back to the filters list")."</a></center>\n";
 							require ("footer.php");
 						}
 						else{
 							echo "<center><br/><b><font color=\"red\">\n";
-							echo "La modification n'a pas été enregistrée car l'identifiant de la fiche " . htmlspecialchars($id) . " n'a pas été trouvé dans la base.</b></font>\n";
-							echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche ou contactez l'administrateur de la base : " . $configemail . "</b></center><br /><br /><br /><br />\n";
+							echo format_string(__("The change was not saved because the identifier of record %id_card was not found in the database."),array('id_card' => htmlspecialchars($id)))."</b></font>\n";
+							echo "<br /><br /><b>".__("Please restart your search or contact the database administrator")." : " . $configemail . "</b></center><br /><br /><br /><br />\n";
 							require ("footer.php");
 						}
 					}
@@ -450,22 +451,22 @@ if (!empty($_COOKIE['illinkid'])){
 						require ("headeradmin.php");
 						//require ("menurech.php");
 						echo "<center><br/><b><font color=\"red\">\n";
-						echo "La modification n'a pas été enregistrée car il manque l'identifiant de la fiche</b></font>\n";
-						echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche</b></center><br /><br /><br /><br />\n";
+						echo __("The modification was not saved because it lacks the identifier of the form")."</b></font>\n";
+						echo "<br /><br /><b>".__("Please retry your search")."</b></center><br /><br /><br /><br />\n";
 						require ("footer.php");
 					}
 				}
 				// Fin de l'édition
 				// Début de la création
 				if ($action == "new"){
-					$myhtmltitle = $configname[$lang] . " : nouveau filtre ";
+					$myhtmltitle = $configname[$lang] . " : ".__("new filter");
 					require ("headeradmin.php");
 					$query = "INSERT INTO `folders` (`title`, `description`, `query`, `user`, `library`, `active`, `position`) VALUES (?, ?, ?, ?, ?, ?, ?)";
 					$params = array($foldertitle, $folderdescription, $folderquery, $folderuser, $folderlibrary, $folderactive, $folderposition);
 					$id = dbquery($query, $params, 'sssssii') or die("Error : ".mysqli_error());
 					echo "<center><br/><b><font color=\"green\">\n";
-					echo "La nouvelle fiche ".htmlspecialchars($id)." a été enregistrée avec succès</b></font>\n";
-					echo "<br/><br/><br/><a href=\"list.php?table=folders\">Retour à la liste de filtres</a></center>\n";
+					echo format_string(__("The new card %id_card has been successfully registered"),array('id_card' => htmlspecialchars($id)))."</b></font>\n";
+					echo "<br/><br/><br/><a href=\"list.php?table=folders\">".__("Back to the filters list")."</a></center>\n";
 					echo "</center>\n";
 					echo "\n";
 					require ("footer.php");
@@ -476,30 +477,30 @@ if (!empty($_COOKIE['illinkid'])){
 		// Début de la suppresion
 		if ($action == "delete"){
 			$id= ((!empty($_GET['id'])) && isValidInput($_GET['id'],11,'s',false)) ? $_GET['id'] : "";
-			$myhtmltitle = $configname[$lang] . " : confirmation pour la suppresion d'une filtre ";
+			$myhtmltitle = $configname[$lang] . " : ".__("Confirmation for deleting a filter ");
 			require ("headeradmin.php");
 			echo "<center><br/><br/><br/><b><font color=\"red\">\n";
-			echo "Voulez-vous vraiement supprimer la fiche " . htmlspecialchars($id) . "?</b></font>\n";
+			echo format_string(__("Do you really want to delete the card %id_card ?"),array('id_card' => htmlspecialchars($id)))."</b></font>\n";
 			echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
 			echo "<input name=\"table\" type=\"hidden\" value=\"folders\">\n";
 			echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($id)."\">\n";
 			echo "<input name=\"action\" type=\"hidden\" value=\"deleteok\">\n";
 			echo "<br /><br />\n";
-			echo "<input type=\"submit\" value=\"Confirmer la suppression de la fiche " . htmlspecialchars($id) . " en cliquant ici\">\n";
+			echo "<input type=\"submit\" value=\"".format_string(__("Confirm the deletion of the card %id_card by clicking here"),array('id_card' => htmlspecialchars($id)))."\">\n";
 			echo "</form>\n";
-			echo "<br/><br/><br/><a href=\"list.php?table=folders\">Retour à la liste des filtres</a></center>\n";
+			echo "<br/><br/><br/><a href=\"list.php?table=folders\">".__("Back to the filters list")."</a></center>\n";
 			echo "</center>\n";
 			echo "\n";
 			require ("footer.php");
 		}
 		if ($action == "deleteok"){
-			$myhtmltitle = $configname[$lang] . " : supprimer une filtre ";
+			$myhtmltitle = $configname[$lang] . " : ".__("Delete a filter")." ";
 			require ("headeradmin.php");
 			$query = "DELETE FROM folders WHERE folders.id = ?";
 			$result = dbquery($query, array($id), 'i') or die("Error : ".mysqli_error());
 			echo "<center><br/><b><font color=\"green\">\n";
-			echo "La fiche " . htmlspecialchars($id) . " a été supprimée avec succès</b></font>\n";
-			echo "<br/><br/><br/><a href=\"list.php?table=folders\">Retour à la liste des filtres</a></center>\n";
+			echo format_string(__("The card %id_card has been successfully deleted"),array('id_card' => htmlspecialchars($id)))."</b></font>\n";
+			echo "<br/><br/><br/><a href=\"list.php?table=folders\">".__("Back to the filters list")."</a></center>\n";
 			echo "</center>\n";
 			echo "\n";
 			require ("footer.php");
@@ -509,7 +510,7 @@ if (!empty($_COOKIE['illinkid'])){
 	else{
 		require ("header.php");
 		echo "<center><br/><b><font color=\"red\">\n";
-		echo "Vos droits sont insuffisants pour consulter cette page</b></font></center><br /><br /><br /><br />\n";
+		echo __("Your rights are insufficient to edit this page")."</b></font></center><br /><br /><br /><br />\n";
 		require ("footer.php");
 	}
 }

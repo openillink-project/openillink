@@ -26,53 +26,53 @@
 // ***************************************************************************
 // Status table : record creation form
 // 
-require ("config.php");
+require_once ("config.php");
 require ("authcookie.php");
 if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")){
-        $myhtmltitle = $configname[$lang] . " : nouvelle étape de la commande ";
+        $myhtmltitle = format_string(__("%institution_name : new order step"), array('institution_name' => $configinstitution[$lang]));
         require ("headeradmin.php");
-        echo "<h1>Gestion des étapes de la commande : Création d'une nouvelle fiche </h1>\n";
+        echo "<h1>".__("Order steps management : new order step")."</h1>\n";
         echo "<br /></b>";
         echo "<ul>\n";
         echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
         echo "<input name=\"table\" type=\"hidden\" value=\"status\">\n";
         echo "<input name=\"action\" type=\"hidden\" value=\"new\">\n";
         echo "<table id=\"hor-zebra\">\n";
-        echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer la nouvelle étape\">\n";
-        echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=status'\"></td></tr>\n";
+        echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
+        echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=status'\"></td></tr>\n";
         echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-        echo "<tr><td><b>Code (numérique) *</b></td><td>\n";
+        echo "<tr><td><b>".__("Code (number)")." *</b></td><td>\n";
         echo "<input name=\"code\" type=\"text\" size=\"6\" maxlength=\"6\" value=\"\"></td></tr>\n";
         echo "</td></tr>\n";
-        echo "<tr><td class=\"odd\"><b>".$guiLabelName1[$lang]." *</b></td><td class=\"odd\"><input name=\"title1\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-        echo "<tr><td><b>".$guiLabelHelp1[$lang]."</b></td><td><input name=\"help1\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-        echo "<tr><td class=\"odd\"><b>".$guiLabelName2[$lang]."</b></td><td class=\"odd\"><input name=\"title2\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-        echo "<tr><td><b>".$guiLabelHelp2[$lang]."</b></td><td><input name=\"help2\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-        echo "<tr><td class=\"odd\"><b>".$guiLabelName3[$lang]."</b></td><td class=\"odd\"><input name=\"title3\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-        echo "<tr><td><b>".$guiLabelHelp3[$lang]."</b></td><td><input name=\"help3\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-        echo "<tr><td class=\"odd\"><b>".$guiLabelName4[$lang]."</b></td><td class=\"odd\"><input name=\"title4\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-        echo "<tr><td><b>".$guiLabelHelp4[$lang]."</b></td><td><input name=\"help4\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-        echo "<tr><td class=\"odd\"><b>".$guiLabelName5[$lang]."</b></td><td class=\"odd\"><input name=\"title5\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-        echo "<tr><td><b>".$guiLabelHelp5[$lang]."</b></td><td><input name=\"help5\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
-        echo "<tr><td class=\"odd\"><b>".$guiFolderIn[$lang]."</b></td><td class=\"odd\"><input name=\"in\" value=\"1\" type=\"checkbox\"></td></tr>\n";
-        echo "<tr><td><b>".$guiFolderOut[$lang]."</b></td><td><input name=\"out\" value=\"1\" type=\"checkbox\"></td></tr>\n";
-        echo "<tr><td class=\"odd\"><b>".$guiFolderTrash[$lang]."</b></td><td class=\"odd\"><input name=\"trash\" value=\"1\" type=\"checkbox\"></td></tr>\n";
-        echo "<tr><td><b>".$guiStatusSpecial[$lang]."</b></td><td>";
+        echo "<tr><td class=\"odd\"><b>".__("Name in French")." *</b></td><td class=\"odd\"><input name=\"title1\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+        echo "<tr><td><b>".__("Help in French")."</b></td><td><input name=\"help1\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+        echo "<tr><td class=\"odd\"><b>".__("Name in English")."</b></td><td class=\"odd\"><input name=\"title2\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+        echo "<tr><td><b>".__("Help in English")."</b></td><td><input name=\"help2\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+        echo "<tr><td class=\"odd\"><b>".__("Name in German")."</b></td><td class=\"odd\"><input name=\"title3\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+        echo "<tr><td><b>".__("Help in German")."</b></td><td><input name=\"help3\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+        echo "<tr><td class=\"odd\"><b>".__("Name in Italian")."</b></td><td class=\"odd\"><input name=\"title4\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+        echo "<tr><td><b>".__("Help in Italian")."</b></td><td><input name=\"help4\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+        echo "<tr><td class=\"odd\"><b>".__("Name in Spanish")."</b></td><td class=\"odd\"><input name=\"title5\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+        echo "<tr><td><b>".__("Help in Spanish")."</b></td><td><input name=\"help5\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+        echo "<tr><td class=\"odd\"><b>".__("Display orders with this status in the IN listing")."</b></td><td class=\"odd\"><input name=\"in\" value=\"1\" type=\"checkbox\"></td></tr>\n";
+        echo "<tr><td><b>".__("Display orders with this status in the OUT listing")."</b></td><td><input name=\"out\" value=\"1\" type=\"checkbox\"></td></tr>\n";
+        echo "<tr><td class=\"odd\"><b>".__("Display orders with this status in the TRASH listing")."</b></td><td class=\"odd\"><input name=\"trash\" value=\"1\" type=\"checkbox\"></td></tr>\n";
+        echo "<tr><td><b>".__("Add special status flag")."</b></td><td>";
         echo "<select name=\"special\">\n";
         echo "<option value=\"\"></option>\n";
-        echo "<option value=\"new\">Nouvelle commande (new)</option>\n";
-        echo "<option value=\"sent\">Commande envoyée (sent)</option>\n";
-        echo "<option value=\"paid\">Commande soldée (paid)</option>\n";
-        echo "<option value=\"renew\">Commande à renouveler (renew)</option>\n";
-        echo "<option value=\"reject\">Commande rejetée (reject)</option>\n";
-        echo "<option value=\"tobevalidated\">Commande à valider (tobevalidated)</option>\n";
+        echo "<option value=\"new\">".__("New order (new)")."</option>\n";
+        echo "<option value=\"sent\">".__("Order sent (sent)")."</option>\n";
+        echo "<option value=\"paid\">".__("Order paid (paid)")."</option>\n";
+        echo "<option value=\"renew\">".__("Order to renew (renew)")."</option>\n";
+        echo "<option value=\"reject\">".__("Order rejected (reject)")."</option>\n";
+        echo "<option value=\"tobevalidated\">".__("Order to be validated (tobevalidated)")."</option>\n";
         echo "</select>\n";
         echo "</td></tr>\n";
-        echo "<tr><td class=\"odd\"><b>".$guiColor[$lang]."</b></td><td class=\"odd\"><input name=\"color\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
+        echo "<tr><td class=\"odd\"><b>".__("Color (.CSS valid value is expected)")."</b></td><td class=\"odd\"><input name=\"color\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
         echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-        echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer la nouvelle étape\">\n";
-        echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=status'\"></td></tr>\n";
+        echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
+        echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=status'\"></td></tr>\n";
         echo "</table>\n";
         echo "</form><br /><br />\n";
         require ("footer.php");
@@ -80,7 +80,7 @@ if (!empty($_COOKIE['illinkid'])){
     else{
         require ("header.php");
         echo "<center><br/><b><font color=\"red\">\n";
-        echo "Vos droits sont insuffisants pour consulter cette page</b></font></center><br /><br /><br /><br />\n";
+        echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
         require ("footer.php");
     }
 }

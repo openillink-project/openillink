@@ -33,7 +33,7 @@ if (($monaut == "admin")||($monaut == "sadmin")){
     require ("headeradmin.php");
     echo "\n";
     // Liste des utilisateurs
-    echo "<h1>Gestion des utilisateurs</h1>\n";
+    echo "<h1>".__("Users management")."</h1>\n";
     $req = "SELECT * FROM users ORDER BY library ASC, name ASC";// LIMIT 0, 200";
     $result = dbquery($req);
     $total_results = iimysqli_num_rows($result);
@@ -42,9 +42,9 @@ if (($monaut == "admin")||($monaut == "sadmin")){
     echo "</center>\n";
     echo "<b><br/>".$total_results;
     if ($total_results == 1)
-        echo " utilisateur trouv&eacute;</b></font>\n";
+        echo " ".__("user found")."</b></font>\n";
     else
-        echo " utilisateurs trouv&eacute;s</b></font>\n";
+        echo " ".__("users found")."</b></font>\n";
     echo "<br/>";
     echo "<br/>";
 
@@ -55,12 +55,12 @@ if (($monaut == "admin")||($monaut == "sadmin")){
     echo "\n";
     echo "<thead>\n";
     echo "<tr>\n";
-    echo "<th scope=\"col\">Nom</th>\n";
-    echo "<th scope=\"col\">E-Mail</th>\n";
-    echo "<th scope=\"col\">Bibliothèque</th>\n";
-    echo "<th scope=\"col\">Login</th>\n";
-    echo "<th scope=\"col\">Droits</th>\n";
-    echo "<th scope=\"col\">Status</th>\n";
+    echo "<th scope=\"col\">".__("Nom")."</th>\n";
+    echo "<th scope=\"col\">".__("E-Mail")."</th>\n";
+    echo "<th scope=\"col\">".__("Library")."</th>\n";
+    echo "<th scope=\"col\">".__("Username")."</th>\n";
+    echo "<th scope=\"col\">".__("Rights")."</th>\n";
+    echo "<th scope=\"col\">".__("Status")."</th>\n";
     echo "<th scope=\"col\"></th>\n";
     echo "</tr>\n";
     echo "</thead>\n";
@@ -89,22 +89,22 @@ if (($monaut == "admin")||($monaut == "sadmin")){
         echo "</td>\n";
         echo "<td>";
         if ($admin == 1)
-            echo "Super administrateur";
+            echo __("Super Administrator");
         if ($admin == 2)
-            echo "Administrateur";
+            echo __("Administrator");
         if ($admin == 3)
-            echo "Collaborateur";
+            echo __("Collaborator");
         if ($admin > 3)
-            echo "Invité";
+            echo __("Guest");
         echo "</td>\n";
         echo "<td>";
         if ($status == 1)
-            echo "Actif";
+            echo __("Active");
         else
-            echo "Inactif";
+            echo __("Inactive");
         echo "</td>\n";
         if (($monaut == "admin")||($monaut == "sadmin")){
-            echo "<td><a href=\"edit.php?table=users&id=".$user_id."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
+            echo "<td><a href=\"edit.php?table=users&id=".$user_id."\"><img src=\"img/edit.png\" title=\"".__("Edit")."\" width=\"20\"></a></td>";
         }
         echo "</tr>\n";
     }
@@ -112,14 +112,14 @@ if (($monaut == "admin")||($monaut == "sadmin")){
     echo "</table>\n";
     echo "\n";
     echo "<br/><br/><ul>\n";
-    echo "<b><a href=\"new.php?table=users\">Ajouter un nouvel utilisateur</a></b>\n";
+    echo "<b><a href=\"new.php?table=users\">".__("Add a new user")."</a></b>\n";
     echo "<br/><br/>\n";
     echo "</ul>\n";
     require ("footer.php");
 }
 else{
     require ("header.php");
-    echo "Vos droits sont insuffisants pour consulter cette page</b></font></center><br /><br /><br /><br />\n";
+    echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
     require ("footer.php");
 }
 ?>

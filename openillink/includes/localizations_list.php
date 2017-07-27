@@ -26,7 +26,7 @@
 // ***************************************************************************
 // Localizations table : List of all the localizations defined on the internal ILL network
 // 
-require ("config.php");
+require_once ("config.php");
 require ("authcookie.php");
 require_once ("connexion.php");
 
@@ -60,13 +60,13 @@ if (!empty($_COOKIE['illinkid'])){
         echo "<thead>\n";
         echo "<tr>\n";
         echo "<th scope=\"col\">code</th>\n";
-        echo "<th scope=\"col\">".$guiLabelName1[$lang]."</th>\n";
+        echo "<th scope=\"col\">".__("Name in French")."</th>\n";
 // echo "<th scope=\"col\">name2</th>\n";
 // echo "<th scope=\"col\">name3</th>\n";
 // echo "<th scope=\"col\">name4</th>\n";
 // echo "<th scope=\"col\">name5</th>\n";
-        echo "<th scope=\"col\">".$guiLibrary[$lang]."</th>\n";
-        echo "<th scope=\"col\">".$guiEdit[$lang]."</th>\n";
+        echo "<th scope=\"col\">".__("Library")."</th>\n";
+        echo "<th scope=\"col\">".__("Edit")."</th>\n";
         echo "</tr>\n";
         echo "</thead>\n";
         echo "<tbody>\n";

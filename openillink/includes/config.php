@@ -27,7 +27,7 @@
 // essential parameters
 
 // MySQL access codes
-$configmysqldb = "openillink_v2_git";
+$configmysqldb = "openillink";
 $configmysqlhost = "localhost";
 $configmysqllogin = "root";
 $configmysqlpwd = "";
@@ -37,6 +37,13 @@ $configanalytics = "";
 // Add logging option: used to trace and analyse problems, allowed levels: DEV, TEST, PROD
 // any other value will be ignored
 $configdebuglogging = '';
+
+// Site title in the header
+$sitetitle["fr"] = "OpenILLink";
+$sitetitle["en"] = "OpenILLink";
+$sitetitle["de"] = "OpenILLink";
+$sitetitle["it"] = "OpenILLink";
+$sitetitle["es"] = "OpenILLink";
 
 // Informations about the main library managing the ILL network
 $configlibname = "XYZ University Library";
@@ -154,12 +161,28 @@ $configdefaultlang = "en";
 // See the others values on tranlations.php
 require_once("translations.php");
 
+// Define the document types (based on OpenURL spec)
+$doctypes = array(
+			  array('name' => __("Article"), 'code' => "article"),
+			  array('name' => __("Preprint"), 'code' => "preprint"),
+			  array('name' => __("Book"), 'code' => "book"),
+			  array('name' => __("Book chapter"), 'code' => "bookitem"),
+			  array('name' => __("Thesis"), 'code' => "thesis"),
+			  array('name' => __("Journal issue"), 'code' => "journal"),
+			  array('name' => __("Conference proceedings"), 'code' => "proceeding"),
+			  array('name' => __("Conference paper"), 'code' => "conference"),
+			  array('name' => __("Other"), 'code' => "other"),
+		  );
 
 // shibboleth authentication (0 inactive, 1 active)
 $shibboleth = 0;
 
 // shibboleth url including entityID, return URL and target (redirection to the login.php)
 $shibbolethurl = "https://wayf.www.univxyz.com/shibboleth/WAYF?entityID=https%3A%2F%2Fwww.univxyz.com%2Fshibboleth&return=http%3A%2F%2Fwww.univxyz.com%2FShibboleth.sso%2FDS%3FSAMLDS%3D1%26target%3Dhttp%3A%2F%2Fwww.univxyz.com%2Flogin.php%26action%3Dshibboleth";
+
+// Currency
+
+$currency = "CHF";
 
 // Name of the system displayed in the main menu bar and on title HTML tag
 $configname["fr"] = "OpenILLink : commande de documents à la Bibliothèque XYZ";

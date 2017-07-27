@@ -26,14 +26,14 @@
 // ***************************************************************************
 // Table users : formulaire de modification
 // 
-require ("config.php");
+require_once ("config.php");
 require ("authcookie.php");
 require_once ("connexion.php");
 require_once ("toolkit.php");
 
 $id="";
 $action="";
-$montitle = "Gestion des utilisateurs";
+$montitle = __("Users management");
 if (!empty($_GET['id'])) {
 	$id=isValidInput($_GET['id'],11,'i',false)?$_GET['id']:'';
 }
@@ -46,15 +46,15 @@ if (!empty($_COOKIE['illinkid'])){
         if (($action == "updateprofile")||($id!="")){
             if (($id!="")&&(($monaut == "admin")||($monaut == "sadmin"))){
                 $req = "SELECT * FROM users WHERE users.user_id = ?";
-                $myhtmltitle = $configname[$lang] . " : édition de la fiche utilisateur " . htmlspecialchars($id);
-                $montitle = "Gestion des utilisateurs : édition de la fiche utilisateur " . htmlspecialchars($id);
+                $myhtmltitle = $configname[$lang] . " : ". format_string(__("Users management : edition of profile %id"), array('id' => htmlspecialchars($id)));
+                $montitle = format_string(__("Users management : edition of profile %id"), array('id' => htmlspecialchars($id)));
 				$params = array($id);
 				$param_types = "i";
             }
             if ($action == "updateprofile"){
                 $req = "SELECT * FROM users WHERE users.login = ?";
-                $myhtmltitle = $configname[$lang] . " : édition de mon profil";
-                $montitle = "Gestion des utilisateurs : édition de mon profil (" . htmlspecialchars($monlog) . ")";
+                $myhtmltitle = $configname[$lang] . " : ". __("my profile edition");
+                $montitle = format_string(__("Users management : edit my profile (%login_name)"), array('login_name' => htmlspecialchars($monlog)));
 				$params = array($monlog);
 				$param_types = "s";
             }
@@ -76,7 +76,7 @@ if (!empty($_COOKIE['illinkid'])){
                 $library = $enreg['library'];
                 if (($monaut != "sadmin")&&($monlog != $login)&&($admin < 3)){
                     echo "<center><br/><b><font color=\"red\">\n";
-                    echo "Vos droits sont insuffisants pour éditer cette fiche</b></font></center><br /><br /><br /><br />\n";
+                    echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
                     require ("footer.php");
                 }
                 else{
@@ -95,21 +95,21 @@ if (!empty($_COOKIE['illinkid'])){
                     echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
 */
                     if (($monaut == "admin")||($monaut == "sadmin")){
-                        echo "<tr><td class=\"odd\"><b>Nom *</b></td><td class=\"odd\"><input name=\"name\" type=\"text\" size=\"60\" value=\"".htmlspecialchars($name)."\"></td></tr>\n";
+                        echo "<tr><td class=\"odd\"><b>".__("Name")." *</b></td><td class=\"odd\"><input name=\"name\" type=\"text\" size=\"60\" value=\"".htmlspecialchars($name)."\"></td></tr>\n";
                     }
-                    echo "<tr><td><b>E-mail</b></td><td><input name=\"email\" type=\"text\" size=\"60\" value=\"".htmlspecialchars($email)."\"></td></tr>\n";
+                    echo "<tr><td><b>".__("E-Mail")."</b></td><td><input name=\"email\" type=\"text\" size=\"60\" value=\"".htmlspecialchars($email)."\"></td></tr>\n";
                     if (($monaut == "admin")||($monaut == "sadmin")){
-                        echo "<tr><td class=\"odd\"><b>Login *</b></td><td class=\"odd\"><input name=\"login\" type=\"text\" size=\"60\" value=\"".htmlspecialchars($login)."\"></td></tr>\n";
+                        echo "<tr><td class=\"odd\"><b>".__("Username")." *</b></td><td class=\"odd\"><input name=\"login\" type=\"text\" size=\"60\" value=\"".htmlspecialchars($login)."\"></td></tr>\n";
                     }
                     if (($monaut == "admin")||($monaut == "sadmin")){
-                        echo "<tr><td><b>Status *</b></td><td><input type=\"radio\" name=\"status\" value=\"1\"/";
+                        echo "<tr><td><b>".__("Status")." *</b></td><td><input type=\"radio\" name=\"status\" value=\"1\"/";
                         if ($status == 1)
                             echo " checked";
                         echo "> Actif  |  <input type=\"radio\" name=\"status\" value=\"0\"/";
                         if ($status == 0)
                             echo " checked";
-                        echo "> Inactif</td></tr>\n";
-                        echo "<tr><td class=\"odd\"><b>Droits *</b></td><td class=\"odd\">\n";
+                        echo "> ".__("Inactive")."</td></tr>\n";
+                        echo "<tr><td class=\"odd\"><b>".__("Rights")." *</b></td><td class=\"odd\">\n";
                         echo "<select name=\"admin\" id=\"admin\">\n";
                         echo "<option value=\"1\"";
                         if ($admin == 1)
@@ -122,7 +122,6 @@ if (!empty($_COOKIE['illinkid'])){
                         if ($admin == 2)
                             echo " selected";
                         echo ">Administrateur</option>\n";
-
 						echo "<option value=\"3\"";
 						if ($admin == 3)
 							echo " selected";
@@ -135,7 +134,7 @@ if (!empty($_COOKIE['illinkid'])){
 					}
                     // Library field
                     if (($monaut == "admin")||($monaut == "sadmin")){
-                        echo "<tr><td><b>Bibliothèque *</b></td><td>\n";
+                        echo "<tr><td><b>".__("Library")." *</b></td><td>\n";
                         echo "<select name=\"library\">\n";
                         $reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
                         $optionslibraries="";
@@ -158,16 +157,16 @@ if (!empty($_COOKIE['illinkid'])){
                         }
                         echo "</select></td></tr>\n";
                     }
-                    echo "<tr><td class=\"odd\"><b>Nouveau password</b></td><td class=\"odd\"><input name=\"newpassword1\" type=\"password\" size=\"30\" value=\"\"></td></tr>\n";
-                    echo "<tr><td><b>Confirmation du nouveau password</b></td><td><input name=\"newpassword2\" type=\"password\" size=\"30\" value=\"\"></td></tr>\n";
+                    echo "<tr><td class=\"odd\"><b>".__("New password")."</b></td><td class=\"odd\"><input name=\"newpassword1\" type=\"password\" size=\"30\" value=\"\"></td></tr>\n";
+                    echo "<tr><td><b>".__("Confirmation of new password")."</b></td><td><input name=\"newpassword2\" type=\"password\" size=\"30\" value=\"\"></td></tr>\n";
                     echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-                    echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer les modifications\">\n";
+                    echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
                     if (($monaut == "user")&&($action == "updateprofile")){
-                        echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='admin.php'\">\n";
+                        echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='admin.php'\">\n";
                     }
                     if (($monaut == "admin")||($monaut == "sadmin")){
-                        echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=users'\">\n";
-                        echo "&nbsp;&nbsp;<input type=\"button\" value=\"Supprimer\" onClick=\"self.location='update.php?action=delete&table=users&id=" . htmlspecialchars($user_id) . "'\"></td></tr>\n";
+                        echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=users'\">\n";
+                        echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=users&id=" . htmlspecialchars($user_id) . "'\"></td></tr>\n";
                     }
                     echo "</table>\n";
                     echo "</form><br /><br />\n";
@@ -176,8 +175,8 @@ if (!empty($_COOKIE['illinkid'])){
             }
             else{
                 echo "<center><br/><b><font color=\"red\">\n";
-                echo "La fiche " . $id . " n'a pas été trouvée dans la base.</b></font>\n";
-                echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche ou contactez l'administrateur de la base : " . $configemail . "</b></center><br /><br /><br /><br />\n";
+                echo __("The record was not found in the database.")."</b></font>\n";
+                echo "<br /><br /><b>".__("Please restart your search or contact the database administrator")." : " . $configemail . "</b></center><br /><br /><br /><br />\n";
                 require ("footer.php");
             }
         }
@@ -185,8 +184,8 @@ if (!empty($_COOKIE['illinkid'])){
             require ("header.php");
             //require ("menurech.php");
             echo "<center><br/><b><font color=\"red\">\n";
-            echo "La fiche n'a pas été trouvée dans la base.</b></font>\n";
-            echo "<br /><br /><b>Veuillez relancer de nouveau votre recherche ou contactez l'administrateur de la base : " . $configemail . "</b></center><br /><br /><br /><br />\n";
+            echo __("The record was not found in the database.")."</b></font>\n";
+            echo "<br /><br /><b>".__("Please restart your search or contact the database administrator")." : " . $configemail . "</b></center><br /><br /><br /><br />\n";
             echo "<br /><br />\n";
             echo "</ul>\n";
             echo "\n";
@@ -196,7 +195,7 @@ if (!empty($_COOKIE['illinkid'])){
     else{
         require ("header.php");
         echo "<center><br/><b><font color=\"red\">\n";
-        echo "Vos droits sont insuffisants pour éditer cette fiche</b></font></center><br /><br /><br /><br />\n";
+        echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
         require ("footer.php");
     }
 }

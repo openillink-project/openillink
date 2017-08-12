@@ -26,15 +26,21 @@
 // ***************************************************************************
 // Headers common to all pages
 //
+
 header ('Content-type: text/html; charset=utf-8');
 $debugOn = false;
 error_reporting(-1);
 ini_set('display_errors', 'On');
 
-echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n";
-echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"" . $lang . "\" xml:lang=\"" . $lang . "\" >\n";
+// Set the $siteUrl as base url for the stylesheets, scripts and links.
+$siteUrl = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['SERVER_NAME'] . dirname($_SERVER['PHP_SELF']);
+
+echo "<!DOCTYPE html>\n";
+echo "<html lang=\"" . $lang . "\">\n";
 echo "<head>\n";
-echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>\n";
+echo "<meta charset=\"utf-8\">\n";
+echo "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n";
+
 echo "<title>";
 if (!empty($myhtmltitle))
     echo $myhtmltitle;
@@ -42,42 +48,66 @@ else
     echo "OpenILLink";
 echo "</title>\n";
 echo "\n";
-// (MDV) header to work for subdirectory pages as well
-$fileStyle1 = (is_readable ( "css/style1.css" ))? "css/style1.css" : "../css/style1.css";
-$fileStyle2 = (is_readable ( "css/style1.css" ))? "css/style2.css" : "../css/style2.css";
-$fileStyleTable = (is_readable ( "css/tables.css" ))? "css/tables.css" : "../css/tables.css";
-$scriptJs = (is_readable ( "js/script.js" ))? "js/script.js" : "../js/script.js";
-echo "<style type=\"text/css\" media=\"all\">\n @import url(\"$fileStyle1\");\n </style>\n";
-echo "<style type=\"text/css\" media=\"print\">\n @import url(\"$fileStyle2\");\n </style>\n";
-echo "<style type=\"text/css\" media=\"all\">\n @import url(\"$fileStyleTable\");\n </style>\n";
-echo "<script type=\"text/javascript\" src=\"$scriptJs\"></script>\n";
+
+echo '<link rel="home" href="'.$siteUrl.'" />' ;
+
+echo '
+<link rel="stylesheet" href="'.$siteUrl.'/css/bulma.min.css">
+<link rel="stylesheet" href="'.$siteUrl.'/css/bulma-style.css">
+<link rel="stylesheet" href="'.$siteUrl.'/css/oi-style.css">
+<link rel="stylesheet" media="print" href="'.$siteUrl.'/css/print.css">
+<link rel="stylesheet" href="'.$siteUrl.'/css/awesome/css/font-awesome.min.css">'
+
+echo '
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="'.$siteUrl.'/js/bulma.js"></script>
+<script type="text/javascript" src="'.$siteUrl.'/js/script.js"></script>
+';
+
 echo "</head>\n";
 if (empty($mybodyonload)){
   $mybodyonload = '';
 }
 echo "<body onload=\"" . $mybodyonload . "\">\n";
-echo "<div class=\"page\">\n";
-echo "<div class=\"headBar\">\n";
-echo "\n";
-echo "<div class=\"headBarRow1b\">\n";
-echo "<h1 class=\"siteTitleBar\">". $sitetitle[$lang] ."</h1>";
-echo "</div>\n";
-echo "<div class=\"headBarRow2\">\n";
-echo "<div class=\"topNavArea\">\n";
-echo "<ul>\n";
-echo "<li><a href=\"index.php\" class=\"selected\" title=\"" . __("New Order") . "\">" . __("New Order") . "</a></li>\n";
-echo "| &nbsp;&nbsp;&nbsp;<li><a href=\"login.php\" title=\"" . __("Login") . "\">" . __("Login") . "</a></li>\n";
-// Link to journals database
-echo "| &nbsp;&nbsp;&nbsp;<li><a href=\"" . $atozlinkurl[$lang] . "\" title=\"" . $atozname[$lang] . "\">" . $atozname[$lang] . "</a></li>\n";
-// Languages links : uncomment for activation
-//echo "| &nbsp;&nbsp;&nbsp;<li><a href=\"index.php?lang=fr\" title=\"français\">fr</a></li>";
-//echo "&nbsp;<li><a href=\"index.php?lang=en\" title=\"english\">en</a></li>";
-echo "</ul>\n";
-echo "</div>\n";
-echo "<div class=\"sysNavArea\"></div>\n";
-echo "<div class=\"clb\"></div>\n";
-echo "</div>\n";
-echo "</div>\n";
-echo "<div class=\"contentArea\">\n";
-echo "<div class=\"content\">\n";
+
+echo '
+<nav class="navbar has-shadow">
+	<div class="container">
+		<div class="navbar-brand">
+			<a class="navbar-item" href="'.$siteUrl.'"><span class="title is-3">'.$sitetitle[$lang].'</span></a>
+			<div class="navbar-burger burger" data-target="navMenu">
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+		</div>
+		
+		<div id="navMenu" class="navbar-menu">
+			<div class="navbar-start">
+			</div>
+			<div class="navbar-end">
+				<a class="navbar-item is-tab" href="' .$atozlinkurl[$lang]. '" title="' . $atozname[$lang] . '"><span class="icon"><i class="fa fa-compass"></i></span></a>
+				<div class="navbar-item has-dropdown is-hoverable">
+					<a class="navbar-link">'.strtoupper($lang).'</a>
+					<div class="navbar-dropdown">
+						<a class="navbar-item" href="'.$siteUrl.'?lang=en" title="English">EN</a>
+						<a class="navbar-item" href="'.$siteUrl.'?lang=fr" title="Français">FR</a>
+						<a class="navbar-item" href="'.$siteUrl.'?lang=de" title="Deutsch">DE</a>
+						<a class="navbar-item" href="'.$siteUrl.'?lang=it" title="Italiano">IT</a>
+						<a class="navbar-item" href="'.$siteUrl.'?lang=es" title="Español">ES</a>
+					</div>
+				</div>
+				<span class="navbar-item"><a class="button is-info" href="index.php" title="' .__("New Order"). '">' .__("New Order"). '</a></span>
+				<a class="navbar-item is-tab" href="login.php" title="'.__("Login").'"><i class="fa fa-sign-in"></i></a>
+			</div>
+		</div>
+	</div>
+</nav>
+';
+
+echo '
+	<section class="section">
+<div class="container">
+';
+
 ?>

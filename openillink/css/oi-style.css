@@ -1,0 +1,21 @@
+/* Colors palette http://flatcolors.net/palette/801-flat-ui-colors#*/
+
+input.expand, textarea.expand, select {width: 100%;}
+input.mini-input {width:100%;}
+
+@media screen and (min-width: 768px) {
+input.expand, textarea.expand, select {width: 80%;}
+input.expand-100 {width:100%;}
+input.mini-input {width:60px;}
+}
+.columns.is-gapless:not(:last-child) {
+    margin-bottom: 10px;
+}
+.container {max-width:1000px;}
+.nav-right {overflow:visible;}
+.box {padding:5px;}
+.box .control, .box .label {margin-bottom:0;}
+
+.textarea {
+  min-height: 0;
+}

@@ -36,18 +36,25 @@ $listfolders="";
 $resultfolders = dbquery($reqfolders, array($monlog, $monbib), 'ss');
 $nbfolders = iimysqli_num_rows($resultfolders);
 if ($nbfolders > 0){
-	$listfolders.= " | ";
+	echo '	<div class="navbar-item has-dropdown is-hoverable">
+				<a class="navbar-link">Folders</a>
+				<div class="navbar-dropdown">';
+	$listfolders.= "";
 	while ($rowfolders = iimysqli_result_fetch_array($resultfolders)){
 		$idfolder = $rowfolders["id"];
 		$titlefolder = $rowfolders["title"];
 		$descriptionfolder = $rowfolders["description"];
 		$queryfolder = $rowfolders["query"];
-		$listfolders.="<li><a href=\"list.php?folder=perso&folderid=" . htmlspecialchars($idfolder) . "\" title=\"" . htmlspecialchars($descriptionfolder) . "\"";
+		$listfolders.="<a class=\"navbar-item\" href=\"list.php?folder=perso&folderid=" . htmlspecialchars($idfolder) . "\" title=\"" . htmlspecialchars($descriptionfolder) . "\"";
 		if ($idfolder == $folderid)
 			$listfolders.=" class=\"selected\"";
-		$listfolders.=">" . htmlspecialchars($titlefolder) . "</a></li>\n";
+		$listfolders.=">" . htmlspecialchars($titlefolder) . "</a>\n";
 	}
 	echo $listfolders;
+	echo '
+		</div>
+	</div>
+	';
 }
 
 ?>

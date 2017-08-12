@@ -173,6 +173,8 @@ if ((!empty($log))||(!empty($pwd))){
     }
 }
 require ("includes/header.php");
+
+/*
 echo "<ul>\n";
 if (!empty($mes))
     echo "<br /><b><font color=\"red\">".$mes."</font></b><br />\n";
@@ -203,6 +205,65 @@ if ((!empty($action)) && $action == 'logout'){
 }
 if ($displayResendLink){
     echo '<p><a href="resendcredentials.php" target="_self"> '.__("Request password").'</a> : '.__("Service only available to users with an openillink command").'</p>';
+	
+
+	}
+*/
+
+
+if (!empty($mes))
+    echo "<br /><b><font color=\"red\">".$mes."</font></b><br />\n";
+if ($shibboleth == 1)
+    echo "<a href=\"". $shibbolethurl . "\"><img src=\"img/shibboleth.png\" alt=\"Shibboleth authentication\" style=\"float:right;\"/></a>";
+if (empty($log))
+ $log='';
+
+echo '
+<div class="container">
+	<div class="columns is-centered">
+		<article class="card is-rounded">
+			<div class="card-content">
+				<h1 class="title">Login</h1>
+				<form name="loginform" id="loginform" action="login.php" method="post">
+				<p class="control has-icon">
+					<input class="input" type="text" name="log" id="log" value="' . htmlspecialchars($log) . '"placeholder="'.__("Username").'">
+					<i class="fa fa-user"></i>
+				</p>
+				<p class="control has-icon">
+					<input class="input" type="password" name="pwd" id="pwd" value="" placeholder="'.__("Password").'">
+					<i class="fa fa-lock"></i>
+				</p>';
+/*
+echo '
+				<p class="control">
+					<label class="checkbox">
+					<input type="checkbox" id="rememberme" name="rememberme" value="forever">Remember me</label>
+				</p>';
+*/
+echo '
+				<p class="control">
+					<input type="submit" name="submit" id="submit" class="button is-primary is-fullwidth" value="'.__("Login").'" />
+					<input type="hidden" name="redirect_to" value="/" />
+				</p>
+				</form>
+			</div>
+		</article>
+	</div>';
+
+if ((!empty($action)) && $action == 'logout'){
+    $monnom="";
+    $monaut="";
+    $monlog="";
 }
+if ($displayResendLink){
+echo '
+	<div class="columns is-centered section">
+		<p><a href="resendcredentials.php" target="_self"> '.__("Request password").'</a> : '.__("Service only available to users with an openillink command").'</p>
+	</div>';
+}
+
+echo '
+</div>';
+
 require ("includes/footer.php");
 ?>

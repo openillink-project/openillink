@@ -26,19 +26,20 @@
 // ***************************************************************************
 // Footer common to all pages
 //
+echo "</section>\n";
 echo "</div>\n";
-echo "</div>\n";
-echo "  <div class=\"footerArea\">\n";
-echo "    <div class=\"footer\" id=\"footer\">\n";
-echo __("Powered by") . " <a href=\"https://github.com/openillink-project\" target=\"_blank\">OpenILLink</a><br />" . "\n";
-echo "&copy; <a href=\"http://www.pablog.ch\" target=\"_blank\">Pablo Iriarte</a>,  <a href=\"http://jankrause.net\" target=\"_blank\">Jan Krause</a>, <a href=\"http://www.bium.ch\" target=\"_blank\">BiUM</a>/<a href=\"http://www.chuv.ch\">CHUV</a> Lausanne, <a href=\"http://www.unige.ch/medecine/bibliotheque/\" target=\"_blank\">BFM</a>, <a href=\"http://www.unige.ch\" target=\"_blank\">UNIGE</a> Genève" . "\n";
-echo $configteam[$lang] . "\n";
-echo "    </div>\n";
-echo "    <div class=\"info_dbg\" id=\"info_info_dbg\">\n";
-//apd_set_pprof_trace();
-echo "    </div>\n";
-echo "  </div>\n";
-echo "</div>\n";
-echo "</body>\n";
-echo "</html>";
+
+echo '
+	<footer class="footer">
+		<div class="container">
+			<div class="content has-text-centered">
+				<p><strong>'. __("Powered by") . " <a href=\"https://github.com/openillink-project\" target=\"_blank\">OpenILLink</a><br />" .'</strong> &copy; <a href="https://www.bium.ch" target="_blank">BiUM</a>/<a href="http://www.chuv.ch">CHUV</a> Lausanne, <a href="http://www.unige.ch/medecine/bibliotheque/" target="_blank">BFM</a>, <a href="http://www.unige.ch" target="_blank">UNIGE</a> Genève</p>
+				<p>'.$configteam[$lang].'. The source code is licensed under <a href="https://opensource.org/licenses/gpl-3.0.html">GPL v3</a></p>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>
+';
+
 ?>

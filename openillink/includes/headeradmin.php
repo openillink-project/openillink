@@ -45,6 +45,9 @@ header ('Content-type: text/html; charset=utf-8');
 error_reporting(-1);
 ini_set('display_errors', 'On');
 
+// Set the $siteUrl as base url for the stylesheets, scripts and links.
+$configSiteUrl = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['SERVER_NAME'] . dirname($_SERVER['PHP_SELF']);
+
 // paniers à afficher : in / out / sent / default = in
 if(!isset($_GET['folder']))
 {
@@ -64,10 +67,11 @@ $folderid = $_GET['folderid'];
 }
 // echo $folder;
 
-echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n";
-echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"" . $lang . "\" xml:lang=\"" . $lang . "\" >\n";
+echo "<!DOCTYPE html>\n";
+echo "<html lang=\"" . $lang . "\">\n";
 echo "<head>\n";
-echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>\n";
+echo "<meta charset=\"utf-8\">\n";
+echo "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n";
 echo "<title>";
 if (!empty($myhtmltitle))
   echo $myhtmltitle;
@@ -76,77 +80,75 @@ else
 echo "</title>\n";
 echo "\n";
 
-echo "<style type=\"text/css\" media=\"all\">\n @import url(\"$fileStyle1\");\n </style>\n";
-echo "<style type=\"text/css\" media=\"print\">\n @import url(\"$fileStyle2\");\n </style>\n";
-echo "<style type=\"text/css\" media=\"all\">\n @import url(\"$fileStyleTable\");\n </style>\n";
-echo "<style type=\"text/css\" media=\"all\">\n @import url(\"$fileStyleCalendar\");\n </style>\n";
-echo "<script type=\"text/javascript\" src=\"//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js\"></script>\n";
+echo '<link rel="home" href="'.$configSiteUrl.'" />';
+
+echo '
+<link rel="stylesheet" href="'.$configSiteUrl.'/css/bulma.min.css">
+<link rel="stylesheet" href="'.$configSiteUrl.'/css/bulma-style.css">
+<link rel="stylesheet" href="'.$configSiteUrl.'/css/oi-style.css">
+<link rel="stylesheet" media="print" href="'.$configSiteUrl.'/css/print.css">
+<link rel="stylesheet" href="'.$configSiteUrl.'/css/awesome/css/font-awesome.min.css">
+';
+
+echo '
+<!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>-->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="'.$configSiteUrl.'/js/bulma.js"></script>
+<script type="text/javascript" src="'.$configSiteUrl.'/js/script.js"></script>
+<script type="text/javascript" src="'.$configSiteUrl.'/js/calendar.js"></script>
+';
+
 echo "<script>window.jQuery || document.write('<script src=\"js/jquery-2.1.4.min.js\" type=\"text/javascript\"><\/script>')</script>\n";
-echo "<script type=\"text/javascript\" src=\"$scriptJs\"></script>\n";
-echo "<script type=\"text/javascript\" src=\"$calendarJs\"></script>\n";
 
 echo "</head>\n";
 if (!empty($mybodyonload))
 	echo "<body onload=\"" . $mybodyonload . "\">\n";
 else
 	echo "<body onload=\"\">\n";
-echo "<div class=\"page\">\n";
-echo "<div class=\"headBar\">\n";
 echo "\n";
-echo "<div class=\"headBarRow1b\">\n";
-echo "<h1 class=\"siteTitleBar\">". $sitetitle[$lang] ."</h1>";
-echo "</div>\n";
-echo "<div class=\"headBarRow2\">\n";
-echo "<div class=\"topNavArea\">\n";
-echo "<ul>\n";
-
-echo "<li><b>".htmlspecialchars($monnom)."</b>&nbsp;<a href=\"$fileLogin?action=logout\" title=\"Logout\">[" . __("Logout") . "]</a></li>\n";
-echo "| <li><a href=\"$fileIndex\" title=\"" . __("New Order") . "\">" . __("New Order") . "</a></li>\n";
+echo '
+<nav class="navbar has-shadow">
+	<div class="container">
+		<div class="navbar-brand">
+			<a class="navbar-item" href="'.$configSiteUrl.'"><span class="title is-3">'.$sitetitle[$lang].'</span></a>
+			<div class="navbar-burger burger" data-target="navMenu">
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+		</div>
+		
+		<div id="navMenu" class="navbar-menu">
+			<div class="navbar-start">
+			</div>
+			<div class="navbar-end">';
 if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
-	echo "| &nbsp;<li><a href=\"$fileList?folder=in\" title=\"" . __("Inbox") . "\"";
-	if ($folder == 'in')
-		echo " class=\"selected\"";
-	echo ">" . __("In") . "</a></li>\n";
-	echo "<li><a href=\"$fileList?folder=out\" title=\"" . __("Orders sent to the outside and not yet received") . "\"";
-	if ($folder == 'out')
-		echo " class=\"selected\"";
-	echo ">" . __("Out") . "</a></li>\n";
-	echo "<li><a href=\"$fileList?folder=all\" title=\"" . __("All orders") . "\"";
-	if ($folder == 'all')
-		echo " class=\"selected\"";
-	echo ">" . __("All") . "</a></li>\n";
-	echo "<li><a href=\"$fileList?folder=trash\" title=\"" . __("Orders deleted") . "\"";
-	if ($folder == 'trash')
-		echo " class=\"selected\"";
-	echo ">" . __("Trash") . "</a></li>\n";
-	
-	// Folders personalized
-	require_once ("folders.php");
-	
-
-///** begin test
-	echo "| &nbsp;&nbsp;<li><a href=\"$fileAdmin\" title=\"" . __("Administration of users and values") . "\">" . __("Administration") . "</a></li>\n";
-	if (($monaut == "admin")||($monaut == "sadmin")){
-///** end test
-
-		echo "| &nbsp;&nbsp;<li><a href=\"$fileReports\" title=\"" . __("Obtain configured reports") . "\">" . __("Reports") . "</a></li>\n";
-		//echo "| &nbsp;&nbsp;<li><a href=\"help.php\" title=\"" . __("Help topics") . "\">" . __("Help") . "</a></li>\n";
-	}
+echo '
+				<a class="navbar-item is-tab" href="'.$fileList.'?folder=in" title="'.__("Inbox").'">'.__("In").'</a>
+				<a class="navbar-item is-tab" href="'.$fileList.'?folder=out" title="'.__("Orders sent to the outside and not yet received").'">'.__("Out").'</a>
+				<a class="navbar-item is-tab" href="'.$fileList.'?folder=all" title="'.__("All orders").'">'.__("All").'</a>
+				<a class="navbar-item is-tab" href="'.$fileList.'?folder=trash" title="'.__("Orders deleted").'">'.__("Trash").'</a>';
+			
+			// Folders personalized
+			require_once ("folders.php");
 }
 if ($monaut == "guest"){
-	echo "<li><a href=\"$fileList?folder=guest\" title=\"" . __("See all my orders") . "\">" . __("My orders") . "</a></li>\n";
+echo '			<a class="navbar-item is-tab" href="'.$fileList.'?folder=guest" title=" '.__("See all my orders"). '">'.__("My orders").'</a>';
 }
-// Link to journals database
-echo "| &nbsp;&nbsp;<li><a href=\"" . $atozlinkurl[$lang] . "\" title=\"" . $atozname[$lang] . "\">" . $atozname[$lang] . "</a></li>\n";
-// Languages links
-// echo "| &nbsp;&nbsp;<li><a href=\"index.php?lang=fr\" title=\"français\">fr</a></li>";
-// echo "&nbsp;<li><a href=\"index.php?lang=en\" title=\"english\">en</a></li>";
-echo "</ul>\n";
-echo "</div>\n";
-echo "<div class=\"sysNavArea\"></div>\n";
-echo "<div class=\"clb\"></div>\n";
-echo "</div>\n";
-echo "</div>\n";
-echo "<div class=\"contentArea\">\n";
-echo "<div class=\"content\">\n";
+		
+echo'
+				<a class="navbar-item is-tab" href="' .$atozlinkurl[$lang]. '" title="' . $atozname[$lang] . '"><span class="icon"><i class="fa fa-compass"></i></span></a>
+				<span class="navbar-item"><a class="button is-info" href="index.php" title="' .__("New Order"). '">' .__("New Order"). '</a></span>
+				<a class="navbar-item is-tab" href="'.$fileAdmin.'" title="' . __("Administration of users and values") . '"><i class="fa fa-cogs"></i></a>
+				<a class="navbar-item is-tab" href="'.$fileReports.'" title="' . __("Obtain configured reports") . '"><i class="fa fa-bar-chart"></i></a>
+				<a class="navbar-item is-tab" href="'.$fileLogin.'?action=logout" title="Logout ('.htmlspecialchars($monnom).')"><i class="fa fa-sign-out"></i></a>
+			</div>
+		</div>
+	</div>
+</nav>
+';
+
+echo '<section class="section">
+	<div class="container">
+';
 ?>

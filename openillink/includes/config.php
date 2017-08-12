@@ -30,7 +30,7 @@
 $configmysqldb = "openillink";
 $configmysqlhost = "localhost";
 $configmysqllogin = "root";
-$configmysqlpwd = "";
+$configmysqlpwd = "root";
 
 // Google Analytics code (leave blank if not applicable)
 $configanalytics = "";
@@ -282,11 +282,11 @@ $confighelpdeskurl["it"] = "http://library.net/contact/";
 $confighelpdeskurl["es"] = "http://library.net/contact/";
 
 // Informations about document delivery team
-$configteam["fr"] = "<li>Renseignements (<a href=\"mailto:help@library.net\">help@library.net</a>) - <a href=\"http://library.net/contact/\" target=\"_blank\">Library name</a></li>\n";
-$configteam["en"] = "<li>Information (<a href=\"mailto:help@library.net\">help@library.net</a>) - <a href=\"http://library.net/contact/\" target=\"_blank\">Library name</a></li>\n";
-$configteam["de"] = "<li>Informationen (<a href=\"mailto:help@library.net\">help@library.net</a>) - <a href=\"http://library.net/contact/\" target=\"_blank\">Library name</a></li>\n";
-$configteam["it"] = "<li>Informazioni (<a href=\"mailto:help@library.net\">help@library.net</a>) - <a href=\"http://library.net/contact/\" target=\"_blank\">Library name</a></li>\n";
-$configteam["es"] = "<li>Informaciòn (<a href=\"mailto:help@library.net\">help@library.net</a>) - <a href=\"http://library.net/contact/\" target=\"_blank\">Library name</a></li>\n";
+$configteam["fr"] = 'Renseignements (<a href="mailto:help@library.net">help@library.net</a>) - <a href="http://library.net/contact/" target="_blank">Library name</a>';
+$configteam["en"] = 'Information (<a href="mailto:help@library.net">help@library.net</a>) - <a href="http://library.net/contact/" target="_blank">Library name</a>';
+$configteam["de"] = 'Informationen (<a href="mailto:help@library.net">help@library.net</a>) - <a href="http://library.net/contact/" target="_blank">Library name</a>';
+$configteam["it"] = 'Informazioni (<a href="mailto:help@library.net">help@library.net</a>) - <a href="http://library.net/contact/" target="_blank">Library name</a>';
+$configteam["es"] = 'Informaciòn (<a href="mailto:help@library.net">help@library.net</a>) - <a href="http://library.net/contact/" target="_blank">Library name</a>';
 
 // Name and URL of AtoZ system
 $atozname["fr"] = "AtoZ system";

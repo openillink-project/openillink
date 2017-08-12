@@ -388,15 +388,16 @@ else{
         require ("includes/headeradmin.php");
     if ($monaut == "")
         require ("includes/header.php");
-    echo "<h1><center>" . __("Document order form to the ") . " <a href=\"" . $configlibraryurl[$lang] . "\" target=\"_blank\">" . $configlibrary[$lang] . "</a></center></h1>\n";
-	if (isset($secondmessage) && array_key_exists($lang, $secondmessage)) {
-		echo "<h2><center>" . $secondmessage[$lang] . "</center></h2>\n";
+
+	echo "<h1><center>" . __("Document order form to the ") . " <a href=\"" . $configlibraryurl[$lang] . "\" target=\"_blank\">" . $configlibrary[$lang] . "</a></center></h1>\n";
+	if (isset($secondmessage)) {
+		echo "<h2><center>" . __("") . "</center></h2>\n";
 	}
-    echo "<div class=\"box\"><div class=\"box-content\">\n";
+    echo "<div class=\"notification has-text-centered\">\n";
     echo "<b><font color=\"red\">" . __("Please note, all orders are subject to a financial contribution") . "</font></b><br />" . __("Contact us by email for more information (pricing, billing, etc.)") . " : <a href=\"mailto:" . $configlibraryemail[$lang] . "\">" . $configlibraryemail[$lang] . "</a>\n";
-    echo "</div></div>\n";
-    echo "<div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
-    echo "<form action=\"new.php\" method=\"POST\" enctype=\"multipart/form-data\" id=\"orderform\" name=\"commande\" onsubmit=\"javascript:okcooc()\">\n";
+    echo "</div>\n";
+	
+    echo "<form action=\"new.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"commande\" onsubmit=\"javascript:okcooc()\">\n";
     echo "<input name=\"table\" type=\"hidden\" value=\"orders\">\n";
     echo "<input name=\"userid\" type=\"hidden\" value=\"\">\n";
     echo "<input name=\"bibliotheque\" type=\"hidden\" value=\"\">\n";
@@ -413,20 +414,40 @@ else{
 
 // START User Fields
 // Display to all users
-echo "<div class=\"box\"><div class=\"box-content\">\n";
-echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"3\" width=\"100%\">\n";
-echo "<tr><td>\n";
-echo '<label for="nom">';
-echo __("Name") . " *</label> : </td><td><input name=\"nom\" id=\"nom\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($nom)."\"></td><td>\n";
-echo '<label for="prenom">';
-echo __("First name") . " *</label> : </td><td><input name=\"prenom\" id=\"prenom\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($prenom)."\">\n";
+echo '
+<section class="message">
+	<div class="message-header">'.__("Personal informations").'</div>
+	<div class="message-body">
+	
+	<div class="field is-horizontal">
+      <label class="label field-label is-normal" for="nom">'.__("Name").' *</label>
+      <div class="field-body">
+       <div class="field">
+        <div class="control">
+         <input id="nom" name="nom" class="input" type="text" value="'.htmlspecialchars($nom).'" placeholder="'.__("Name").' : e.g. Dupont" required>
+        </div>
+       </div>
+       <div class="field has-addons">
+        <div class="control is-expanded">
+         <input id="prenom" name="prenom" class="input" type="text" value="'.htmlspecialchars($prenom).'" placeholder="' .__("First name") .': e.g. Jean" required>
+        </div>
+       </div>';
 if ($directoryurl1 != "")
-    echo "&nbsp;<a href=\"javascript:directory('$directoryurl1')\" title=\"" . __("Search the name in the directory of the hospital") . "\"><img src=\"img/directory1.png\"></a>\n";
+	echo " <a href=\"javascript:directory('$directoryurl1')\" title=\"" . __("Search the name in the directory of the hospital") . "\"><span class=\"button is-small\"><i aria-hidden=\"true\" class=\"fa fa-address-book\"></i></span></a>\n";
 if ($directoryurl2 != "")
-    echo "<a href=\"javascript:directory('$directoryurl2')\" title=\"" . __("Search the name in the directory of the university") . "\"><img src=\"img/directory2.png\"></a>\n";
-echo "</td></tr><tr><td>\n";
-echo '<label for="service">';
-echo __("Unit") . " *</label> : </td><td>\n";
+	echo "<a href=\"javascript:directory('$directoryurl2')\" title=\"" . __("Search the name in the directory of the university") . "\"><span class=\"button is-small\"><i aria-hidden=\"true\" class=\"fa fa-university\"></i></span></a>\n";
+echo '
+      </div>
+	  </div>
+	
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="service">'.__("Unit").' *</label>
+      <div class="field-body">
+       <div class="field">
+        <div class="control">
+         <div class="select is-fullwidth">
+          <select id="service" name="service" required>
+						<option></option>';
 $unitsortlang = "name1";
 if ($lang == "en")
     $unitsortlang = "name2";
@@ -436,8 +457,6 @@ if ($lang == "it")
     $unitsortlang = "name4";
 if ($lang == "es")
     $unitsortlang = "name5";
-echo "<select name=\"service\" id=\"service\" style=\"max-width:300px\">\n";
-echo "<option value=\"\"></option>\n";
 if ($ip1 == 1)
     $requnits="SELECT code, $unitsortlang FROM units WHERE internalip1display = 1 ORDER BY $unitsortlang ASC";
 else if ($ip2 == 1)
@@ -453,161 +472,258 @@ while ($rowunits = iimysqli_result_fetch_array($resultunits)){
     $optionsunits.= ($codeunits == $service ? " selected " : "") . ">" . htmlspecialchars($nameunits) . "</option>\n";
 }
 echo $optionsunits;
-echo "</select>\n";
-echo "</td><td>\n";
-echo '<label for="servautre">';
-echo __("Other unit") . "</label> : </td><td>\n";
-echo "<input name=\"servautre\" id=\"servautre\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($servautre)."\">\n";
-echo "</td></tr>\n";
-if ($ip1 == 1){
-    echo "<tr><td>\n";
-	echo '<label for="cgra">';
-    echo __("Budget heading") . "</label> : \n";
-    echo "</td><td>\n";
-    echo "<input name=\"cgra\" id=\"cgra\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($cgra)."\"></td><td>\n";
-	echo '<label for="cgrb">';
-    echo __("Budget subheading") . "</label> : </td><td>\n";
-    echo "<input name=\"cgrb\" id=\"cgrb\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($cgrb)."\">\n";
-    echo "</td></tr>\n";
-}
-else{
-    echo "<input name=\"cgra\" type=\"hidden\"  value=\"\">\n";
-    echo "<input name=\"cgrb\" type=\"hidden\"  value=\"\">\n";
-}
-echo "<tr><td>\n";
-echo '<label for="mail">';
-echo __("E-Mail") . " *</label> : </td><td>\n";
-echo "<input name=\"mail\" id=\"mail\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($mail)."\"></td><td>\n";
-echo '<label for="tel">';
-echo __("Tel.") . "</label> : </td><td>\n";
-echo "<input name=\"tel\" id=\"tel\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($tel)."\">\n";
-echo "</td></tr>\n";
-echo "<tr><td valign=\"top\">\n";
-echo '<label for="adresse">';
-echo __("Private address") . "</label> :\n";
-echo "</td><td>\n";
-echo "<input name=\"adresse\" id=\"adresse\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($adresse)."\">\n";
-echo "</td><td>\n";
-echo '<label for="postal">';
-echo __("Zip code") . "</label> : </td><td>\n";
-echo "<input name=\"postal\" id=\"postal\" type=\"text\" size=\"5\" value=\"".htmlspecialchars($postal)."\">\n";
-echo "&nbsp;\n";
-echo '<label for="localite">';
-echo __("City") . "</label> :\n";
-echo "<input name=\"localite\" id=\"localite\" type=\"text\" size=\"7\" value=\"".htmlspecialchars($localite)."\">\n";
-echo "</td></tr><tr><td valign=\"top\" colspan=\"4\">\n";
-echo __("If available at the library") . " : \n";
-echo "<input type=\"radio\" name=\"envoi\" id=\"envoimail\" value=\"mail\" ". (($envoi == "" || $envoi == "mail") ? " checked ": "") ."/>\n";
-echo '<label for="envoimail">';
-echo __("send by e-mail (billed)") . "</label>&nbsp;\n";
-echo "<input type=\"radio\" name=\"envoi\" id=\"envoisurplace\" value=\"surplace\" ". ($envoi == "surplace" ? " checked ": "") ."/>\n";
-echo '<label for="envoisurplace">';
-echo __("let me know and I come to make a copy (not billed)") . "</label>\n";
-echo "</td></tr>\n";
-echo "<tr>\n";
-echo "<td valign=\"top\" colspan=\"4\">\n";
-echo "<input type=\"checkbox\" name=\"cooc\" id=\"cooc\" value=\"on\" ". ($cooc == "on" ? " checked ": "") ."/>\n";
-echo '<label for="cooc">';
-echo __("Remember data for future orders (cookies allowed)") . "</label>&nbsp;&nbsp;|&nbsp;&nbsp;(<A HREF=\"javascript:coocout()\">" . __("delete the cookie") . "</a>)\n";
-echo "</td></tr>\n";
-echo "</table>\n";
-echo "\n";
-echo "</div></div>\n";
-echo "<div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
-echo "\n";
-// END User Fields
+echo '
+          </select>
+         </div>
+        </div>
+       </div>
+       <div class="field">
+        <div class="control">
+         <input id="servautre" name="servautre" class="input" type="text" value="'.htmlspecialchars($servautre).'" placeholder="'.__("Other unit").'">
+        </div>
+       </div>
+      </div>
+	  </div>
+	  
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="mail">'.__("E-Mail").'</label>
+      <div class="field-body">
+       <div class="field">
+        <div class="control">
+         <input id="mail" name="mail" class="input" type="email" value="'.htmlspecialchars($mail).'" placeholder="e.g. jean.dupont@exemple.com">
+        </div>
+       </div>
+       <div class="field">
+        <div class="control">
+         <input id="tel" name="tel" class="input" type="tel"  value="'.htmlspecialchars($tel).'" placeholder="'.__("Téléphone").': e.g. +41 79 123 45 67" pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$">
+        </div>
+       </div>
+      </div>
+	  </div>
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="cgra">'.__("Budget heading").'</label>
+      <div class="field-body">
+       <div class="field">
+        <div class="control">
+         <input id="cgra" name="cgra" class="input" type="text" value="'.htmlspecialchars($cgra).'" placeholder="'.__("CGR A").'">
+        </div>
+       </div>
+	   </div>
+	   <label class="label field-label is-normal" for="cgrb">'.__("Budget subheading").'</label>
+       <div class="field-body">
+	   <div class="field">
+        <div class="control">
+         <input id="cgrb" name="cgrb" class="input" type="text"  value="'.htmlspecialchars($cgrb).'" placeholder="'.__("CGR B").'" >
+        </div>
+       </div>
+      </div>
+	  </div>
+	  
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="adresse">'.__("Private address").'</label>
+      <div class="field-body">
+       <div class="field">
+        <div class="control">
+         <input id="adresse" name="adresse" class="input" type="text" value="'.htmlspecialchars($adresse).'" placeholder="e.g. Rue de Lausanne 2">
+        </div>
+       </div>
+       <div class="field">
+        <div class="control">
+         <input id="postal" name="postal" class="input" type="text" value="'.htmlspecialchars($postal).'" placeholder="e.g. 1001">
+        </div>
+       </div>
+       <div class="field">
+        <div class="control">
+         <input id="localite" name="localite" class="input" type="text" value="'.htmlspecialchars($localite).'" placeholder="e.g. Lausanne">
+        </div>
+       </div>
+      </div>
+	  </div>
+	  
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="envoi">'.__("Transmission").'</label>
+      <div class="field-body">
+       <div class="field">
+        <div class="control">
+         <label class="radio field-label is-normal">
+          <input type="radio" checked id="envoimail" name="envoi" '. (($envoi == "" || $envoi == "mail") ? " checked ": "") .' value="mail"> '.__("Send by e-mail (billed)").'</label>
+         <label class="radio field-label is-normal">
+          <input type="radio" id="envoisurplace" name="envoi" '. ($envoi == "surplace" ? " checked ": "") .' value="surplace"> '.__("Let me know and I come to make a copy (not billed)").'</label>
+        </div>
+       </div>
+      </div>
+	  </div>
+	  
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="cooc"></label>
+      <div class="field-body">
+       <div class="field">
+        <div class="control">
+         <label class="checkbox">
+          <input id="cooc" name="cooc" type="checkbox" '. ($cooc == "on" ? " checked ": "") .'value="on">
+          '.__("Remember data for future orders (cookies allowed)").' | (<a href="javascript:coocout()">'. __("delete the cookie") .'</a>)
+        </label>
+        </div>
+       </div>
+      </div>
+	  </div>
+	  
+	</div>
+</section>';
 
-
-
-// START Document Fields
 function get_document_form($lookupuid, $doctypesmessage, $doctypes,  $periodical_title_search_url, $can_remove_orders, $form_index=0, $tid_code="", $uids="", $genre_code="", $title="", $date="", $volume="", $issue="", $suppl="", $pages="", $atitle="", $auteurs="", $edition="", $issn="", $uid="", $remarquespub="") {
 	$document_form = "";
 	$document_form .=  "<a id=\"order_nb_".$form_index."\"></a>\n";
-	$document_form .=  "<div class=\"box\"><div class=\"box-content\">\n";
-	$document_form .=  "<div class=\"box\"><div class=\"box-content\">\n";
-	$document_form .=  "<center><b><label for=\"tid\">" . __("Fill in the order using") . "</label> </b>\n";
-	$document_form .=  "<select name=\"tid_".$form_index."\" id=\"tid_".$form_index."\">\n";
-	foreach($lookupuid as $value) {
-		$document_form .=  "<option value=\"" . htmlspecialchars($value["code"]) . "\"  ".($tid_code==$value["code"]? 'selected': '').">" . htmlspecialchars($value["name"]) . "</option>\n";
-	}
-	$document_form .=  "</select>\n";
-	$document_form .=  "<input name=\"uids_".$form_index."\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($uids)."\">\n";
-	$document_form .=  "<input type=\"button\" value=\"OK\" onclick=\"lookupid(".$form_index.")\"></center>\n";
-	$document_form .=  "</div></div>\n";
-	$document_form .=  "<div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
-	$document_form .=  "\n";
-	$document_form .=  "<table border=\"0\" cellspacing=\"0\" cellpadding=\"3\" width=\"100%\">\n";
-	if((!empty($doctypesmessage)) && $doctypesmessage[$lang])
-		$document_form .=  "<tr><td><label for=\"genre\">" . $doctypesmessage[$lang] . __("Document type")."</label> : </td><td>\n";
-	else
-		$document_form .=  "<tr><td><label for=\"genre\">".__("Document type")."</label> : </td><td>\n";
-	$document_form .=  "<select name=\"genre_".$form_index."\" id=\"genre_".$form_index."\">\n";
-	foreach($doctypes as $value) {
-		$document_form .=  "<option value=\"" . htmlspecialchars($value["code"]) . "\" ".($genre_code==$value["code"]? 'selected': '').">" . htmlspecialchars($value["name"]) . "</option>\n";
-	}
-	$document_form .=  "</select>\n";
-	$document_form .=  "<div class=\"formdoc\">\n";
-	$document_form .=  "</td></tr><tr><td>\n";
-	$document_form .=  '<label for="title">';
-	$document_form .=  __("Title of journal or book") . " *</label> : </td><td>\n";
-	$document_form .=  "<input name=\"title_".$form_index."\" id=\"title_".$form_index."\" type=\"text\" size=\"80\" value=\"".htmlspecialchars($title)."\">\n";
-	$document_form .=  "&nbsp;\n";
-	$document_form .=  "<a href=\"javascript:openlist('".$periodical_title_search_url."', '".$form_index."')\"><img src=\"img/find.png\" title=\"" . __("check on journals database") . "\"></a>\n";
-	$document_form .=  "</td></tr><tr><td>\n";
-	$document_form .=  '<label for="date">';
-	$document_form .=  __("Year") . "</label> : </td><td>\n";
-	$document_form .=  "<input name=\"date_".$form_index."\" id=\"date_".$form_index."\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($date)."\">\n";
-	$document_form .=  "&nbsp;\n";
-	$document_form .=  '<label for="volume">';
-	$document_form .=  __("Vol.") . "</label> : \n";
-	$document_form .=  "<input name=\"volume_".$form_index."\" id=\"volume_".$form_index."\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($volume)."\">\n";
-	$document_form .=  "&nbsp;\n";
-	$document_form .=  '<label for="issue">';
-	$document_form .=  __("(Issue)") . "</label> : \n";
-	$document_form .=  "<input name=\"issue_".$form_index."\" id=\"issue_".$form_index."\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($issue)."\">\n";
-	$document_form .=  "&nbsp;\n";
-	$document_form .=  '<label for="suppl">';
-	$document_form .=  __("Suppl.") . "</label> : \n";
-	$document_form .=  "<input name=\"suppl_".$form_index."\" id=\"suppl_".$form_index."\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($suppl)."\">\n";
-	$document_form .=  "&nbsp;\n";
-	$document_form .=  '<label for="pages">';
-	$document_form .=  __("Pages") . "</label> : \n";
-	$document_form .=  "<input name=\"pages_".$form_index."\" id=\"pages_".$form_index."\" type=\"text\" size=\"4\" value=\"".htmlspecialchars($pages)."\">\n";
-	$document_form .=  "</td></tr><tr><td>\n";
-	$document_form .=  '<label for="atitle">';
-	$document_form .=  __("Title of article or book chapter") . "</label> : \n";
-	$document_form .=  "</td><td>\n";
-	$document_form .=  "<input name=\"atitle_".$form_index."\" id=\"atitle_".$form_index."\" type=\"text\" size=\"80\" value=\"".htmlspecialchars($atitle)."\">\n";
-	$document_form .=  "</td></tr><tr><td>\n";
-	$document_form .=  '<label for="auteurs">';
-	$document_form .=  __("Author(s)") . "</label> : \n";
-	$document_form .=  "</td><td>\n";
-	$document_form .=  "<input name=\"auteurs_".$form_index."\" id=\"auteurs_".$form_index."\" type=\"text\" size=\"80\" value=\"".htmlspecialchars($auteurs)."\">\n";
-	$document_form .=  "</td></tr>\n";
-	$document_form .=  "<tr><td>\n";
-	$document_form .=  '<label for="edition">';
-	$document_form .=  __("Edition (for books)") . "</label> : \n";
-	$document_form .=  "</td><td>\n";
-	$document_form .=  "<input name=\"edition_".$form_index."\" id=\"edition_".$form_index."\" type=\"text\" size=\"14\" value=\"".htmlspecialchars($edition)."\">\n";
-	$document_form .=  "&nbsp;\n";
-	$document_form .=  "<label for=\"issn\">ISSN / ISBN</label> : \n";
-	$document_form .=  "<input name=\"issn_".$form_index."\" id=\"issn_".$form_index."\" type=\"text\" size=\"15\" value=\"".htmlspecialchars($issn)."\">\n";
-	$document_form .=  "&nbsp;\n";
-	$document_form .=  "<label for=\"uid\">UID</label> : \n";
-	$document_form .=  "<input name=\"uid_".$form_index."\" id=\"uid_".$form_index."\" type=\"text\" size=\"15\" value=\"".htmlspecialchars($uid)."\">\n";
-	$document_form .=  "</td></tr></div>\n";
-	$document_form .=  "<tr><td valign=\"top\">\n";
-	$document_form .=  '<label for="remarquespub">';
-	$document_form .=  __("Notes") . "</label> : \n";
-	$document_form .=  "</td><td valign=\"bottom\"><textarea name=\"remarquespub_".$form_index."\" id=\"remarquespub_".$form_index."\" rows=\"2\" cols=\"60\" valign=\"bottom\">".htmlspecialchars($remarquespub)."</textarea>\n";
-	$document_form .=  "</td></tr><tr><td></td><td>\n";
-	$document_form .=  "</td></tr>\n";
-	$document_form .=  "</table>\n";
+	$document_form .= '
+	<section class="message">
+		<div class="message-header">'.__("Document").'</div>
+    <div class="message-body">
+		<div class="box">
+			
+		<div class="field is-horizontal">
+       <label class="label field-label is-normal column is-4" for="tid_'.$form_index.'">'. __("Fill in the order using") .'</label>
+       <div class="field-body">
+        <div class="field has-addons">
+         <div class="control">
+          <span class="select is-fullwidth">
+			<select id="tid_'.$form_index.'" name="tid_'.$form_index.'">';
+				foreach($lookupuid as $value) {
+	$document_form .=  "<option value=\"" . htmlspecialchars($value["code"]) . "\" ".($tid_code==$value["code"]? 'selected': '').">" . htmlspecialchars($value["name"]) . "</option>\n";
+}
+echo'
+			</select>
+		</span>
+         </div>
+         <div class="control"><input class="input" name="uids_'.$form_index.'" placeholder="'. __("Identification number") .'" type="text" value="'.htmlspecialchars($uids).'"></div>
+         <div class="control"><input class="button is-primary" onclick="lookupid('.$form_index.')" type="button" value="'. __("Fill in") .'"></div>
+        </div>
+       </div>
+	   </div>
+	   
+	   </div> <!-- end .box -->
+	   
+	   <div class="field is-horizontal">';
+if((!empty($doctypesmessage)) && $doctypesmessage[$lang])
+		$document_form .=  '<label class="label field-label is-normal" for="genre_'.$form_index.'">'. $doctypesmessage[$lang] . __("Document type").'</label>';
+else
+		$document_form .=  '<label class="label field-label is-normal" for="genre_'.$form_index.'">'.__("Document type").'</label>';
+
+	$document_form .=  '
+      <div class="field-body">
+       <div class="field">
+        <div class="control">
+         <div class="select is-fullwidth">
+          <select id="genre_'.$form_index.'" name="genre_'.$form_index.'">';
+			  foreach($doctypes as $value) {
+	$document_form .=  "<option value=\"" . htmlspecialchars($value["code"]) . "\" ".($genre_code==$value["code"]? 'selected': '')." >" . htmlspecialchars($value["name"]) . "</option>\n";
+}
+	$document_form .=  '
+		</select>
+         </div>
+        </div>
+       </div>
+      </div>
+	  </div>
+	   
+	  
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="genre_'.$form_index.'">'__("Périodique").'</label>
+      <div class="field-body">
+       <div class="field">
+        <div class="control">
+         <input class="input" id="title_'.$form_index.'" name="title_'.$form_index.'" type="text" value="'.htmlspecialchars($title).'" placeholder="Titre du périodique ou du livre">
+        </div>
+       </div>
+       <a href="javascript:openlist(\''.$periodical_title_search_url.'\', \''.$form_index.'\')"><span class="button is-small" title="'. __("check on journals database") .'"><i aria-hidden="true" class="fa fa-database"></i></span></a>
+      </div>
+	  </div>
+	  
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="date_'.$form_index.'"></label>
+      <div class="field-body">
+       <div class="field">
+        <div class="control">
+         <input class="input" id="date_'.$form_index.'" name="date_'.$form_index.'" type="text" value="'.htmlspecialchars($date).'" placeholder="'.__("Year").'">
+        </div>
+       </div>
+       <div class="field">
+        <div class="control">
+         <input class="input" id="volume_'.$form_index.'" name="volume_'.$form_index.'" type="text" value="'.htmlspecialchars($volume).'" placeholder="'.__("Volume").'">
+        </div>
+       </div>
+       <div class="field">
+        <div class="control">
+         <input class="input" id="issue_'.$form_index.'" name="issue_'.$form_index.'" type="text" value="'.htmlspecialchars($issue).'" placeholder="'.__("Issue (No)").'">
+        </div>
+       </div>
+       <div class="field">
+        <div class="control">
+         <input class="input" id="suppl_'.$form_index.'" name="suppl_'.$form_index.'" type="text" value="'.htmlspecialchars($suppl).'" placeholder="'.__("Supplement").'">
+        </div>
+       </div>
+       <div class="field">
+        <div class="control">
+         <input class="input" id="pages_'.$form_index.'" name="pages_'.$form_index.'" type="text" value="'.htmlspecialchars($pages).'" placeholder="'.__("Pages").'">
+        </div>
+       </div>
+      </div>
+	  </div>
+	  
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="atitle_'.$form_index.'">'.__("Article").'</label>
+      <div class="field-body">
+       <div class="field">
+        <div class="control">
+         <input class="input" id="atitle_'.$form_index.'" name="atitle_'.$form_index.'" type="text" value="'.htmlspecialchars($atitle).'" placeholder="'.__("Title of article or chapter").'">
+        </div>
+       </div>
+      </div>
+	  </div>
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="auteurs_'.$form_index.'">'.__("Author(s)").'</label>
+      <div class="field-body">
+       <div class="field">
+        <div class="control">
+         <input class="input" id="auteurs_'.$form_index.'" name="auteurs_'.$form_index.'" type="text" value="'.htmlspecialchars($auteurs).'" placeholder="'.__("Authors").'">
+        </div>
+       </div>
+      </div>
+	  </div>
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="edition_'.$form_index.'"></label>
+      <div class="field-body">
+       <div class="field">
+        <div class="control">
+         <input class="input" id="edition_'.$form_index.'" name="edition_'.$form_index.'" type="text" value="'.htmlspecialchars($edition).'" placeholder="'.__("Edition (for books)").'">
+        </div>
+       </div>
+       <div class="field">
+        <div class="control">
+         <input class="input" id="issn_'.$form_index.'" name="issn_'.$form_index.'" type="text"  value="'.htmlspecialchars($issn).'" placeholder="ISSN / ISBN">
+        </div>
+       </div>
+       <div class="field">
+        <div class="control">
+         <input class="input" id="uid_'.$form_index.'" name="uid_'.$form_index.'" type="text" value="'.htmlspecialchars($uid).'" placeholder="UID">
+        </div>
+       </div>
+      </div>
+	  </div>
+	  
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="remarquespub_'.$form_index.'">'.__("Notes").'</label>
+      <div class="field-body">
+       <div class="field">
+        <div class="control">
+         <textarea id="remarquespub_'.$form_index.'" name="remarquespub_'.$form_index.'" class="textarea" placeholder="" rows="2">'.htmlspecialchars($remarquespub).'</textarea>
+        </div>
+       </div>
+      </div>
+	  </div>
+';
 	if ($can_remove_orders) {
 		$document_form .= '<div class=""><a class="removeLink" style="cursor:pointer;" onclick="form=document.getElementById(\'orderform\');form.remove_form.value='.$form_index.';form.action=\'index.php#order_nb_'.($form_index-1).'\';form.submit();">'.__("Remove").'</a></div>';
 	}
-	$document_form .=  "</div></div>\n";
-	$document_form .=  "<div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
 	return $document_form;
 }
 $can_remove_orders = false;
@@ -645,10 +761,17 @@ foreach ($order_form_values as $form_index => $value) {
 if (count($order_form_values) < max($maxSimultaneousOrders, 1))  {
 	echo '<div class="addItemPanel"><input type="hidden" name="add_form" value="0"/><a style="cursor:pointer" onclick="form=document.getElementById(\'orderform\');form.add_form.value=1;form.action=\'index.php#order_nb_'.count($order_form_values).'\';form.submit();">'.__("Add an item to the order").'</a></div>';
 }
-echo '<div class="box-submit-buttons">';
-echo "<input type=\"submit\" value=\"" . __("Send order") . "\" onsubmit=\"javascript:okcooc();document.body.style.cursor = 'wait';\">&nbsp;&nbsp;\n";
-echo "<input type=\"reset\" value=\"" . __("Reset") . "\">\n";
-echo "</div>";
+
+echo '
+	  <div class="field is-grouped">
+      <input type="submit" class="button is-primary" value="'. __("Send order") .'" onsubmit="javascript:okcooc();document.body.style.cursor = \'wait\';" />
+      <input type="reset" value="'. __("Reset") .'" class="button is-link" />
+	  </div>
+	
+	</div>
+	</section>';
+
 echo "</form>\n";
+
 require ("includes/footer.php");
 ?>

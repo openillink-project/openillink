@@ -250,6 +250,24 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `login` (`login`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `folders`
+--
+
+DROP TABLE IF EXISTS `folders`;
+CREATE TABLE `folders` (
+  `id` int(11) NOT NULL,
+  `title` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `query` text COLLATE utf8_unicode_ci,
+  `user` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `library` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `active` tinyint(1) DEFAULT NULL,
+  `position` int(5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

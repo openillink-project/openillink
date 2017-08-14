@@ -26,16 +26,16 @@ SET time_zone = "+00:00";
 -- Structure de la table `folders`
 --
 
-CREATE TABLE `folders` (
+CREATE TABLE IF NOT EXISTS `folders` (
   `id` int(11) NOT NULL,
-  `title` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `query` text COLLATE utf8mb4_unicode_ci,
-  `user` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `library` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `query` text COLLATE utf8_unicode_ci,
+  `user` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `library` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
   `position` int(5) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Contenu de la table `folders`

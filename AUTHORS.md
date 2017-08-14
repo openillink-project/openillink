@@ -10,6 +10,7 @@ The following people have also contributed code to OpenILLink:
 * Mara Dalla Valle <mara.dallavalle@gmail.com>
 * Jan Krause <pro@jankrause.net>
 * Mathilde Panes <mathilde.panes@chuv.ch>
+* Michael Ravedoni <michael.ravedoni@chuv.ch>
 
 The following people have contributed to the conception, tests or making suggestions to improve OpenILLink:
 * Isabelle de Kaenel <isabelle.de-kaenel@chuv.ch>

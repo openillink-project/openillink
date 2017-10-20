@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenILLink\n"
-"POT-Creation-Date: 2017-08-14 10:56+0200\n"
-"PO-Revision-Date: 2017-08-14 10:56+0200\n"
+"POT-Creation-Date: 2017-10-20 14:41+0200\n"
+"PO-Revision-Date: 2017-10-20 14:42+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -111,41 +111,41 @@ msgstr "Vos droits sont insuffisants pour consulter cette page"
 msgid "Missing id or form parameters"
 msgstr "L'id ou des paramètres manquent"
 
-#: includes/config.php:162
+#: includes/config.php:166
 msgid "Article"
 msgstr "Article"
 
-#: includes/config.php:163
+#: includes/config.php:167
 msgid "Preprint"
 msgstr "Preprint"
 
-#: includes/config.php:164 includes/orders_detail.php:179
+#: includes/config.php:168 includes/orders_detail.php:179
 #: includes/ordertop.php:98
 msgid "Book"
 msgstr "Livre"
 
-#: includes/config.php:165
+#: includes/config.php:169
 msgid "Book chapter"
 msgstr "Chapitre de livre"
 
-#: includes/config.php:166 includes/orders_detail.php:181
+#: includes/config.php:170 includes/orders_detail.php:181
 #: includes/ordertop.php:100
 msgid "Thesis"
 msgstr "Thèse"
 
-#: includes/config.php:167
+#: includes/config.php:171
 msgid "Journal issue"
 msgstr "No de revue"
 
-#: includes/config.php:168
+#: includes/config.php:172
 msgid "Conference proceedings"
 msgstr "Actes d'un congrès"
 
-#: includes/config.php:169
+#: includes/config.php:173
 msgid "Conference paper"
 msgstr "Article d'une conférence"
 
-#: includes/config.php:170
+#: includes/config.php:174
 msgid "Other"
 msgstr "Autre"
 
@@ -304,7 +304,7 @@ msgstr "Créer un nouveau filtre"
 #: includes/libraries_list.php:112 includes/libraries_update.php:180
 #: includes/links_list.php:149 includes/links_update.php:201
 #: includes/localizations_update.php:162 includes/status_update.php:179
-#: includes/units_update.php:185 includes/users_update.php:212
+#: includes/units_update.php:185 includes/users_update.php:227
 msgid "Your rights are insufficient to edit this page"
 msgstr "Vos droits sont insuffisants pour éditer cette page"
 
@@ -456,7 +456,7 @@ msgstr ""
 #: includes/folders_update.php:454 includes/libraries_update.php:121
 #: includes/links_update.php:140 includes/localizations_update.php:103
 #: includes/status_update.php:120 includes/units_update.php:125
-#: includes/users_update.php:154
+#: includes/users_update.php:169
 msgid ""
 "The modification was not saved because it lacks the identifier of the form"
 msgstr ""
@@ -467,7 +467,7 @@ msgstr ""
 #: includes/links_update.php:141 includes/localizations_update.php:104
 #: includes/status_update.php:112 includes/status_update.php:121
 #: includes/units_update.php:117 includes/units_update.php:126
-#: includes/users_update.php:146 includes/users_update.php:155
+#: includes/users_update.php:161 includes/users_update.php:170
 msgid "Please retry your search"
 msgstr "Veuillez relancer votre recherche"
 
@@ -478,7 +478,7 @@ msgstr "nouveau filtre"
 #: includes/folders_update.php:468 includes/libraries_update.php:135
 #: includes/links_update.php:156 includes/localizations_update.php:118
 #: includes/status_update.php:134 includes/units_update.php:140
-#: includes/users_update.php:168
+#: includes/users_update.php:183
 msgid "The new card %id_card has been successfully registered"
 msgstr "La nouvelle fiche %id_card a été enregistrée avec succès"
 
@@ -489,14 +489,14 @@ msgstr "Confirmation pour supprimer un filtre "
 #: includes/folders_update.php:483 includes/libraries_update.php:150
 #: includes/links_update.php:171 includes/localizations_update.php:132
 #: includes/status_update.php:149 includes/units_update.php:155
-#: includes/users_update.php:183
+#: includes/users_update.php:198
 msgid "Do you really want to delete the card %id_card ?"
 msgstr "Voulez-vous vraiment supprimer la fiche %id_card ?"
 
 #: includes/folders_update.php:489 includes/libraries_update.php:156
 #: includes/links_update.php:177 includes/localizations_update.php:138
 #: includes/status_update.php:155 includes/units_update.php:161
-#: includes/users_update.php:189
+#: includes/users_update.php:204
 msgid "Confirm the deletion of the card %id_card by clicking here"
 msgstr "Confirmer la suppression de la fiche %id_card en cliquant ici"
 
@@ -736,7 +736,7 @@ msgstr "Le champ code est obligatoire"
 
 #: includes/libraries_update.php:87 includes/links_update.php:98
 #: includes/localizations_update.php:70 includes/status_update.php:87
-#: includes/units_update.php:92 includes/users_update.php:100
+#: includes/units_update.php:92 includes/users_update.php:107
 msgid "Back to the form"
 msgstr "Retour au formulaire"
 
@@ -1865,7 +1865,7 @@ msgstr "%institution_name : édition de l’unité %id"
 msgid "Back to the units"
 msgstr "Retour à la liste des unités"
 
-#: includes/units_update.php:116 includes/users_update.php:145
+#: includes/units_update.php:116 includes/users_update.php:160
 msgid ""
 "The change was not saved because the identifier of record  %id was not found "
 "in the database."
@@ -1889,7 +1889,7 @@ msgstr "Retour à la liste des unités"
 msgid "Delete an unit"
 msgstr "Supprimer une unité"
 
-#: includes/units_update.php:174 includes/users_update.php:202
+#: includes/units_update.php:174 includes/users_update.php:217
 msgid "The card %id has been successfully deleted"
 msgstr "La fiche %id a été supprimée avec succès"
 
@@ -1976,14 +1976,14 @@ msgstr "Gestion des utilisateurs : Nouvel utilisateurs"
 msgid "Confirm password"
 msgstr "Confirmez le mot de passe"
 
-#: includes/users_update.php:69
+#: includes/users_update.php:76
 #, php-format
 msgid "The login %login already exists in database. Please choose another one."
 msgstr ""
 "Le nom d’utilisateur %login existe déjà dans la base de données. Veuillez en "
 "choisir un autre."
 
-#: includes/users_update.php:71
+#: includes/users_update.php:78
 #, php-format
 msgid ""
 "The login %login is already attributed to another user. Please choose "
@@ -1992,40 +1992,44 @@ msgstr ""
 "Le nom d’utilisateur %login est déjà attribué à un autre utilisateur. "
 "Veuillez en choisir un autre."
 
-#: includes/users_update.php:93
+#: includes/users_update.php:100
 msgid "The Password is required"
 msgstr "Le mot de passe est obligatoire"
 
-#: includes/users_update.php:95
+#: includes/users_update.php:102
 msgid "The password has not been confirmed correctly"
 msgstr "Le mot de passe n’a pas été correctement confirmé"
 
-#: includes/users_update.php:109
+#: includes/users_update.php:116
 msgid "%institution_name : edition of the user %id"
 msgstr "%institution_name : édition de l’utilisateur %id"
 
-#: includes/users_update.php:136
+#: includes/users_update.php:149
 msgid "The user has been successfully modified"
 msgstr "L’utilisateur a été modifié avec succès"
 
-#: includes/users_update.php:138
+#: includes/users_update.php:151
+msgid "Your user data has been successfully modified"
+msgstr "Vos données utilisateur ont été mises à jour avec succès"
+
+#: includes/users_update.php:153
 msgid "Back to the administration page"
 msgstr "Retour à la page d’administration"
 
-#: includes/users_update.php:140 includes/users_update.php:169
-#: includes/users_update.php:191 includes/users_update.php:203
+#: includes/users_update.php:155 includes/users_update.php:184
+#: includes/users_update.php:206 includes/users_update.php:218
 msgid "Back to the users list"
 msgstr "Retour à la liste des utilisateurs"
 
-#: includes/users_update.php:163
+#: includes/users_update.php:178
 msgid "new user"
 msgstr "nouvel utilisateur"
 
-#: includes/users_update.php:180
+#: includes/users_update.php:195
 msgid "Confirmation for deleting a user"
 msgstr "Confirmation pour supprimer un utilisateur"
 
-#: includes/users_update.php:197
+#: includes/users_update.php:212
 msgid "Delete a user"
 msgstr "Supprimer un utilisateur"
 

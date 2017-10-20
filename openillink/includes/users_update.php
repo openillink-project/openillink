@@ -145,8 +145,11 @@ if (!empty($_COOKIE['illinkid'])){
 							$param_types .= "i";
                             $resultupdate = dbquery($query, $params, $param_types) or die("Error : ".mysqli_error());
                             echo "<center><br/><b><font color=\"green\">\n";
-                            echo __("The user has been successfully modified")."</b></font>\n";
-                            if ($action == "updateprofile")
+                            if ($id != $myId) {
+								echo __("The user has been successfully modified")."</b></font>\n";
+							} else {
+								echo __("Your user data has been successfully modified")."</b></font>\n";
+							}                            if ($action == "updateprofile")
                                 echo "<br/><br/><br/><a href=\"admin.php\">".__("Back to the administration page")."</a></center>\n";
                             else
                                 echo "<br/><br/><br/><a href=\"list.php?table=users\">".__("Back to the users list")."</a></center>\n";

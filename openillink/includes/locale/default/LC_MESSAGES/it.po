@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenILLink\n"
-"POT-Creation-Date: 2017-08-14 10:55+0200\n"
-"PO-Revision-Date: 2017-08-14 10:55+0200\n"
+"POT-Creation-Date: 2017-10-20 14:42+0200\n"
+"PO-Revision-Date: 2017-10-20 14:42+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it\n"
@@ -110,41 +110,41 @@ msgstr "I tuoi diritti non sono sufficienti per visualizzare questa pagina"
 msgid "Missing id or form parameters"
 msgstr "Mancanza del parametro id o form"
 
-#: includes/config.php:162
+#: includes/config.php:166
 msgid "Article"
 msgstr "Articolo"
 
-#: includes/config.php:163
+#: includes/config.php:167
 msgid "Preprint"
 msgstr ""
 
-#: includes/config.php:164 includes/orders_detail.php:179
+#: includes/config.php:168 includes/orders_detail.php:179
 #: includes/ordertop.php:98
 msgid "Book"
 msgstr "Libro"
 
-#: includes/config.php:165
+#: includes/config.php:169
 msgid "Book chapter"
 msgstr "Capitolo di libro"
 
-#: includes/config.php:166 includes/orders_detail.php:181
+#: includes/config.php:170 includes/orders_detail.php:181
 #: includes/ordertop.php:100
 msgid "Thesis"
 msgstr "Tesi"
 
-#: includes/config.php:167
+#: includes/config.php:171
 msgid "Journal issue"
 msgstr ""
 
-#: includes/config.php:168
+#: includes/config.php:172
 msgid "Conference proceedings"
 msgstr "Atti del convegno"
 
-#: includes/config.php:169
+#: includes/config.php:173
 msgid "Conference paper"
 msgstr ""
 
-#: includes/config.php:170
+#: includes/config.php:174
 msgid "Other"
 msgstr "Altro"
 
@@ -302,7 +302,7 @@ msgstr "Aggiungi nuovo filtro"
 #: includes/libraries_list.php:112 includes/libraries_update.php:180
 #: includes/links_list.php:149 includes/links_update.php:201
 #: includes/localizations_update.php:162 includes/status_update.php:179
-#: includes/units_update.php:185 includes/users_update.php:212
+#: includes/units_update.php:185 includes/users_update.php:227
 msgid "Your rights are insufficient to edit this page"
 msgstr "I tuoi diritti non sono sufficienti per modificare questa pagina"
 
@@ -452,7 +452,7 @@ msgstr ""
 #: includes/folders_update.php:454 includes/libraries_update.php:121
 #: includes/links_update.php:140 includes/localizations_update.php:103
 #: includes/status_update.php:120 includes/units_update.php:125
-#: includes/users_update.php:154
+#: includes/users_update.php:169
 msgid ""
 "The modification was not saved because it lacks the identifier of the form"
 msgstr ""
@@ -461,7 +461,7 @@ msgstr ""
 #: includes/links_update.php:141 includes/localizations_update.php:104
 #: includes/status_update.php:112 includes/status_update.php:121
 #: includes/units_update.php:117 includes/units_update.php:126
-#: includes/users_update.php:146 includes/users_update.php:155
+#: includes/users_update.php:161 includes/users_update.php:170
 msgid "Please retry your search"
 msgstr ""
 
@@ -472,7 +472,7 @@ msgstr "nuovo filtro"
 #: includes/folders_update.php:468 includes/libraries_update.php:135
 #: includes/links_update.php:156 includes/localizations_update.php:118
 #: includes/status_update.php:134 includes/units_update.php:140
-#: includes/users_update.php:168
+#: includes/users_update.php:183
 msgid "The new card %id_card has been successfully registered"
 msgstr ""
 
@@ -483,14 +483,14 @@ msgstr ""
 #: includes/folders_update.php:483 includes/libraries_update.php:150
 #: includes/links_update.php:171 includes/localizations_update.php:132
 #: includes/status_update.php:149 includes/units_update.php:155
-#: includes/users_update.php:183
+#: includes/users_update.php:198
 msgid "Do you really want to delete the card %id_card ?"
 msgstr ""
 
 #: includes/folders_update.php:489 includes/libraries_update.php:156
 #: includes/links_update.php:177 includes/localizations_update.php:138
 #: includes/status_update.php:155 includes/units_update.php:161
-#: includes/users_update.php:189
+#: includes/users_update.php:204
 msgid "Confirm the deletion of the card %id_card by clicking here"
 msgstr ""
 
@@ -723,7 +723,7 @@ msgstr "È necessario il codice"
 
 #: includes/libraries_update.php:87 includes/links_update.php:98
 #: includes/localizations_update.php:70 includes/status_update.php:87
-#: includes/units_update.php:92 includes/users_update.php:100
+#: includes/units_update.php:92 includes/users_update.php:107
 msgid "Back to the form"
 msgstr "Torna al formulario"
 
@@ -1895,7 +1895,7 @@ msgstr ""
 msgid "Back to the units"
 msgstr "Torna alla liste dei filtri"
 
-#: includes/units_update.php:116 includes/users_update.php:145
+#: includes/units_update.php:116 includes/users_update.php:160
 msgid ""
 "The change was not saved because the identifier of record  %id was not found "
 "in the database."
@@ -1919,7 +1919,7 @@ msgstr "Torna alla liste dei filtri"
 msgid "Delete an unit"
 msgstr "Crea una nuova biblioteca"
 
-#: includes/units_update.php:174 includes/users_update.php:202
+#: includes/units_update.php:174 includes/users_update.php:217
 #, fuzzy
 msgid "The card %id has been successfully deleted"
 msgstr "Il cestino è stato vuotato con successo"
@@ -2018,56 +2018,60 @@ msgstr "Gestione utenti"
 msgid "Confirm password"
 msgstr "La tua password è :% s"
 
-#: includes/users_update.php:69
+#: includes/users_update.php:76
 #, php-format
 msgid "The login %login already exists in database. Please choose another one."
 msgstr ""
 
-#: includes/users_update.php:71
+#: includes/users_update.php:78
 #, php-format
 msgid ""
 "The login %login is already attributed to another user. Please choose "
 "another one."
 msgstr ""
 
-#: includes/users_update.php:93
+#: includes/users_update.php:100
 msgid "The Password is required"
 msgstr ""
 
-#: includes/users_update.php:95
+#: includes/users_update.php:102
 msgid "The password has not been confirmed correctly"
 msgstr ""
 
-#: includes/users_update.php:109
+#: includes/users_update.php:116
 #, fuzzy
 msgid "%institution_name : edition of the user %id"
 msgstr "Origine dell'ordine"
 
-#: includes/users_update.php:136
+#: includes/users_update.php:149
 #, fuzzy
 msgid "The user has been successfully modified"
 msgstr "Il cestino è stato vuotato con successo"
 
-#: includes/users_update.php:138
+#: includes/users_update.php:151
+msgid "Your user data has been successfully modified"
+msgstr ""
+
+#: includes/users_update.php:153
 #, fuzzy
 msgid "Back to the administration page"
 msgstr "Torna alla liste dei filtri"
 
-#: includes/users_update.php:140 includes/users_update.php:169
-#: includes/users_update.php:191 includes/users_update.php:203
+#: includes/users_update.php:155 includes/users_update.php:184
+#: includes/users_update.php:206 includes/users_update.php:218
 #, fuzzy
 msgid "Back to the users list"
 msgstr "Torna alla liste dei filtri"
 
-#: includes/users_update.php:163
+#: includes/users_update.php:178
 msgid "new user"
 msgstr "nuovo utente"
 
-#: includes/users_update.php:180
+#: includes/users_update.php:195
 msgid "Confirmation for deleting a user"
 msgstr ""
 
-#: includes/users_update.php:197
+#: includes/users_update.php:212
 #, fuzzy
 msgid "Delete a user"
 msgstr "Crea una nuova biblioteca"

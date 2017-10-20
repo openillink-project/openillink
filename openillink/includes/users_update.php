@@ -35,12 +35,19 @@ require_once ("toolkit.php");
 $validActionSet = array('new', 'update', 'delete', 'deleteok', 'updateprofile');
 if (!empty($_COOKIE['illinkid'])){
     $id=$_POST['id'];
+
+	// Fetch current user id to compare with input if needed
+	$reqlogin = "SELECT user_id FROM users WHERE users.login = ?";
+	$resultlogin = dbquery($reqlogin, array($monlog), 's');
+    $enreglogin = iimysqli_result_fetch_array($resultlogin);
+	$myId = $enreglogin['user_id'];
+
     $ip = $_SERVER['REMOTE_ADDR'];
     $action = ((!empty($_GET['action'])) && isValidInput($_GET['action'],15,'s',false,$validActionSet))? $_GET['action']:NULL;
     if (empty($action)){
         $action = ((!empty($_POST['action'])) && isValidInput($_POST['action'],15,'s',false,$validActionSet))? $_POST['action']:NULL;
     }
-    if (($monaut == "admin")||($monaut == "sadmin")||(($monaut == "user")&&($action == "updateprofile"))){
+    if (($monaut == "admin")||($monaut == "sadmin")||(($monaut == "user" && $id == $myId)&&($action == "updateprofile"))){
 /*
         if (($monaut == "user")&&($action == "updateprofile"))
             $action == "update";

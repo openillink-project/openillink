@@ -122,22 +122,27 @@ if (!empty($_COOKIE['illinkid'])){
                                 $login = $enregid['login'];
                                 $name = $enregid['name'];
                             }
-                            $query = "UPDATE users SET name=?, email=?, login=?, ";
+                            $query = "UPDATE users SET name=?, email=?, login=? ";
 							$params = array($name, $email, $login);
 							$param_types = "sss";
                             if ($action == "update") {
-                                $query = $query . "status=?, admin=?, ";
+                                $query = $query . ", status=?, admin=?";
 								array_push($params, $status, $admin);
 								$param_types .= "ii"; 
 							}
                             if ($newpassword1 != "") {
-                                $query = $query . "password=?, ";
+                                $query = $query . ", password=?";
 								array_push($params, $password);
 								$param_types .= "s"; 
 							}
-                            $query = $query . "library=?, created_ip=?, created_on=? WHERE user_id=?";
-							array_push($params, $library, $ip, $date, $id);
-							$param_types .= "sssi"; 
+							if (($monaut == "admin") || ($monaut == "sadmin")) {
+								$query = $query . ", library=?";
+								array_push($params, $library);
+								$param_types .= "s";
+							}
+							$query = $query . " WHERE user_id=?";
+							array_push($params, $id);
+							$param_types .= "i";
                             $resultupdate = dbquery($query, $params, $param_types) or die("Error : ".mysqli_error());
                             echo "<center><br/><b><font color=\"green\">\n";
                             echo __("The user has been successfully modified")."</b></font>\n";

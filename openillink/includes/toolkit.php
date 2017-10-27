@@ -343,4 +343,25 @@ function getLibrarySignature($monbib) {
     $signature = iimysqli_result_fetch_array($res);
 	return $signature['signature'];
 }
+function is_privileged_enough($current_user_type, $min_user_type) {
+	/*
+	Check that the given $current_user_type is at least as privileged as the target $min_user_type
+	*/
+	return ($min_user_type == "guest" || 
+			($min_user_type == "user" && in_array($current_user_type, array('user', 'admin', 'sadmin'))) || 
+			($min_user_type == "admin" && in_array($current_user_type, array('admin', 'sadmin'))) || 
+			($min_user_type == "sadmin" && $current_user_type == 'sadmin'));
+}
+
+function parse_size_str($size_str) {
+	/*
+	Return in bytes (as integer) the size given in string (for eg. "2KB" -> 2048
+	*/
+    switch (substr ($size_str, -1)) {
+        case 'M': case 'm': return (int)$size_str * 1048576;
+        case 'K': case 'k': return (int)$size_str * 1024;
+        case 'G': case 'g': return (int)$size_str * 1073741824;
+        default: return (is_numeric($size_str) ? (int)$size_str : $size_str);
+    }
+}
 ?>

@@ -40,53 +40,53 @@ function unCheckAll(commande) {
     }
 }
 
-function cleanIllForm(){
-    document.commande.atitle.value = '';
-    document.commande.title.value = '';
-    document.commande.auteurs.value = '';
-    document.commande.date.value = '';
-    document.commande.volume.value = '';
-    document.commande.issue.value = '';
-    document.commande.pages.value = '';
-    document.commande.issn.value = '';
-    document.commande.uid.value = '';
-    document.commande.remarquespub.value = '';
+function cleanIllForm(item_index){
+    document.commande["atitle_"+item_index].value = '';
+    document.commande["title_"+item_index].value = '';
+    document.commande["auteurs_"+item_index].value = '';
+    document.commande["date_"+item_index].value = '';
+    document.commande["volume_"+item_index].value = '';
+    document.commande["issue_"+item_index].value = '';
+    document.commande["pages_"+item_index].value = '';
+    document.commande["issn_"+item_index].value = '';
+    document.commande["uid_"+item_index].value = '';
+    document.commande["remarquespub_"+item_index].value = '';
 }
 
-function lookupid() {
+function lookupid(item_index) {
     // si la valeur du champ uids est vide
-    if (document.commande.uids.value == ""){
+    if (document.commande["uids_"+item_index].value == ""){
         // message d'alerte
         alert('entrez un identificateur avant');
     }
-    if ((document.commande.uids.value != "") && (document.commande.tid.value == "pmid")){
+    if ((document.commande["uids_"+item_index].value != "") && (document.commande["tid_"+item_index].value == "pmid")){
         // alors on remplit automatiquement le formulaire, ceci écrase ce qui est inscrit dans le formulaire normal et l'envoie
-        cleanIllForm();
-        updateIllform();
+        cleanIllForm(item_index);
+        updateIllform(item_index);
     }
-    if ((document.commande.uids.value != "") && (document.commande.tid.value == "reroid")){    
-        cleanIllForm();
-        updateIllform2();
+    if ((document.commande["uids_"+item_index].value != "") && (document.commande["tid_"+item_index].value == "reroid")){    
+        cleanIllForm(item_index);
+        updateIllform2(item_index);
     }
-    if ((document.commande.uids.value != "") && (document.commande.tid.value == "isbn")){
-        cleanIllForm();
-        updateIllform3();
+    if ((document.commande["uids_"+item_index].value != "") && (document.commande["tid_"+item_index].value == "isbn")){
+        cleanIllForm(item_index);
+        updateIllform3(item_index);
     }
-    if ((document.commande.uids.value != "") && (document.commande.tid.value == "doi")){
-        cleanIllForm();
-        updateIllform4();
+    if ((document.commande["uids_"+item_index].value != "") && (document.commande["tid_"+item_index].value == "doi")){
+        cleanIllForm(item_index);
+        updateIllform4(item_index);
     }
-    if ((document.commande.uids.value != "") && (document.commande.tid.value == "wosid")){
-        cleanIllForm();
-        updateIllform5();
+    if ((document.commande["uids_"+item_index].value != "") && (document.commande["tid_"+item_index].value == "wosid")){
+        cleanIllForm(item_index);
+        updateIllform5(item_index);
     }
-    if ((document.commande.uids.value != "") && (document.commande.tid.value == "isbn_swissbib")){
-        cleanIllForm();
-        updateIllform6();
+    if ((document.commande["uids_"+item_index].value != "") && (document.commande["tid_"+item_index].value == "isbn_swissbib")){
+        cleanIllForm(item_index);
+        updateIllform6(item_index);
     }
-    if ((document.commande.uids.value != "") && (document.commande.tid.value == "renouvaudmms_swissbib")){
-        cleanIllForm();
-        updateIllform7();
+    if ((document.commande["uids_"+item_index].value != "") && (document.commande["tid_"+item_index].value == "renouvaudmms_swissbib")){
+        cleanIllForm(item_index);
+        updateIllform7(item_index);
     }
 }
 
@@ -100,7 +100,7 @@ function lookupid() {
 
 var url = 'lookup.php?pmid=';
 
-function handleHttpResponse() {
+function handleHttpResponse(item_index) {
     if (http.readyState == 4) {
         if ((http.responseText.indexOf('<!-- Error>XML not found for id') == -1) 
         && (http.responseText.indexOf('<ERROR>Empty id list') == -1) 
@@ -167,15 +167,15 @@ function handleHttpResponse() {
             else {
                 var issn = '';
             }
-            document.commande.atitle.value = unescape_string(atitle);
-            document.commande.auteurs.value = unescape_string(authors);
-            document.commande.title.value = unescape_string(journal);
-            document.commande.date.value = unescape_string(annee);
-            document.commande.volume.value = unescape_string(vol);
-            document.commande.issue.value = unescape_string(no);
-            document.commande.pages.value = unescape_string(pages);
-            document.commande.issn.value = unescape_string(issn);
-            document.commande.uid.value = "pmid:" + document.commande.uids.value;
+            document.commande["atitle_"+item_index].value = unescape_string(atitle);
+            document.commande["auteurs_"+item_index].value = unescape_string(authors);
+            document.commande["title_"+item_index].value = unescape_string(journal);
+            document.commande["date_"+item_index].value = unescape_string(annee);
+            document.commande["volume_"+item_index].value = unescape_string(vol);
+            document.commande["issue_"+item_index].value = unescape_string(no);
+            document.commande["pages_"+item_index].value = unescape_string(pages);
+            document.commande["issn_"+item_index].value = unescape_string(issn);
+            document.commande["uid_"+item_index].value = "pmid:" + document.commande["uids_"+item_index].value;
             isWorking = false;
         }
         else {
@@ -186,11 +186,11 @@ function handleHttpResponse() {
 
 var isWorking = false;
 
-function updateIllform() {
+function updateIllform(item_index) {
     if (!isWorking && http) {
-        var pmidValue = document.commande.uids.value;
+        var pmidValue = document.commande["uids_"+item_index].value;
         http.open("GET", url + encodeURI(pmidValue), true);
-        http.onreadystatechange = handleHttpResponse;
+        http.onreadystatechange = function(){handleHttpResponse(item_index)};
         isWorking = true;
         http.send(null);
     }
@@ -235,7 +235,7 @@ var http = getHTTPObject();
 //
 
 var url2 = 'lookup.php?reroid=';
-function handleHttpResponse2() {
+function handleHttpResponse2(item_index) {
     if (http2.readyState == 4) {
         // when no match for given reroid is found, the text "Pas de résultat trouvé" is outputted twice otherwise only once
         var notFoundTxt = (http2.responseText.match(/Pas de résultat trouvé/g) || []).length;
@@ -329,15 +329,15 @@ function handleHttpResponse2() {
                 }
             }
             // alert("titred = " + titred + " titre2 = " + titre2 + " titre = " + titre);
-            document.commande.genre.value = unescape_string(docType);
-            document.commande.title.value = unescape_string(titre);
-            document.commande.atitle.value = unescape_string(article);
-            document.commande.auteurs.value = unescape_string(authors);
-            document.commande.date.value = unescape_string(annee);
-            document.commande.edition.value = unescape_string(edition + editeur);
-            document.commande.edition.value = unescape_string(edition + editeur);
-            document.commande.issn.value = unescape_string(issn);
-            document.commande.uid.value = "RERO:" + document.commande.uids.value;
+            document.commande["genre_"+item_index].value = unescape_string(docType);
+            document.commande["title_"+item_index].value = unescape_string(titre);
+            document.commande["atitle_"+item_index].value = unescape_string(article);
+            document.commande["auteurs_"+item_index].value = unescape_string(authors);
+            document.commande["date_"+item_index].value = unescape_string(annee);
+            document.commande["edition_"+item_index].value = unescape_string(edition + editeur);
+            document.commande["edition_"+item_index].value = unescape_string(edition + editeur);
+            document.commande["issn_"+item_index].value = unescape_string(issn);
+            document.commande["uid_"+item_index].value = "RERO:" + document.commande["uids_"+item_index].value;
             isWorking2 = false;
         }
         else {
@@ -348,11 +348,11 @@ function handleHttpResponse2() {
 }
 var isWorking2 = false;
 
-function updateIllform2() {
+function updateIllform2(item_index) {
     if (!isWorking2 && http2) {
-        var idrero = document.commande.uids.value;
+        var idrero = document.commande["uids_"+item_index].value;
         http2.open("GET", url2 + encodeURI(idrero), true);
-        http2.onreadystatechange = handleHttpResponse2;
+        http2.onreadystatechange = function(){handleHttpResponse2(item_index)};
         isWorking2 = true;
         http2.send(null);
     }
@@ -396,7 +396,7 @@ var http2 = getHTTPObject2();
 // START ISBN
 //
 var url3 = 'lookup.php?isbn=';
-function handleHttpResponse3() {
+function handleHttpResponse3(item_index) {
     if (http3.readyState == 4) {
         if (http3.responseText.indexOf('invalid') == -1 && http3.responseText.indexOf('>Pas de résultat trouvé<') == -1) {
             // alert(http3.responseText);
@@ -467,13 +467,13 @@ function handleHttpResponse3() {
                 var edition = '';
             }
             // alert("titred = " + titred + " titre2 = " + titre2 + " titre = " + titre);
-            document.commande.genre.value = "book";
-            document.commande.title.value = unescape_string(titre);
-            document.commande.auteurs.value = unescape_string(authors);
-            document.commande.date.value = unescape_string(annee);
-            document.commande.edition.value = unescape_string(edition + editeur);
-            document.commande.issn.value = unescape_string(issn);
-            document.commande.uid.value = "ISBN:" + document.commande.uids.value;
+            document.commande["genre_"+item_index].value = "book";
+            document.commande["title_"+item_index].value = unescape_string(titre);
+            document.commande["auteurs_"+item_index].value = unescape_string(authors);
+            document.commande["date_"+item_index].value = unescape_string(annee);
+            document.commande["edition_"+item_index].value = unescape_string(edition + editeur);
+            document.commande["issn_"+item_index].value = unescape_string(issn);
+            document.commande["uid_"+item_index].value = "ISBN:" + document.commande["uids_"+item_index].value;
             isWorking3 = false;
         }
         else {
@@ -484,11 +484,11 @@ function handleHttpResponse3() {
 
 var isWorking3 = false;
 
-function updateIllform3() {
+function updateIllform3(item_index) {
     if (!isWorking3 && http3) {
-        var isbn = document.commande.uids.value;
+        var isbn = document.commande["uids_"+item_index].value;
         http3.open("GET", url3 + encodeURI(isbn), true);
-        http3.onreadystatechange = handleHttpResponse3;
+        http3.onreadystatechange = function(){handleHttpResponse3(item_index)};
         isWorking3 = true;
         http3.send(null);
     }
@@ -531,7 +531,7 @@ var http3 = getHTTPObject3();
 // START DOI
 //
 var url4 = 'lookup.php?doi=';
-function handleHttpResponse4() {
+function handleHttpResponse4(item_index) {
     if (http4.readyState == 4) {
         if (http4.responseText.indexOf('<error>DOI not found') == -1 && http4.responseText.indexOf('>Malformed DOI') == -1) {
             // alert(http4.responseText);
@@ -637,21 +637,21 @@ function handleHttpResponse4() {
             }
             // alert("titred = " + titred + " titre2 = " + titre2 + " titre = " + titre);
             if (typedoc == "book_title") {
-                document.commande.genre.value = "book";
+                document.commande["genre_"+item_index].value = "book";
             }
             if (typedoc == "book_content") {
-                document.commande.genre.value = "bookitem";
+                document.commande["genre_"+item_index].value = "bookitem";
             }
-            document.commande.atitle.value = unescape_string(atitle);
-            document.commande.title.value = unescape_string(journal);
-            document.commande.auteurs.value = unescape_string(authors);
-            document.commande.date.value = unescape_string(annee);
-            document.commande.volume.value = unescape_string(vol);
-            document.commande.issue.value = unescape_string(no);
-            document.commande.pages.value = unescape_string(pages);
-            // document.commande.edition.value = typedoc;
-            document.commande.issn.value = unescape_string(issn);
-            document.commande.uid.value = "DOI:" + document.commande.uids.value;
+            document.commande["atitle_"+item_index].value = unescape_string(atitle);
+            document.commande["title_"+item_index].value = unescape_string(journal);
+            document.commande["auteurs_"+item_index].value = unescape_string(authors);
+            document.commande["date_"+item_index].value = unescape_string(annee);
+            document.commande["volume_"+item_index].value = unescape_string(vol);
+            document.commande["issue_"+item_index].value = unescape_string(no);
+            document.commande["pages_"+item_index].value = unescape_string(pages);
+            // document.commande["edition_"+item_index].value = typedoc;
+            document.commande["issn_"+item_index].value = unescape_string(issn);
+            document.commande["uid_"+item_index].value = "DOI:" + document.commande["uids_"+item_index].value;
             isWorking4 = false;
         }
         else {
@@ -663,11 +663,11 @@ function handleHttpResponse4() {
 
 var isWorking4 = false;
 
-function updateIllform4() {
+function updateIllform4(item_index) {
     if (!isWorking4 && http4) {
-        var doi = document.commande.uids.value;
+        var doi = document.commande["uids_"+item_index].value;
         http4.open("GET", url4 + encodeURI(doi), true);
-        http4.onreadystatechange = handleHttpResponse4;
+        http4.onreadystatechange = function(){handleHttpResponse4(item_index)};
         isWorking4 = true;
         http4.send(null);
     }
@@ -712,7 +712,7 @@ var http4 = getHTTPObject4();
 var url5 = 'lookup.php?wosid=';
 // Wos ID d'exemple : A1991FK71500008
 
-function handleHttpResponse5() {
+function handleHttpResponse5(item_index) {
     if (http5.readyState == 4) {
         try {
   console.log(http5.responseText);
@@ -803,17 +803,17 @@ function handleHttpResponse5() {
         notesn = "DOI:" + doi;
     }
 
-    document.commande.genre.value = doctype;
-    document.commande.atitle.value = atitle;
-    document.commande.title.value = journal;
-    document.commande.auteurs.value = authorsf;
-    document.commande.date.value = annee;
-    document.commande.volume.value = vol;
-    document.commande.issue.value = no;
-    document.commande.pages.value = pages;
-    document.commande.issn.value = issn;
-    document.commande.uid.value = "WOSUT:" + document.commande.uids.value;
-    document.commande.remarquespub.value = notesn;
+    document.commande["genre_"+item_index].value = doctype;
+    document.commande["atitle_"+item_index].value = atitle;
+    document.commande["title_"+item_index].value = journal;
+    document.commande["auteurs_"+item_index].value = authorsf;
+    document.commande["date_"+item_index].value = annee;
+    document.commande["volume_"+item_index].value = vol;
+    document.commande["issue_"+item_index].value = no;
+    document.commande["pages_"+item_index].value = pages;
+    document.commande["issn_"+item_index].value = issn;
+    document.commande["uid_"+item_index].value = "WOSUT:" + document.commande["uids_"+item_index].value;
+    document.commande["remarquespub_"+item_index].value = notesn;
     isWorking5 = false;
     // entryForm.submit();
   }
@@ -834,12 +834,12 @@ function handleHttpResponse5() {
 
 var isWorking5 = false;
 
-function updateIllform5() {
+function updateIllform5(item_index) {
   if (!isWorking5 && http5) {
-    var wosid = document.commande.uids.value;
+    var wosid = document.commande["uids_"+item_index].value;
 	console.log(url5 + encodeURI(wosid))
     http5.open("GET", url5 + encodeURI(wosid), true);
-    http5.onreadystatechange = handleHttpResponse5;
+    http5.onreadystatechange = function(){handleHttpResponse5(item_index)};
     isWorking5 = true;
     http5.send(null);
   }
@@ -883,7 +883,7 @@ var http5 = getHTTPObject5();
 var url6 = 'lookup.php?swissbib-identifier=';
 // sample ISBN : 9780444632746
 
-function handleHttpResponse6() {
+function handleHttpResponse6(item_index) {
     if (http6.readyState == 4) {
         try {
   console.log(http6.responseText);
@@ -1019,14 +1019,14 @@ function handleHttpResponse6() {
 			edition += " - ";
 		}
 
-		document.commande.genre.value = docType;
-		document.commande.title.value = titre;
-		document.commande.atitle.value = article;
-		document.commande.auteurs.value = authors;
-		document.commande.date.value = annee;
-		document.commande.edition.value = edition + editeur;
-		document.commande.issn.value = issn;
-		document.commande.uid.value = "ISBN:" + document.commande.uids.value;
+		document.commande["genre_"+item_index].value = docType;
+		document.commande["title_"+item_index].value = titre;
+		document.commande["atitle_"+item_index].value = article;
+		document.commande["auteurs_"+item_index].value = authors;
+		document.commande["date_"+item_index].value = annee;
+		document.commande["edition_"+item_index].value = edition + editeur;
+		document.commande["issn_"+item_index].value = issn;
+		document.commande["uid_"+item_index].value = "ISBN:" + document.commande["uids_"+item_index].value;
 		isWorking6 = false;
     // entryForm.submit();
   }
@@ -1046,12 +1046,12 @@ function handleHttpResponse6() {
 
 var isWorking6 = false;
 
-function updateIllform6() {
+function updateIllform6(item_index) {
   if (!isWorking6 && http6) {
-    var swissbib_identifier = document.commande.uids.value;
+    var swissbib_identifier = document.commande["uids_"+item_index].value;
 	console.log(url6 + encodeURI(swissbib_identifier))
     http6.open("GET", url6 + encodeURI(swissbib_identifier), true);
-    http6.onreadystatechange = handleHttpResponse6;
+    http6.onreadystatechange = function(){handleHttpResponse6(item_index)};
     isWorking6 = true;
     http6.send(null);
   }
@@ -1098,7 +1098,7 @@ var http6 = getHTTPObject6();
 var url7 = 'lookup.php?swissbib-renouvaud-mms=';
 // sample MMS: 991007671199702851 or 991009462209702852
 
-function handleHttpResponse7() {
+function handleHttpResponse7(item_index) {
     if (http7.readyState == 4) {
         try {
   console.log(http7.responseText);
@@ -1241,14 +1241,14 @@ function handleHttpResponse7() {
 			edition += " - ";
 		}
 
-		document.commande.genre.value = docType;
-		document.commande.title.value = titre;
-		document.commande.atitle.value = article;
-		document.commande.auteurs.value = authors;
-		document.commande.date.value = annee;
-		document.commande.edition.value = edition + editeur;
-		document.commande.issn.value = issn;
-		document.commande.uid.value = "MMS:" + document.commande.uids.value.trim();
+		document.commande["genre_"+item_index].value = docType;
+		document.commande["title_"+item_index].value = titre;
+		document.commande["atitle_"+item_index].value = article;
+		document.commande["auteurs_"+item_index].value = authors;
+		document.commande["date_"+item_index].value = annee;
+		document.commande["edition_"+item_index].value = edition + editeur;
+		document.commande["issn_"+item_index].value = issn;
+		document.commande["uid_"+item_index].value = "MMS:" + document.commande["uids_"+item_index].value.trim();
 		isWorking7 = false;
     // entryForm.submit();
   }
@@ -1268,12 +1268,12 @@ function handleHttpResponse7() {
 
 var isWorking7 = false;
 
-function updateIllform7() {
+function updateIllform7(item_index) {
   if (!isWorking7 && http7) {
-    var swissbib_identifier = document.commande.uids.value;
+    var swissbib_identifier = document.commande["uids_"+item_index].value;
 	console.log(url7 + encodeURI(swissbib_identifier))
     http7.open("GET", url7 + encodeURI(swissbib_identifier), true);
-    http7.onreadystatechange = handleHttpResponse7;
+    http7.onreadystatechange = function(){handleHttpResponse7(item_index)};
     isWorking7 = true;
     http7.send(null);
   }
@@ -1334,8 +1334,8 @@ function openlist(urlbase) {
 	if (urlbase === undefined || urlbase == "") {
 		urlbase = "../openlist/search.php?search=simple&q=";
 	}
-    if  (document.commande.title.value != "") {
-        var monurl = urlbase + document.commande.title.value;
+    if  (document.commande["title_"+item_index].value != "") {
+        var monurl = urlbase + document.commande["title_"+item_index].value;
         window.open(monurl); }
     else
         alert("Rentrez un titre d'abord")
@@ -1542,62 +1542,62 @@ function remplirauto() {
 
     // Attribution des valeurs recuperes de la requête dans les champs du formulaire
     if (location.search) {
-        document.commande.uid.value = get_url_parameter("id", "", "rft.");
-        document.commande.title.value = get_url_parameter("title", "", "rft.");
+        document.commande["uid_"+item_index].value = get_url_parameter("id", "", "rft.");
+        document.commande["title_"+item_index].value = get_url_parameter("title", "", "rft.");
         if (get_url_parameter("jtitle", "", "rft."))
-            document.commande.title.value = get_url_parameter("jtitle", "", "rft.");
+            document.commande["title_"+item_index].value = get_url_parameter("jtitle", "", "rft.");
         if (get_url_parameter("btitle", "", "rft."))
-            document.commande.title.value = get_url_parameter("btitle", "", "rft.");
-        document.commande.atitle.value = get_url_parameter("atitle", "", "rft.");
+            document.commande["title_"+item_index].value = get_url_parameter("btitle", "", "rft.");
+        document.commande["atitle_"+item_index].value = get_url_parameter("atitle", "", "rft.");
         monauteur = get_url_parameter("aulast", "", "rft.");
         if (get_url_parameter("aufirst", "", "rft."))
             monauteur = monauteur + ", " + get_url_parameter("aufirst", "", "rft.");
 		monauteur = get_url_parameter("rft.au", monauteur);
-        document.commande.auteurs.value = monauteur;
-		document.commande.edition.value = get_url_parameter("rft.edition");
-        document.commande.date.value = get_url_parameter("date", "", "rft.");
-        document.commande.volume.value = get_url_parameter("volume", "", "rft.");
-        document.commande.issue.value = get_url_parameter("issue", "", "rft.");
-        document.commande.pages.value = get_url_parameter("pages", "", "rft.");
+        document.commande["auteurs_"+item_index].value = monauteur;
+		document.commande["edition_"+item_index].value = get_url_parameter("rft.edition");
+        document.commande["date_"+item_index].value = get_url_parameter("date", "", "rft.");
+        document.commande["volume_"+item_index].value = get_url_parameter("volume", "", "rft.");
+        document.commande["issue_"+item_index].value = get_url_parameter("issue", "", "rft.");
+        document.commande["pages_"+item_index].value = get_url_parameter("pages", "", "rft.");
         if (!get_url_parameter("pages", "", "rft.")) {
             if (get_url_parameter("spage", "", "rft."))
-                document.commande.pages.value = get_url_parameter("spage", "", "rft.")
+                document.commande["pages_"+item_index].value = get_url_parameter("spage", "", "rft.")
             if (get_url_parameter("epage", "", "rft."))
-                document.commande.pages.value = document.commande.pages.value + '-' + get_url_parameter("epage", "", "rft.");
+                document.commande["pages_"+item_index].value = document.commande["pages_"+item_index].value + '-' + get_url_parameter("epage", "", "rft.");
         }
         if (get_url_parameter("issn", "", "rft.")) {
             monissn = get_url_parameter("issn", "", "rft.");
             var i = monissn.indexOf('-');
             if (i < 0)
                 monissn = monissn.substring(0,4) + '-' + monissn.substring(4, monissn.length);
-            document.commande.issn.value = monissn;
+            document.commande["issn_"+item_index].value = monissn;
         }
         if (get_url_parameter("isbn", "", "rft."))
-            document.commande.issn.value = get_url_parameter("isbn", "", "rft.");
+            document.commande["issn_"+item_index].value = get_url_parameter("isbn", "", "rft.");
         if (get_url_parameter("pmid"))
-            document.commande.uid.value = 'pmid:' + get_url_parameter("pmid");
+            document.commande["uid_"+item_index].value = 'pmid:' + get_url_parameter("pmid");
         if (get_url_parameter("id"))
-            document.commande.uid.value = get_url_parameter("id");
+            document.commande["uid_"+item_index].value = get_url_parameter("id");
         else{
             if (get_url_parameter("meduid"))
-                document.commande.uid.value = 'pmid:' + get_url_parameter("meduid");
+                document.commande["uid_"+item_index].value = 'pmid:' + get_url_parameter("meduid");
             if (get_url_parameter("doi"))
-                document.commande.uid.value = 'doi:' + get_url_parameter("doi");
+                document.commande["uid_"+item_index].value = 'doi:' + get_url_parameter("doi");
         }
         if (get_url_parameter("genre", "", "rft."))
-            document.commande.genre.value = get_url_parameter("genre", "", "rft.");
+            document.commande["genre_"+item_index].value = get_url_parameter("genre", "", "rft.");
         if (get_url_parameter("remarques"))
             document.commande.remarques.value = get_url_parameter("remarques");
         if (get_url_parameter("remarquespub"))
-            document.commande.remarquespub.value = get_url_parameter("remarquespub");
+            document.commande["remarquespub_"+item_index].value = get_url_parameter("remarquespub");
         if (get_url_parameter("pid"))
             document.commande.pid.value = get_url_parameter("pid");
         if (get_url_parameter("sid"))
             document.commande.sid.value = get_url_parameter("sid");
 		if (get_url_parameter("sid") == "Entrez:PubMed" && get_url_parameter("id")) {
 			// PubMed Linkout / Outside Tool: https://www.ncbi.nlm.nih.gov/books/NBK3803/
-            document.commande.uids.value = get_url_parameter("id").substr(5);
-			document.commande.tid.value = "pmid";
+            document.commande["uids_"+item_index].value = get_url_parameter("id").substr(5);
+			document.commande["tid_"+item_index].value = "pmid";
 			lookupid();
 		}
     }

@@ -118,8 +118,8 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
             $postal=((!empty($_POST['postal'])) && isValidInput($_POST['postal'],10,'s',false)) ?$_POST['postal']:NULL;
             $localite=((!empty($_POST['localite'])) && isValidInput($_POST['localite'],50,'s',false)) ? $_POST['localite']:NULL;
             $envoi=((!empty($_POST['envoi'])) && isValidInput($_POST['envoi'],50,'s',false)) ?$_POST['envoi']:NULL;
-            $tid = ((!empty($_POST['tid'])) && isValidInput($_POST['tid'],4,'s',false, array('pmid','doi'))) ?$_POST['tid']:NULL;
-            $uids = trim($_POST['uids']);
+            $tid = ((!empty($_POST['tid_0'])) && isValidInput($_POST['tid_0'],4,'s',false, array('pmid','doi'))) ?$_POST['tid_0']:NULL;
+            $uids = trim($_POST['uids_0']);
             $uids = ((!empty($uids)) && isValidInput($uids,80,'s',false))?$uids:NULL;
             if ($tid=='pmid'){
                 $uids = ((!empty($uids)) && isValidInput($uids,20,'s',false)) ?$uids:NULL;
@@ -128,17 +128,17 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
             if ($tid=='doi'){
                 $doi=$uids;
             }
-            $typedoc=((!empty($_POST['genre'])) && isValidInput($_POST['genre'],50,'s',false)) ?$_POST['genre']:NULL;
-            $journal=((!empty($_POST['title'])) && isValidInput($_POST['title'],1000,'s',false)) ?trim($_POST['title']):NULL;
-            $annee=((!empty($_POST['date'])) && isValidInput($_POST['date'],10,'s',false)) ?trim($_POST['date']):NULL;
-            $vol=((!empty($_POST['volume'])) && isValidInput($_POST['volume'],50,'s',false)) ?$_POST['volume']:NULL;
-            $no=((!empty($_POST['issue'])) && isValidInput($_POST['issue'],100,'s',false)) ?$_POST['issue']:NULL;
-            $suppl=((!empty($_POST['suppl'])) && isValidInput($_POST['suppl'],100,'s',false)) ?$_POST['suppl']:NULL;
-            $pages=((!empty($_POST['pages'])) && isValidInput($_POST['pages'],50,'s',false)) ?$_POST['pages']:NULL;
-            $titre=((!empty($_POST['atitle'])) && isValidInput($_POST['atitle'],1000,'s',false)) ? trim($_POST['atitle']):NULL;
-            $auteurs=((!empty($_POST['auteurs'])) && isValidInput($_POST['auteurs'],255,'s',false)) ? $_POST['auteurs']:NULL;
-            $edition=((!empty($_POST['edition'])) && isValidInput($_POST['edition'],100,'s',false)) ? $_POST['edition']:NULL;
-            $issn = ((!empty($_POST['issn'])) && isValidInput($_POST['issn'],50, 's', false))?$_POST['issn']:NULL;
+            $typedoc=((!empty($_POST['genre_0'])) && isValidInput($_POST['genre_0'],50,'s',false)) ?$_POST['genre_0']:NULL;
+            $journal=((!empty($_POST['title_0'])) && isValidInput($_POST['title_0'],1000,'s',false)) ?trim($_POST['title_0']):NULL;
+            $annee=((!empty($_POST['date_0'])) && isValidInput($_POST['date_0'],10,'s',false)) ?trim($_POST['date_0']):NULL;
+            $vol=((!empty($_POST['volume_0'])) && isValidInput($_POST['volume_0'],50,'s',false)) ?$_POST['volume_0']:NULL;
+            $no=((!empty($_POST['issue_0'])) && isValidInput($_POST['issue_0'],100,'s',false)) ?$_POST['issue_0']:NULL;
+            $suppl=((!empty($_POST['suppl_0'])) && isValidInput($_POST['suppl_0'],100,'s',false)) ?$_POST['suppl_0']:NULL;
+            $pages=((!empty($_POST['pages_0'])) && isValidInput($_POST['pages_0'],50,'s',false)) ?$_POST['pages_0']:NULL;
+            $titre=((!empty($_POST['atitle_0'])) && isValidInput($_POST['atitle_0'],1000,'s',false)) ? trim($_POST['atitle_0']):NULL;
+            $auteurs=((!empty($_POST['auteurs_0'])) && isValidInput($_POST['auteurs_0'],255,'s',false)) ? $_POST['auteurs_0']:NULL;
+            $edition=((!empty($_POST['edition_0'])) && isValidInput($_POST['edition_0'],100,'s',false)) ? $_POST['edition_0']:NULL;
+            $issn = ((!empty($_POST['issn_0'])) && isValidInput($_POST['issn_0'],50, 's', false))?$_POST['issn_0']:NULL;
             if (!empty($issn)){
                 if ( in_array($typedoc, array('book', 'bookitem', 'proceeding', 'conference'), true)){
                     $isbn = $issn;
@@ -155,14 +155,14 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
                     }
                 }
             }
-            $uid=((!empty($_POST['uid'])) && isValidInput($_POST['uid'],50, 's', false))?$_POST['uid']:NULL;
+            $uid=((!empty($_POST['uid_0'])) && isValidInput($_POST['uid_0'],50, 's', false))?$_POST['uid_0']:NULL;
             if($pmid==''){
                 if(strpos($uid, 'pmid:') !== false) {
 					$pmid=str_replace("pmid:","",$uid);
 				}
             }
             $remarques=((!empty($_POST['remarques'])) && isValidInput($_POST['remarques'],4000, 's', false))? $_POST['remarques']:NULL;
-            $remarquespub=((!empty($_POST['remarquespub'])) && isValidInput($_POST['remarquespub'],4000, 's', false))? $_POST['remarquespub']:NULL;
+            $remarquespub=((!empty($_POST['remarquespub_0'])) && isValidInput($_POST['remarquespub_0'],4000, 's', false))? $_POST['remarquespub_0']:NULL;
             $modifs=((!empty($_POST['modifs'])) && isValidInput($_POST['modifs'],4000, 's', false))? $_POST['modifs']:NULL;
             $ip=$_SERVER['REMOTE_ADDR'];
             $historique=(((!empty($_POST['historique'])) && isValidInput($_POST['historique'],4000, 's', false))?$_POST['historique']:'').'<br /> Commande modifiée par ' . $monnom . ' le ' . $date2;

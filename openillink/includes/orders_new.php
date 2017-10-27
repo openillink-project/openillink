@@ -34,11 +34,11 @@ require_once ("connexion.php");
 require_once ("toolkit.php");
 
 $mes="";
-$doi="";
-$pmid="";
-$isbn="";
-$issn="";
-$eissn="";
+//$doi="";
+//$pmid="";
+//$isbn="";
+//$issn="";
+//$eissn="";
 $userid = $monnom;
 if (empty($userid)){
     $userid = ((!empty($_SERVER['REMOTE_ADDR'])) && isValidInput($_SERVER['REMOTE_ADDR'],50,'s',false))?$_SERVER['REMOTE_ADDR']:NULL;
@@ -49,9 +49,9 @@ $referer=(!empty($_POST['referer']))? $_POST['referer'] :'';
 $stade="";
 
 // extended set of common vars
-$uid = ((!empty($_POST['uid'])) && isValidInput($_POST['uid'],50, 's', false))?$_POST['uid']:NULL;
+//$uid = ((!empty($_POST['uid'])) && isValidInput($_POST['uid'],50, 's', false))?$_POST['uid']:NULL;
 $validTidSet = array('pmid','doi');
-$tid = ((!empty($_POST['tid'])) && isValidInput($_POST['tid'],4, 's', false,$validTidSet))?$_POST['tid']:'';
+/*$tid = ((!empty($_POST['tid'])) && isValidInput($_POST['tid'],4, 's', false,$validTidSet))?$_POST['tid']:'';
 if ($tid=='pmid'){
     $uids = trim($_POST['uids']);
     $uids = ((!empty($uids)) && isValidInput($uids,20, 's', false))?$uids:'';
@@ -62,6 +62,7 @@ elseif ($tid=='doi'){
     $uids = ((!empty($uids)) && isValidInput($uids,80, 's', false))?$uids:'';
     $doi = $uids;
 }
+*/
 $sid=((!empty($_POST['sid'])) && isValidInput($_POST['sid'],50, 's', false))?$_POST['sid']:'';
 $pid=((!empty($_POST['pid'])) && isValidInput($_POST['pid'],50, 's', false))?$_POST['pid']:'';
 $source=((!empty($_POST['source'])) && isValidInput($_POST['source'],20, 's', false))?$_POST['source']:'';
@@ -84,7 +85,98 @@ $localite=((!empty($_POST['localite'])) && isValidInput($_POST['localite'],50, '
 $envoi=((!empty($_POST['envoi'])) && isValidInput($_POST['envoi'],50, 's', false))?$_POST['envoi']:'';
 
 $typeDocValidSet = array('article','preprint','book','bookitem','thesis','journal','proceeding','conference','other');
-$typedoc=((!empty($_POST['genre'])) && isValidInput($_POST['genre'],50, 's', false, $typeDocValidSet))?$_POST['genre']:'';
+
+function get_from_post($form_index, $key, $maxSize, $type='s', $optional=true, $controlSet=NULL, $default="") {
+	if (isset($_POST[$key.'_'.$form_index])) {
+		return $_POST[$key.'_'.$form_index];
+	} else if (isset($_GET[$key.'_'.$form_index])) { # debug
+		return $_GET[$key.'_'.$form_index];
+	} else if ($form_index == 0 && isset($_POST[$key])) {
+		/* Support legacy single order form case */
+		return $_POST[$key];
+	} else {
+		return "";
+	}
+}
+$default_order_form = array('tid_code' => "",
+							'uids' => "",
+							'genre_code' => "",
+							'title' => "",
+							'date' => "",
+							'volume' => "",
+							'issue' => "",
+							'suppl' => "",
+							'pages' => "",
+							'atitle' => "",
+							'auteurs' => "",
+							'edition' => "",
+							'issn' => "",
+							'uid' => "",
+							'remarquespub' => "",
+							'remarques' => "",
+							"pmid" => "",
+							"doi" => "",
+							"isbn" => "",
+							"eissn" => "");
+$form_index = 0;
+$order_form_values = array();
+while ($form_index < 1000 && get_from_post($form_index, 'tid', 4, 's', false, $validTidSet, '') != ""){
+		$order_form = $default_order_form;
+		$validTidSet = array('pmid','doi');
+
+
+		$order_form['tid_code'] = get_from_post($form_index, 'tid', 4, 's', false, $validTidSet, '');
+		if ($order_form['tid_code']=='pmid'){
+			$order_form['uids'] = get_from_post($form_index, 'uids', 20, 's', false, '');
+			$order_form['pmid'] = $order_form['uids'];
+		}
+		elseif ($order_form['tid_code']=='doi'){
+			$order_form['uids'] = get_from_post($form_index, 'uids', 80, 's', false, '');
+			$order_form['doi'] = $order_form['uids'];
+		}
+		$order_form['genre_code'] = get_from_post($form_index, 'genre', 50, 's', false, $typeDocValidSet, "");
+		$order_form['title'] = get_from_post($form_index, 'title', 1000, 's', false, "");
+		$order_form['date'] = get_from_post($form_index, 'date', 10, 's', false, "");
+		$order_form['volume'] = get_from_post($form_index, 'volume', 50, 's', false, "");
+		$order_form['issue'] = get_from_post($form_index, 'issue',100, 's', false, "");
+		$order_form['suppl'] = get_from_post($form_index, 'suppl', 100, 's', false, "");
+		$order_form['pages'] = get_from_post($form_index, 'pages', 50, 's', false, "");
+		$order_form['atitle'] = get_from_post($form_index, 'atitle', 1000, 's', false, "");
+		$order_form['auteurs'] = get_from_post($form_index, 'auteurs', 255, 's', false, "");
+		$order_form['edition'] = get_from_post($form_index, 'edition', 100, 's', false, "");
+		$order_form['issn'] = get_from_post($form_index, 'issn', 50, 's', false, NULL);
+		$order_form['uid'] = get_from_post($form_index, 'uid', 50, 's', false, NULL);
+		$order_form['remarquespub'] = get_from_post($form_index, 'remarquespub', 4000, 's', false);
+		
+		if (!empty($order_form['issn'])){
+			if (($order_form['genre_code']=='book')||($order_form['genre_code']=='bookitem')||($order_form['genre_code']=='proceeding')||($order_form['genre_code']='conference')){
+				$order_form['isbn']=$order_form['issn'];
+				$order_form['issn']=''; // TODO MDV, replaces previous set, verify if it's ok
+			}
+			else{
+				$pos = strpos($order_form['issn'],',');
+				if ($pos !== false){
+					$order_form['eissn']=substr($order_form['issn'],$pos+1);
+					$order_form['issn']=substr($order_form['issn'],0,$pos);
+				}
+			}
+		}
+
+
+		if($order_form['pmid']==''){
+			if(strpos($order_form['uid'], 'pmid:') !== false) {
+				$order_form['pmid']=str_replace("pmid:","",$order_form['uid']);
+			}
+		}
+
+		//$remarquespub=((!empty($_POST['remarquespub'])) && isValidInput($_POST['remarquespub'],4000, 's', false))?$_POST['remarquespub']:'';
+		//$remarquespub=str_replace("<script>","",$remarquespub);
+		//$remarquespub=str_replace("</script>","",$remarquespub);
+		//$remarquespub=str_replace("script","scrpt",$remarquespub);
+		array_push($order_form_values, $order_form);
+		$form_index += 1;
+	}
+/*$typedoc=((!empty($_POST['genre'])) && isValidInput($_POST['genre'],50, 's', false, $typeDocValidSet))?$_POST['genre']:'';
 $journal=((!empty($_POST['title'])) && isValidInput($_POST['title'],1000, 's', false))?trim($_POST['title']):'';
 $annee=((!empty($_POST['date'])) && isValidInput($_POST['date'],10, 's', false))?$_POST['date']:'';
 $vol=((!empty($_POST['volume'])) && isValidInput($_POST['volume'],50, 's', false))?$_POST['volume']:'';
@@ -95,7 +187,8 @@ $titre=((!empty($_POST['atitle'])) && isValidInput($_POST['atitle'],1000, 's', f
 $auteurs=((!empty($_POST['auteurs'])) && isValidInput($_POST['auteurs'],255, 's', false))?$_POST['auteurs']:'';
 $edition=((!empty($_POST['edition'])) && isValidInput($_POST['edition'],100, 's', false))?$_POST['edition']:'';
 $issn = ((!empty($_POST['issn'])) && isValidInput($_POST['issn'],50, 's', false))?$_POST['issn']:NULL;
-
+*/
+/*
 if (!empty($issn)){
     if (($typedoc=='book')||($typedoc=='bookitem')||($typedoc=='proceeding')||($typedoc=='conference')){
         $isbn=$issn;
@@ -121,7 +214,7 @@ $remarquespub=((!empty($_POST['remarquespub'])) && isValidInput($_POST['remarque
 $remarquespub=str_replace("<script>","",$remarquespub);
 $remarquespub=str_replace("</script>","",$remarquespub);
 //$remarquespub=str_replace("script","scrpt",$remarquespub);
-
+*/
 $bibliotheque="";
 $localisation="";
 $validation = 0;
@@ -207,8 +300,12 @@ if (empty($nom))
     $mes= __("name required");
 if (empty($service) && empty($servautre))
     $mes=$mes."<br>".__("service or organisation name is required");
-if (empty($journal))
-    $mes=$mes."<br>".__("journal or book title is required");
+foreach($order_form_values as $order_form) {
+	if (empty($order_form['title'])) {
+		$mes=$mes."<br>".__("journal or book title is required");
+		break;
+	}
+}
 if (empty($mail) && empty($adresse))
     $mes=$mes."<br>".__("e-mail or private address are required");
 if ($mes){
@@ -228,57 +325,62 @@ if ($mes){
 else{
     // No errors, searching duplicates
     // Recherche de doublons par PMID ou par volume année et pages
-	$pages_array = preg_split("/[\s,-]+/", $pages);
-	$start_page = reset($pages_array); // Retrieve first value, in a php < 5.4 compatible manner
-	$start_page_regexp = '^' . preg_quote($start_page) . '([^0-9]|$)';
-    $req2 = "";
-    if ($pmid!=''){
-        if (($vol!='') && ($annee!='') && ($start_page!='')) {
-            $req2 = "SELECT illinkid FROM orders WHERE PMID LIKE ? OR (annee LIKE ? AND volume LIKE ? AND pages RLIKE ?) ORDER BY illinkid DESC";
-            $param2 = array($pmid, $annee, $vol, $start_page_regexp);
-            $typeparam2 = 'ssss';
-        }
-        else {
-            $req2 = "SELECT illinkid FROM orders WHERE PMID LIKE ? ORDER BY illinkid DESC";
-            $param2 = array($pmid);
-            $typeparam2 = 's';
-        }
-    }
-    else{
-        if (($vol!='') && ($annee!='') && ($start_page!='')){
-            $req2 = "SELECT illinkid FROM orders WHERE annee LIKE ? AND volume LIKE ? AND pages RLIKE ? ORDER BY illinkid DESC";
-            $param2 = array($annee, $vol, $start_page_regexp);
-            $typeparam2 = 'sss';
-        }
-    }
-    if ($req2!=''){
-        $result2 = dbquery($req2,$param2,$typeparam2);
-        $nb = iimysqli_num_rows($result2);
-        if ($nb > 0){
-            if ($remarques)
-                $remarques = $remarques."\r\n";
-            $remarques = $remarques. __("Warning. Possible duplicate of the command.");
-            for ($i=0 ; $i<$nb ; $i++){
-                $enreg2 = iimysqli_result_fetch_array($result2);
-                $doublon = $enreg2['illinkid'];
-                $remarques = $remarques." ".$doublon;
-            }
-        }
-    }
-    // fin de la recherche des doublons
-    // START save record
-    if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
-        $query ="INSERT INTO `orders` (`illinkid`, `stade`, `localisation`, `date`, `envoye`, `facture`, `renouveler`, `prix`, `prepaye`, `ref`, `arrivee`, `nom`, `prenom`, `service`, `cgra`, `cgrb`, `mail`, `tel`, `adresse`, `code_postal`, `localite`, `type_doc`, `urgent`, `envoi_par`, `titre_periodique`, `annee`, `volume`, `numero`, `supplement`, `pages`, `titre_article`, `auteurs`, `edition`, `isbn`, `issn`, `eissn`, `doi`, `uid`, `remarques`, `remarquespub`, `historique`, `saisie_par`, `bibliotheque`, `refinterbib`, `PMID`, `ip`, `referer`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $params = array('', !empty($stade) ? $stade : '', $localisation, $date, $envoye, $facture, $renouveler, $prix, $prepaye, $ref, $source, $nom, $prenom, $service, $cgra, $cgrb, $mail, $tel, $adresse, $postal, $localite, $typedoc, $urgent, $envoi, $journal, $annee, $vol, $no, $suppl, $pages, $titre, $auteurs, $edition, $isbn, $issn, $eissn, $doi, $uid, $remarques,$remarquespub, $historique, $userid, $bibliotheque, $refinterbib, $pmid, $ip, $referer);
-		$monno = dbquery($query, $params, 'sssssssssssssssssssssssssssssssssssssssssssssss') or die("Error : ".mysqli_error(dbconnect()));
-        require ("headeradmin.php");
-    }
-    else{
-        $query ="INSERT INTO `orders` (`illinkid`, `stade`, `localisation`, `date`, `envoye`, `facture`, `renouveler`, `prix`, `prepaye`, `ref`, `arrivee`, `nom`, `prenom`, `service`, `cgra`, `cgrb`, `mail`, `tel`, `adresse`, `code_postal`, `localite`, `type_doc`, `urgent`, `envoi_par`, `titre_periodique`, `annee`, `volume`, `numero`, `supplement`, `pages`, `titre_article`, `auteurs`, `edition`, `isbn`, `issn`, `eissn`, `doi`, `uid`, `remarques`, `remarquespub`, `historique`, `saisie_par`, `bibliotheque`, `refinterbib`, `PMID`, `ip`, `referer`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $params = array('', !empty($stade) ? $stade : '', $localisation, $date, '' , '', '', '', '', '', $source, $nom, $prenom, $service, $cgra, $cgrb, $mail, $tel, $adresse, $postal, $localite, $typedoc, '2', $envoi, $journal, $annee, $vol, $no, $suppl, $pages, $titre, $auteurs, $edition, $isbn, $issn, $eissn, $doi, $uid, $remarques, $remarquespub, $historique, $userid, $bibliotheque, '', $pmid, $ip, $referer);
-		$monno = dbquery($query, $params, 'sssssssssssssssssssssssssssssssssssssssssssssss') or die("Error : ".mysqli_error(dbconnect()));
-        require ("header.php");
-    }
+	foreach($order_form_values as $order_form) {
+		$pages_array = preg_split("/[\s,-]+/", $order_form['pages']);
+		$start_page = reset($pages_array); // Retrieve first value, in a php < 5.4 compatible manner
+		$start_page_regexp = '^' . preg_quote($start_page) . '([^0-9]|$)';
+		$req2 = "";
+		if ($order_form['pmid']!=''){
+			if (($order_form['volume']!='') && ($order_form['date']!='') && ($start_page!='')) {
+				$req2 = "SELECT illinkid FROM orders WHERE PMID LIKE ? OR (annee LIKE ? AND volume LIKE ? AND pages RLIKE ?) ORDER BY illinkid DESC";
+				$param2 = array($order_form['pmid'], $order_form['date'], $order_form['volume'], $start_page_regexp);
+				$typeparam2 = 'ssss';
+			}
+			else {
+				$req2 = "SELECT illinkid FROM orders WHERE PMID LIKE ? ORDER BY illinkid DESC";
+				$param2 = array($order_form['pmid']);
+				$typeparam2 = 's';
+			}
+		}
+		else{
+			if (($order_form['volume']!='') && ($order_form['date']!='') && ($start_page!='')){
+				$req2 = "SELECT illinkid FROM orders WHERE annee LIKE ? AND volume LIKE ? AND pages RLIKE ? ORDER BY illinkid DESC";
+				$param2 = array($order_form['date'], $order_form['volume'], $start_page_regexp);
+				$typeparam2 = 'sss';
+			}
+		}
+		if ($req2!=''){
+			$result2 = dbquery($req2,$param2,$typeparam2);
+			$nb = iimysqli_num_rows($result2);
+			if ($nb > 0){
+				if ($remarques)
+					$order_form['remarques'] = $remarques."\r\n";
+				$order_form['remarques'] = $remarques. __("Warning. Possible duplicate of the command.");
+				for ($i=0 ; $i<$nb ; $i++){
+					$enreg2 = iimysqli_result_fetch_array($result2);
+					$doublon = $enreg2['illinkid'];
+					$order_form['remarques'] = $order_form['remarques']." ".$doublon;
+				}
+			}
+		}
+		// fin de la recherche des doublons
+		// START save record
+		if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
+			$query ="INSERT INTO `orders` (`illinkid`, `stade`, `localisation`, `date`, `envoye`, `facture`, `renouveler`, `prix`, `prepaye`, `ref`, `arrivee`, `nom`, `prenom`, `service`, `cgra`, `cgrb`, `mail`, `tel`, `adresse`, `code_postal`, `localite`, `type_doc`, `urgent`, `envoi_par`, `titre_periodique`, `annee`, `volume`, `numero`, `supplement`, `pages`, `titre_article`, `auteurs`, `edition`, `isbn`, `issn`, `eissn`, `doi`, `uid`, `remarques`, `remarquespub`, `historique`, `saisie_par`, `bibliotheque`, `refinterbib`, `PMID`, `ip`, `referer`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$params = array('', !empty($stade) ? $stade : '', $localisation, $date, $envoye, $facture, $renouveler, $prix, $prepaye, $ref, $source, $nom, $prenom, $service, $cgra, $cgrb, $mail, $tel, $adresse, $postal, $localite, $order_form['genre_code'], $urgent, $envoi, $order_form['title'], $order_form['date'], $order_form['volume'], $order_form['issue'], $order_form['suppl'], $order_form['pages'], $order_form['atitle'], $order_form['auteurs'], $order_form['edition'], $order_form['isbn'], $order_form['issn'], $order_form['eissn'], $order_form['doi'], $order_form['uid'], $order_form['remarques'], $order_form['remarquespub'], $historique, $userid, $bibliotheque, $refinterbib, $order_form['pmid'], $ip, $referer);
+			$monno = dbquery($query, $params, 'sssssssssssssssssssssssssssssssssssssssssssssss') or die("Error : ".mysqli_error(dbconnect()));
+		}
+		else{
+			$query ="INSERT INTO `orders` (`illinkid`, `stade`, `localisation`, `date`, `envoye`, `facture`, `renouveler`, `prix`, `prepaye`, `ref`, `arrivee`, `nom`, `prenom`, `service`, `cgra`, `cgrb`, `mail`, `tel`, `adresse`, `code_postal`, `localite`, `type_doc`, `urgent`, `envoi_par`, `titre_periodique`, `annee`, `volume`, `numero`, `supplement`, `pages`, `titre_article`, `auteurs`, `edition`, `isbn`, `issn`, `eissn`, `doi`, `uid`, `remarques`, `remarquespub`, `historique`, `saisie_par`, `bibliotheque`, `refinterbib`, `PMID`, `ip`, `referer`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$params = array('', !empty($stade) ? $stade : '', $localisation, $date, '' , '', '', '', '', '', $source, $nom, $prenom, $service, $cgra, $cgrb, $mail, $tel, $adresse, $postal, $localite, $order_form['genre_code'], '2', $envoi, $order_form['title'], $order_form['date'], $order_form['volume'], $order_form['issue'], $order_form['suppl'], $order_form['pages'], $order_form['atitle'], $order_form['auteurs'], $order_form['edition'], $order_form['isbn'], $order_form['issn'], $order_form['eissn'], $order_form['doi'], $order_form['uid'], $order_form['remarques'], $order_form['remarquespub'], $historique, $userid, $bibliotheque, '', $order_form['pmid'], $ip, $referer);
+			$monno = dbquery($query, $params, 'sssssssssssssssssssssssssssssssssssssssssssssss') or die("Error : ".mysqli_error(dbconnect()));
+		}
+	}
+	if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
+		require ("headeradmin.php");
+	} else {
+		require ("header.php");
+	}
     echo "\n";
     echo "<div class=\"box\"><div class=\"box-content\">\n";
     echo "\n";
@@ -313,80 +415,82 @@ echo "\n";
         echo "<tr><td width=\"90\"><b>".__("Address")."</b></td>\n";
         echo "<td>" . htmlspecialchars ($adresse) . " ; " . htmlspecialchars ($postal) . ", " . htmlspecialchars ($localite) ."</td></tr>\n";
     }
-    echo "<tr><td width=\"90\"><b>".__("Document")."</b></td>\n";
-    echo "<td>".htmlspecialchars($typedoc)."</td></tr>\n";
-    if ($titre) {
-        echo "<tr><td width=\"90\"><b>".__("Title")."</b></td>\n";
-        echo "<td>" . htmlspecialchars ($titre) . "</td></tr>\n";
-    }
-    if ($auteurs) {
-        echo "<tr><td width=\"90\"><b>".__("Authors")."</b></td>\n";
-        echo "<td>" . htmlspecialchars ($auteurs) . "</td></tr>\n";
-    }
-    if ($typedoc=='Article')
-        echo "<tr><td width=\"90\"><b>".__("Journal")."</b></td>\n";
-    else
-        echo "<tr><td width=\"90\"><b>".__("Book title")."</b></td>\n";
-    echo "<td>" . htmlspecialchars ($journal) . "</td>\n";
-    echo "</tr><tr>\n";
-    if ($annee) {
-        echo "<td width=\"90\"><b>".__("Year")."</b></td>\n";
-        echo "<td>".htmlspecialchars ($annee)."</td></tr>\n";
-    }
-    if ($vol) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Volume")."</b></td>\n";
-        echo "<td>".htmlspecialchars ($vol)."</td></tr>\n";
-    }
-    if ($no) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Number")."</b></td>\n";
-        echo "<td>".htmlspecialchars ($no)."</td></tr>\n";
-    }
-    if ($suppl) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Suppl.")."</b></td>\n";
-        echo "<td>".htmlspecialchars ($suppl)."</td></tr>\n";
-    }
-    if ($pages) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Pages")."</b></td>\n";
-        echo "<td>".htmlspecialchars ($pages)."</td></tr>\n";
-    }
-    if ($edition) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Edition")."</b></td>\n";
-        echo "<td>".htmlspecialchars ($edition)."</td></tr>\n";
-    }
-    if ($isbn) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>ISBN</b></td>\n";
-        echo "<td>".htmlspecialchars ($isbn)."</td></tr>\n";
-    }
-    if ($issn) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>ISSN</b></td>\n";
-        echo "<td>".htmlspecialchars ($issn)."</td></tr>\n";
-    }
-    if ($eissn) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>eISSN</b></td>\n";
-        echo "<td>".htmlspecialchars ($eissn)."</td></tr>\n";
-    }
-    if ($pmid) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>PMID</b></td>\n";
-        echo "<td>".htmlspecialchars($pmid)."</td></tr>\n";
-    }
-    if ($doi) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>DOI</b></td>\n";
-        echo "<td>".htmlspecialchars($doi)."</td></tr>\n";
-    }
-    if ($uid) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>UID</b></td>\n";
-        echo "<td>".htmlspecialchars ($uid)."</td></tr>\n";
-    }
-	if (in_array($monaut, array('admin', 'sadmin','user'), true)){
-		if ($remarques) {
-			echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Professional comment")."</b></td>\n";
-			echo "<td>". nl2br(htmlspecialchars($remarques))."</td></tr>\n";
+	foreach($order_form_values as $order_form) {
+		echo "<tr><td style=\"border-top:1px dotted #ccc;\" width=\"90\"><b>".__("Document")."</b></td>\n";
+		echo "<td style=\"border-top:1px dotted #ccc;\">".htmlspecialchars($order_form['genre_code'])."</td></tr>\n";
+		if ($order_form['atitle']) {
+			echo "<tr><td width=\"90\"><b>".__("Title")."</b></td>\n";
+			echo "<td>" . htmlspecialchars ($order_form['atitle']) . "</td></tr>\n";
+		}
+		if ($order_form['auteurs']) {
+			echo "<tr><td width=\"90\"><b>".__("Authors")."</b></td>\n";
+			echo "<td>" . htmlspecialchars ($order_form['auteurs']) . "</td></tr>\n";
+		}
+		if ($order_form['genre_code'] == 'Article')
+			echo "<tr><td width=\"90\"><b>".__("Journal")."</b></td>\n";
+		else
+			echo "<tr><td width=\"90\"><b>".__("Book title")."</b></td>\n";
+		echo "<td>" . htmlspecialchars ($order_form['title']) . "</td>\n";
+		echo "</tr><tr>\n";
+		if ($order_form['date']) {
+			echo "<td width=\"90\"><b>".__("Year")."</b></td>\n";
+			echo "<td>".htmlspecialchars ($order_form['date'])."</td></tr>\n";
+		}
+		if ($order_form['volume']) {
+			echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Volume")."</b></td>\n";
+			echo "<td>".htmlspecialchars ($order_form['volume'])."</td></tr>\n";
+		}
+		if ($order_form['issue']) {
+			echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Number")."</b></td>\n";
+			echo "<td>".htmlspecialchars ($order_form['issue'])."</td></tr>\n";
+		}
+		if ($order_form['suppl']) {
+			echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Suppl.")."</b></td>\n";
+			echo "<td>".htmlspecialchars ($order_form['suppl'])."</td></tr>\n";
+		}
+		if ($order_form['pages']) {
+			echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Pages")."</b></td>\n";
+			echo "<td>".htmlspecialchars ($order_form['pages'])."</td></tr>\n";
+		}
+		if ($order_form['edition']) {
+			echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Edition")."</b></td>\n";
+			echo "<td>".htmlspecialchars ($order_form['edition'])."</td></tr>\n";
+		}
+		if ($order_form['isbn']) {
+			echo "<tr><td  width=\"90\" valign=\"top\"><b>ISBN</b></td>\n";
+			echo "<td>".htmlspecialchars ($order_form['isbn'])."</td></tr>\n";
+		}
+		if ($order_form['issn']) {
+			echo "<tr><td  width=\"90\" valign=\"top\"><b>ISSN</b></td>\n";
+			echo "<td>".htmlspecialchars ($order_form['issn'])."</td></tr>\n";
+		}
+		if ($order_form['eissn']) {
+			echo "<tr><td  width=\"90\" valign=\"top\"><b>eISSN</b></td>\n";
+			echo "<td>".htmlspecialchars ($order_form['eissn'])."</td></tr>\n";
+		}
+		if ($order_form['pmid']) {
+			echo "<tr><td  width=\"90\" valign=\"top\"><b>PMID</b></td>\n";
+			echo "<td>".htmlspecialchars($order_form['pmid'])."</td></tr>\n";
+		}
+		if ($order_form['doi']) {
+			echo "<tr><td  width=\"90\" valign=\"top\"><b>DOI</b></td>\n";
+			echo "<td>".htmlspecialchars($order_form['doi'])."</td></tr>\n";
+		}
+		if ($order_form['uid']) {
+			echo "<tr><td  width=\"90\" valign=\"top\"><b>UID</b></td>\n";
+			echo "<td>".htmlspecialchars ($order_form['uid'])."</td></tr>\n";
+		}
+		if (in_array($monaut, array('admin', 'sadmin','user'), true)){
+			if ($order_form['remarques']) {
+				echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Professional comment")."</b></td>\n";
+				echo "<td>". nl2br(htmlspecialchars($order_form['$remarques']))."</td></tr>\n";
+			}
+		}
+		if ($order_form['remarquespub']) {
+			echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Public comment")."</b></td>\n";
+			echo "<td>". nl2br(htmlspecialchars($order_form['remarquespub']))."</td></tr>\n";
 		}
 	}
-    if ($remarquespub) {
-        echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Public comment")."</b></td>\n";
-        echo "<td>". nl2br(htmlspecialchars($remarquespub))."</td></tr>\n";
-    }
     echo "</table>\n";
     echo "<div class=\"hr\"><hr></div>\n";
     echo "<b><center><a href=\"index.php\">".__("Fill in a new order")."</a></center></b>\n";

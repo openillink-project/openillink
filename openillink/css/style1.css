@@ -202,6 +202,58 @@ padding:5px;
 text-decoration:none;
 }
 
+a.helpinfo {
+    position: relative;
+    display: inline-block;
+    z-index:24;
+    color:#fff;
+    text-decoration:none;
+    background-color:#999;
+    width:16px;
+    height:16px;
+    display:inline-block;
+    border-radius:100%;
+    text-align:center;
+}
+
+a.helpinfo:hover{
+    z-index:25;
+    cursor: help;
+}
+
+a.helpinfo span{
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s;
+    position: absolute;
+}
+
+a.helpinfo:hover span{
+    opacity: 1;
+    visibility: visible;
+    top: 100%;
+    left: 50%;
+    width:30em;
+    text-align: justify;
+    text-decoration:none;
+    background-color: #404040;
+    color: #fff;
+    padding: 0.5em;
+    border-radius: 6px;
+    margin-left: -15.5em;
+    margin-top: 1em;
+}
+a.helpinfo span::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;  /* At the top of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #404040 transparent;
+}
+
 h1  {
 	color:#666;
   font-size: 1.1em;
@@ -557,4 +609,14 @@ fieldset.organizedForm {
 	/*border: 1px solid #c38e08;*/
     display: inline-block;
 	margin-left: 2px;
+}
+
+.fileUploadPanel {
+	margin-left:15px;
+}
+.addItemPanel {
+    text-align: right;
+}
+.removeLink:hover {
+    color: red;
 }

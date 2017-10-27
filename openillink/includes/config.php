@@ -149,6 +149,17 @@ $lookupuid = array(
 			  //array('name' => "Renouvaud MMS", 'code' => "renouvaudmms_swissbib"),
 			);
 
+// Enable the upload of orders files (in EndNote XML, RIS or MEDLINE/PubMed format).
+// Define the minimum privilege required to upload file:
+// "", "guest", "user", "admin" "sadmin"
+// (Leave empty string to prevent anyone from uploading order files
+$enableOrdersUploadForUser = "guest";
+
+// Maximum number of simultaneous orders that can be submitted at once.
+// See also file upload limitations defined in the `upload_max_filesize` and 
+// `post_max_size `  variables in the php.ini file on your server.
+$maxSimultaneousOrders = 999;
+
 // OpenURL parameters
 $openurlsid = "OpenILLink:DemoDB";
 

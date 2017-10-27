@@ -408,7 +408,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 // START Document Fields
                 echo "<div class=\"box\"><div class=\"box-content\">\n";
                 echo "<div class=\"box\"><div class=\"box-content\">\n";
-                echo "<center><b><label for=\"tid\">" . __("Fill in the order using") . "</label> </b>\n";
+                echo "<center><b><label for=\"tid_0\">" . __("Fill in the order using") . "</label> </b>\n";
 				$tid = "";
 				$uids = "";
 				if (!empty($enreg['PMID'])) {
@@ -429,7 +429,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 					}
 					$uids = $tid_and_uids[1];
 				}
-                echo "<select name=\"tid\" id=\"tid\">\n";
+                echo "<select name=\"tid_0\" id=\"tid_0\">\n";
                 $i = 0;
                 while ($lookupuid[$i]["name"]){
 					$selected = "";
@@ -441,14 +441,14 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                     $i = $i + 1;
                 }
                 echo "</select>\n";
-                echo "<input name=\"uids\" type=\"text\" size=\"20\" value=\"". htmlspecialchars($uids). "\">\n";
-                echo "<input type=\"button\" value=\"OK\" onclick=\"lookupid(); textchanged('ref écrasée par PMID');\"></center>\n";
+                echo "<input name=\"uids_0\" type=\"text\" size=\"20\" value=\"". htmlspecialchars($uids). "\">\n";
+                echo "<input type=\"button\" value=\"OK\" onclick=\"lookupid(0); textchanged('ref écrasée par PMID');\"></center>\n";
                 echo "</div></div>\n";
                 echo "<div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
                 echo "\n";
                 echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"3\" width=\"100%\">\n";
-                echo "<tr><td><label for=\"genre\">" . (((!empty($doctypesmessage)) && $doctypesmessage[$lang])? $doctypesmessage[$lang]:'Type de document') . "</label> : </td><td>\n";
-                echo "<select name=\"genre\" id=\"genre\" onchange=\"textchanged('type_doc')\">\n";
+                echo "<tr><td><label for=\"genre_0\">" . (((!empty($doctypesmessage)) && $doctypesmessage[$lang])? $doctypesmessage[$lang]:'Type de document') . "</label> : </td><td>\n";
+                echo "<select name=\"genre_0\" id=\"genre_0\" onchange=\"textchanged('type_doc')\">\n";
                 $i = 0;
                 while ($doctypes[$i]["code"]){
                     echo "<option value=\"" . htmlspecialchars($doctypes[$i]["code"]) . "\"";
@@ -460,51 +460,51 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "</select>\n";
                 echo "<div class=\"formdoc\">\n";
                 echo "</td></tr><tr><td>\n";
-				echo '<label for="title">';
+				echo '<label for="title_0">';
                 echo __("Title of journal or book") . " *</label> : </td><td>\n";
-                echo "<input name=\"title\" id=\"title\" type=\"text\" size=\"80\" value=\"".htmlspecialchars($enreg['titre_periodique'])."\" onchange=\"textchanged('titre_periodique')\">\n";
+                echo "<input name=\"title_0\" id=\"title_0\" type=\"text\" size=\"80\" value=\"".htmlspecialchars($enreg['titre_periodique'])."\" onchange=\"textchanged('titre_periodique')\">\n";
                 echo "&nbsp;\n";
                 echo "<a href=\"javascript:openlist('".$periodical_title_search_url."')\"><img src=\"img/find.png\" title=\"" . __("check on journals database") . "\"></a>\n";
                 echo "</td></tr><tr><td>\n";
-				echo '<label for="date">';
+				echo '<label for="date_0">';
                 echo __("Year") . " *</label> : </td><td>\n";
-                echo "<input name=\"date\" id=\"date\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($enreg['annee'])."\" onchange=\"textchanged('date')\">\n";
+                echo "<input name=\"date_0\" id=\"date_0\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($enreg['annee'])."\" onchange=\"textchanged('date')\">\n";
                 echo "&nbsp;\n";
-				echo '<label for="volume">';
+				echo '<label for="volume_0">';
                 echo __("Vol.") . " *</label> : \n";
-                echo "<input name=\"volume\" id=\"volume\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($enreg['volume'])."\" onchange=\"textchanged('volume')\">\n";
+                echo "<input name=\"volume_0\" id=\"volume_0\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($enreg['volume'])."\" onchange=\"textchanged('volume')\">\n";
                 echo "&nbsp;\n";
-				echo '<label for="issue">';
+				echo '<label for="issue_0">';
                 echo __("(Issue)") . "</label> : \n";
-                echo "<input name=\"issue\" id=\"issue\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($enreg['numero'])."\" onchange=\"textchanged('numero')\">\n";
+                echo "<input name=\"issue_0\" id=\"issue_0\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($enreg['numero'])."\" onchange=\"textchanged('numero')\">\n";
                 echo "&nbsp;\n";
-				echo '<label for="suppl">';
+				echo '<label for="suppl_0">';
                 echo __("Suppl.") . "</label> : \n";
-                echo "<input name=\"suppl\" id=\"suppl\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($enreg['supplement'])."\" onchange=\"textchanged('suppl')\">\n";
+                echo "<input name=\"suppl_0\" id=\"suppl_0\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($enreg['supplement'])."\" onchange=\"textchanged('suppl')\">\n";
                 echo "&nbsp;\n";
-				echo '<label for="pages">';
+				echo '<label for="pages_0">';
                 echo __("Pages") . " *</label> : \n";
-                echo "<input name=\"pages\" id=\"pages\" type=\"text\" size=\"4\" value=\"".htmlspecialchars($enreg['pages'])."\" onchange=\"textchanged('pages')\">\n";
+                echo "<input name=\"pages_0\" id=\"pages_0\" type=\"text\" size=\"4\" value=\"".htmlspecialchars($enreg['pages'])."\" onchange=\"textchanged('pages')\">\n";
                 echo "</td></tr><tr><td>\n";
-				echo '<label for="atitle">';
+				echo '<label for="atitle_0">';
                 echo __("Title of article or book chapter") . "</label> : \n";
                 echo "</td><td>\n";
                 $titreart = $enreg['titre_article'];
-                echo "<input name=\"atitle\" id=\"atitle\" type=\"text\" size=\"80\" value=\"".htmlspecialchars($titreart)."\" onchange=\"textchanged('titre_article')\">\n";
+                echo "<input name=\"atitle_0\" id=\"atitle_0\" type=\"text\" size=\"80\" value=\"".htmlspecialchars($titreart)."\" onchange=\"textchanged('titre_article')\">\n";
                 echo "</td></tr><tr><td>\n";
-				echo '<label for="auteurs">';
+				echo '<label for="auteurs_0">';
                 echo __("Author(s)") . "</label> : \n";
                 echo "</td><td>\n";
-                echo "<input name=\"auteurs\" id=\"auteurs\" type=\"text\" size=\"80\" value=\"".htmlspecialchars($enreg['auteurs'])."\" onchange=\"textchanged('auteurs')\">\n";
+                echo "<input name=\"auteurs_0\" id=\"auteurs_0\" type=\"text\" size=\"80\" value=\"".htmlspecialchars($enreg['auteurs'])."\" onchange=\"textchanged('auteurs')\">\n";
                 echo "</td></tr>\n";
                 echo "<tr><td>\n";
-				echo '<label for="edition">';
+				echo '<label for="edition_0">';
                 echo __("Edition (for books)") . "</label> : \n";
                 echo "</td><td>\n";
-                echo "<input name=\"edition\" id=\"edition\" type=\"text\" size=\"14\" value=\"".htmlspecialchars($enreg['edition'])."\" onchange=\"textchanged('edition')\">\n";
+                echo "<input name=\"edition_0\" id=\"edition_0\" type=\"text\" size=\"14\" value=\"".htmlspecialchars($enreg['edition'])."\" onchange=\"textchanged('edition')\">\n";
                 echo "&nbsp;\n";
-                echo "<label for=\"issn\">ISSN / ISBN</label> : \n";
-                echo "<input name=\"issn\" id=\"issn\" type=\"text\" size=\"15\" value=\"";
+                echo "<label for=\"issn_0\">ISSN / ISBN</label> : \n";
+                echo "<input name=\"issn_0\" id=\"issn_0\" type=\"text\" size=\"15\" value=\"";
                 if ($enreg['isbn']!="")
                     echo htmlspecialchars($enreg['isbn']);
                 else {
@@ -514,13 +514,13 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 }
                 echo "\" onchange=\"textchanged('issn')\">\n";
                 echo "&nbsp;\n";
-                echo "<label for=\"uid\">UID</label> : \n";
-                echo "<input name=\"uid\" id=\"uid\" type=\"text\" size=\"15\" value=\"".$enreg['uid']."\" onchange=\"textchanged('uid')\">\n";
+                echo "<label for=\"uid_0\">UID</label> : \n";
+                echo "<input name=\"uid_0\" id=\"uid_0\" type=\"text\" size=\"15\" value=\"".$enreg['uid']."\" onchange=\"textchanged('uid')\">\n";
                 echo "</td></tr></div>\n";
                 echo "<tr><td valign=\"top\">\n";
-				echo '<label for="remarquespub">';
+				echo '<label for="remarquespub_0">';
                 echo __("Notes") . "</label> : \n";
-                echo "</td><td valign=\"bottom\"><textarea name=\"remarquespub\" id=\"remarquespub\" rows=\"2\" cols=\"60\" valign=\"bottom\" onchange=\"textchanged('remarquespub')\">".htmlspecialchars($enreg['remarquespub'])."</textarea>\n";
+                echo "</td><td valign=\"bottom\"><textarea name=\"remarquespub_0\" id=\"remarquespub_0\" rows=\"2\" cols=\"60\" valign=\"bottom\" onchange=\"textchanged('remarquespub')\">".htmlspecialchars($enreg['remarquespub'])."</textarea>\n";
                 echo "</td></tr><tr><td></td><td>\n";
                 echo "</td></tr>\n";
                 echo "</table>\n";

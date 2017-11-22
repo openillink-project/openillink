@@ -134,6 +134,9 @@ if (!empty($_FILES['order_file']) && $_FILES['order_file']['size'] > 0 && is_pri
 	require_once('includes/vendor/RefLib/reflib.php');
 	$lib = new RefLib();
 	$lib->SetContentsFile($_FILES['order_file']['tmp_name'], pathinfo($_FILES['order_file']['name'], PATHINFO_EXTENSION)); // rather use SetContents
+	if (count($lib->refs) == 0) {
+		array_push($uploaded_orders_messages, get_message_box(__("No references found in uploaded file. Please make sure it is in the list of supported file formats."), 'danger', __("Error")));
+	}
 	foreach ($lib->refs as $ref_index => $reference) {
 		$order_form = $default_order_form;
 		if (!empty($reference['type'])) {

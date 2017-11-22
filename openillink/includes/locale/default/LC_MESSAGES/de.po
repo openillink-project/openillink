@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenILLink\n"
-"POT-Creation-Date: 2017-10-20 14:40+0200\n"
-"PO-Revision-Date: 2017-10-20 14:41+0200\n"
+"POT-Creation-Date: 2017-11-22 11:01+0100\n"
+"PO-Revision-Date: 2017-11-22 11:01+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -110,41 +110,41 @@ msgstr ""
 msgid "Missing id or form parameters"
 msgstr ""
 
-#: includes/config.php:166
+#: includes/config.php:177
 msgid "Article"
 msgstr "Artikel"
 
-#: includes/config.php:167
+#: includes/config.php:178
 msgid "Preprint"
 msgstr ""
 
-#: includes/config.php:168 includes/orders_detail.php:179
+#: includes/config.php:179 includes/orders_detail.php:179
 #: includes/ordertop.php:98
 msgid "Book"
 msgstr "Buch"
 
-#: includes/config.php:169
+#: includes/config.php:180
 msgid "Book chapter"
 msgstr "Buchkapitel"
 
-#: includes/config.php:170 includes/orders_detail.php:181
+#: includes/config.php:181 includes/orders_detail.php:181
 #: includes/ordertop.php:100
 msgid "Thesis"
 msgstr "These"
 
-#: includes/config.php:171
+#: includes/config.php:182
 msgid "Journal issue"
 msgstr ""
 
-#: includes/config.php:172
+#: includes/config.php:183
 msgid "Conference proceedings"
 msgstr "Konferenzveranstaltungen"
 
-#: includes/config.php:173
+#: includes/config.php:184
 msgid "Conference paper"
 msgstr "Konferenzpapier"
 
-#: includes/config.php:174
+#: includes/config.php:185
 msgid "Other"
 msgstr "Andere"
 
@@ -195,7 +195,7 @@ msgstr "Stornieren"
 #: includes/localizations_edit.php:65 includes/localizations_edit.php:100
 #: includes/status_edit.php:75 includes/status_edit.php:135
 #: includes/units_edit.php:85 includes/units_edit.php:174
-#: includes/users_edit.php:169
+#: includes/users_edit.php:169 index.php:597
 msgid "Remove"
 msgstr ""
 
@@ -269,7 +269,7 @@ msgid "filters found"
 msgstr ""
 
 #: includes/folders_list.php:61 includes/folders_new.php:50
-#: includes/orders_new.php:319 includes/orders_update.php:222
+#: includes/orders_new.php:422 includes/orders_update.php:222
 #: includes/ordertop.php:89
 msgid "Title"
 msgstr "Titel"
@@ -336,15 +336,17 @@ msgstr ""
 
 #: includes/folders_new.php:186 includes/folders_new.php:476
 #: includes/folders_new.php:766 includes/orders_detail.php:142
-#: includes/orders_edit.php:99 includes/ordertop.php:62
+#: includes/orders_edit.php:99 includes/orders_edit_backup.php:99
+#: includes/orders_edit_old.php:99 includes/ordertop.php:62
 #: includes/users_edit.php:105 includes/users_list.php:63
-#: includes/users_new.php:50 index.php:75
+#: includes/users_new.php:50 index.php:254
 msgid "Status"
 msgstr "Status"
 
 #: includes/folders_new.php:226 includes/folders_new.php:516
 #: includes/folders_new.php:806 includes/orders_detail.php:135
-#: includes/orders_edit.php:123 includes/searchform.php:69 index.php:94
+#: includes/orders_edit.php:123 includes/orders_edit_backup.php:123
+#: includes/orders_edit_old.php:123 includes/searchform.php:69 index.php:273
 msgid "Localization"
 msgstr "Lokalisierung"
 
@@ -355,7 +357,9 @@ msgstr "Lokalisierung"
 #: includes/folders_new.php:583 includes/folders_new.php:595
 #: includes/folders_new.php:809 includes/folders_new.php:849
 #: includes/folders_new.php:861 includes/folders_new.php:873
-#: includes/folders_new.php:885 includes/orders_edit.php:126 index.php:97
+#: includes/folders_new.php:885 includes/orders_edit.php:126
+#: includes/orders_edit_backup.php:126 includes/orders_edit_old.php:126
+#: index.php:276
 msgid "Our Localizations"
 msgstr ""
 
@@ -366,12 +370,16 @@ msgstr ""
 #: includes/folders_new.php:586 includes/folders_new.php:598
 #: includes/folders_new.php:839 includes/folders_new.php:852
 #: includes/folders_new.php:864 includes/folders_new.php:876
-#: includes/folders_new.php:888 includes/orders_edit.php:165 index.php:127
+#: includes/folders_new.php:888 includes/orders_edit.php:165
+#: includes/orders_edit_backup.php:165 includes/orders_edit_old.php:165
+#: index.php:306
 msgid "Network libraries"
 msgstr ""
 
 #: includes/folders_new.php:315 includes/folders_new.php:605
-#: includes/folders_new.php:895 includes/orders_edit.php:304 index.php:242
+#: includes/folders_new.php:895 includes/orders_edit.php:304
+#: includes/orders_edit_backup.php:304 includes/orders_edit_old.php:304
+#: index.php:419
 msgid "Unit"
 msgstr ""
 
@@ -748,11 +756,15 @@ msgstr ""
 msgid "Edit order"
 msgstr ""
 
-#: includes/links.php:41 includes/orders_edit.php:299 index.php:237
+#: includes/links.php:41 includes/orders_edit.php:299
+#: includes/orders_edit_backup.php:299 includes/orders_edit_old.php:299
+#: index.php:414
 msgid "Search the name in the directory of the hospital"
 msgstr ""
 
-#: includes/links.php:48 includes/orders_edit.php:301 index.php:239
+#: includes/links.php:48 includes/orders_edit.php:301
+#: includes/orders_edit_backup.php:301 includes/orders_edit_old.php:301
+#: index.php:416
 msgid "Search the name in the directory of the university"
 msgstr ""
 
@@ -862,9 +874,10 @@ msgid "links found"
 msgstr ""
 
 #: includes/links_list.php:60 includes/links_new.php:47
-#: includes/orders_edit.php:295 includes/orders_new.php:298
+#: includes/orders_edit.php:295 includes/orders_edit_backup.php:295
+#: includes/orders_edit_old.php:295 includes/orders_new.php:400
 #: includes/orders_update.php:201 includes/users_edit.php:98
-#: includes/users_new.php:47 index.php:233
+#: includes/users_new.php:47 index.php:410
 msgid "Name"
 msgstr "Name"
 
@@ -888,7 +901,7 @@ msgstr ""
 msgid "Journal title"
 msgstr ""
 
-#: includes/links_list.php:110 includes/orders_new.php:329
+#: includes/links_list.php:110 includes/orders_new.php:432
 #: includes/orders_update.php:232
 msgid "Book title"
 msgstr ""
@@ -1050,7 +1063,9 @@ msgstr ""
 msgid "Shared Incoming Command"
 msgstr ""
 
-#: includes/orders_detail.php:121 includes/orders_edit.php:238 index.php:158
+#: includes/orders_detail.php:121 includes/orders_edit.php:238
+#: includes/orders_edit_backup.php:238 includes/orders_edit_old.php:238
+#: index.php:337
 msgid "Order date"
 msgstr ""
 
@@ -1082,12 +1097,12 @@ msgstr "E-Mail"
 msgid "Search for commands from this email"
 msgstr ""
 
-#: includes/orders_detail.php:158 includes/orders_new.php:313
+#: includes/orders_detail.php:158 includes/orders_new.php:415
 #: includes/orders_update.php:216 includes/ordertop.php:78
 msgid "Address"
 msgstr "Adresse"
 
-#: includes/orders_detail.php:164 includes/orders_new.php:305
+#: includes/orders_detail.php:164 includes/orders_new.php:407
 #: includes/orders_update.php:208 includes/ordertop.php:80
 #: includes/searchform.php:81
 msgid "Service"
@@ -1097,7 +1112,7 @@ msgstr "Service"
 msgid "Search for commands from this service"
 msgstr ""
 
-#: includes/orders_detail.php:167 index.php:351 index.php:353
+#: includes/orders_detail.php:167 index.php:531 index.php:533
 msgid "Document type"
 msgstr "Dokumenttyp"
 
@@ -1107,17 +1122,18 @@ msgid "Search for commands from this title"
 msgstr ""
 
 #: includes/orders_detail.php:172 includes/orders_edit.php:496
-#: includes/ordertop.php:91 includes/searchform.php:101 index.php:393
+#: includes/orders_edit_backup.php:496 includes/orders_edit_old.php:496
+#: includes/ordertop.php:91 includes/searchform.php:101 index.php:573
 msgid "Author(s)"
 msgstr "Autor(en)"
 
 #: includes/orders_detail.php:175 includes/orders_detail.php:177
-#: includes/orders_new.php:327 includes/orders_update.php:230
+#: includes/orders_new.php:430 includes/orders_update.php:230
 #: includes/ordertop.php:94 includes/ordertop.php:96
 msgid "Journal"
 msgstr "Zeitschrift"
 
-#: includes/orders_detail.php:191 includes/orders_new.php:337
+#: includes/orders_detail.php:191 includes/orders_new.php:440
 #: includes/orders_update.php:240 includes/ordertop.php:110
 msgid "Volume"
 msgstr "Volumen"
@@ -1127,19 +1143,22 @@ msgid "Issue"
 msgstr ""
 
 #: includes/orders_detail.php:195 includes/orders_edit.php:482
-#: includes/orders_new.php:345 includes/orders_update.php:248 index.php:380
+#: includes/orders_edit_backup.php:482 includes/orders_edit_old.php:482
+#: includes/orders_new.php:448 includes/orders_update.php:248 index.php:560
 msgid "Suppl."
 msgstr ""
 
 #: includes/orders_detail.php:197 includes/orders_edit.php:486
-#: includes/orders_new.php:349 includes/orders_update.php:252
-#: includes/ordertop.php:114 index.php:384
+#: includes/orders_edit_backup.php:486 includes/orders_edit_old.php:486
+#: includes/orders_new.php:452 includes/orders_update.php:252
+#: includes/ordertop.php:114 index.php:564
 msgid "Pages"
 msgstr "Seiten"
 
 #: includes/orders_detail.php:199 includes/orders_edit.php:470
-#: includes/orders_new.php:333 includes/orders_update.php:236
-#: includes/ordertop.php:116 index.php:368
+#: includes/orders_edit_backup.php:470 includes/orders_edit_old.php:470
+#: includes/orders_new.php:436 includes/orders_update.php:236
+#: includes/ordertop.php:116 index.php:548
 msgid "Year"
 msgstr "Jahr"
 
@@ -1203,12 +1222,12 @@ msgstr ""
 msgid "Guest access code"
 msgstr ""
 
-#: includes/orders_detail.php:246 includes/orders_new.php:387
+#: includes/orders_detail.php:246 includes/orders_new.php:490
 #: includes/orders_update.php:284
 msgid "Public comment"
 msgstr ""
 
-#: includes/orders_detail.php:248 includes/orders_new.php:382
+#: includes/orders_detail.php:248 includes/orders_new.php:485
 #: includes/orders_update.php:280
 msgid "Professional comment"
 msgstr ""
@@ -1217,188 +1236,231 @@ msgstr ""
 msgid "Order history"
 msgstr ""
 
-#: includes/orders_edit.php:35
+#: includes/orders_edit.php:35 includes/orders_edit_backup.php:35
+#: includes/orders_edit_old.php:35
 msgid "%institution_name: order %order_id edition"
 msgstr ""
 
-#: includes/orders_edit.php:65
+#: includes/orders_edit.php:65 includes/orders_edit_backup.php:65
+#: includes/orders_edit_old.php:65
 #, php-format
 msgid "Order %order_id modification"
 msgstr ""
 
-#: includes/orders_edit.php:68
+#: includes/orders_edit.php:68 includes/orders_edit_backup.php:68
+#: includes/orders_edit_old.php:68
 msgid "Attributed to library"
 msgstr ""
 
-#: includes/orders_edit.php:90 includes/orders_edit.php:532 index.php:419
+#: includes/orders_edit.php:90 includes/orders_edit.php:532
+#: includes/orders_edit_backup.php:90 includes/orders_edit_backup.php:532
+#: includes/orders_edit_old.php:90 includes/orders_edit_old.php:532
 #: resendcredentials.php:43
 msgid "Submit"
 msgstr ""
 
-#: includes/orders_edit.php:196 index.php:135
+#: includes/orders_edit.php:196 includes/orders_edit_backup.php:196
+#: includes/orders_edit_old.php:196 index.php:314
 msgid "Priority"
 msgstr "Priorität"
 
-#: includes/orders_edit.php:201 index.php:136
+#: includes/orders_edit.php:201 includes/orders_edit_backup.php:201
+#: includes/orders_edit_old.php:201 index.php:315
 msgid "Normal"
 msgstr "Normal"
 
-#: includes/orders_edit.php:205 index.php:137
+#: includes/orders_edit.php:205 includes/orders_edit_backup.php:205
+#: includes/orders_edit_old.php:205 index.php:316
 msgid "Urgent"
 msgstr "Dringend"
 
-#: includes/orders_edit.php:209 index.php:138
+#: includes/orders_edit.php:209 includes/orders_edit_backup.php:209
+#: includes/orders_edit_old.php:209 index.php:317
 msgid "Not a priority"
 msgstr "Nicht priorität"
 
-#: includes/orders_edit.php:215 index.php:141
+#: includes/orders_edit.php:215 includes/orders_edit_backup.php:215
+#: includes/orders_edit_old.php:215 index.php:320
 msgid "Origin of the order"
 msgstr "Herkunft der Bestellung"
 
-#: includes/orders_edit.php:229 includes/units_edit.php:131
+#: includes/orders_edit.php:229 includes/orders_edit_backup.php:229
+#: includes/orders_edit_old.php:229 includes/units_edit.php:131
 #: includes/units_edit.php:149 includes/units_new.php:105
-#: includes/units_new.php:122 index.php:152
+#: includes/units_new.php:122 index.php:331
 msgid "Add new value..."
 msgstr "Neuen Wert hinzufügen …"
 
-#: includes/orders_edit.php:238 index.php:158
+#: includes/orders_edit.php:238 includes/orders_edit_backup.php:238
+#: includes/orders_edit_old.php:238 index.php:337
 msgid "to be completed only if different from the current date"
 msgstr "Nur wenn sie sich vom aktuellen Datum unterscheiden"
 
-#: includes/orders_edit.php:242 index.php:162
+#: includes/orders_edit.php:242 includes/orders_edit_backup.php:242
+#: includes/orders_edit_old.php:242 index.php:341
 msgid "Date of shipment"
 msgstr "Versanddatum"
 
-#: includes/orders_edit.php:246 index.php:166
+#: includes/orders_edit.php:246 includes/orders_edit_backup.php:246
+#: includes/orders_edit_old.php:246 index.php:345
 msgid "Invoice date"
 msgstr "Rechnungsdatum"
 
-#: includes/orders_edit.php:251 index.php:170
+#: includes/orders_edit.php:251 includes/orders_edit_backup.php:251
+#: includes/orders_edit_old.php:251 index.php:349
 msgid "To be renewed on"
 msgstr "Erneuert werden"
 
-#: includes/orders_edit.php:259 index.php:174
+#: includes/orders_edit.php:259 includes/orders_edit_backup.php:259
+#: includes/orders_edit_old.php:259 index.php:353
 #, php-format
 msgid "Price (%currency)"
 msgstr "Preise (%currency)"
 
-#: includes/orders_edit.php:264 index.php:176
+#: includes/orders_edit.php:264 includes/orders_edit_backup.php:264
+#: includes/orders_edit_old.php:264 index.php:355
 msgid "order paid in advance"
 msgstr "Bestellung im Voraus bezahlt"
 
-#: includes/orders_edit.php:268 index.php:179
+#: includes/orders_edit.php:268 includes/orders_edit_backup.php:268
+#: includes/orders_edit_old.php:268 index.php:358
 msgid "Provider Ref."
 msgstr "Anbieter Ref."
 
-#: includes/orders_edit.php:272 index.php:183
+#: includes/orders_edit.php:272 includes/orders_edit_backup.php:272
+#: includes/orders_edit_old.php:272 index.php:362
 msgid "Internal ref. to the library"
 msgstr "Interne Ref. zur Bibliothek"
 
-#: includes/orders_edit.php:282 index.php:189
+#: includes/orders_edit.php:282 includes/orders_edit_backup.php:282
+#: includes/orders_edit_old.php:282 index.php:368
 #, fuzzy
 msgid "Professional Notes"
 msgstr "Professionelle Hinweise"
 
-#: includes/orders_edit.php:297 index.php:235
+#: includes/orders_edit.php:297 includes/orders_edit_backup.php:297
+#: includes/orders_edit_old.php:297 index.php:412
 msgid "First name"
 msgstr "Vorname"
 
-#: includes/orders_edit.php:340 index.php:272
+#: includes/orders_edit.php:340 includes/orders_edit_backup.php:340
+#: includes/orders_edit_old.php:340 index.php:449
 #, fuzzy
 msgid "Other unit"
 msgstr "Andere Einheit"
 
-#: includes/orders_edit.php:349 index.php:278
+#: includes/orders_edit.php:349 includes/orders_edit_backup.php:349
+#: includes/orders_edit_old.php:349 index.php:455
 #, fuzzy
 msgid "Budget heading"
 msgstr "Budgetüberschrift"
 
-#: includes/orders_edit.php:353 index.php:282
+#: includes/orders_edit.php:353 includes/orders_edit_backup.php:353
+#: includes/orders_edit_old.php:353 index.php:459
 #, fuzzy
 msgid "Budget subheading"
 msgstr "Budgetunterüberschrift"
 
-#: includes/orders_edit.php:363 includes/orders_new.php:301
+#: includes/orders_edit.php:363 includes/orders_edit_backup.php:363
+#: includes/orders_edit_old.php:363 includes/orders_new.php:403
 #: includes/orders_update.php:204 includes/users_edit.php:100
-#: includes/users_list.php:59 includes/users_new.php:48 index.php:292
+#: includes/users_list.php:59 includes/users_new.php:48 index.php:469
 msgid "E-Mail"
 msgstr "E-Mail"
 
-#: includes/orders_edit.php:366 includes/orders_new.php:309
-#: includes/orders_update.php:212 index.php:295
+#: includes/orders_edit.php:366 includes/orders_edit_backup.php:366
+#: includes/orders_edit_old.php:366 includes/orders_new.php:411
+#: includes/orders_update.php:212 index.php:472
 msgid "Tel."
 msgstr "Tel."
 
-#: includes/orders_edit.php:371 index.php:300
+#: includes/orders_edit.php:371 includes/orders_edit_backup.php:371
+#: includes/orders_edit_old.php:371 index.php:477
 msgid "Private address"
 msgstr "Privatadresse"
 
-#: includes/orders_edit.php:376 index.php:305
+#: includes/orders_edit.php:376 includes/orders_edit_backup.php:376
+#: includes/orders_edit_old.php:376 index.php:482
 msgid "Zip code"
 msgstr "Postleitzahl"
 
-#: includes/orders_edit.php:380 index.php:309
+#: includes/orders_edit.php:380 includes/orders_edit_backup.php:380
+#: includes/orders_edit_old.php:380 index.php:486
 msgid "City"
 msgstr "Stadt"
 
-#: includes/orders_edit.php:383 index.php:312
+#: includes/orders_edit.php:383 includes/orders_edit_backup.php:383
+#: includes/orders_edit_old.php:383 index.php:489
 #, fuzzy
 msgid "If available at the library"
 msgstr "Falls vorhanden in der Bibliothek"
 
-#: includes/orders_edit.php:389 index.php:315
+#: includes/orders_edit.php:389 includes/orders_edit_backup.php:389
+#: includes/orders_edit_old.php:389 index.php:492
 msgid "send by e-mail (billed)"
 msgstr "Per E-Mail senden (abgerechnet)"
 
-#: includes/orders_edit.php:395 index.php:318
+#: includes/orders_edit.php:395 includes/orders_edit_backup.php:395
+#: includes/orders_edit_old.php:395 index.php:495
 msgid "let me know and I come to make a copy (not billed)"
 msgstr ""
 "lass es mich wissen und ich komme, um eine Kopie zu machen (nicht "
 "abgerechnet)"
 
-#: includes/orders_edit.php:401 index.php:324
+#: includes/orders_edit.php:401 includes/orders_edit_backup.php:401
+#: includes/orders_edit_old.php:401 index.php:501
 #, fuzzy
 msgid "Remember data for future orders (cookies allowed)"
 msgstr "Denken Sie daran, Daten für zukünftige Bestellungen (Cookies erlaubt)"
 
-#: includes/orders_edit.php:401 index.php:324
+#: includes/orders_edit.php:401 includes/orders_edit_backup.php:401
+#: includes/orders_edit_old.php:401 index.php:501
 msgid "delete the cookie"
 msgstr "lösche das Cookie"
 
-#: includes/orders_edit.php:411 index.php:338
+#: includes/orders_edit.php:411 includes/orders_edit_backup.php:411
+#: includes/orders_edit_old.php:411 index.php:518
 msgid "Fill in the order using"
 msgstr "Erfülle den Auftrag von"
 
-#: includes/orders_edit.php:464 index.php:362
+#: includes/orders_edit.php:464 includes/orders_edit_backup.php:464
+#: includes/orders_edit_old.php:464 index.php:542
 msgid "Title of journal or book"
 msgstr "Titel der Zeitschrift oder des Buches"
 
-#: includes/orders_edit.php:467 index.php:365
+#: includes/orders_edit.php:467 includes/orders_edit_backup.php:467
+#: includes/orders_edit_old.php:467 index.php:545
 msgid "check on journals database"
 msgstr "Überprüfen Sie die Zeitschriften-Datenbank"
 
-#: includes/orders_edit.php:474 index.php:372
+#: includes/orders_edit.php:474 includes/orders_edit_backup.php:474
+#: includes/orders_edit_old.php:474 index.php:552
 msgid "Vol."
 msgstr "Vol."
 
-#: includes/orders_edit.php:478 index.php:376
+#: includes/orders_edit.php:478 includes/orders_edit_backup.php:478
+#: includes/orders_edit_old.php:478 index.php:556
 msgid "(Issue)"
 msgstr ""
 
-#: includes/orders_edit.php:490 index.php:388
+#: includes/orders_edit.php:490 includes/orders_edit_backup.php:490
+#: includes/orders_edit_old.php:490 index.php:568
 msgid "Title of article or book chapter"
 msgstr "Titel des Artikels oder Buchkapitels"
 
-#: includes/orders_edit.php:502 index.php:399
+#: includes/orders_edit.php:502 includes/orders_edit_backup.php:502
+#: includes/orders_edit_old.php:502 index.php:579
 msgid "Edition (for books)"
 msgstr ""
 
-#: includes/orders_edit.php:522 index.php:411
+#: includes/orders_edit.php:522 includes/orders_edit_backup.php:522
+#: includes/orders_edit_old.php:522 index.php:591
 #, fuzzy
 msgid "Notes"
 msgstr "Notizen"
 
-#: includes/orders_edit.php:533 index.php:420
+#: includes/orders_edit.php:533 includes/orders_edit_backup.php:533
+#: includes/orders_edit_old.php:533 index.php:639
 msgid "Reset"
 msgstr "Zurücksetzen"
 
@@ -1406,60 +1468,60 @@ msgstr "Zurücksetzen"
 msgid "%institution_name command: orders list"
 msgstr ""
 
-#: includes/orders_new.php:205
+#: includes/orders_new.php:298
 #, php-format
 msgid "Order entered by %user_id on the %date"
 msgstr ""
 
-#: includes/orders_new.php:207
+#: includes/orders_new.php:300
 msgid "name required"
 msgstr ""
 
-#: includes/orders_new.php:209
+#: includes/orders_new.php:302
 msgid "service or organisation name is required"
 msgstr ""
 
-#: includes/orders_new.php:211 includes/orders_update.php:174
+#: includes/orders_new.php:305 includes/orders_update.php:174
 msgid "journal or book title is required"
 msgstr ""
 
-#: includes/orders_new.php:213
+#: includes/orders_new.php:310
 msgid "e-mail or private address are required"
 msgstr ""
 
-#: includes/orders_new.php:223 includes/orders_update.php:181
+#: includes/orders_new.php:320 includes/orders_update.php:181
 msgid "Back to entry form"
 msgstr ""
 
-#: includes/orders_new.php:260
+#: includes/orders_new.php:358
 msgid "Warning. Possible duplicate of the command."
 msgstr ""
 
-#: includes/orders_new.php:292
+#: includes/orders_new.php:394
 msgid "Your order has been successfully registered and will be processed soon"
 msgstr ""
 
-#: includes/orders_new.php:296 includes/orders_update.php:199
+#: includes/orders_new.php:398 includes/orders_update.php:199
 msgid "Order"
 msgstr "Auftrag"
 
-#: includes/orders_new.php:316 includes/orders_update.php:219
+#: includes/orders_new.php:419 includes/orders_update.php:219
 msgid "Document"
 msgstr ""
 
-#: includes/orders_new.php:323 includes/orders_update.php:226
+#: includes/orders_new.php:426 includes/orders_update.php:226
 msgid "Authors"
 msgstr ""
 
-#: includes/orders_new.php:341 includes/orders_update.php:244
+#: includes/orders_new.php:444 includes/orders_update.php:244
 msgid "Number"
 msgstr ""
 
-#: includes/orders_new.php:353 includes/orders_update.php:256
+#: includes/orders_new.php:456 includes/orders_update.php:256
 msgid "Edition"
 msgstr ""
 
-#: includes/orders_new.php:392
+#: includes/orders_new.php:496
 msgid "Fill in a new order"
 msgstr ""
 
@@ -2003,16 +2065,72 @@ msgstr ""
 msgid "Delete a user"
 msgstr ""
 
-#: index.php:40 index.php:202
+#: index.php:126
+#, php-format
+msgid "The uploaded file is too large (limit: %s MB). It has been ignored."
+msgstr ""
+
+#: index.php:126
+msgid "Error:"
+msgstr ""
+
+#: index.php:194
+#, php-format
+msgid ""
+"The maximum number of simultaneous orders (%d) has been reached. Remaining "
+"references have been ignored."
+msgstr ""
+
+#: index.php:194
+msgid "Warning"
+msgstr ""
+
+#: index.php:220 index.php:381
 msgid "Document order form to the "
 msgstr ""
 
-#: index.php:209
+#: index.php:386
 msgid "Please note, all orders are subject to a financial contribution"
 msgstr ""
 
-#: index.php:209
+#: index.php:386
 msgid "Contact us by email for more information (pricing, billing, etc.)"
+msgstr ""
+
+#: index.php:614
+#, php-format
+msgid ""
+"Fill in your order or %x_url_startupload a file with references%x_url_end:"
+msgstr ""
+
+#: index.php:617
+msgid "Supported file formats:"
+msgstr ""
+
+#: index.php:618
+msgid "EndNote XML (created via \"File\" → \"Export\" → Type \"XML\")"
+msgstr ""
+
+#: index.php:619
+msgid "RIS"
+msgstr ""
+
+#: index.php:620
+msgid ""
+"MEDLINE/PubMed (.nbib files created via \"Send to\" → \"Citation Manager\")"
+msgstr ""
+
+#: index.php:622
+#, php-format
+msgid "Maximum file size: %s MB"
+msgstr ""
+
+#: index.php:635
+msgid "Add an item to the order"
+msgstr ""
+
+#: index.php:638
+msgid "Send order"
 msgstr ""
 
 #: login.php:205

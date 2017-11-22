@@ -47,7 +47,6 @@ $default_order_form = array('tid_code' => "",
 							'issn' => "",
 							'uid' => "",
 							'remarquespub' => "");
-$order_form_values = array($default_order_form);
 
 $uploaded_orders_messages = array(); // array of messages (error_level, msg, title) related to display to the user
 
@@ -93,12 +92,48 @@ $ref = !empty($_POST['ref']) ? $_POST['ref'] : '';
 $refinterbib = !empty($_POST['refinterbib']) ? $_POST['refinterbib'] : '';
 $remarques = !empty($_POST['remarques']) ? $_POST['remarques'] : '';
 
+$order_form_values = array();
+
+if (isset($_POST['tid_0']) || isset($_GET['tid_0'])) {
+	// load from $POST
+	$form_index = 0;
+	while ($form_index <= max($maxSimultaneousOrders, 1) && (isset($_POST['tid_'.$form_index]) || isset($_GET['tid_'.$form_index]))){
+		$order_form = $default_order_form;
+		$order_form['tid_code'] = get_from_post($form_index, 'tid');
+		$order_form['uids'] = get_from_post($form_index, 'uids');
+		$order_form['genre_code'] = get_from_post($form_index, 'genre');
+		$order_form['title'] = get_from_post($form_index, 'title');
+		$order_form['date'] = get_from_post($form_index, 'date');
+		$order_form['volume'] = get_from_post($form_index, 'volume');
+		$order_form['issue'] = get_from_post($form_index, 'issue');
+		$order_form['suppl'] = get_from_post($form_index, 'suppl');
+		$order_form['pages'] = get_from_post($form_index, 'pages');
+		$order_form['atitle'] = get_from_post($form_index, 'atitle');
+		$order_form['auteurs'] = get_from_post($form_index, 'auteurs');
+		$order_form['edition'] = get_from_post($form_index, 'edition');
+		$order_form['issn'] = get_from_post($form_index, 'issn');
+		$order_form['uid'] = get_from_post($form_index, 'uid');
+		$order_form['remarquespub'] = get_from_post($form_index, 'remarquespub');
+		array_push($order_form_values, $order_form);
+		$form_index += 1;
+	}
+}
+
+if (!empty($_FILES['order_file']) && 
+	 ((isset($_SERVER['CONTENT_LENGTH']) && (int) $_SERVER['CONTENT_LENGTH'] > (1024*1024*(int) ini_get('post_max_size'))) ||
+	     $_FILES['order_file']['error'] === UPLOAD_ERR_INI_SIZE)) {
+        // The uploaded file was too large
+		array_push($uploaded_orders_messages, get_message_box(sprintf(__("The uploaded file is too large (limit: %s MB). It has been ignored."), round(min(parse_size_str(ini_get('upload_max_filesize')), parse_size_str(ini_get('post_max_size'))) / (1024*1024), 0, PHP_ROUND_HALF_DOWN)), 'danger', __("Error:")));
+}
 if (!empty($_FILES['order_file']) && $_FILES['order_file']['size'] > 0 && is_privileged_enough($monaut, $enableOrdersUploadForUser)) {
 	// load from file
+	// Remove the first order line if it is empty (it is the default empty form)
+	if (count($order_form_values) == 1 && $order_form_values[0]['title'] == "" && $order_form_values[0]['uids'] == "") {
+		$order_form_values = array();
+	}
 	require_once('includes/vendor/RefLib/reflib.php');
 	$lib = new RefLib();
 	$lib->SetContentsFile($_FILES['order_file']['tmp_name'], pathinfo($_FILES['order_file']['name'], PATHINFO_EXTENSION)); // rather use SetContents
-	$order_form_values = array();
 	foreach ($lib->refs as $ref_index => $ref) {
 		$order_form = $default_order_form;
 		if (!empty($ref['type'])) {
@@ -160,32 +195,11 @@ if (!empty($_FILES['order_file']) && $_FILES['order_file']['size'] > 0 && is_pri
 			break;
 		}
 	}
-} else if (isset($_POST['tid_0']) || isset($_GET['tid_0'])) {
-	// load from $POST
-	$form_index = 0;
-	$order_form_values = array();
-	while ($form_index <= max($maxSimultaneousOrders, 1) && (isset($_POST['tid_'.$form_index]) || isset($_GET['tid_'.$form_index]))){
-		$order_form = $default_order_form;
-		$order_form['tid_code'] = get_from_post($form_index, 'tid');
-		$order_form['uids'] = get_from_post($form_index, 'uids');
-		$order_form['genre_code'] = get_from_post($form_index, 'genre');
-		$order_form['title'] = get_from_post($form_index, 'title');
-		$order_form['date'] = get_from_post($form_index, 'date');
-		$order_form['volume'] = get_from_post($form_index, 'volume');
-		$order_form['issue'] = get_from_post($form_index, 'issue');
-		$order_form['suppl'] = get_from_post($form_index, 'suppl');
-		$order_form['pages'] = get_from_post($form_index, 'pages');
-		$order_form['atitle'] = get_from_post($form_index, 'atitle');
-		$order_form['auteurs'] = get_from_post($form_index, 'auteurs');
-		$order_form['edition'] = get_from_post($form_index, 'edition');
-		$order_form['issn'] = get_from_post($form_index, 'issn');
-		$order_form['uid'] = get_from_post($form_index, 'uid');
-		$order_form['remarquespub'] = get_from_post($form_index, 'remarquespub');
-		array_push($order_form_values, $order_form);
-		$form_index += 1;
-	}
 }
-
+// Make sure we always display at least one line
+if (count($order_form_values) == 0) {
+	array_push($order_form_values, $default_order_form);
+}
 // Add one more line?
 if  (isset($_POST['add_form']) &&  $_POST['add_form'] == '1' && (count($order_form_values) <= max($maxSimultaneousOrders, 1))){
 	array_push($order_form_values, $default_order_form);
@@ -594,7 +608,7 @@ if (count($order_form_values) > 1) {
 foreach ($uploaded_orders_messages as $uploaded_orders_message) {
 	echo $uploaded_orders_message;
 }
-if (is_privileged_enough($monaut, $enableOrdersUploadForUser)) {
+if (is_privileged_enough($monaut, $enableOrdersUploadForUser) && count($order_form_values) < max($maxSimultaneousOrders, 1)) {
 	echo '<div class="fileUploadPanel">';
 	//echo format_string(__('Fill in your order or %x_url_startupload a file with references%x_url_end:'), array('x_url_start' => '<a href="#" onclick="var fileUploadPanelContent = document.getElementById(\'fileUploadPanelContent\'); if(fileUploadPanelContent.style.display==\'none\'){fileUploadPanelContent.style.display=\'block\';}else{fileUploadPanelContent.style.display=\'none\';}">', 'x_url_end' => '</a>')) . " </p>";
 	echo format_string(__('Fill in your order or %x_url_startupload a file with references%x_url_end:'), array('x_url_start' => '<a style="cursor: pointer;" onclick="document.getElementById(\'order_file\').click();">', 'x_url_end' => '</a>'));

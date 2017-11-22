@@ -364,4 +364,27 @@ function parse_size_str($size_str) {
         default: return (is_numeric($size_str) ? (int)$size_str : $size_str);
     }
 }
+
+function get_message_box($message, $message_type='success', $title=null, $escape_for_html=true) {
+	/*
+	Return an HTML warning/error box
+	
+	Parameters:
+	- $message (string): the message to be displayed.
+	- $message (string): the (optional) title of the alert.
+	- $escape_for_html (boolean): if true message content for HTML
+	- $message_type (string): one of 'success', 'warning', 'info', 'danger'
+	*/
+	$output = '<div class="alert alert-'.$message_type.'" role="alert">';
+	if (!empty($title)){
+		$output .= '<strong>' . htmlspecialchars($title) . '</strong>&nbsp;';
+	}
+	if ($escape_for_html){
+		$output .= htmlspecialchars($message);
+	} else {
+		$output .= $message;
+	}
+	$output .= '</div>';
+	return $output;
+}
 ?>

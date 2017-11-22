@@ -49,6 +49,8 @@ $default_order_form = array('tid_code' => "",
 							'remarquespub' => "");
 $order_form_values = array($default_order_form);
 
+$uploaded_orders_messages = array(); // array of messages (error_level, msg, title) related to display to the user
+
 function get_from_post($form_index, $key) {
 	if (isset($_POST[$key.'_'.$form_index])) {
 		return $_POST[$key.'_'.$form_index];
@@ -154,6 +156,7 @@ if (!empty($_FILES['order_file']) && $_FILES['order_file']['size'] > 0 && is_pri
 		$order_form['remarquespub'] = !empty($ref['notes']) ? $ref['notes'] : '';
 		array_push($order_form_values, $order_form);
 		if (count($order_form_values) >= max($maxSimultaneousOrders, 1)) {
+			array_push($uploaded_orders_messages, get_message_box(sprintf(__("The maximum number of simultaneous orders (%d) has been reached. Remaining references have been ignored."), $maxSimultaneousOrders), 'warning', __("Warning")));
 			break;
 		}
 	}
@@ -189,7 +192,6 @@ if  (isset($_POST['add_form']) &&  $_POST['add_form'] == '1' && (count($order_fo
 }
 // remove a line?
 if  (isset($_POST['remove_form']) && is_numeric($_POST['remove_form']) && intval($_POST['remove_form']) >= 0 && count($order_form_values) > 1){
-	echo "Removing " . $_POST['remove_form'];
 	array_splice($order_form_values, intval($_POST['remove_form']), 1);
 }
 
@@ -587,6 +589,10 @@ function get_document_form($lookupuid, $doctypesmessage, $doctypes,  $periodical
 $can_remove_orders = false;
 if (count($order_form_values) > 1) {
 	$can_remove_orders = true;
+	echo '<input type="hidden" name="remove_form" value=""/>';
+}
+foreach ($uploaded_orders_messages as $uploaded_orders_message) {
+	echo $uploaded_orders_message;
 }
 if (is_privileged_enough($monaut, $enableOrdersUploadForUser)) {
 	echo '<div class="fileUploadPanel">';
@@ -612,7 +618,7 @@ foreach ($order_form_values as $form_index => $value) {
 	echo get_document_form($lookupuid, !empty($doctypesmessage) ? $doctypesmessage : "", $doctypes, $periodical_title_search_url, $can_remove_orders, $form_index, $value['tid_code'], $value['uids'], $value['genre_code'], $value['title'], $value['date'], $value['volume'], $value['issue'], $value['suppl'], $value['pages'], $value['atitle'], $value['auteurs'], $value['edition'], $value['issn'], $value['uid'], $value['remarquespub']);
 }
 if (count($order_form_values) < max($maxSimultaneousOrders, 1))  {
-	echo '<div class="addItemPanel"><input type="hidden" name="add_form" value="0"/><input type="hidden" name="remove_form" value=""/><a style="cursor:pointer" onclick="form=document.getElementById(\'orderform\');form.add_form.value=1;form.action=\'index.php#order_nb_'.count($order_form_values).'\';form.submit();">'.__("Add an item to the order").'</a></div>';
+	echo '<div class="addItemPanel"><input type="hidden" name="add_form" value="0"/><a style="cursor:pointer" onclick="form=document.getElementById(\'orderform\');form.add_form.value=1;form.action=\'index.php#order_nb_'.count($order_form_values).'\';form.submit();">'.__("Add an item to the order").'</a></div>';
 }
 echo '<div class="box-submit-buttons">';
 echo "<input type=\"submit\" value=\"" . __("Send order") . "\" onsubmit=\"javascript:okcooc();document.body.style.cursor = 'wait';\">&nbsp;&nbsp;\n";

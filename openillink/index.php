@@ -218,7 +218,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     echo "}\n";
     echo "}\n";
     echo "</script>\n";
-    echo "<form action=\"new.php\" method=\"POST\" enctype=\"x-www-form-encoded\" id=\"orderform\" name=\"commande\" onsubmit=\"javascript:okcooc()\">\n";
+    echo "<form action=\"new.php\" method=\"POST\" enctype=\"multipart/form-data\" id=\"orderform\" name=\"commande\" onsubmit=\"javascript:okcooc()\">\n";
     // START Management Fields
     echo "<input name=\"table\" type=\"hidden\"  value=\"orders\">\n";
     echo "<input name=\"userid\" type=\"hidden\"  value=\"".htmlspecialchars($monnom)."\">\n";

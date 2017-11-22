@@ -134,10 +134,10 @@ if (!empty($_FILES['order_file']) && $_FILES['order_file']['size'] > 0 && is_pri
 	require_once('includes/vendor/RefLib/reflib.php');
 	$lib = new RefLib();
 	$lib->SetContentsFile($_FILES['order_file']['tmp_name'], pathinfo($_FILES['order_file']['name'], PATHINFO_EXTENSION)); // rather use SetContents
-	foreach ($lib->refs as $ref_index => $ref) {
+	foreach ($lib->refs as $ref_index => $reference) {
 		$order_form = $default_order_form;
-		if (!empty($ref['type'])) {
-			switch ($ref['type']) {
+		if (!empty($reference['type'])) {
+			switch ($reference['type']) {
 				case 'Electronic Article':
 					$order_form['genre_code'] = 'article';
 					break;
@@ -169,26 +169,26 @@ if (!empty($_FILES['order_file']) && $_FILES['order_file']['size'] > 0 && is_pri
 					$order_form['genre_code'] = '';
 			}
 		}
-		$order_form['title'] = !empty($ref['periodical-title']) ? $ref['periodical-title'] : (!empty($ref['title-secondary']) ? $ref['title-secondary'] : '');
-		$order_form['date'] = !empty($ref['year']) ? $ref['year'] : (!empty($ref['date']) ? date('Y', $ref['date']) : '');
-		$order_form['volume'] = !empty($ref['volume']) ? $ref['volume'] : '';
-		$order_form['issue'] = !empty($ref['number']) ? $ref['number'] : '';
-		$order_form['suppl'] = !empty($ref['']) ? $ref[''] : '';
-		$order_form['pages'] = !empty($ref['pages']) ? $ref['pages'] : '';
-		$order_form['atitle'] = !empty($ref['title']) ? $ref['title'] : '';
-		$order_form['auteurs'] = !empty($ref['authors']) ? implode(", ", $ref['authors']) : '';
-		$order_form['edition'] = !empty($ref['']) ? $ref[''] : '';
-		$order_form['issn'] = !empty($ref['isbn']) ? $ref['isbn'] : '';
-		if (!empty($ref['accession-num'])) {
+		$order_form['title'] = !empty($reference['periodical-title']) ? $reference['periodical-title'] : (!empty($reference['title-secondary']) ? $reference['title-secondary'] : '');
+		$order_form['date'] = !empty($reference['year']) ? $reference['year'] : (!empty($reference['date']) ? date('Y', $reference['date']) : '');
+		$order_form['volume'] = !empty($reference['volume']) ? $reference['volume'] : '';
+		$order_form['issue'] = !empty($reference['number']) ? $reference['number'] : '';
+		$order_form['suppl'] = !empty($reference['']) ? $reference[''] : '';
+		$order_form['pages'] = !empty($reference['pages']) ? $reference['pages'] : '';
+		$order_form['atitle'] = !empty($reference['title']) ? $reference['title'] : '';
+		$order_form['auteurs'] = !empty($reference['authors']) ? implode(", ", $reference['authors']) : '';
+		$order_form['edition'] = !empty($reference['']) ? $reference[''] : '';
+		$order_form['issn'] = !empty($reference['isbn']) ? $reference['isbn'] : '';
+		if (!empty($reference['accession-num'])) {
 			$order_form['tid_code'] = 'pmid';
-			$order_form['uids'] = $ref['accession-num'];
-			$order_form['uid'] = 'pmid:' . $ref['accession-num'];
-		} else if (!empty($ref['doi'])) {
+			$order_form['uids'] = $reference['accession-num'];
+			$order_form['uid'] = 'pmid:' . $reference['accession-num'];
+		} else if (!empty($reference['doi'])) {
 			$order_form['tid_code'] = 'doi';
-			$order_form['uids'] = $ref['doi'];
-			$order_form['uid'] = 'doi:' . $ref['doi'];
+			$order_form['uids'] = $reference['doi'];
+			$order_form['uid'] = 'doi:' . $reference['doi'];
 		}
-		$order_form['remarquespub'] = !empty($ref['notes']) ? $ref['notes'] : '';
+		$order_form['remarquespub'] = !empty($reference['notes']) ? $reference['notes'] : '';
 		array_push($order_form_values, $order_form);
 		if (count($order_form_values) >= max($maxSimultaneousOrders, 1)) {
 			array_push($uploaded_orders_messages, get_message_box(sprintf(__("The maximum number of simultaneous orders (%d) has been reached. Remaining references have been ignored."), $maxSimultaneousOrders), 'warning', __("Warning")));

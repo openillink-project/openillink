@@ -120,7 +120,7 @@ $default_order_form = array('tid_code' => "",
 							"eissn" => "");
 $form_index = 0;
 $order_form_values = array();
-while ($form_index < 1000 && get_from_post($form_index, 'tid', 4, 's', false, $validTidSet, '') != ""){
+while ($form_index <= max($maxSimultaneousOrders, 1) && get_from_post($form_index, 'tid', 4, 's', false, $validTidSet, '') != ""){
 		$order_form = $default_order_form;
 		$validTidSet = array('pmid','doi');
 
@@ -325,7 +325,10 @@ if ($mes){
 else{
     // No errors, searching duplicates
     // Recherche de doublons par PMID ou par volume année et pages
+	$order_form_values_count = count($order_form_values);
+	$order_index = 0;
 	foreach($order_form_values as $order_form) {
+		$order_index += 1;
 		$pages_array = preg_split("/[\s,-]+/", $order_form['pages']);
 		$start_page = reset($pages_array); // Retrieve first value, in a php < 5.4 compatible manner
 		$start_page_regexp = '^' . preg_quote($start_page) . '([^0-9]|$)';
@@ -364,6 +367,13 @@ else{
 			}
 		}
 		// fin de la recherche des doublons
+		/* Label multiple orders */
+		if ($order_form_values_count > 1) {
+			if ($order_form['remarques']) {
+				$order_form['remarques'] .= "\r\n";
+			}
+			$order_form['remarques'] .= sprintf(__("Multiple orders (%d/%d)"), $order_index, $order_form_values_count);
+		}
 		// START save record
 		if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
 			$query ="INSERT INTO `orders` (`illinkid`, `stade`, `localisation`, `date`, `envoye`, `facture`, `renouveler`, `prix`, `prepaye`, `ref`, `arrivee`, `nom`, `prenom`, `service`, `cgra`, `cgrb`, `mail`, `tel`, `adresse`, `code_postal`, `localite`, `type_doc`, `urgent`, `envoi_par`, `titre_periodique`, `annee`, `volume`, `numero`, `supplement`, `pages`, `titre_article`, `auteurs`, `edition`, `isbn`, `issn`, `eissn`, `doi`, `uid`, `remarques`, `remarquespub`, `historique`, `saisie_par`, `bibliotheque`, `refinterbib`, `PMID`, `ip`, `referer`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

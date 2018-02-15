@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenILLink\n"
-"POT-Creation-Date: 2017-11-22 12:46+0100\n"
-"PO-Revision-Date: 2017-11-22 12:46+0100\n"
+"POT-Creation-Date: 2018-02-15 15:33+0100\n"
+"PO-Revision-Date: 2018-02-15 15:33+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -269,7 +269,7 @@ msgid "filters found"
 msgstr ""
 
 #: includes/folders_list.php:61 includes/folders_new.php:50
-#: includes/orders_new.php:422 includes/orders_update.php:222
+#: includes/orders_new.php:432 includes/orders_update.php:222
 #: includes/ordertop.php:89
 msgid "Title"
 msgstr ""
@@ -876,7 +876,7 @@ msgstr ""
 
 #: includes/links_list.php:60 includes/links_new.php:47
 #: includes/orders_edit.php:295 includes/orders_edit_backup.php:295
-#: includes/orders_edit_old.php:295 includes/orders_new.php:400
+#: includes/orders_edit_old.php:295 includes/orders_new.php:410
 #: includes/orders_update.php:201 includes/users_edit.php:98
 #: includes/users_new.php:47 index.php:413
 msgid "Name"
@@ -902,7 +902,7 @@ msgstr ""
 msgid "Journal title"
 msgstr ""
 
-#: includes/links_list.php:110 includes/orders_new.php:432
+#: includes/links_list.php:110 includes/orders_new.php:442
 #: includes/orders_update.php:232
 msgid "Book title"
 msgstr ""
@@ -1099,12 +1099,12 @@ msgstr ""
 msgid "Search for commands from this email"
 msgstr ""
 
-#: includes/orders_detail.php:158 includes/orders_new.php:415
+#: includes/orders_detail.php:158 includes/orders_new.php:425
 #: includes/orders_update.php:216 includes/ordertop.php:78
 msgid "Address"
 msgstr ""
 
-#: includes/orders_detail.php:164 includes/orders_new.php:407
+#: includes/orders_detail.php:164 includes/orders_new.php:417
 #: includes/orders_update.php:208 includes/ordertop.php:80
 #: includes/searchform.php:81
 msgid "Service"
@@ -1130,12 +1130,12 @@ msgid "Author(s)"
 msgstr ""
 
 #: includes/orders_detail.php:175 includes/orders_detail.php:177
-#: includes/orders_new.php:430 includes/orders_update.php:230
+#: includes/orders_new.php:440 includes/orders_update.php:230
 #: includes/ordertop.php:94 includes/ordertop.php:96
 msgid "Journal"
 msgstr ""
 
-#: includes/orders_detail.php:191 includes/orders_new.php:440
+#: includes/orders_detail.php:191 includes/orders_new.php:450
 #: includes/orders_update.php:240 includes/ordertop.php:110
 msgid "Volume"
 msgstr ""
@@ -1146,20 +1146,20 @@ msgstr ""
 
 #: includes/orders_detail.php:195 includes/orders_edit.php:482
 #: includes/orders_edit_backup.php:482 includes/orders_edit_old.php:482
-#: includes/orders_new.php:448 includes/orders_update.php:248 index.php:563
+#: includes/orders_new.php:458 includes/orders_update.php:248 index.php:563
 msgid "Suppl."
 msgstr ""
 
 #: includes/orders_detail.php:197 includes/orders_edit.php:486
 #: includes/orders_edit_backup.php:486 includes/orders_edit_old.php:486
-#: includes/orders_new.php:452 includes/orders_update.php:252
+#: includes/orders_new.php:462 includes/orders_update.php:252
 #: includes/ordertop.php:114 index.php:567
 msgid "Pages"
 msgstr ""
 
 #: includes/orders_detail.php:199 includes/orders_edit.php:470
 #: includes/orders_edit_backup.php:470 includes/orders_edit_old.php:470
-#: includes/orders_new.php:436 includes/orders_update.php:236
+#: includes/orders_new.php:446 includes/orders_update.php:236
 #: includes/ordertop.php:116 index.php:551
 msgid "Year"
 msgstr ""
@@ -1224,12 +1224,12 @@ msgstr ""
 msgid "Guest access code"
 msgstr ""
 
-#: includes/orders_detail.php:246 includes/orders_new.php:490
+#: includes/orders_detail.php:246 includes/orders_new.php:500
 #: includes/orders_update.php:284
 msgid "Public comment"
 msgstr ""
 
-#: includes/orders_detail.php:248 includes/orders_new.php:485
+#: includes/orders_detail.php:248 includes/orders_new.php:495
 #: includes/orders_update.php:280
 msgid "Professional comment"
 msgstr ""
@@ -1360,14 +1360,14 @@ msgid "Budget subheading"
 msgstr ""
 
 #: includes/orders_edit.php:363 includes/orders_edit_backup.php:363
-#: includes/orders_edit_old.php:363 includes/orders_new.php:403
+#: includes/orders_edit_old.php:363 includes/orders_new.php:413
 #: includes/orders_update.php:204 includes/users_edit.php:100
 #: includes/users_list.php:59 includes/users_new.php:48 index.php:472
 msgid "E-Mail"
 msgstr ""
 
 #: includes/orders_edit.php:366 includes/orders_edit_backup.php:366
-#: includes/orders_edit_old.php:366 includes/orders_new.php:411
+#: includes/orders_edit_old.php:366 includes/orders_new.php:421
 #: includes/orders_update.php:212 index.php:475
 msgid "Tel."
 msgstr ""
@@ -1486,35 +1486,40 @@ msgstr ""
 msgid "Back to entry form"
 msgstr ""
 
-#: includes/orders_new.php:358
+#: includes/orders_new.php:361
 msgid "Warning. Possible duplicate of the command."
 msgstr ""
 
-#: includes/orders_new.php:394
+#: includes/orders_new.php:375
+#, php-format
+msgid "Multiple orders (%d/%d)"
+msgstr ""
+
+#: includes/orders_new.php:404
 msgid "Your order has been successfully registered and will be processed soon"
 msgstr ""
 
-#: includes/orders_new.php:398 includes/orders_update.php:199
+#: includes/orders_new.php:408 includes/orders_update.php:199
 msgid "Order"
 msgstr ""
 
-#: includes/orders_new.php:419 includes/orders_update.php:219
+#: includes/orders_new.php:429 includes/orders_update.php:219
 msgid "Document"
 msgstr ""
 
-#: includes/orders_new.php:426 includes/orders_update.php:226
+#: includes/orders_new.php:436 includes/orders_update.php:226
 msgid "Authors"
 msgstr ""
 
-#: includes/orders_new.php:444 includes/orders_update.php:244
+#: includes/orders_new.php:454 includes/orders_update.php:244
 msgid "Number"
 msgstr ""
 
-#: includes/orders_new.php:456 includes/orders_update.php:256
+#: includes/orders_new.php:466 includes/orders_update.php:256
 msgid "Edition"
 msgstr ""
 
-#: includes/orders_new.php:496
+#: includes/orders_new.php:506
 msgid "Fill in a new order"
 msgstr ""
 

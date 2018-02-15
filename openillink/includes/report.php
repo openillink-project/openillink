@@ -126,9 +126,9 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 	  // NB : refinterbib[1,3] = organisation, service, numerus currens 
 	  $req = "select orders.* ".
 	  " from orders where".
-	  " envoye between ? and ?".
-	  " order by envoye DESC";
-	  $result2 = dbquery($req,array($datedu, $dateau), 'ss') or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error()." ".$req);
+	  " (envoye between ? and ?) or ( date between ? and ? )".
+	  " order by date, envoye DESC";
+	  $result2 = dbquery($req,array($datedu, $dateau, $datedu, $dateau), 'ssss') or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error()." ".$req);
 	  $total_results = iimysqli_num_rows($result2);
 
 	  for ($i=0 ; $i<$total_results ; $i++) { 

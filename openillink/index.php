@@ -183,9 +183,15 @@ if (!empty($_FILES['order_file']) && $_FILES['order_file']['size'] > 0 && is_pri
 		$order_form['edition'] = !empty($reference['']) ? $reference[''] : '';
 		$order_form['issn'] = !empty($reference['isbn']) ? $reference['isbn'] : '';
 		if (!empty($reference['accession-num'])) {
-			$order_form['tid_code'] = 'pmid';
-			$order_form['uids'] = $reference['accession-num'];
-			$order_form['uid'] = 'pmid:' . $reference['accession-num'];
+			if (substr(strtolower($reference['accession-num']), 0, 4) == "wos:") {
+				$order_form['tid_code'] = 'wosid';
+				$order_form['uids'] = substr($reference['accession-num'], 4);
+				$order_form['uid'] = 'WOSUT:' . substr($reference['accession-num'], 4);
+			} else {
+				$order_form['tid_code'] = 'pmid';
+				$order_form['uids'] = $reference['accession-num'];
+				$order_form['uid'] = 'pmid:' . $reference['accession-num'];
+			}
 		} else if (!empty($reference['doi'])) {
 			$order_form['tid_code'] = 'doi';
 			$order_form['uids'] = $reference['doi'];

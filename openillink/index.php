@@ -628,7 +628,8 @@ if (is_privileged_enough($monaut, $enableOrdersUploadForUser) && count($order_fo
 	echo '</li><li>'. htmlspecialchars(__('RIS'));
 	echo '</li><li>'. htmlspecialchars(__('MEDLINE/PubMed (.nbib files created via "Send to" → "Citation Manager")'));
 	echo '</ul>';
-	echo '(' . sprintf(__('Maximum file size: %s MB'), round(min(parse_size_str(ini_get('upload_max_filesize')), parse_size_str(ini_get('post_max_size'))) / (1024*1024), 0, PHP_ROUND_HALF_DOWN)) . ")";
+	echo sprintf(__('Maximum file size: %s MB'), round(min(parse_size_str(ini_get('upload_max_filesize')), parse_size_str(ini_get('post_max_size'))) / (1024*1024), 0, PHP_ROUND_HALF_DOWN)) . "<br/>";
+	echo sprintf(__('Maximum number of references: %s'), $maxSimultaneousOrders);
 	echo '</span></a>';
 	//echo '<input style="display:none;" type="file" id="order_file" name="order_file" onchange="if(this.value){document.getElementById(\'fileUploadPanelSubmitButton\').style.display=\'inline\';}else{document.getElementById(\'fileUploadPanelSubmitButton\').style.display=\'none\';};"/>';
 	echo '<input style="display:none;" type="file" id="order_file" name="order_file" onchange="form=document.getElementById(\'orderform\');form.action=\'index.php\';form.submit();" />';

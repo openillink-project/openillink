@@ -156,9 +156,13 @@ $lookupuid = array(
 $enableOrdersUploadForUser = "guest";
 
 // Maximum number of simultaneous orders that can be submitted at once.
+// Consider variable "max_input_vars" in your php.ini which limits how many
+// form elements can be submitted at once. Each OpenILLink order lines needs 
+// 17 variables, in addition to 39 default elements. To compute the maximum value 
+// you can set for $maxSimultaneousOrders = (max_input_vars - 39 ) / 17
 // See also file upload limitations defined in the `upload_max_filesize` and 
-// `post_max_size `  variables in the php.ini file on your server.
-$maxSimultaneousOrders = 999;
+// `post_max_size ` variables in the php.ini file on your server.
+$maxSimultaneousOrders = 50;
 
 // OpenURL parameters
 $openurlsid = "OpenILLink:DemoDB";

@@ -740,7 +740,11 @@ function handleHttpResponse5() {
                 atitle = result.return.records.title.value;
             }
             if(result.return.records.hasOwnProperty("doctype")){
-                    doctype = result.return.records.doctype.value.toLowerCase();
+                    doctype = result.return.records.doctype.value;
+                    if (Array.isArray(doctype)) {
+                        doctype = doctype.join("; ");
+                    }
+                    doctype = doctype.toLowerCase();
             }
             if (result.return.records.hasOwnProperty("authors")) {
                 console.log(typeof result.return.records.authors.value);

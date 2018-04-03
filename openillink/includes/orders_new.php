@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -218,11 +218,25 @@ $remarquespub=str_replace("</script>","",$remarquespub);
 $bibliotheque="";
 $localisation="";
 $validation = 0;
+$stade = NULL;
+$order_form_values_count = count($order_form_values);
 // retrieve default status for new orders
-$reqstatus="SELECT code FROM status WHERE status.special = ?";
-$resultstatus = dbquery($reqstatus,array('new'), 's');
-while ($rowstatus = iimysqli_result_fetch_array($resultstatus)){
-	$stade = $rowstatus["code"];
+// 1) If multiple orders, get status marked with "newmultiple"
+// 2) if single order (or not found for multiple), get status marked with "new"
+if ($order_form_values_count > 1) {
+	// Multiple orders: try to retrieve special initial status for new multiple orders
+	$reqstatus="SELECT code FROM status WHERE status.special = ?";
+	$resultstatus = dbquery($reqstatus,array('newmultiple'), 's');
+	while ($rowstatus = iimysqli_result_fetch_array($resultstatus)){
+		$stade = $rowstatus["code"];
+	}
+}
+if (is_null($stade)) {
+	$reqstatus="SELECT code FROM status WHERE status.special = ?";
+	$resultstatus = dbquery($reqstatus,array('new'), 's');
+	while ($rowstatus = iimysqli_result_fetch_array($resultstatus)){
+		$stade = $rowstatus["code"];
+	}
 }
 // retrieve default library, localization and validation constraint for given service
 if (!empty($service)){
@@ -325,7 +339,6 @@ if ($mes){
 else{
     // No errors, searching duplicates
     // Recherche de doublons par PMID ou par volume année et pages
-	$order_form_values_count = count($order_form_values);
 	$order_index = 0;
 	foreach($order_form_values as $order_form) {
 		$order_index += 1;

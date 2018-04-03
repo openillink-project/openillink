@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -172,13 +172,14 @@ if (!empty($_FILES['order_file']) && $_FILES['order_file']['size'] > 0 && is_pri
 					$order_form['genre_code'] = '';
 			}
 		}
-		$order_form['title'] = !empty($reference['periodical-title']) ? $reference['periodical-title'] : (!empty($reference['title-secondary']) ? $reference['title-secondary'] : '');
+		$order_form['title'] = !empty($reference['periodical-title']) ? $reference['periodical-title'] : (!empty($reference['title-secondary']) ? $reference['title-secondary'] : (!empty($reference['title']) ? $reference['title'] : ''));
 		$order_form['date'] = !empty($reference['year']) ? $reference['year'] : (!empty($reference['date']) ? date('Y', $reference['date']) : '');
 		$order_form['volume'] = !empty($reference['volume']) ? $reference['volume'] : '';
 		$order_form['issue'] = !empty($reference['number']) ? $reference['number'] : '';
 		$order_form['suppl'] = !empty($reference['']) ? $reference[''] : '';
 		$order_form['pages'] = !empty($reference['pages']) ? $reference['pages'] : '';
-		$order_form['atitle'] = !empty($reference['title']) ? $reference['title'] : '';
+		// Article title is moved to Periodical title if periodical title is not known
+		$order_form['atitle'] = (!empty($reference['title']) && $order_form['title'] != $reference['title']) ? $reference['title'] : '';
 		$order_form['auteurs'] = !empty($reference['authors']) ? implode(", ", $reference['authors']) : '';
 		$order_form['edition'] = !empty($reference['']) ? $reference[''] : '';
 		$order_form['issn'] = !empty($reference['isbn']) ? $reference['isbn'] : '';

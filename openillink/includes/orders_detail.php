@@ -207,7 +207,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "\n<br /><b>PMID : </b><a href=\"https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?otool=ichuvlib&cmd=Retrieve&db=pubmed&dopt=citation&list_uids=".htmlspecialchars(urlencode ($enreg['PMID']))."\" target=\"_blank\">".htmlspecialchars($enreg['PMID'])."</a>\n";
             if ($enreg['uid']){
 				if (substr($enreg['uid'], 0, 4) === "MMS:" && $configMMSdiscoveryurl[$lang] != "") {
-					echo '\n<br /><b>'. __("Other identifier") .' : </b><a target="_blank" href="' . str_replace("{MMS_ID}", htmlspecialchars(urlencode(substr($enreg['uid'], 4))), $configMMSdiscoveryurl[$lang]). '">' . htmlspecialchars($enreg['uid']) . '</a>';
+					echo "\n<br /><b>". __("Other identifier") .' : </b><a target="_blank" href="' . str_replace("{MMS_ID}", htmlspecialchars(urlencode(substr($enreg['uid'], 4))), $configMMSdiscoveryurl[$lang]). '">' . htmlspecialchars($enreg['uid']) . '</a>';
 				} else {
 					echo "\n<br /><b>". __("Other identifier") ." : </b>".htmlspecialchars($enreg['uid']);
 				}

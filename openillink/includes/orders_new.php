@@ -149,7 +149,7 @@ while ($form_index <= max($maxSimultaneousOrders, 1) && get_from_post($form_inde
 		$order_form['remarquespub'] = get_from_post($form_index, 'remarquespub', 4000, 's', false);
 		
 		if (!empty($order_form['issn'])){
-			if (($order_form['genre_code']=='book')||($order_form['genre_code']=='bookitem')||($order_form['genre_code']=='proceeding')||($order_form['genre_code']='conference')){
+			if (($order_form['genre_code']=='book')||($order_form['genre_code']=='bookitem')||($order_form['genre_code']=='proceeding')||($order_form['genre_code']=='conference')){
 				$order_form['isbn']=$order_form['issn'];
 				$order_form['issn']=''; // TODO MDV, replaces previous set, verify if it's ok
 			}

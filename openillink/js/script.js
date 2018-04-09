@@ -1542,6 +1542,7 @@ function remplirauto() {
 
     // Attribution des valeurs recuperes de la requête dans les champs du formulaire
     if (location.search) {
+        var item_index = 0;
         document.commande["uid_"+item_index].value = get_url_parameter("id", "", "rft.");
         document.commande["title_"+item_index].value = get_url_parameter("title", "", "rft.");
         if (get_url_parameter("jtitle", "", "rft."))
@@ -1598,7 +1599,7 @@ function remplirauto() {
 			// PubMed Linkout / Outside Tool: https://www.ncbi.nlm.nih.gov/books/NBK3803/
             document.commande["uids_"+item_index].value = get_url_parameter("id").substr(5);
 			document.commande["tid_"+item_index].value = "pmid";
-			lookupid();
+			lookupid(item_index);
 		}
     }
 }

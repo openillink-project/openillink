@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenILLink\n"
 "POT-Creation-Date: 2018-04-03 11:15+0200\n"
-"PO-Revision-Date: 2018-04-03 11:16+0200\n"
+"PO-Revision-Date: 2018-04-26 08:34+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -793,7 +793,7 @@ msgstr "Recherche par ISSN"
 
 #: includes/links.php:131
 msgid "Search by journal title"
-msgstr "Search by journal title"
+msgstr "Recherche par titre de journal"
 
 #: includes/links.php:165
 msgid "Search by ISBN"
@@ -801,7 +801,7 @@ msgstr "Recherche par ISBN"
 
 #: includes/links.php:194
 msgid "Search by book title"
-msgstr "Search by book title"
+msgstr "Recherche par titre de livre"
 
 #: includes/links.php:221
 msgid "Processing the order"

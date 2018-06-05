@@ -133,14 +133,18 @@ $link = dbconnect();
 	//   - Display orders in status 'IN' and those in 'renew' (if expired) only if orders belong to current library or are localized, or (when no localization) in service for current library.
 	//   - Also display orders which are rejected for current library
 	//   - Also display order from shared/partners libraries if these orders are not localized and are new
-	$conditionsParDefauts = " WHERE (".
+	$conditionsParDefauts = " WHERE ((".
 	"(orders.stade IN ($listIn) OR (orders.stade IN (".$listSpecial['renew'].") AND orders.renouveler <= '".mysqli_real_escape_string($link, $madatej)."')) AND ".
 	"((orders.bibliotheque = '". mysqli_real_escape_string($link, $monbib)."' $additionalLocCond) $locCond $servCond )) ".
-	"OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '".mysqli_real_escape_string($link, $monbib)."') $orphanOrdersCond";
+	"OR (orders.stade IN (".$listSpecial['reject'].") AND orders.bibliotheque = '".mysqli_real_escape_string($link, $monbib)."') $orphanOrdersCond )";
 	switch ($folder){
 		case 'in':
 			// Apply "default" conditions
 			$conditions = $conditionsParDefauts;
+			// Also apply further configured constraints if available
+			if (isset($configINFolderCustomConstraints) && array_key_exists($monbib, $configINFolderCustomConstraints)) {
+				$conditions .= " " . $configINFolderCustomConstraints[$monbib];
+			}
 			break;
 		case 'out':
 			// Display orders in status for 'out' folder for current library (if localized or (when no localization) in service for current library).

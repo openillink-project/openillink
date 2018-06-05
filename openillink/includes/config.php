@@ -120,6 +120,17 @@ $displayResendLink = true;
 // - 1: display only orders attriburted to library when no localization or own localization
 $displayAttributedOrderMode = 1;
 
+// Custom SQL constraints to apply to "IN" folder for each specified library.
+// This configuration is added at the end of the default SQL constraints that
+// defines the content of the "IN" folder. The configuration must therefore be
+// a valid SQL instruction that starts with "OR" or "AND".
+// The variable is an array indexed by the code of your library, such that it
+// can be customized per library.
+// For example:
+//     $configINFolderCustomConstraints = array('BiUM' => "AND mail like '%@chuv.ch'");
+// This is an advanced configuration option that must be carefully thought.
+$configINFolderCustomConstraints = array();
+
 // Display "Ref. internal to the library" field on order form if true
 $displayFormInternalRefField = true;
 

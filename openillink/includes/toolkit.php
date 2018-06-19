@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -275,7 +275,7 @@ function readStatus(&$codeIn = NULL, &$codeOut = NULL, &$codeTrash = NULL, &$cod
 function boxContent($class, $title, $mainTxt){
     $boxedContent = '<div class="box">'
     .'<div class="box-content '.$class.'">'
-    .'<h1>'.$title.'</h1>'
+    .'<h2 class="title is-5">'.$title.'</h1>'
     .$mainTxt
     .'</div>'
     .'</div>'

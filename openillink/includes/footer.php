@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -33,8 +33,9 @@ echo '
 	<footer class="footer">
 		<div class="container">
 			<div class="content has-text-centered">
-				<p><strong>'. __("Powered by") . " <a href=\"https://github.com/openillink-project\" target=\"_blank\">OpenILLink</a><br />" .'</strong> &copy; <a href="https://www.bium.ch" target="_blank">BiUM</a>/<a href="http://www.chuv.ch">CHUV</a> Lausanne, <a href="http://www.unige.ch/medecine/bibliotheque/" target="_blank">BFM</a>, <a href="http://www.unige.ch" target="_blank">UNIGE</a> Genève</p>
-				<p>'.$configteam[$lang].'. The source code is licensed under <a href="https://opensource.org/licenses/gpl-3.0.html">GPL v3</a></p>
+				<p>'.$configteam[$lang].'</p>
+				<p><strong>'. __("Powered by") . " <a href=\"https://github.com/openillink-project\" target=\"_blank\">OpenILLink</a><br />" .'</strong> &copy; <a href="https://www.bium.ch" target="_blank">BiUM</a>/<a href="https://www.chuv.ch">CHUV</a>, <a href="https://www.unige.ch/biblio/fr/infos/sites/cmu/" target="_blank">BFM</a>/<a href="https://www.unige.ch" target="_blank">UNIGE</a></p>
+				<p>The source code is licensed under <a href="https://opensource.org/licenses/gpl-3.0.html">GPL v3</a></p>
 			</div>
 		</div>
 	</footer>

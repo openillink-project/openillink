@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -39,12 +39,19 @@ if (!empty($_COOKIE['illinkid'])){
         if ($id!=""){
             $req = "SELECT * FROM libraries WHERE id = ?";
             $myhtmltitle = format_string(__("%institution_name orders: Librairies management : Edition of the library %id_library"), array('id_library' => htmlspecialchars($id), 'institution_name' => $configinstitution[$lang]));
-            $montitle = format_string(__("Librairies management : edition of card %id_card"), array('id_card' => htmlspecialchars($id)));
+            $montitle = format_string(__("Librairies management : edition of record %id_record"), array('id_record' => htmlspecialchars($id)));
             require ("headeradmin.php");
+			echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+    <li><a href="list.php?table=libraries" aria-current="page">'.__("Managing network libraries").'</a></li>
+	<li class="is-active"><a href="edit.php?table=libraries" aria-current="page">'.format_string(__("Edit library %id_record"), array('id_record' => htmlspecialchars($id))).'</a></li>
+  </ul>
+</nav>';
             $result = dbquery($req, array($id), 's');
             $nb = iimysqli_num_rows($result);
             if ($nb == 1){
-                echo "<h1>" . $montitle . "</h1>\n";
+                echo "<h1 class=\"title\">" . $montitle . "</h1>\n";
                 echo "<br /></b>";
                 echo "<ul>\n";
                 $enreg = iimysqli_result_fetch_array($result);
@@ -62,10 +69,10 @@ if (!empty($_COOKIE['illinkid'])){
                 echo "<input name=\"table\" type=\"hidden\" value=\"libraries\">\n";
                 echo "<input name=\"id\" type=\"hidden\" value=\"".$libid."\">\n";
                 echo "<input name=\"action\" type=\"hidden\" value=\"update\">\n";
-                echo "<table id=\"hor-zebra\">\n";
-                echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save the changes")."\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=libraries'\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=libraries&id=" . htmlspecialchars($libid) . "'\"></td></tr>\n";
+                echo "<table class=\"table is-striped\" id=\"hor-zebra\">\n";
+                echo "<tr><td></td><td><div class=\"field is-grouped\"><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save changes")."\">\n";
+                echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=libraries'\">\n";
+                echo "&nbsp;&nbsp;<input class=\"button is-danger\" type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=libraries&id=" . htmlspecialchars($libid) . "'\"></div></td></tr>\n";
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
                 echo "<tr><td><b>".__("Code")." *</b></td><td>\n";
                 echo "<input name=\"code\" type=\"text\" size=\"30\" value=\"" . htmlspecialchars($libcode) . "\"></td></tr>\n";
@@ -89,16 +96,16 @@ if (!empty($_COOKIE['illinkid'])){
 				echo '<textarea id="signature" name="signature" rows="5" cols="80">'. htmlspecialchars($signature) . '</textarea>';
 				echo '</td></tr>';
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-                echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save the changes")."\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=libraries'\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=libraries&id=" . htmlspecialchars($libid) . "'\"></td></tr>\n";
+                echo "<tr><td></td><td><div class=\"field is-grouped\"><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save changes")."\">\n";
+                echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=libraries'\">\n";
+                echo "&nbsp;&nbsp;<input class=\"button is-danger\" type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=libraries&id=" . htmlspecialchars($libid) . "'\"></div></td></tr>\n";
                 echo "</table>\n";
                 echo "</form><br /><br />\n";
                 require ("footer.php");
             }
             else{
                 echo "<center><br/><b><font color=\"red\">\n";
-                echo format_string(__("The card %id_card was not found in the database."), array('id_card' => htmlspecialchars($id)))."</b></font>\n";
+                echo format_string(__("The record %id_record was not found in the database."), array('id_record' => htmlspecialchars($id)))."</b></font>\n";
                 echo "<br /><br /><b>".__("Please restart your search or contact the database administrator")." : " . $configemail . "</b></center><br /><br /><br /><br />\n";
                 require ("footer.php");
             }
@@ -107,7 +114,7 @@ if (!empty($_COOKIE['illinkid'])){
             require ("header.php");
             //require ("menurech.php");
             echo "<center><br/><b><font color=\"red\">\n";
-            echo __("The card %id_card was not found in the database.")."</b></font>\n";
+            echo __("The record %id_record was not found in the database.")."</b></font>\n";
             echo "<br /><br /><b>".__("Please restart your search or contact the database administrator")." : " . $configemail . "</b></center><br /><br /><br /><br />\n";
             echo "<br /><br />\n";
             echo "</ul>\n";
@@ -118,7 +125,7 @@ if (!empty($_COOKIE['illinkid'])){
     else{
         require ("header.php");
         echo "<center><br/><b><font color=\"red\">\n";
-        echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
+        echo __("Your rights are insufficient to edit this record")."</b></font></center><br /><br /><br /><br />\n";
         require ("footer.php");
     }
 }

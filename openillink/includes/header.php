@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -52,16 +52,19 @@ echo "\n";
 echo '<link rel="home" href="'.$siteUrl.'" />' ;
 
 echo '
-<link rel="stylesheet" href="'.$siteUrl.'/css/bulma.min.css">
-<link rel="stylesheet" href="'.$siteUrl.'/css/bulma-style.css">
-<link rel="stylesheet" href="'.$siteUrl.'/css/oi-style.css">
-<link rel="stylesheet" media="print" href="'.$siteUrl.'/css/print.css">
-<link rel="stylesheet" href="'.$siteUrl.'/css/awesome/css/font-awesome.min.css">'
+<link rel="stylesheet" href="'.$siteUrl.'/css/'. (isset($config_css_framework) ? $config_css_framework : 'openillink_bulma.css') .'">
+<link rel="stylesheet" href="'.$siteUrl.'/css/'. (isset($config_css_main) ? $config_css_main : 'openillink.css') .'">
+';
+
+if (isset($config_css_custom) && $config_css_custom != '') {
+	echo '<link rel="stylesheet" href="'.$siteUrl.'/css/'.$config_css_custom.'">';
+}
+
+echo '<link rel="stylesheet" href="'.$siteUrl.'/css/font-awesome/css/all.css">';
 
 echo '
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-<script type="text/javascript" src="'.$siteUrl.'/js/bulma.js"></script>
 <script type="text/javascript" src="'.$siteUrl.'/js/script.js"></script>
+<script type="text/javascript" src="'.$siteUrl.'/js/bulma.js"></script>
 ';
 
 echo "</head>\n";
@@ -75,18 +78,18 @@ echo '
 	<div class="container">
 		<div class="navbar-brand">
 			<a class="navbar-item" href="'.$siteUrl.'"><span class="title is-3">'.$sitetitle[$lang].'</span></a>
-			<div class="navbar-burger burger" data-target="navMenu">
+			<a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
 				<span></span>
 				<span></span>
 				<span></span>
-			</div>
+			</a>
 		</div>
 		
 		<div id="navMenu" class="navbar-menu">
 			<div class="navbar-start">
 			</div>
 			<div class="navbar-end">
-				<a class="navbar-item is-tab" href="' .$atozlinkurl[$lang]. '" title="' . $atozname[$lang] . '"><span class="icon"><i class="fa fa-compass"></i></span></a>
+				<a class="navbar-item is-tab" href="' .$atozlinkurl[$lang]. '" title="' . $atozname[$lang] . '"><span class="icon"><i class="fa fa-compass fa-lg"></i></span></a>
 				<div class="navbar-item has-dropdown is-hoverable">
 					<a class="navbar-link">'.strtoupper($lang).'</a>
 					<div class="navbar-dropdown">
@@ -97,8 +100,8 @@ echo '
 						<a class="navbar-item" href="'.$siteUrl.'?lang=es" title="Español">ES</a>
 					</div>
 				</div>
-				<span class="navbar-item"><a class="button is-info" href="index.php" title="' .__("New Order"). '">' .__("New Order"). '</a></span>
-				<a class="navbar-item is-tab" href="login.php" title="'.__("Login").'"><i class="fa fa-sign-in"></i></a>
+				<span class="navbar-item"><a class="button is-primary" href="index.php" title="' .__("New Order"). '">' .__("New Order"). '</a></span>
+				<a class="navbar-item is-tab" href="login.php" title="'.__("Login").'"><span class="icon"><i class="fas fa-user-circle fa-lg"></i></span></a>
 			</div>
 		</div>
 	</div>

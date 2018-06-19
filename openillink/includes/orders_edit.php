@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -56,16 +56,22 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             echo "}\n";
             echo "</script>\n";
             echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"commande\">\n";
-            echo "<input name=\"id\" type=\"hidden\"  value=\"".htmlspecialchars($id)."\">\n";
+            echo '<section class="message">
+	<div class="message-body orderEditAttributedLibraryBox">';
+			echo "<input name=\"id\" type=\"hidden\"  value=\"".htmlspecialchars($id)."\">\n";
             echo "<input name=\"userid\" type=\"hidden\"  value=\"".htmlspecialchars($enreg['saisie_par'])."\">\n";
             echo "<input name=\"ip\" type=\"hidden\"  value=\"".htmlspecialchars($enreg['ip'])."\">\n";
 // echo "<input name=\"referer\" type=\"hidden\"  value=\"".$enreg['referer']."\">\n";
             echo "<input name=\"doi\" type=\"hidden\"  value=\"".htmlspecialchars($enreg['doi'])."\">\n";
             echo "<input name=\"historique\" type=\"hidden\"  value=\"".htmlspecialchars($enreg['historique'])."\">\n";
+			echo '<div class="field is-horizontal">';
             echo "<b><font color=\"red\">".format_string(__("Order %order_id modification"), array('order_id' => htmlspecialchars($id)))."</font></b>\n";
             echo "<input name=\"action\" type=\"hidden\" value=\"update\">\n";
             echo "<input name=\"modifs\" type=\"hidden\" value=\"\">\n";
-            echo "&nbsp;&nbsp;|&nbsp;&nbsp;<b><label for=\"bibliotheque\">".__("Attributed to library")."</label></b> <select name=\"bibliotheque\" id=\"bibliotheque\" onchange=\"textchanged('bibliotheque')\">\n";
+            echo "&nbsp;&nbsp;|&nbsp;&nbsp;<label class=\"label field-label\" style=\"margin-bottom:0\" for=\"bibliotheque\">".__("Attributed to library")."</label>";
+			echo '<div class="control has-icons-left">';
+			echo '<div class="select">';
+			echo '<select name="bibliotheque" id="bibliotheque" onchange="textchanged(\'bibliotheque\')">';
             $reqlibraries="SELECT code, name1, name2, name3, name4, name5 FROM libraries ORDER BY name1 ASC";
             $optionslibraries="";
             $resultlibraries = dbquery($reqlibraries);
@@ -87,16 +93,28 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo $optionslibraries;
             }
             echo "</select>\n";
-            echo "&nbsp;&nbsp;|&nbsp;&nbsp;<input type=\"submit\" value=\"" . __("Submit") . "\" onsubmit=\"javascript:okcooc();document.body.style.cursor = 'wait';\">\n";
-            echo "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n";
-            echo "<tr><td valign=\"top\" width=\"90%\">\n";
-            echo "<div class=\"box\"><div class=\"box-content\">\n";
-            // START Management Fields
-            echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"3\" width=\"100%\">\n";
-            echo "<tr><td colspan=\"4\">\n";
+			echo '</div>
+				<div class="icon is-small is-left">
+				<i class="fas fa-university"></i>
+				</div>
+				</div>';
+            echo "&nbsp;&nbsp;|&nbsp;&nbsp;<input type=\"submit\" class=\"button\" value=\"" . __("Submit") . "\" onsubmit=\"javascript:okcooc();document.body.style.cursor = 'wait';\">\n";
+			echo '</div>'; // end field
+            echo '</div><!-- end message-body -->
+	</section><!-- end message -->';
+			// START Management Fields
+			echo '<section class="message">
+	<div class="message-body">';
+			echo '<div class="columns is-gapless is-columns-form">
+  <div class="column is-one-fifth">';
             // Begin Status Field
-			echo '<label for="stade">';
-            echo __("Status") . " *</label> : \n";
+			echo '<div class="field is-horizontal">';
+			echo '<label class="label field-label is-normal required" for="stade">';
+            echo __("Status") . "</label>\n";
+			echo '</div></div>
+	 <div class="column is-3">';
+			echo '<div class="control is-expanded has-icons-left">';
+			echo '<div class="select is-fullwidth">';
             echo "<select name=\"stade\" id=\"stade\" onchange=\"textchanged('stade')\">\n";
             $reqstatus="SELECT code, title1, title2, title3, title4, title5 FROM status ORDER BY code ASC";
             $optionsstatus="";
@@ -115,13 +133,25 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             }
             echo $optionsstatus;
             echo "</select>\n";
+	echo '</div>
+	<div class="icon is-small is-left">
+      <i class="fas fa-code-branch"></i>
+    </div>
+	</div></div>';
+
             // END Status Field
             // Begin Localization Field
+			echo '<div class="column is-3">';
+			echo '<div class="field is-horizontal">';
             $localisationok = 0;
             echo "&nbsp;&nbsp;&nbsp;&nbsp;\n";
-			echo '<label for="localisation">';
-            echo __("Localization") . "</label> : &nbsp;\n";
-            echo "<select name=\"localisation\" id=\"localisation\" onchange=\"textchanged('localisation')\">\n";
+			echo '<label class="label field-label is-normal" for="localisation">';
+            echo __("Localization") . "</label>\n";
+            echo '</div></div>
+	 <div class="column is-3">';
+			echo '<div class="control is-expanded has-icons-left">';
+			echo '<div class="select is-fullwidth">';
+			echo "<select name=\"localisation\" id=\"localisation\" onchange=\"textchanged('localisation')\">\n";
             echo "<option value=\"\"></option>";
             echo "<optgroup label=\"" . __("Our Localizations") . "\">\n";
             $reqlocalisation="SELECT code, library, name1, name2, name3, name4, name5 FROM localizations WHERE library = ? ORDER BY name1 ASC";
@@ -188,12 +218,23 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "<option value=\"" . htmlspecialchars($enreg['localisation']) . "\" selected> " . htmlspecialchars($library_label[$lang]) . " - " . htmlspecialchars($localisation_label[$lang]) . " (" . htmlspecialchars($enreg['localisation'] . ")") . "</option>\n";
             }
             echo "</select>\n";
+			echo '</div>
+	<div class="icon is-small is-left">
+      <i class="fas fa-map-marker-alt"></i>
+    </div>
+	</div></div>
+	</div>';
             // END Localization Field
-            echo "</td></tr>";
             // Start Priority Field
-            echo "<tr><td colspan=\"4\">\n";
-			echo '<label for="urgent">';
-            echo __("Priority") . "</label> : \n";
+			echo '<div class="columns is-gapless is-columns-form">
+  <div class="column is-one-fifth">';
+			echo '<div class="field is-horizontal">';
+			echo '<label class="label field-label is-normal" for="urgent">';
+            echo __("Priority") . "</label>\n";
+			echo '</div></div>
+	 <div class="column is-3">';
+	echo '<div class="control is-expanded has-icons-left">';
+	echo '<div class="select is-fullwidth">';
             echo "<select name=\"urgent\" id=\"urgent\" onchange=\"textchanged('priorite')\">\n";
             echo "<option value=\"2\"";
             if ($enreg['urgent']=='2')
@@ -208,11 +249,22 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo " selected";
             echo ">" . __("Not a priority") . "</option>\n";
             echo "</select>\n";
+			echo '</div>
+		<div class="icon is-small is-left">
+      <i class="fas fa-flag"></i>
+    </div>
+	</div></div>';
             // END Priority Field
 
             // Start Origin Field
 			if ($displayFormOrderSourceField) {
-				echo "&nbsp;&nbsp;&nbsp;&nbsp;<label for=\"source\">" . __("Origin of the order") . "</label> : \n";
+				echo '<div class="column is-3">';
+				echo '<div class="field is-horizontal">';
+				echo "<label class=\"label field-label is-normal\" for=\"source\">" . __("Origin of the order") . "</label>\n";
+				echo '</div></div>
+		<div class="column is-3">';
+				echo '<div class="control is-expanded has-icons-left">';
+				echo '<div class="select is-fullwidth">';
 				echo "<select name=\"source\" id=\"source\" onchange=\"ajoutevaleur('source');\">\n";
 				echo "<option value=\"\"> </option>\n";
 				$reqsource = "SELECT arrivee FROM orders WHERE arrivee != '' GROUP BY arrivee ORDER BY arrivee ASC";
@@ -228,80 +280,195 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 				echo $optionssource;
 				echo "<option value=\"new\">" . __("Add new value...") . "</option>\n";
 				echo "</select>\n";
-				echo "&nbsp;<input name=\"sourcenew\" id=\"sourcenew\" type=\"text\" size=\"20\" value=\"\" style=\"display:none\">\n";
+				echo '</div>
+	<div class="icon is-small is-left">
+      <i class="fas fa-globe"></i>
+    </div>
+		</div></div>
+	 <div class="column is-2">';
+				echo '<div class="control">';
+				echo "<input class=\"input\" name=\"sourcenew\" id=\"sourcenew\" type=\"text\" size=\"20\" value=\"\" style=\"display:none\">\n";
+				echo '</div></div>
+		</div>';
 			}
-            echo "</td></tr>\n";
             // END Origin Field
             // Start Dates
-            echo "<tr><td>\n";
-			echo '<label for="datesaisie">';
-            echo "<a href=\"#\" title=\"" . __("to be completed only if different from the current date") . "\">" . __("Order date") . "</a></label> : </td><td> \n";
-            echo "<input name=\"datesaisie\" id=\"datesaisie\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['date'])."\" class=\"tcal\" onchange=\"textchanged('datesaisie')\">\n";
-            echo "</td><td>\n";
-			echo '<label for="envoye">';
-            echo __("Date of shipment") . "</label> : </td><td>\n";
-            echo "<input name=\"envoye\" id=\"envoye\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['envoye'])."\" class=\"tcal\" onchange=\"textchanged('envoye')\">\n";
-            echo "</td></tr><tr><td>\n";
-			echo '<label for="facture">';
-            echo __("Invoice date") . "</label> : </td><td>\n";
-            echo "<input name=\"facture\" id=\"facture\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['facture'])."\" class=\"tcal\" onchange=\"textchanged('facture')\">\n";
-            echo "</td><td>\n";
-			echo '<label for="renouveler">';
+			echo '<div class="columns is-gapless is-columns-form">
+  <div class="column is-one-fifth">';
+			echo '<div class="field is-horizontal">';
+			echo '<label class="label field-label is-normal" for="datesaisie">';
+            echo "<a href=\"#\" title=\"" . __("to be completed only if different from the current date") . "\">" . __("Order date") . "</a></label>\n";
+            echo '</div></div>
+	 <div class="column is-3">';
+			echo '<div class="control has-icons-left">';
+			echo "<input class=\"input tcal\" autocomplete=\"off\" name=\"datesaisie\" id=\"datesaisie\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['date'])."\" class=\"tcal\" onchange=\"textchanged('datesaisie')\">\n";
+			echo '<div class="icon is-small is-left">
+      <i class="fas fa-download"></i>
+    </div>';
+			echo '</div></div>
+	 <div class="column is-3">';
+			echo '<div class="field is-horizontal">';
+			echo '<label class="label field-label is-normal" for="envoye">';
+            echo __("Date of shipment") . "</label> \n";
+			echo '</div></div>
+	 <div class="column is-3">';
+			echo '<div class="control has-icons-left">';
+            echo "<input class=\"input tcal\" name=\"envoye\" id=\"envoye\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['envoye'])."\" class=\"tcal\" onchange=\"textchanged('envoye')\">\n";
+            echo '<div class="icon is-small is-left">
+      <i class="fas fa-upload"></i>
+    </div>';
+			echo '</div></div>
+	</div>
+	<div class="columns is-gapless is-columns-form">
+	 <div class="column is-one-fifth">';
+			echo '<div class="field is-horizontal">';
+			echo '<label class="label field-label is-normal" for="facture">';
+			echo __("Invoice date") . "</label>\n";
+            echo '</div></div>
+	 <div class="column is-3">';
+	echo '<div class="control has-icons-left">';
+			echo "<input class=\"input tcal\" autocomplete=\"off\" name=\"facture\" id=\"facture\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['facture'])."\"  onchange=\"textchanged('facture')\">\n";
+            echo '<div class="icon is-small is-left">
+      <i class="fas fa-piggy-bank"></i>
+    </div>';
+			echo '</div></div>
+	 <div class="column is-3">';
+			echo '<div class="field is-horizontal">';
+			echo '<label class="label field-label is-normal" for="renouveler">';
 
-            echo __("To be renewed on") . "</label> : </td><td>\n";
-            echo "<input name=\"renouveler\" id=\"renouveler\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['renouveler'])."\" class=\"tcal\" onchange=\"textchanged('renouveler')\">\n";
-            echo "</td></tr>\n";
-
+            echo __("To be renewed on") . "</label>";
+            echo '</div></div>
+	 <div class="column is-3">';
+			echo '<div class="control has-icons-left">';
+			echo "<input class=\"input tcal\" autocomplete=\"off\" name=\"renouveler\" id=\"renouveler\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['renouveler'])."\" onchange=\"textchanged('renouveler')\">\n";
+			echo '<div class="icon is-small is-left">
+      <i class="fas fa-bell"></i>
+    </div>';
+			echo '</div></div></div>';
             // END Dates
             // START Price Field and Internal references
-            echo "<tr><td colspan=\"4\">\n";
-			echo '<label for="prix">';
-            echo format_string(__("Price (%currency)"), array('currency' => $currency)) . "</label> : &nbsp;\n";
-            echo "<input name=\"prix\" id=\"prix\" type=\"text\" size=\"5\" value=\"".htmlspecialchars($enreg['prix'])."\" onchange=\"textchanged('prix')\">\n";
-            echo "&nbsp;&nbsp;(<input type=\"checkbox\" name=\"avance\" id=\"avance\" value=\"on\"";
+			echo '<div class="columns is-gapless is-columns-form">
+  <div class="column is-one-fifth">';
+			echo '<div class="field is-horizontal">';
+			echo '<label class="label field-label is-normal" for="prix">';
+            echo format_string(__("Price (%currency)"), array('currency' => $currency)) . "</label>\n";
+            echo '</div></div>
+	 <div class="column is-3">';
+			echo '<div class="control has-icons-left">';
+			echo "<input class=\"input\" name=\"prix\" id=\"prix\" type=\"text\" size=\"5\" value=\"".htmlspecialchars($enreg['prix'])."\" onchange=\"textchanged('prix')\">\n";
+            echo '<div class="icon is-small is-left">
+      <i class="far fa-money-bill-alt"></i>
+    </div></div>';
+			echo '</div><div class="column is-two-fifth">';
+			echo '<div class="field">';
+			echo '<div class="control">';
+			echo "&nbsp;&nbsp;(<label class=\"checkbox\"> <input type=\"checkbox\" name=\"avance\" id=\"avance\" value=\"on\"";
             if ($enreg['prepaye']=='on')
                 echo " checked";
-            echo " onclick=\"textchanged('prepaye')\"/><label for=\"avance\">" . __("order paid in advance") . "</label>) &nbsp;&nbsp;&nbsp;&nbsp;\n";
-            echo "</td></tr>\n";
-            echo "<tr><td colspan=\"4\">\n";
-			echo '<label for="ref">';
-            echo __("Provider Ref.") . "</label> : &nbsp;\n";
-            echo "<input name=\"ref\" id=\"ref\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($enreg['ref'])."\" onchange=\"textchanged('ref fournisseur')\">&nbsp;&nbsp;&nbsp;\n";
+            echo " onclick=\"textchanged('prepaye')\">\n" . __("order paid in advance") . "\n</label>) &nbsp;&nbsp;&nbsp;&nbsp;\n";
+			echo '</div></div></div>
+	</div>
+	 <div class="columns is-gapless is-columns-form">
+  <div class="column is-one-fifth">';
+			echo '<div class="field is-horizontal">';
+			echo '<label class="label field-label is-normal" for="ref">';
+            echo __("Provider Ref.") . "</label> \n";
+            echo '</div></div>
+	 <div class="column is-3">';
+			echo '<div class="control has-icons-left">';
+			echo "<input class=\"input\" name=\"ref\" id=\"ref\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($enreg['ref'])."\" onchange=\"textchanged('ref fournisseur')\">\n";
+			echo '<div class="icon is-small is-left">
+      <i class="fas fa-barcode"></i>
+    </div>';
+			echo '</div></div>';
 			if ($displayFormInternalRefField) {
-				echo '<label for="refinterbib">';
-				echo __("Internal ref. to the library") . "</label> : &nbsp;\n";
-				echo "<input name=\"refinterbib\" id=\"refinterbib\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($enreg['refinterbib'])."\" onchange=\"textchanged('ref interne')\">\n";
+				echo '<div class="column is-3">';
+				echo '<div class="field is-horizontal">';
+				echo '<label class="label field-label is-normal" for="refinterbib">';
+				echo __("Internal ref. to the library") . "</label>\n";
+				echo '</div></div>
+	 <div class="column is-3">';
+				echo '<div class="control has-icons-left">';
+				echo "<input class=\"input\" name=\"refinterbib\" id=\"refinterbib\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($enreg['refinterbib'])."\" onchange=\"textchanged('ref interne')\">\n";
+				echo '<div class="icon is-small is-left">
+      <i class="fas fa-tag"></i>
+    </div></div></div>';
 			} else {
 				echo "<input name=\"refinterbib\" id=\"refinterbib\" type=\"hidden\" value=\"".htmlspecialchars($enreg['refinterbib'])."\" >\n";
 			}
-            echo "</td></tr>\n";
             // END Price Field and Internal references
             // Start Private Notes
-            echo "<tr><td valign=\"top\">\n";
-			echo '<label for="remarques">';
-            echo __("Professional Notes") . "</label> : \n";
-            echo "</td><td valign=\"bottom\" colspan=\"3\"><textarea name=\"remarques\" id=\"remarques\" rows=\"2\" cols=\"68\" valign=\"bottom\" onchange=\"textchanged('remarques')\">".htmlspecialchars($enreg['remarques'])."</textarea>\n";
-            echo "</td></tr>\n";
+			echo '
+	</div>
+	 <div class="columns is-gapless is-columns-form">
+  <div class="column is-one-fifth">';
+			echo '<div class="field is-horizontal">';
+			echo '<label class="label field-label is-normal" for="remarques">';
+            echo __("Professional Notes") . "</label>";
+            echo '</div></div>
+	 <div class="column is-9">';
+			echo '<div class="control">';
+			echo "<textarea class=\"textarea\" name=\"remarques\" id=\"remarques\" rows=\"2\" cols=\"68\" valign=\"bottom\" onchange=\"textchanged('remarques')\">".htmlspecialchars($enreg['remarques'])."</textarea>\n";
             // END Private Notes
-            echo "</table>\n";
-            echo "</div></div>\n";
+			echo '</div></div>';
+			echo '</div>'; // end columns
+			echo '</div><!-- end message-body -->
+	</section><!-- end message -->';
+
             echo "<div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
             // END Management Fields
-            // START User Fields
-            echo "<div class=\"box\"><div class=\"box-content\">\n";
-            echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"3\" width=\"100%\">\n";
-            echo "<tr><td>\n";
-			echo '<label for="nom">';
-            echo __("Name") . " *</label> : </td><td><input name=\"nom\" id=\"nom\" type=\"text\" size=\"25\" value=\"".htmlspecialchars($enreg['nom'])."\" onchange=\"textchanged('nom')\"></td><td>\n";
-            echo '<label for="prenom">';
-			echo __("First name") . " *</label> : </td><td><input name=\"prenom\" id=\"prenom\" type=\"text\" size=\"25\" value=\"".htmlspecialchars($enreg['prenom'])."\" onchange=\"textchanged('prenom')\"><span>\n";
-            if ($directoryurl1 != "")
-                echo "&nbsp;<a href=\"javascript:directory('" . $directoryurl1 . "')\" title=\"" . __("Search the name in the directory of the hospital") . "\"><img src=\"img/directory1.png\"></a>\n";
-            if ($directoryurl2 != "")
-                echo "<a href=\"javascript:directory('" . $directoryurl2 . "')\" title=\"" . __("Search the name in the directory of the university") . "\"><img src=\"img/directory2.png\"></a>\n";
-            echo "</span></td></tr><tr><td>\n";
-			echo '<label for="service">';
-            echo __("Unit") . " *</label> : </td><td>\n";
+
+			// START User Fields
+			echo '
+ <section class="message">
+	<div class="message-header">'.__("Contact and billing details").'</div>
+	<div class="message-body">
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-2">
+	<div class="field is-horizontal">
+      <label class="label field-label is-normal required" for="nom">'.__("Name").'</label>
+	</div>
+	</div>
+	<div class="column is-one-quarter">
+        <div class="control has-icons-left">';
+            echo "<input name=\"nom\" id=\"nom\" class=\"input\" type=\"text\" size=\"25\" value=\"".htmlspecialchars($enreg['nom'])."\" onchange=\"textchanged('nom')\" required>\n";
+            echo ' <span class="icon is-small is-left">
+			<i class="fas fa-user"></i>
+         </span>
+        </div>
+    </div>
+	<div class="column is-2">
+		<div class="field is-horizontal">
+		<label class="label field-label is-normal required" for="prenom">';
+			echo __("First name") . ' </label>
+			</div>
+	</div>
+	<div class="column is-one-quarter">
+        <div class="control">
+		<input name="prenom" id="prenom" class="input" type="text" size="25" value="'.htmlspecialchars($enreg['prenom']).'" onchange="textchanged(\'prenom\')" required>
+		 </div>
+	</div>
+	<div class="column is-2">
+	<div class="field is-horizontal">
+   <span class="buttons label field-label is-normal has-text-left" style=""> &nbsp;';
+if ($directoryurl1 != "")
+	echo " <a href=\"javascript:directory('$directoryurl1')\" class=\"is-light\" title=\"" . __("Search the name in the directory of the hospital") . "\"><span class=\"directoryurl1\"><i aria-hidden=\"true\" class=\"fa fa-address-book fa-lg\"></i></span></a>\n";
+if ($directoryurl2 != "")
+	echo "&nbsp;<a href=\"javascript:directory('$directoryurl2')\" class=\"is-light\" title=\"" . __("Search the name in the directory of the university") . "\"><span class=\"directoryurl2\"><i aria-hidden=\"true\" class=\"fa fa-address-book fa-lg\"></i></span></a>\n";
+echo '</span>
+	</div>
+      </div>
+	  </div>
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-2">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal required" for="service">'.__("Unit").'</label>
+	  </div>
+	</div>
+	<div class="column is-one-quarter">
+        <div class="control has-icons-left is-expanded">
+         <div class="select is-fullwidth">
+		';
             $unitsortlang = "name1";
             if ($lang == "en")
                 $unitsortlang = "name2";
@@ -312,7 +479,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             if ($lang == "es")
                 $unitsortlang = "name5";
             $unitsok = 0;
-            echo "<select name=\"service\" id=\"service\" style=\"max-width:300px\" onchange=\"textchanged('service'); document.commande.servautre.value = '';\">\n";
+            echo "<select name=\"service\" id=\"service\" onchange=\"textchanged('service'); document.commande.servautre.value = '';\">\n";
             echo "<option value=\"\"></option>\n";
             if ($ip1 == 1) {
                 $requnits="SELECT code, $unitsortlang FROM units WHERE internalip1display = 1 ORDER BY $unitsortlang ASC";
@@ -335,80 +502,190 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 }
                 echo $optionsunits;
                 echo "</select>\n";
-                echo "</td><td>\n";
-				echo '<label for="servautre">';
-                echo __("Other unit") . "</label> : </td><td>\n";
-                echo "<input name=\"servautre\" id=\"servautre\" type=\"text\" size=\"30\" value=\"";
+				echo '       </div>
+	   <span class="icon is-small is-left">
+		<i class="fas fa-sitemap"></i>
+        </span>
+	   </div>
+	</div>
+	<div class="column is-2">
+		<div class="field is-horizontal">
+		<label class="label field-label is-normal" for="servautre">';
+                echo __("Other unit") . "</label>";
+				echo '</div>
+	</div>
+	<div class="column is-one-quarter">
+        <div class="control">';
+                echo "<input name=\"servautre\" class=\"input\" id=\"servautre\" type=\"text\" size=\"30\" value=\"";
                 if ($unitsok == 0)
                     echo htmlspecialchars($enreg['service']);
                 echo "\" onchange=\"textchanged('service autre')\">\n";
-                echo "</td></tr>\n";
+                echo " </div>
+    </div>
+	</div>";
                 if ($ip1 == 1){
-                    echo "<tr><td>\n";
-					echo '<label for="cgra">';
-                    echo __("Budget heading") . "</label> : \n";
-                    echo "</td><td>\n";
-                    echo "<input name=\"cgra\" id=\"cgra\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['cgra'])."\" onchange=\"textchanged('cgra')\"></td><td>\n";
-                    echo '<label for="cgrb">';
-					echo __("Budget subheading") . "</label> : </td><td>\n";
-                    echo "<input name=\"cgrb\" id=\"cgrb\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['cgrb'])."\" onchange=\"textchanged('cgrb')\">\n";
-                    echo "</td></tr>\n";
-                }
+					echo '<div class="columns is-gapless is-columns-form">
+    <div class="column is-2">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="cgra">';
+                    echo __("Budget heading") . "</label>";
+                    echo '</div>
+	</div>
+	<div class="column is-one-quarter">
+        <div class="control">';
+                    echo "<input name=\"cgra\" id=\"cgra\" class=\"input\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['cgra'])."\" onchange=\"textchanged('cgra')\">\n";
+
+					echo '</div>
+    </div>
+	<div class="column is-2">
+		<div class="field is-horizontal">
+	    <label class="label field-label is-normal" for="cgrb">';
+					echo __("Budget subheading") . "</label>\n";
+                    echo '</div>
+	</div>
+	<div class="column is-one-quarter">
+        <div class="control">';
+					echo "<input name=\"cgrb\"  class=\"input\" id=\"cgrb\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['cgrb'])."\" onchange=\"textchanged('cgrb')\">\n";
+					echo '        </div>
+    </div>
+    </div>';
+				}
                 else{
                     echo "<input name=\"cgra\" type=\"hidden\"  value=\"".htmlspecialchars($enreg['cgra'])."\">\n";
                     echo "<input name=\"cgrb\" type=\"hidden\"  value=\"".htmlspecialchars($enreg['cgrb'])."\">\n";
                 }
-                echo "<tr><td>\n";
-				echo '<label for="mail">';
-                echo __("E-Mail") . " *</label> : </td><td>\n";
-                echo "<input name=\"mail\" id=\"mail\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['mail'])."\" onchange=\"textchanged('email')\"></td><td>\n";
-                echo '<label for="tel">';
-				echo __("Tel.") . "</label> : </td><td>\n";
-                echo "<input name=\"tel\" id=\"tel\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['tel'])."\" onchange=\"textchanged('tel')\">\n";
-                echo "</td></tr>\n";
-                echo "<tr><td valign=\"top\">\n";
-				echo '<label for="adresse">';
-                echo __("Private address") . "</label> :\n";
-                echo "</td><td>\n";
-				echo "<input name=\"adresse\" id=\"adresse\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['adresse'])."\" onchange=\"textchanged('adresse')\">\n";
-                echo "</td><td>\n";
-                echo '<label for="postal">';
-				echo __("Zip code") . "</label> : </td><td>\n";
-                echo "<input name=\"postal\" id=\"postal\" type=\"text\" size=\"5\" value=\"".htmlspecialchars($enreg['code_postal'])."\" onchange=\"textchanged('code postal')\">\n";
-                echo "&nbsp;\n";
-                echo '<label for="localite">';
-				echo __("City") . "</label> :\n";
-                echo "<input name=\"localite\" id=\"localite\" type=\"text\" size=\"7\" value=\"".htmlspecialchars($enreg['localite'])."\" onchange=\"textchanged('localite')\">\n";
-                echo "</td></tr><tr><td valign=\"top\" colspan=\"4\">\n";
-				echo __("If available at the library") . " : \n";
+				echo '	<div class="columns is-gapless is-columns-form">
+    <div class="column is-2">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="mail">';
+                echo __("E-Mail") . "</label>\n";
+				echo '</div>
+	</div>
+	<div class="column is-one-quarter">
+        <div class="control has-icons-left">';
+                echo "<input name=\"mail\" id=\"mail\" class=\"input\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['mail'])."\" onchange=\"textchanged('email')\">\n";
+                echo '<span class="icon is-small is-left">
+			<i class="fas fa-envelope"></i>
+         </span>
+        </div>
+    </div>
+	<div class="column is-2">
+		<div class="field is-horizontal">
+		<label class="label field-label is-normal" for="tel">';
+				echo __("Tel.") . "</label>\n";
+				echo '</label>
+		</div>
+	</div>
+	<div class="column is-one-quarter">
+        <div class="control has-icons-left">';
+                echo "<input name=\"tel\" class=\"input\" id=\"tel\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['tel'])."\" onchange=\"textchanged('tel')\">\n";
+                echo '<span class="icon is-small is-left">
+			<i class="fas fa-phone"></i>
+         </span>
+        </div>
+       </div>
+      </div>';
+                echo '<div class="columns is-gapless is-columns-form">
+    <div class="column is-2">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="adresse">';
+                echo __("Private address") . "</label>";
+                echo '</div>
+	</div>
+	<div class="column is-one-quarter">
+        <div class="control has-icons-left">';
+				echo "<input name=\"adresse\" class=\"input\" id=\"adresse\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['adresse'])."\" onchange=\"textchanged('adresse')\">\n";
+                echo '<span class="icon is-small is-left">
+			<i class="fas fa-home"></i>
+         </span>
+        </div>
+    </div>
+    <div class="column is-2">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="postal">';
+				echo __("Zip code") . "</label>";
+				echo '</div>
+	</div>
+	<div class="column is-1">
+        <div class="control">';
+                echo "<input name=\"postal\" id=\"postal\" class=\"input\" type=\"text\" size=\"5\" value=\"".htmlspecialchars($enreg['code_postal'])."\" onchange=\"textchanged('code postal')\">\n";
+                echo '</div>
+    </div>
+    <div class="column is-narrow">
+	  <div class="field is-horizontal" style="display:block">
+      <label class="label field-label is-normal" for="localite">&nbsp;&nbsp;&nbsp;&nbsp;';
+				echo __("City") . "</label>";
+				echo '</div>
+	</div>
+	<div class="column is-2">
+        <div class="control">';
+                echo "<input name=\"localite\" id=\"localite\"  class=\"input\" type=\"text\" size=\"7\" value=\"".htmlspecialchars($enreg['localite'])."\" onchange=\"textchanged('localite')\">\n";
+                echo '</div>
+    </div>
+    </div>
+
+
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-3">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="envoi">'.__("If available at the library:").'</label>
+	  </div>
+	</div>
+	<div class="column is-9">
+		<div class="field is-horizontal">
+        <div class="control">
+         <label class="radio field-label is-normal">';
                 echo "<input type=\"radio\" name=\"envoi\" id=\"envoimail\" value=\"mail\"";
                 if ($enreg['envoi_par']=='mail')
                     echo " checked";
-                echo " onclick=\"textchanged('envoi')\"/>\n";
-				echo '<label for="envoimail">';
-                echo __("send by e-mail (billed)") . "</label>&nbsp;\n";
+                echo " onclick=\"textchanged('envoi')\"/>\n" .__("Send by e-mail (billed)");
+				echo '</label>';
+				echo '<label class="radio field-label is-normal">';
                 echo "<input type=\"radio\" name=\"envoi\" id=\"envoisurplace\" value=\"surplace\"";
                 if ($enreg['envoi_par']=='surplace')
                     echo " checked";
                 echo " onclick=\"textchanged('envoi')\"/>\n";
-				echo '<label for="envoisurplace">';
                 echo __("let me know and I come to make a copy (not billed)") . "</label>\n";
-                echo "</td></tr>\n";
-                echo "<tr>\n";
-                echo "<td valign=\"top\" colspan=\"4\">\n";
-                echo "<input type=\"checkbox\" name=\"cooc\" id=\"cooc\" value=\"on\" />\n";
-				echo '<label for="cooc">';
-                echo __("Remember data for future orders (cookies allowed)") . "</label>&nbsp;&nbsp;|&nbsp;&nbsp;(<A HREF=\"javascript:coocout()\">" . __("delete the cookie") . "</a>)\n";
-                echo "</td></tr>\n";
-                echo "</Table>\n";
-                echo "\n";
-                echo "</div></div>\n";
-                echo "<div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
+                echo ' </div>
+       </div>
+	   </div>
+      </div>';
+	  echo '<div class="columns is-gapless is-columns-form">
+    <div class="column is-2">
+		&nbsp;
+	</div>
+	<div class="column is-10">
+	  <div class="field is-horizontal">
+      <div class="field-body">
+       <div class="field">
+        <div class="control">
+         <label class="checkbox">
+          <input id="cooc" name="cooc" type="checkbox" value="on">
+          '.__("Remember data for future orders (cookies allowed)").' | (<a href="javascript:coocout()">'. __("delete the cookie") .'</a>)
+        </label>
+        </div>
+       </div>
+      </div>
+	  </div>
+
+	</div>
+	</div>
+</section>';
                 // END User Fields
                 // START Document Fields
-                echo "<div class=\"box\"><div class=\"box-content\">\n";
-                echo "<div class=\"box\"><div class=\"box-content\">\n";
-                echo "<center><b><label for=\"tid_0\">" . __("Fill in the order using") . "</label> </b>\n";
+				echo '<section class="message">
+		<div class="message-header">
+		<div class="container">
+	<div class="columns is-vcentered">
+	  <div class="column has-text-right is-two-fifths">
+       <label class="has-text-white" for="tid_0">'.  __("Fill in the order using") .'</label>
+	   </div><!-- end first column-->
+	   <div class="column">
+	   <div class="field-body">
+        <div class="field has-addons">
+         <div class="control">
+          <span class="select is-fullwidth">
+			<select id="tid_0" name="tid_0">';
 				$tid = "";
 				$uids = "";
 				if (!empty($enreg['PMID'])) {
@@ -429,7 +706,6 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 					}
 					$uids = $tid_and_uids[1];
 				}
-                echo "<select name=\"tid_0\" id=\"tid_0\">\n";
                 $i = 0;
                 while ($lookupuid[$i]["name"]){
 					$selected = "";
@@ -440,15 +716,30 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                     echo "<option value=\"" . htmlspecialchars($lookupuid[$i]["code"]) . '"' . $selected. ">" . htmlspecialchars($lookupuid[$i]["name"]) . "</option>\n";
                     $i = $i + 1;
                 }
-                echo "</select>\n";
-                echo "<input name=\"uids_0\" type=\"text\" size=\"20\" value=\"". htmlspecialchars($uids). "\">\n";
-                echo "<input type=\"button\" value=\"OK\" onclick=\"lookupid(0); textchanged('ref écrasée par PMID');\"></center>\n";
-                echo "</div></div>\n";
-                echo "<div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
-                echo "\n";
-                echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"3\" width=\"100%\">\n";
-                echo "<tr><td><label for=\"genre_0\">" . (((!empty($doctypesmessage)) && $doctypesmessage[$lang])? $doctypesmessage[$lang]:'Type de document') . "</label> : </td><td>\n";
-                echo "<select name=\"genre_0\" id=\"genre_0\" onchange=\"textchanged('type_doc')\">\n";
+                echo '</select>
+				</span>
+         </div>
+         <div class="control"><input class="input" name="uids_0" placeholder="'. __("Identifier") .'" type="text" value="'.htmlspecialchars($uids).'"></div>
+         <div class="control"><input class="button is-primary" onclick="lookupid(0); textchanged(\'ref écrasée par PMID\');" type="button" value="'. __("Fill in") .'"></div>
+        </div>
+       </div>
+
+	   </div > <!-- end second .column -->
+	   </div> <!-- end .columns -->
+	   </div> <!-- end .container -->
+	   </div> <!-- end message-header -->
+    <div class="message-body">
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-one-fifth">
+	<div class="field is-horizontal">';
+
+                echo '<label class="label field-label is-normal" for="genre_0">' . (((!empty($doctypesmessage)) && $doctypesmessage[$lang])? $doctypesmessage[$lang]:'Type de document') . "</label>\n";
+                echo '	</div>
+	</div>
+	<div class="column is-one-quarter">
+        <div class="control">
+         <div class="select is-fullwidth">
+          <select id="genre_0" name="genre_0" onchange="textchanged(\'type_doc\')">';
                 $i = 0;
                 while ($doctypes[$i]["code"]){
                     echo "<option value=\"" . htmlspecialchars($doctypes[$i]["code"]) . "\"";
@@ -457,87 +748,185 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                     echo ">" . htmlspecialchars($doctypes[$i]["name"]) . "</option>\n";
                     $i = $i + 1;
                 }
-                echo "</select>\n";
-                echo "<div class=\"formdoc\">\n";
-                echo "</td></tr><tr><td>\n";
-				echo '<label for="title_0">';
-                echo __("Title of journal or book") . " *</label> : </td><td>\n";
-                echo "<input name=\"title_0\" id=\"title_0\" type=\"text\" size=\"80\" value=\"".htmlspecialchars($enreg['titre_periodique'])."\" onchange=\"textchanged('titre_periodique')\">\n";
-                echo "&nbsp;\n";
-                echo "<a href=\"javascript:openlist('".$periodical_title_search_url."', '0')\"><img src=\"img/find.png\" title=\"" . __("check on journals database") . "\"></a>\n";
-                echo "</td></tr><tr><td>\n";
-				echo '<label for="date_0">';
-                echo __("Year") . " *</label> : </td><td>\n";
-                echo "<input name=\"date_0\" id=\"date_0\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($enreg['annee'])."\" onchange=\"textchanged('date')\">\n";
-                echo "&nbsp;\n";
-				echo '<label for="volume_0">';
-                echo __("Vol.") . " *</label> : \n";
-                echo "<input name=\"volume_0\" id=\"volume_0\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($enreg['volume'])."\" onchange=\"textchanged('volume')\">\n";
-                echo "&nbsp;\n";
-				echo '<label for="issue_0">';
-                echo __("(Issue)") . "</label> : \n";
-                echo "<input name=\"issue_0\" id=\"issue_0\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($enreg['numero'])."\" onchange=\"textchanged('numero')\">\n";
-                echo "&nbsp;\n";
-				echo '<label for="suppl_0">';
-                echo __("Suppl.") . "</label> : \n";
-                echo "<input name=\"suppl_0\" id=\"suppl_0\" type=\"text\" size=\"3\" value=\"".htmlspecialchars($enreg['supplement'])."\" onchange=\"textchanged('suppl')\">\n";
-                echo "&nbsp;\n";
-				echo '<label for="pages_0">';
-                echo __("Pages") . " *</label> : \n";
-                echo "<input name=\"pages_0\" id=\"pages_0\" type=\"text\" size=\"4\" value=\"".htmlspecialchars($enreg['pages'])."\" onchange=\"textchanged('pages')\">\n";
-                echo "</td></tr><tr><td>\n";
-				echo '<label for="atitle_0">';
-                echo __("Title of article or book chapter") . "</label> : \n";
-                echo "</td><td>\n";
-                $titreart = $enreg['titre_article'];
-                echo "<input name=\"atitle_0\" id=\"atitle_0\" type=\"text\" size=\"80\" value=\"".htmlspecialchars($titreart)."\" onchange=\"textchanged('titre_article')\">\n";
-                echo "</td></tr><tr><td>\n";
-				echo '<label for="auteurs_0">';
-                echo __("Author(s)") . "</label> : \n";
-                echo "</td><td>\n";
-                echo "<input name=\"auteurs_0\" id=\"auteurs_0\" type=\"text\" size=\"80\" value=\"".htmlspecialchars($enreg['auteurs'])."\" onchange=\"textchanged('auteurs')\">\n";
-                echo "</td></tr>\n";
-                echo "<tr><td>\n";
-				echo '<label for="edition_0">';
-                echo __("Edition (for books)") . "</label> : \n";
-                echo "</td><td>\n";
-                echo "<input name=\"edition_0\" id=\"edition_0\" type=\"text\" size=\"14\" value=\"".htmlspecialchars($enreg['edition'])."\" onchange=\"textchanged('edition')\">\n";
-                echo "&nbsp;\n";
-                echo "<label for=\"issn_0\">ISSN / ISBN</label> : \n";
-                echo "<input name=\"issn_0\" id=\"issn_0\" type=\"text\" size=\"15\" value=\"";
-                if ($enreg['isbn']!="")
-                    echo htmlspecialchars($enreg['isbn']);
-                else {
-                    echo $enreg['issn'];
-                    if ($enreg['eissn']!="")
-                        echo ",".htmlspecialchars($enreg['eissn']);
-                }
-                echo "\" onchange=\"textchanged('issn')\">\n";
-                echo "&nbsp;\n";
-                echo "<label for=\"uid_0\">UID</label> : \n";
-                echo "<input name=\"uid_0\" id=\"uid_0\" type=\"text\" size=\"15\" value=\"".$enreg['uid']."\" onchange=\"textchanged('uid')\">\n";
-                echo "</td></tr></div>\n";
-                echo "<tr><td valign=\"top\">\n";
-				echo '<label for="remarquespub_0">';
-                echo __("Notes") . "</label> : \n";
-                echo "</td><td valign=\"bottom\"><textarea name=\"remarquespub_0\" id=\"remarquespub_0\" rows=\"2\" cols=\"60\" valign=\"bottom\" onchange=\"textchanged('remarquespub')\">".htmlspecialchars($enreg['remarquespub'])."</textarea>\n";
-                echo "</td></tr><tr><td></td><td>\n";
-                echo "</td></tr>\n";
-                echo "</table>\n";
-                echo "</div></div>\n";
-                echo "<div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
+				echo '</select>
+         </div>
+        </div>
+       </div>
+	</div>
+
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-one-fifth">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal required" for="title_0">'.__("Journal / Book").'</label>
+	  </div>
+	</div>	<div class="column is-three-quarters">
+        <div class="control">
+         <input class="input" id="title_0" name="title_0" type="text" value="'.htmlspecialchars($enreg['titre_periodique']).'" placeholder="Journal or book title" onchange="textchanged(\'titre_periodique\')">
+        </div>
+    </div>
+	<div class="column is-2">
+	<div class="field is-horizontal">
+	<span class="buttons label field-label is-normal has-text-left"> &nbsp;
+       <a href="javascript:openlist(\''.$periodical_title_search_url.'\', \'0\')"><span class="is-light" title="'. __("check on journals database") .'"><i aria-hidden="true" class="fa fa-search fa-lg"></i></span></a>
+     </span>
+	 </div>
+      </div>
+	  </div>
+	  	<div class="columns is-gapless is-columns-form">
+    <div class="column is-one-fifth">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="date_0">'.__('Year').'</label>
+	  </div>
+	</div>
+	<div class="column is-1">
+        <div class="control">
+         <input class="input" id="date_0" name="date_0" type="text" value="'.htmlspecialchars($enreg['annee']).'" onchange="textchanged(\'date\')">
+        </div>
+    </div>
+     <div class="column is-1">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="volume_0">'.__('Vol.').'</label>
+	  </div>
+	</div>
+	<div class="column is-1">
+        <div class="control">
+         <input class="input" id="volume_0" name="volume_0" type="text" value="'.htmlspecialchars($enreg['volume']).'" onchange="textchanged(\'volume\')">
+        </div>
+    </div>
+	     <div class="column is-1">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="issue_0">'.__('Issue').'</label>
+	  </div>
+	</div>
+	<div class="column is-1">
+        <div class="control">
+         <input class="input" id="issue_0" name="issue_0" type="text" value="'.htmlspecialchars($enreg['numero']).'" onchange="textchanged(\'numero\')">
+       </div>
+    </div>
+     <div class="column is-1">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="suppl_0">'.__('Suppl.').'</label>
+	  </div>
+	</div>
+	<div class="column is-1">
+        <div class="control">
+         <input class="input" id="suppl_0" name="suppl_0" type="text" value="'.htmlspecialchars($enreg['supplement']).'" onchange="textchanged(\'suppl\')">
+       </div>
+    </div>
+     <div class="column is-1">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="pages_0">'.__('Pages').'</label>
+	  </div>
+	</div>
+	<div class="column is-1">
+        <div class="control">
+         <input class="input" id="pages_0" name="pages_0" type="text" value="'.htmlspecialchars($enreg['pages']).'" onchange="textchanged(\'pages\')">
+        </div>
+       </div>
+      </div>
+
+
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-one-fifth">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="atitle_0">'.__("Title").'</label>
+      	  </div>
+	</div>
+	<div class="column is-three-quarters">
+        <div class="control">
+         <input class="input" id="atitle_0" name="atitle_0" type="text" value="'.htmlspecialchars($enreg['titre_article']).'" placeholder="'.__("Article or chapter title").'" onchange="textchanged(\'titre_article\')">
+        </div>
+       </div>
+      </div>
+
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-one-fifth">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="auteurs_0">'.__("Author(s)").'</label>
+      </div>
+	</div>
+	<div class="column is-three-quarters">
+        <div class="control">
+         <input class="input" id="auteurs_0" name="auteurs_0" type="text" value="'.htmlspecialchars($enreg['auteurs']).'" onchange="textchanged(\'auteurs\')">
+        </div>
+       </div>
+      </div>
+
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-one-fifth">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="edition_0">'.__("Edition").'</label>
+ 	  </div>
+	</div>
+	<div class="column is-2">
+        <div class="control">
+         <input class="input" id="edition_0" name="edition_0" type="text" value="'.htmlspecialchars($enreg['edition']).'" placeholder="'.__("(for books)").'" onchange="textchanged(\'edition\')">
+        </div>
+    </div>
+     <div class="column is-2">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="issn_0">'.__('ISSN / ISBN').'</label>
+	  </div>
+	</div>
+	<div class="column is-2">
+        <div class="control">
+         <input class="input" id="issn_0" name="issn_0" type="text"  value="'. ($enreg['isbn']!="" ? htmlspecialchars($enreg['isbn']) : $enreg['issn'] . ($enreg['eissn']!="" ? ",".htmlspecialchars($enreg['eissn']) : "")).'" onchange="textchanged(\'issn\')">
+		</div>
+    </div>
+     <div class="column is-1">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="uid_0">'.__('UID').'</label>
+	  </div>
+	</div>
+	<div class="column is-2">
+        <div class="control">
+         <input class="input" id="uid_0" name="uid_0" type="text" value="'.htmlspecialchars($enreg['uid']).'" onchange="textchanged(\'uid\')">
+        </div>
+       </div>
+      </div>
+
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-one-fifth">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="remarquespub_0">'.__("Notes").'</label>
+      </div>
+	</div>
+	<div class="column is-three-quarters">
+        <div class="control">
+         <textarea id="remarquespub_0" name="remarquespub_0" class="textarea" placeholder="" rows="2" onchange="textchanged(\'remarquespub\')">'.htmlspecialchars($enreg['remarquespub']).'</textarea>
+        </div>
+       </div>
+      </div>
+	  </div>
+	</section>';
+
+
                 // END Document Fields
 				// BEGIN SUBMISSION BUTTONS
-				echo '<div class="box-submit-buttons">';
-				echo "<input type=\"submit\" value=\"" . __("Submit") . "\" onsubmit=\"javascript:okcooc();document.body.style.cursor = 'wait';\">&nbsp;&nbsp;\n";
-                echo "<input type=\"reset\" value=\"" . __("Reset") . "\">&nbsp;&nbsp;\n";
-                if ($monaut == "sadmin") {
-                    echo "<input type=\"button\" value=\"Supprimer definitivement cette commande\" onClick=\"self.location='update.php?action=delete&amp;table=orders&amp;id=" . htmlspecialchars($id) . "'\">\n";
-                }
-				echo "</div>";
+				echo '
+
+
+
+	<div class="container">
+	  <div class="field is-grouped is-grouped-centered">
+	  <p class="control">
+      <input type="submit" class="button is-primary" value="'. __("Save").'" onsubmit="javascript:okcooc();document.body.style.cursor = \'wait\';" />
+      </p>
+	  <p class="control">
+	  <input type="reset" value="'. __("Reset") .'" class="button" />
+	  </p>
+	  ';
+	    if ($monaut == "sadmin") {
+            echo '<p class="control">
+				<input type="button" class="button is-danger" value="'.__("Permanently delete this order"). '" onClick="self.location=\'update.php?action=delete&amp;table=orders&amp;id=' . htmlspecialchars($id) . '\'">
+				</p>';
+        }
+	  echo '
+	  </div>
+	</div>
+	';
 				// END SUBMISSION BUTTONS
 				echo "</form>\n";
-                echo "</td></tr></table>\n";
             }
             require ("footer.php");
         }

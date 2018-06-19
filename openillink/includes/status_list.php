@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -35,8 +35,14 @@ if (!empty($_COOKIE['illinkid'])){
         $myhtmltitle = format_string(__("%institution_name : edition of the order steps"), array('institution_name' => $configinstitution[$lang]));
         require ("headeradmin.php");
         echo "\n";
+		echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+    <li class="is-active"><a href="list.php?table=status" aria-current="page">'.__("Order steps management").'</a></li>
+  </ul>
+</nav>';
         // Status List
-        echo "<h1>".__("Order steps management")."</h1>\n";
+        echo "<h1 class=\"title\">".__("Order steps management")."</h1>\n";
         $req = "SELECT * FROM status ORDER BY title1 ASC";// LIMIT 0, 200";
         $result = dbquery($req);
         $total_results = iimysqli_num_rows($result);
@@ -50,7 +56,7 @@ if (!empty($_COOKIE['illinkid'])){
             echo " ".__("order steps found")."</b></font>\n";
         echo "<br/>";
         echo "<br/>";
-        echo "<table id=\"one-column-emphasis\" summary=\"\">\n";
+        echo "<table class=\"table is-hoverable\" id=\"one-column-emphasis\" summary=\"\">\n";
         echo "<colgroup>\n";
         echo "<col class=\"oce-first\" />\n";
         echo "</colgroup>\n";
@@ -116,7 +122,7 @@ if (!empty($_COOKIE['illinkid'])){
             // echo "<td>".$statusrenew."</td>\n";
             // echo "<td>".$statusreject."</td>\n";
             if (($monaut == "admin")||($monaut == "sadmin")){
-                echo "<td><a href=\"edit.php?table=status&id=".htmlspecialchars($statusid)."\"><img src=\"img/edit.png\" title=\"".__("Edit record")."\" width=\"20\"></a></td>";
+                echo "<td><a title=\"".__("Edit the step")."\" href=\"edit.php?table=status&id=".htmlspecialchars($statusid)."\"><i class=\"fas fa-edit has-text-primary\"></i></a></td>";
             }
             echo "</tr>\n";
         }
@@ -124,14 +130,14 @@ if (!empty($_COOKIE['illinkid'])){
         echo "</table>\n";
         echo "\n";
         echo "<br/><br/><ul>\n";
-        echo "<b><a href=\"new.php?table=status\">".__("Add a new step")."</a></b>\n";
+        echo "<b><a class=\"button is-primary\" href=\"new.php?table=status\">".__("Add a new step")."</a></b>\n";
         echo "<br/><br/>\n";
         echo "</ul>\n";
         require ("footer.php");
     }
     else{
         require ("header.php");
-        echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
+        echo __("Your rights are insufficient to edit this record")."</b></font></center><br /><br /><br /><br />\n";
         require ("footer.php");
     }
 }

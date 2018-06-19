@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenILLink\n"
-"POT-Creation-Date: 2018-07-05 11:17+0200\n"
-"PO-Revision-Date: 2018-07-05 11:17+0200\n"
+"POT-Creation-Date: 2018-08-06 08:59+0200\n"
+"PO-Revision-Date: 2018-08-06 08:59+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it\n"
@@ -16,63 +16,69 @@ msgstr ""
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: admin.php:41
+#: admin.php:42
 msgid "User management"
 msgstr "Gestione utenti"
 
-#: admin.php:42
+#: admin.php:43
 msgid "Create a new user"
 msgstr "Crea un nuovo utente"
 
-#: admin.php:43 admin.php:60
+#: admin.php:44 admin.php:61
 msgid "Change my access codes"
 msgstr "Modifica codici di accesso"
 
-#: admin.php:44
+#: admin.php:45
 msgid "Librairies management"
 msgstr "Gestione biblioteche"
 
-#: admin.php:45
+#: admin.php:46
 msgid "Create a new library"
 msgstr "Crea una nuova biblioteca"
 
-#: admin.php:46
-msgid "Localisations management"
-msgstr "Gestione localizzazione"
+#: admin.php:47 includes/localizations_edit.php:45
+#: includes/localizations_list.php:41 includes/localizations_list.php:45
+#: includes/localizations_new.php:39
+msgid "Location management"
+msgstr ""
 
-#: admin.php:47
-msgid "Create a new localisation"
-msgstr "Crea una nuova localizzazione"
+#: admin.php:48
+msgid "Create a new location"
+msgstr ""
 
-#: admin.php:48 includes/status_list.php:39
+#: admin.php:49 includes/status_edit.php:47 includes/status_list.php:41
+#: includes/status_list.php:45 includes/status_new.php:38
 msgid "Order steps management"
 msgstr ""
 
-#: admin.php:49
+#: admin.php:50
 msgid "Create a new order step"
 msgstr ""
 
-#: admin.php:50
+#: admin.php:51
 msgid "Management of units / services"
 msgstr "Gestione delle unità / servizi"
 
-#: admin.php:51
+#: admin.php:52
 msgid "Create a new unit / service"
 msgstr "Creare una nuova unità / servizio"
 
-#: admin.php:52
+#: admin.php:53
 msgid "Managing outgoings links"
 msgstr "Gestione dei collegamenti in uscita"
 
-#: admin.php:53
+#: admin.php:54
 msgid "Create a new outgoing link"
 msgstr "Crea un nuovo collegamento in uscita"
 
-#: admin.php:54 includes/folders_edit.php:36 includes/folders_list.php:40
+#: admin.php:55 includes/folders_edit.php:36 includes/folders_edit.php:47
+#: includes/folders_edit.php:155 includes/folders_list.php:42
+#: includes/folders_list.php:46 includes/folders_new.php:41
+#: includes/folders_new.php:992
 msgid "Filters management"
 msgstr "Gestione dei filtri"
 
-#: admin.php:55
+#: admin.php:56
 msgid "Create a new filter"
 msgstr "Crea un nuovo filtro"
 
@@ -80,33 +86,48 @@ msgstr "Crea un nuovo filtro"
 msgid "%institution_name orders: empty trash"
 msgstr ""
 
-#: emptytrash.php:43
+#: emptytrash.php:43 includes/folders_edit.php:46 includes/folders_edit.php:154
+#: includes/folders_list.php:41 includes/folders_new.php:40
+#: includes/folders_new.php:991 includes/libraries_edit.php:46
+#: includes/libraries_list.php:41 includes/libraries_new.php:39
+#: includes/links_edit.php:45 includes/links_list.php:40
+#: includes/links_new.php:39 includes/localizations_edit.php:44
+#: includes/localizations_list.php:40 includes/localizations_new.php:38
+#: includes/status_edit.php:46 includes/status_list.php:40
+#: includes/status_new.php:37 includes/units_edit.php:46
+#: includes/units_list.php:42 includes/units_new.php:40
+#: includes/users_edit.php:64 includes/users_list.php:37
+#: includes/users_new.php:39
+msgid "Administration"
+msgstr "Amministrazione"
+
+#: emptytrash.php:44 emptytrash.php:48
 msgid "Empty trash"
 msgstr "Vuota cestino"
 
-#: emptytrash.php:50
+#: emptytrash.php:55
 msgid "The trash was successfully deleted"
 msgstr "Il cestino è stato vuotato con successo"
 
-#: emptytrash.php:54
+#: emptytrash.php:59
 msgid "The trash could not be deleted"
 msgstr "Il cestino non è stato eliminato"
 
-#: emptytrash.php:56 emptytrash.php:69 includes/orders_update.php:315
+#: emptytrash.php:61 emptytrash.php:74 includes/orders_update.php:315
 #: includes/orders_update.php:336
 msgid "Return to the orders list"
 msgstr "Ritorna all’elenco ordini"
 
-#: emptytrash.php:63
+#: emptytrash.php:68
 msgid "Do you really want to empty the trash definitely?"
 msgstr "Vuotare il cestino definitivamente ?"
 
-#: emptytrash.php:67
+#: emptytrash.php:72
 msgid "Confirm deleting orders in the trash by clicking here"
 msgstr "Conferma di eliminare gli ordini nel cestino cliccando qui"
 
-#: emptytrash.php:78 includes/folders_new.php:983 includes/libraries_new.php:73
-#: includes/links_new.php:103 includes/localizations_new.php:84
+#: emptytrash.php:83 includes/folders_new.php:997 includes/libraries_new.php:80
+#: includes/links_new.php:110 includes/localizations_new.php:91
 msgid "Your rights are insufficient to view this page"
 msgstr "I tuoi diritti non sono sufficienti per visualizzare questa pagina"
 
@@ -114,41 +135,41 @@ msgstr "I tuoi diritti non sono sufficienti per visualizzare questa pagina"
 msgid "Missing id or form parameters"
 msgstr "Mancanza del parametro id o form"
 
-#: includes/config.php:192
+#: includes/config.php:215
 msgid "Article"
 msgstr "Articolo"
 
-#: includes/config.php:193
+#: includes/config.php:216
 msgid "Preprint"
 msgstr ""
 
-#: includes/config.php:194 includes/orders_detail.php:179
+#: includes/config.php:217 includes/orders_detail.php:179
 #: includes/ordertop.php:98
 msgid "Book"
 msgstr "Libro"
 
-#: includes/config.php:195
+#: includes/config.php:218
 msgid "Book chapter"
 msgstr "Capitolo di libro"
 
-#: includes/config.php:196 includes/orders_detail.php:181
+#: includes/config.php:219 includes/orders_detail.php:181
 #: includes/ordertop.php:100
 msgid "Thesis"
 msgstr "Tesi"
 
-#: includes/config.php:197
+#: includes/config.php:220
 msgid "Journal issue"
 msgstr ""
 
-#: includes/config.php:198
+#: includes/config.php:221
 msgid "Conference proceedings"
 msgstr "Atti del convegno"
 
-#: includes/config.php:199
+#: includes/config.php:222
 msgid "Conference paper"
 msgstr ""
 
-#: includes/config.php:200
+#: includes/config.php:223
 msgid "Other"
 msgstr "Altro"
 
@@ -157,262 +178,267 @@ msgstr "Altro"
 msgid "Impossible to connect to %database"
 msgstr "Impossibile connettersi al %database"
 
-#: includes/folders_edit.php:41
-msgid "edition of filter %id_filter"
+#: includes/folders.php:39
+msgid "Folders"
+msgstr ""
+
+#: includes/folders_edit.php:41 includes/folders_edit.php:48
+#: includes/folders_edit.php:156
+msgid "Edit filter %id_filter"
 msgstr ""
 
 #: includes/folders_edit.php:42
-msgid "Filters management : edition of card %id_card"
+msgid "Filters management : Edit filter %id_filter"
 msgstr ""
 
-#: includes/folders_edit.php:65 includes/folders_edit.php:129
-#: includes/links_edit.php:73 includes/links_edit.php:157
-#: includes/localizations_edit.php:63 includes/localizations_edit.php:98
-#: includes/status_edit.php:73 includes/status_edit.php:137
-#: includes/status_new.php:42 includes/status_new.php:74
-#: includes/units_edit.php:83 includes/units_edit.php:172
-#: includes/users_edit.php:163 includes/users_new.php:44
-#: includes/users_new.php:85
+#: includes/folders_edit.php:72 includes/folders_edit.php:136
+#: includes/libraries_edit.php:73 includes/libraries_edit.php:99
+#: includes/links_edit.php:80 includes/links_edit.php:164
+#: includes/localizations_edit.php:70 includes/localizations_edit.php:105
+#: includes/status_edit.php:80 includes/status_edit.php:144
+#: includes/status_new.php:49 includes/status_new.php:81
+#: includes/units_edit.php:90 includes/units_edit.php:179
+#: includes/users_edit.php:170 includes/users_new.php:51
+#: includes/users_new.php:92
 msgid "Save changes"
 msgstr "Salva le modifiche"
 
-#: includes/folders_edit.php:66 includes/folders_edit.php:130
-#: includes/folders_new.php:46 includes/folders_new.php:975
-#: includes/libraries_edit.php:67 includes/libraries_edit.php:93
-#: includes/libraries_new.php:45 includes/libraries_new.php:64
-#: includes/links_edit.php:74 includes/links_edit.php:158
-#: includes/links_new.php:45 includes/links_new.php:95
-#: includes/localizations_edit.php:64 includes/localizations_edit.php:99
-#: includes/localizations_new.php:44 includes/localizations_new.php:76
-#: includes/status_edit.php:74 includes/status_edit.php:138
-#: includes/status_new.php:43 includes/status_new.php:75
-#: includes/units_edit.php:84 includes/units_edit.php:173
-#: includes/units_new.php:60 includes/units_new.php:131
-#: includes/users_edit.php:165 includes/users_edit.php:168
-#: includes/users_new.php:45 includes/users_new.php:86
+#: includes/folders_edit.php:73 includes/folders_edit.php:137
+#: includes/folders_new.php:53 includes/folders_new.php:982
+#: includes/libraries_edit.php:74 includes/libraries_edit.php:100
+#: includes/libraries_new.php:52 includes/libraries_new.php:71
+#: includes/links_edit.php:81 includes/links_edit.php:165
+#: includes/links_new.php:52 includes/links_new.php:102
+#: includes/localizations_edit.php:71 includes/localizations_edit.php:106
+#: includes/localizations_new.php:51 includes/localizations_new.php:83
+#: includes/status_edit.php:81 includes/status_edit.php:145
+#: includes/status_new.php:50 includes/status_new.php:82
+#: includes/units_edit.php:91 includes/units_edit.php:180
+#: includes/units_new.php:66 includes/units_new.php:137
+#: includes/users_edit.php:172 includes/users_edit.php:175
+#: includes/users_new.php:52 includes/users_new.php:93
 msgid "Cancel"
 msgstr "Annulla"
 
-#: includes/folders_edit.php:67 includes/folders_edit.php:131
-#: includes/libraries_edit.php:68 includes/libraries_edit.php:94
-#: includes/links_edit.php:75 includes/links_edit.php:159
-#: includes/localizations_edit.php:65 includes/localizations_edit.php:100
-#: includes/status_edit.php:75 includes/status_edit.php:139
-#: includes/units_edit.php:85 includes/units_edit.php:174
-#: includes/users_edit.php:169 index.php:607
+#: includes/folders_edit.php:74 includes/folders_edit.php:138
+#: includes/libraries_edit.php:75 includes/libraries_edit.php:101
+#: includes/links_edit.php:82 includes/links_edit.php:166
+#: includes/localizations_edit.php:72 includes/localizations_edit.php:107
+#: includes/status_edit.php:82 includes/status_edit.php:146
+#: includes/units_edit.php:92 includes/units_edit.php:181
+#: includes/users_edit.php:176 index.php:993
 msgid "Remove"
 msgstr "Rimuovere"
 
-#: includes/folders_edit.php:72 includes/folders_list.php:62
-#: includes/folders_new.php:55
+#: includes/folders_edit.php:79 includes/folders_list.php:68
+#: includes/folders_new.php:62
 msgid "Description"
 msgstr "Descrizione"
 
-#: includes/folders_edit.php:75 includes/folders_new.php:60
+#: includes/folders_edit.php:82 includes/folders_new.php:67
 msgid "Attributed to"
 msgstr "Attribuito a"
 
-#: includes/folders_edit.php:93 includes/folders_list.php:65
-#: includes/links_list.php:65 includes/localizations_list.php:68
-#: includes/units_list.php:72 includes/users_edit.php:137
-#: includes/users_list.php:60 includes/users_new.php:60
+#: includes/folders_edit.php:100 includes/folders_list.php:71
+#: includes/links_list.php:71 includes/localizations_list.php:74
+#: includes/units_list.php:78 includes/users_edit.php:144
+#: includes/users_list.php:66 includes/users_new.php:67
 msgid "Library"
 msgstr "Biblioteca"
 
-#: includes/folders_edit.php:116 includes/folders_new.php:102
+#: includes/folders_edit.php:123 includes/folders_new.php:109
 msgid "Position"
 msgstr "Posizione"
 
-#: includes/folders_edit.php:125
+#: includes/folders_edit.php:132
 msgid "Query"
 msgstr "Riquiesta"
 
-#: includes/folders_edit.php:138 includes/libraries_edit.php:101
-#: includes/libraries_edit.php:110 includes/links_edit.php:166
-#: includes/links_edit.php:175 includes/localizations_edit.php:107
-#: includes/localizations_edit.php:116
-msgid "The card %id_card was not found in the database."
+#: includes/folders_edit.php:145 includes/libraries_edit.php:108
+#: includes/libraries_edit.php:117 includes/links_edit.php:173
+#: includes/links_edit.php:182 includes/localizations_edit.php:114
+#: includes/localizations_edit.php:123
+msgid "The record %id_record was not found in the database."
 msgstr ""
 
-#: includes/folders_edit.php:139 includes/folders_edit.php:148
-#: includes/folders_update.php:446 includes/libraries_edit.php:102
-#: includes/libraries_edit.php:111 includes/libraries_update.php:113
-#: includes/links_edit.php:167 includes/links_edit.php:176
-#: includes/links_update.php:132 includes/localizations_edit.php:108
-#: includes/localizations_edit.php:117 includes/localizations_update.php:95
-#: includes/status_edit.php:147 includes/status_edit.php:156
-#: includes/units_edit.php:182 includes/units_edit.php:191
-#: includes/users_edit.php:179 includes/users_edit.php:188
+#: includes/folders_edit.php:146 includes/folders_edit.php:162
+#: includes/folders_update.php:446 includes/libraries_edit.php:109
+#: includes/libraries_edit.php:118 includes/libraries_update.php:113
+#: includes/links_edit.php:174 includes/links_edit.php:183
+#: includes/links_update.php:132 includes/localizations_edit.php:115
+#: includes/localizations_edit.php:124 includes/localizations_update.php:95
+#: includes/status_edit.php:154 includes/status_edit.php:163
+#: includes/units_edit.php:189 includes/units_edit.php:198
+#: includes/users_edit.php:186 includes/users_edit.php:195
 msgid "Please restart your search or contact the database administrator"
 msgstr ""
 
-#: includes/folders_edit.php:147
-msgid "The card was not found in the database."
+#: includes/folders_edit.php:161 includes/status_edit.php:153
+#: includes/status_edit.php:162 includes/units_edit.php:188
+#: includes/units_edit.php:197 includes/users_edit.php:185
+#: includes/users_edit.php:194
+msgid "The record was not found in the database."
 msgstr ""
 
-#: includes/folders_edit.php:158 includes/libraries_edit.php:121
-#: includes/links_edit.php:186 includes/localizations_edit.php:127
-#: includes/status_edit.php:166 includes/status_list.php:134
-#: includes/status_new.php:83 includes/units_edit.php:201
-#: includes/units_list.php:132 includes/units_new.php:140
-#: includes/users_edit.php:79 includes/users_edit.php:198
-#: includes/users_list.php:122 includes/users_new.php:94
-msgid "Your rights are insufficient to edit this card"
+#: includes/folders_edit.php:172 includes/libraries_edit.php:128
+#: includes/links_edit.php:193 includes/localizations_edit.php:134
+#: includes/status_edit.php:173 includes/status_list.php:140
+#: includes/status_new.php:90 includes/units_edit.php:208
+#: includes/units_list.php:138 includes/units_new.php:146
+#: includes/users_edit.php:86 includes/users_edit.php:205
+#: includes/users_list.php:128 includes/users_new.php:101
+msgid "Your rights are insufficient to edit this record"
 msgstr ""
 
 #: includes/folders_list.php:36
 msgid "filters management"
 msgstr ""
 
-#: includes/folders_list.php:49
+#: includes/folders_list.php:55
 msgid "filter found"
 msgstr ""
 
-#: includes/folders_list.php:51
+#: includes/folders_list.php:57
 msgid "filters found"
 msgstr ""
 
-#: includes/folders_list.php:61 includes/folders_new.php:50
-#: includes/orders_new.php:445 includes/orders_update.php:222
-#: includes/ordertop.php:89
+#: includes/folders_list.php:67 includes/folders_new.php:57
+#: includes/orders_edit.php:832 includes/orders_new.php:445
+#: includes/orders_update.php:222 includes/ordertop.php:89 index.php:923
 msgid "Title"
 msgstr "Titolo"
 
-#: includes/folders_list.php:63 includes/searchform.php:42
+#: includes/folders_list.php:69 includes/searchform.php:46
 msgid "Search"
 msgstr "Ricerca"
 
-#: includes/folders_list.php:64
+#: includes/folders_list.php:70
 msgid "Utilisateur"
 msgstr "Utente"
 
-#: includes/folders_list.php:66
+#: includes/folders_list.php:72
 msgid "Menu position"
 msgstr ""
 
-#: includes/folders_list.php:67
+#: includes/folders_list.php:73
 msgid "Active filter"
 msgstr ""
 
-#: includes/folders_list.php:95 includes/libraries_list.php:97
-msgid "Edit the card"
+#: includes/folders_list.php:101
+msgid "Edit the filter"
 msgstr ""
 
-#: includes/folders_list.php:103
+#: includes/folders_list.php:109
 msgid "Add a new filter"
 msgstr "Aggiungi nuovo filtro"
 
-#: includes/folders_list.php:110 includes/folders_update.php:513
-#: includes/libraries_list.php:112 includes/libraries_update.php:180
-#: includes/links_list.php:149 includes/links_update.php:201
+#: includes/folders_list.php:116 includes/folders_update.php:513
+#: includes/libraries_list.php:117 includes/libraries_update.php:180
+#: includes/links_list.php:155 includes/links_update.php:201
 #: includes/localizations_update.php:162 includes/status_update.php:179
 #: includes/units_update.php:185 includes/users_update.php:227
 msgid "Your rights are insufficient to edit this page"
 msgstr "I tuoi diritti non sono sufficienti per modificare questa pagina"
 
-#: includes/folders_new.php:38
-msgid "Filters management : New card creation"
+#: includes/folders_new.php:42 includes/folders_new.php:993
+msgid "Create new filter"
 msgstr ""
 
-#: includes/folders_new.php:45 includes/folders_new.php:974
+#: includes/folders_new.php:45
+msgid "Filters management : Create new filter"
+msgstr ""
+
+#: includes/folders_new.php:52 includes/folders_new.php:981
 msgid "Save the new filter"
 msgstr ""
 
-#: includes/folders_new.php:79
+#: includes/folders_new.php:86
 msgid "library"
 msgstr "biblioteca"
 
-#: includes/folders_new.php:107
+#: includes/folders_new.php:114
 msgid "active filter"
 msgstr ""
 
-#: includes/folders_new.php:116 includes/folders_new.php:400
+#: includes/folders_new.php:123 includes/folders_new.php:407
 msgid "Criterion"
 msgstr ""
 
-#: includes/folders_new.php:120 includes/folders_new.php:410
-#: includes/folders_new.php:700 includes/links_edit.php:121
-#: includes/links_new.php:67 includes/localizations_edit.php:75
-#: includes/localizations_new.php:54 includes/ordertop.php:32
-#: includes/units_new.php:70
+#: includes/folders_new.php:127 includes/folders_new.php:417
+#: includes/folders_new.php:707 includes/links_edit.php:128
+#: includes/links_new.php:74 includes/localizations_edit.php:82
+#: includes/localizations_new.php:61 includes/ordertop.php:32
+#: includes/units_new.php:76
 msgid "Assignment library"
 msgstr ""
 
-#: includes/folders_new.php:186 includes/folders_new.php:476
-#: includes/folders_new.php:766 includes/orders_detail.php:142
-#: includes/orders_edit.php:99 includes/orders_edit_backup.php:99
-#: includes/orders_edit_old.php:99 includes/ordertop.php:62
-#: includes/users_edit.php:105 includes/users_list.php:63
-#: includes/users_new.php:50 index.php:264
+#: includes/folders_new.php:193 includes/folders_new.php:483
+#: includes/folders_new.php:773 includes/orders_detail.php:142
+#: includes/orders_edit.php:113 includes/ordertop.php:62
+#: includes/users_edit.php:112 includes/users_list.php:69
+#: includes/users_new.php:57 index.php:274
 msgid "Status"
 msgstr "Stato"
 
-#: includes/folders_new.php:226 includes/folders_new.php:516
-#: includes/folders_new.php:806 includes/orders_detail.php:135
-#: includes/orders_edit.php:123 includes/orders_edit_backup.php:123
-#: includes/orders_edit_old.php:123 includes/searchform.php:69 index.php:283
+#: includes/folders_new.php:233 includes/folders_new.php:523
+#: includes/folders_new.php:813 includes/orders_detail.php:135
+#: includes/orders_edit.php:149 includes/searchform.php:80 index.php:303
 msgid "Localization"
 msgstr "Localizzazione"
 
-#: includes/folders_new.php:229 includes/folders_new.php:269
-#: includes/folders_new.php:281 includes/folders_new.php:293
-#: includes/folders_new.php:305 includes/folders_new.php:519
-#: includes/folders_new.php:559 includes/folders_new.php:571
-#: includes/folders_new.php:583 includes/folders_new.php:595
-#: includes/folders_new.php:809 includes/folders_new.php:849
-#: includes/folders_new.php:861 includes/folders_new.php:873
-#: includes/folders_new.php:885 includes/orders_edit.php:126
-#: includes/orders_edit_backup.php:126 includes/orders_edit_old.php:126
-#: index.php:286
+#: includes/folders_new.php:236 includes/folders_new.php:276
+#: includes/folders_new.php:288 includes/folders_new.php:300
+#: includes/folders_new.php:312 includes/folders_new.php:526
+#: includes/folders_new.php:566 includes/folders_new.php:578
+#: includes/folders_new.php:590 includes/folders_new.php:602
+#: includes/folders_new.php:816 includes/folders_new.php:856
+#: includes/folders_new.php:868 includes/folders_new.php:880
+#: includes/folders_new.php:892 includes/orders_edit.php:156 index.php:310
 msgid "Our Localizations"
 msgstr "Le nostre localizzazioni"
 
-#: includes/folders_new.php:259 includes/folders_new.php:272
-#: includes/folders_new.php:284 includes/folders_new.php:296
-#: includes/folders_new.php:308 includes/folders_new.php:549
-#: includes/folders_new.php:562 includes/folders_new.php:574
-#: includes/folders_new.php:586 includes/folders_new.php:598
-#: includes/folders_new.php:839 includes/folders_new.php:852
-#: includes/folders_new.php:864 includes/folders_new.php:876
-#: includes/folders_new.php:888 includes/orders_edit.php:165
-#: includes/orders_edit_backup.php:165 includes/orders_edit_old.php:165
-#: index.php:316
+#: includes/folders_new.php:266 includes/folders_new.php:279
+#: includes/folders_new.php:291 includes/folders_new.php:303
+#: includes/folders_new.php:315 includes/folders_new.php:556
+#: includes/folders_new.php:569 includes/folders_new.php:581
+#: includes/folders_new.php:593 includes/folders_new.php:605
+#: includes/folders_new.php:846 includes/folders_new.php:859
+#: includes/folders_new.php:871 includes/folders_new.php:883
+#: includes/folders_new.php:895 includes/orders_edit.php:195 index.php:340
 msgid "Network libraries"
 msgstr "Librerie di rete"
 
-#: includes/folders_new.php:315 includes/folders_new.php:605
-#: includes/folders_new.php:895 includes/orders_edit.php:304
-#: includes/orders_edit_backup.php:304 includes/orders_edit_old.php:304
-#: index.php:429
+#: includes/folders_new.php:322 includes/folders_new.php:612
+#: includes/folders_new.php:902 includes/orders_edit.php:465 index.php:594
 msgid "Unit"
 msgstr "Organo"
 
-#: includes/folders_new.php:374 includes/folders_new.php:664
-#: includes/folders_new.php:954
+#: includes/folders_new.php:381 includes/folders_new.php:671
+#: includes/folders_new.php:961
 msgid "Account"
 msgstr ""
 
-#: includes/folders_new.php:383 includes/folders_new.php:673
-#: includes/folders_new.php:963 includes/orders_detail.php:127
+#: includes/folders_new.php:390 includes/folders_new.php:680
+#: includes/folders_new.php:970 includes/orders_detail.php:127
 msgid "Renewal date"
 msgstr ""
 
-#: includes/folders_new.php:386 includes/folders_new.php:676
-#: includes/folders_new.php:966
+#: includes/folders_new.php:393 includes/folders_new.php:683
+#: includes/folders_new.php:973
 msgid "Past"
 msgstr "Passato"
 
-#: includes/folders_new.php:387 includes/folders_new.php:677
-#: includes/folders_new.php:967
+#: includes/folders_new.php:394 includes/folders_new.php:684
+#: includes/folders_new.php:974
 msgid "Futur"
 msgstr "Futuro"
 
-#: includes/folders_new.php:388 includes/folders_new.php:678
-#: includes/folders_new.php:968
+#: includes/folders_new.php:395 includes/folders_new.php:685
+#: includes/folders_new.php:975
 msgid "Day's date"
 msgstr "Data del giorno"
 
-#: includes/folders_new.php:401
+#: includes/folders_new.php:408
 msgid "Combine with the previous one:"
 msgstr ""
 
@@ -437,7 +463,7 @@ msgid "Back to form"
 msgstr "Torna al formulario"
 
 #: includes/folders_update.php:423
-msgid "edition of the filter card"
+msgid "edition of the filter record"
 msgstr ""
 
 #: includes/folders_update.php:437 includes/libraries_update.php:104
@@ -447,7 +473,8 @@ msgstr "Errore"
 
 #: includes/folders_update.php:439 includes/libraries_update.php:106
 #: includes/links_update.php:125 includes/localizations_update.php:88
-msgid "The modification of the card %id_card has been successfully registered"
+msgid ""
+"The modification of the record %id_record has been successfully registered"
 msgstr ""
 
 #: includes/folders_update.php:440 includes/folders_update.php:469
@@ -458,7 +485,7 @@ msgstr "Torna alla liste dei filtri"
 #: includes/folders_update.php:445 includes/libraries_update.php:112
 #: includes/links_update.php:131 includes/localizations_update.php:94
 msgid ""
-"The change was not saved because the identifier of record %id_card was not "
+"The change was not saved because the identifier of record %id_record was not "
 "found in the database."
 msgstr ""
 
@@ -486,7 +513,7 @@ msgstr "nuovo filtro"
 #: includes/links_update.php:156 includes/localizations_update.php:118
 #: includes/status_update.php:134 includes/units_update.php:140
 #: includes/users_update.php:183
-msgid "The new card %id_card has been successfully registered"
+msgid "The new record %id_record has been successfully registered"
 msgstr ""
 
 #: includes/folders_update.php:480
@@ -497,14 +524,14 @@ msgstr ""
 #: includes/links_update.php:171 includes/localizations_update.php:132
 #: includes/status_update.php:149 includes/units_update.php:155
 #: includes/users_update.php:198
-msgid "Do you really want to delete the card %id_card ?"
+msgid "Do you really want to delete the record %id_record ?"
 msgstr ""
 
 #: includes/folders_update.php:489 includes/libraries_update.php:156
 #: includes/links_update.php:177 includes/localizations_update.php:138
 #: includes/status_update.php:155 includes/units_update.php:161
 #: includes/users_update.php:204
-msgid "Confirm the deletion of the card %id_card by clicking here"
+msgid "Confirm the deletion of the record %id_record by clicking here"
 msgstr ""
 
 #: includes/folders_update.php:497
@@ -514,83 +541,71 @@ msgstr "Elimina un filtro"
 #: includes/folders_update.php:502 includes/libraries_update.php:169
 #: includes/links_update.php:190 includes/localizations_update.php:151
 #: includes/status_update.php:168
-msgid "The card %id_card has been successfully deleted"
+msgid "The record %id_record has been successfully deleted"
 msgstr ""
 
-#: includes/footer.php:33
+#: includes/footer.php:37
 msgid "Powered by"
 msgstr "Fatto con"
 
-#: includes/header.php:68 includes/headeradmin.php:104
+#: includes/header.php:93 includes/headeradmin.php:136
 msgid "New Order"
 msgstr "Nuovo ordine"
 
-#: includes/header.php:69
+#: includes/header.php:117 includes/loginfail.php:67 login.php:224
 msgid "Login"
 msgstr ""
 
-#: includes/headeradmin.php:103
-msgid "Logout"
-msgstr ""
-
-#: includes/headeradmin.php:106
+#: includes/headeradmin.php:122
 msgid "Inbox"
 msgstr ""
 
-#: includes/headeradmin.php:109 includes/orders_detail.php:183
+#: includes/headeradmin.php:122 includes/orders_detail.php:183
 #: includes/orders_detail.php:185 includes/orders_detail.php:187
 #: includes/ordertop.php:102 includes/ordertop.php:104
 #: includes/ordertop.php:106
 msgid "In"
 msgstr ""
 
-#: includes/headeradmin.php:110
+#: includes/headeradmin.php:123
 msgid "Orders sent to the outside and not yet received"
 msgstr "Ordini inviati all’esterno e non ancora ricevuti"
 
-#: includes/headeradmin.php:113
+#: includes/headeradmin.php:123
 msgid "Out"
 msgstr ""
 
-#: includes/headeradmin.php:114
+#: includes/headeradmin.php:124
 msgid "All orders"
 msgstr "Tutti gli ordini"
 
-#: includes/headeradmin.php:117
+#: includes/headeradmin.php:124
 msgid "All"
 msgstr "Tutti"
 
-#: includes/headeradmin.php:118
+#: includes/headeradmin.php:125
 msgid "Orders deleted"
 msgstr "Ordini cancellati"
 
-#: includes/headeradmin.php:121
+#: includes/headeradmin.php:125
 msgid "Trash"
 msgstr "Spazzatura"
 
-#: includes/headeradmin.php:128
-msgid "Administration of users and values"
-msgstr "Amministrazione degli utenti e valori"
-
-#: includes/headeradmin.php:128
-msgid "Administration"
-msgstr "Amministrazione"
-
-#: includes/headeradmin.php:132
-msgid "Obtain configured reports"
-msgstr "Ottenere le statistiche configurate"
-
-#: includes/headeradmin.php:132
-msgid "Reports"
-msgstr "Rapporti"
-
-#: includes/headeradmin.php:137
+#: includes/headeradmin.php:131
 msgid "See all my orders"
 msgstr "Vedi tutti i miei ordini"
 
-#: includes/headeradmin.php:137
+#: includes/headeradmin.php:131
 msgid "My orders"
 msgstr "I miei ordini"
+
+#: includes/headeradmin.php:139
+msgid "Administration of users and values"
+msgstr "Amministrazione degli utenti e valori"
+
+#: includes/headeradmin.php:140
+msgid "Obtain configured reports"
+msgstr "Ottenere le statistiche configurate"
 
 #: includes/libraries_edit.php:35
 msgid "Libraries management"
@@ -603,63 +618,68 @@ msgid ""
 msgstr ""
 
 #: includes/libraries_edit.php:42
-msgid "Librairies management : edition of card %id_card"
+msgid "Librairies management : edition of record %id_record"
 msgstr ""
 
-#: includes/libraries_edit.php:66 includes/libraries_edit.php:92
-msgid "Save the changes"
-msgstr "Salva le modifiche"
+#: includes/libraries_edit.php:47 includes/libraries_list.php:42
+#: includes/libraries_list.php:46 includes/libraries_new.php:40
+msgid "Managing network libraries"
+msgstr "Gestione delle librerie di rete"
 
-#: includes/libraries_edit.php:70 includes/libraries_new.php:47
-#: includes/localizations_edit.php:67 includes/localizations_new.php:46
-#: includes/status_edit.php:77 includes/units_list.php:66
-#: includes/units_new.php:62
-msgid "Code"
-msgstr "Codice"
-
-#: includes/libraries_edit.php:73 includes/libraries_list.php:65
-#: includes/libraries_new.php:50 includes/localizations_edit.php:70
-#: includes/localizations_list.php:63 includes/localizations_new.php:49
-#: includes/status_edit.php:80 includes/status_list.php:61
-#: includes/status_new.php:48 includes/units_edit.php:90
-#: includes/units_list.php:67 includes/units_new.php:65
-msgid "Name in French"
-msgstr "Nome in francese"
-
-#: includes/libraries_edit.php:74 includes/libraries_new.php:51
-#: includes/localizations_edit.php:71 includes/localizations_new.php:50
-#: includes/status_edit.php:82 includes/status_new.php:50
-#: includes/units_edit.php:91 includes/units_new.php:66
-msgid "Name in English"
-msgstr "Nome in inglese"
-
-#: includes/libraries_edit.php:75 includes/libraries_new.php:52
-#: includes/localizations_edit.php:72 includes/localizations_new.php:51
-#: includes/status_edit.php:84 includes/status_new.php:52
-#: includes/units_edit.php:92 includes/units_new.php:67
-msgid "Name in German"
-msgstr "Nome in tedescho"
-
-#: includes/libraries_edit.php:76 includes/libraries_new.php:53
-#: includes/localizations_edit.php:73 includes/localizations_new.php:52
-#: includes/status_edit.php:86 includes/status_new.php:54
-#: includes/units_edit.php:93 includes/units_new.php:68
-msgid "Name in Italian"
-msgstr "Nome in italiano"
+#: includes/libraries_edit.php:48
+msgid "Edit library %id_record"
+msgstr ""
 
 #: includes/libraries_edit.php:77 includes/libraries_new.php:54
 #: includes/localizations_edit.php:74 includes/localizations_new.php:53
-#: includes/status_edit.php:88 includes/status_new.php:56
-#: includes/units_edit.php:94 includes/units_new.php:69
+#: includes/status_edit.php:84 includes/units_list.php:72
+#: includes/units_new.php:68
+msgid "Code"
+msgstr "Codice"
+
+#: includes/libraries_edit.php:80 includes/libraries_list.php:70
+#: includes/libraries_new.php:57 includes/localizations_edit.php:77
+#: includes/localizations_list.php:69 includes/localizations_new.php:56
+#: includes/status_edit.php:87 includes/status_list.php:67
+#: includes/status_new.php:55 includes/units_edit.php:97
+#: includes/units_list.php:73 includes/units_new.php:71
+msgid "Name in French"
+msgstr "Nome in francese"
+
+#: includes/libraries_edit.php:81 includes/libraries_new.php:58
+#: includes/localizations_edit.php:78 includes/localizations_new.php:57
+#: includes/status_edit.php:89 includes/status_new.php:57
+#: includes/units_edit.php:98 includes/units_new.php:72
+msgid "Name in English"
+msgstr "Nome in inglese"
+
+#: includes/libraries_edit.php:82 includes/libraries_new.php:59
+#: includes/localizations_edit.php:79 includes/localizations_new.php:58
+#: includes/status_edit.php:91 includes/status_new.php:59
+#: includes/units_edit.php:99 includes/units_new.php:73
+msgid "Name in German"
+msgstr "Nome in tedescho"
+
+#: includes/libraries_edit.php:83 includes/libraries_new.php:60
+#: includes/localizations_edit.php:80 includes/localizations_new.php:59
+#: includes/status_edit.php:93 includes/status_new.php:61
+#: includes/units_edit.php:100 includes/units_new.php:74
+msgid "Name in Italian"
+msgstr "Nome in italiano"
+
+#: includes/libraries_edit.php:84 includes/libraries_new.php:61
+#: includes/localizations_edit.php:81 includes/localizations_new.php:60
+#: includes/status_edit.php:95 includes/status_new.php:63
+#: includes/units_edit.php:101 includes/units_new.php:75
 msgid "Name in Spanish"
 msgstr "Nome in spagnolo"
 
-#: includes/libraries_edit.php:82 includes/libraries_new.php:56
+#: includes/libraries_edit.php:89 includes/libraries_new.php:63
 msgid "Show incoming orders for this library with the main library"
 msgstr ""
 "Mostra gli ordini in arrivo per questa libreria con la libreria principale"
 
-#: includes/libraries_edit.php:88 includes/libraries_new.php:59
+#: includes/libraries_edit.php:95 includes/libraries_new.php:66
 msgid "Signature (for emails sent to users)"
 msgstr "Firma (per le email inviate agli utenti)"
 
@@ -667,33 +687,32 @@ msgstr "Firma (per le email inviate agli utenti)"
 msgid "users management"
 msgstr "Gestion utenti"
 
-#: includes/libraries_list.php:41
-msgid "Managing network libraries"
-msgstr "Gestione delle librerie di rete"
-
-#: includes/libraries_list.php:51
+#: includes/libraries_list.php:56
 msgid "library found"
 msgstr "biblioteca trovata"
 
-#: includes/libraries_list.php:53
+#: includes/libraries_list.php:58
 msgid "libraries found"
 msgstr "biblioteche trovate"
 
-#: includes/libraries_list.php:70
+#: includes/libraries_list.php:75
 msgid "default"
 msgstr "predefinito"
 
-#: includes/libraries_list.php:71
+#: includes/libraries_list.php:76
 msgid "Shared incoming orders"
 msgstr "Ordini in arrivo condivisi"
 
-#: includes/libraries_list.php:72 includes/localizations_list.php:69
-#: includes/status_list.php:69 includes/units_list.php:79
-#: includes/users_list.php:107
+#: includes/libraries_list.php:77 includes/localizations_list.php:75
+#: includes/status_list.php:75 includes/units_list.php:85
 msgid "Edit"
 msgstr "Modifica"
 
-#: includes/libraries_list.php:105
+#: includes/libraries_list.php:102
+msgid "Edit the library"
+msgstr ""
+
+#: includes/libraries_list.php:110
 msgid "Add a new library"
 msgstr "Aggiungere una nuova libreria"
 
@@ -701,15 +720,19 @@ msgstr "Aggiungere una nuova libreria"
 msgid "New network library"
 msgstr "Nuova libreria di rete"
 
-#: includes/libraries_new.php:37
-msgid "Libraries management : New card creation"
+#: includes/libraries_new.php:41
+msgid "New library"
+msgstr ""
+
+#: includes/libraries_new.php:44
+msgid "Libraries management : New record creation"
 msgstr "Gestione delle biblioteche : Creazione di una nuova carta"
 
-#: includes/libraries_new.php:44 includes/libraries_new.php:63
+#: includes/libraries_new.php:51 includes/libraries_new.php:70
 msgid "Save the new library"
 msgstr "Salvare la nuova biblioteca"
 
-#: includes/libraries_new.php:55
+#: includes/libraries_new.php:62
 msgid "Main library"
 msgstr "Biblioteca principale"
 
@@ -741,7 +764,7 @@ msgid "Back to the form"
 msgstr "Torna al formulario"
 
 #: includes/libraries_update.php:96
-msgid "Edition of the library card %id_card"
+msgid "Edition of the library record %id_record"
 msgstr ""
 
 #: includes/libraries_update.php:107 includes/libraries_update.php:136
@@ -762,15 +785,11 @@ msgstr "Elimina una biblioteca"
 msgid "Edit order"
 msgstr "Modifica l’ordine"
 
-#: includes/links.php:41 includes/orders_edit.php:299
-#: includes/orders_edit_backup.php:299 includes/orders_edit_old.php:299
-#: index.php:424
+#: includes/links.php:41 includes/orders_edit.php:455 index.php:584
 msgid "Search the name in the directory of the hospital"
 msgstr "Cerca il nome nella directory dell'ospedale"
 
-#: includes/links.php:48 includes/orders_edit.php:301
-#: includes/orders_edit_backup.php:301 includes/orders_edit_old.php:301
-#: index.php:426
+#: includes/links.php:48 includes/orders_edit.php:457 index.php:586
 msgid "Search the name in the directory of the university"
 msgstr "Cerca il nome nella directory dell'università"
 
@@ -807,59 +826,69 @@ msgid "edition of link %id_link"
 msgstr ""
 
 #: includes/links_edit.php:41
-msgid "Links management : edition of card %id_card"
+msgid "Links management : edition of record %id_record"
 msgstr ""
 
-#: includes/links_edit.php:87 includes/links_new.php:54
+#: includes/links_edit.php:46 includes/links_list.php:41
+#: includes/links_list.php:45 includes/links_new.php:40
+#, fuzzy
+msgid "Management of external links"
+msgstr "Gestione delle unità / servizi"
+
+#: includes/links_edit.php:47
+msgid "Edit link %id_link"
+msgstr ""
+
+#: includes/links_edit.php:94 includes/links_new.php:61
 msgid "Search link by identifier"
 msgstr "Cerca collegamento per identificatore"
 
-#: includes/links_edit.php:97 includes/links_new.php:58
+#: includes/links_edit.php:104 includes/links_new.php:65
 msgid "Search link by title"
 msgstr "Cerca collegamento per titolo"
 
-#: includes/links_edit.php:101 includes/links_new.php:59
+#: includes/links_edit.php:108 includes/links_new.php:66
 msgid "of journal"
 msgstr ""
 
-#: includes/links_edit.php:105 includes/links_new.php:60
+#: includes/links_edit.php:112 includes/links_new.php:67
 msgid "of book"
 msgstr ""
 
-#: includes/links_edit.php:109
+#: includes/links_edit.php:116 includes/orders_edit.php:837 index.php:928
 msgid "Article or chapter title"
 msgstr "Titolo del articolo o del libro"
 
-#: includes/links_edit.php:111
+#: includes/links_edit.php:118
 msgid "Order link"
 msgstr "Collegamento dell’ordine"
 
-#: includes/links_edit.php:115 includes/links_new.php:64
+#: includes/links_edit.php:122 includes/links_new.php:71
 msgid "External form"
 msgstr ""
 
-#: includes/links_edit.php:119 includes/links_new.php:65
+#: includes/links_edit.php:126 includes/links_new.php:72
 msgid "Internal form"
 msgstr ""
 
-#: includes/links_edit.php:143 includes/links_new.php:87
+#: includes/links_edit.php:150 includes/links_new.php:94
 msgid "Transform url arguments from UTF-8 to ISO-8859-1"
 msgstr ""
 
-#: includes/links_edit.php:147 includes/links_new.php:89
+#: includes/links_edit.php:154 includes/links_new.php:96
 msgid "Ignore the words in title of the journal / book"
 msgstr ""
 
-#: includes/links_edit.php:149 includes/links_new.php:90
+#: includes/links_edit.php:156 includes/links_new.php:97
 msgid "not significants"
 msgstr ""
 
-#: includes/links_edit.php:151 includes/links_new.php:91
+#: includes/links_edit.php:158 includes/links_new.php:98
 msgid "after the symbol"
 msgstr ""
 
-#: includes/links_edit.php:152 includes/links_list.php:67
-#: includes/links_new.php:92
+#: includes/links_edit.php:159 includes/links_list.php:73
+#: includes/links_new.php:99
 msgid "Active link"
 msgstr ""
 
@@ -867,76 +896,69 @@ msgstr ""
 msgid "links management"
 msgstr "Gestione degli links"
 
-#: includes/links_list.php:39
-#, fuzzy
-msgid "Management of external links"
-msgstr "Gestione delle unità / servizi"
-
-#: includes/links_list.php:48
+#: includes/links_list.php:54
 #, fuzzy
 msgid "link found"
 msgstr "biblioteca trovata"
 
-#: includes/links_list.php:50
+#: includes/links_list.php:56
 #, fuzzy
 msgid "links found"
 msgstr "biblioteca trovata"
 
-#: includes/links_list.php:60 includes/links_new.php:47
-#: includes/orders_edit.php:295 includes/orders_edit_backup.php:295
-#: includes/orders_edit_old.php:295 includes/orders_new.php:423
-#: includes/orders_update.php:201 includes/users_edit.php:98
-#: includes/users_new.php:47 index.php:420
+#: includes/links_list.php:66 includes/links_new.php:54
+#: includes/orders_edit.php:429 includes/orders_new.php:423
+#: includes/orders_update.php:201 includes/users_edit.php:105
+#: includes/users_new.php:54 index.php:557
 msgid "Name"
 msgstr "Cognome"
 
-#: includes/links_list.php:61
+#: includes/links_list.php:67
 msgid "URL"
 msgstr ""
 
-#: includes/links_list.php:62
+#: includes/links_list.php:68
 msgid "Search by"
 msgstr ""
 
-#: includes/links_list.php:63
+#: includes/links_list.php:69
 #, fuzzy
 msgid "Order form"
 msgstr "Data dell'ordine"
 
-#: includes/links_list.php:66
+#: includes/links_list.php:72
 #, fuzzy
 msgid "List position"
 msgstr "Posizione"
 
-#: includes/links_list.php:106 includes/searchform.php:93
+#: includes/links_list.php:112 includes/searchform.php:104
 msgid "Journal title"
 msgstr ""
 
-#: includes/links_list.php:110 includes/orders_new.php:455
+#: includes/links_list.php:116 includes/orders_new.php:455
 #: includes/orders_update.php:232
 #, fuzzy
 msgid "Book title"
 msgstr "Capitolo di libro"
 
-#: includes/links_list.php:114 includes/searchform.php:97
+#: includes/links_list.php:120 includes/searchform.php:108
 #, fuzzy
 msgid "Article title"
 msgstr "Articolo"
 
-#: includes/links_list.php:121
+#: includes/links_list.php:127
 msgid "External"
 msgstr ""
 
-#: includes/links_list.php:125
+#: includes/links_list.php:131
 msgid "Internal"
 msgstr ""
 
-#: includes/links_list.php:134
-#, fuzzy
-msgid "Edit card"
-msgstr "Modifica"
+#: includes/links_list.php:140
+msgid "Edit the link"
+msgstr ""
 
-#: includes/links_list.php:142
+#: includes/links_list.php:148
 #, fuzzy
 msgid "Add a new link"
 msgstr "Aggiungi nuovo filtro"
@@ -945,24 +967,28 @@ msgstr "Aggiungi nuovo filtro"
 msgid "New external link"
 msgstr ""
 
-#: includes/links_new.php:37
-msgid "Links management : New card creation"
+#: includes/links_new.php:41
+msgid "New link"
 msgstr ""
 
 #: includes/links_new.php:44
+msgid "Links management : New record creation"
+msgstr ""
+
+#: includes/links_new.php:51
 #, fuzzy
 msgid "Save the new link"
 msgstr "Salvare la nuova biblioteca"
 
-#: includes/links_new.php:53
+#: includes/links_new.php:60
 msgid "Position in the list"
 msgstr ""
 
-#: includes/links_new.php:61
+#: includes/links_new.php:68
 msgid "of article or chapter"
 msgstr "dell'articolo o del capitolo del libro"
 
-#: includes/links_new.php:94
+#: includes/links_new.php:101
 #, fuzzy
 msgid "Save new link"
 msgstr "Salvare la nuova biblioteca"
@@ -976,7 +1002,7 @@ msgid "The URL is required"
 msgstr ""
 
 #: includes/links_update.php:106
-msgid "edition of the card %id"
+msgid "edition of the record %id"
 msgstr ""
 
 #: includes/links_update.php:157 includes/links_update.php:179
@@ -999,23 +1025,33 @@ msgstr ""
 
 #: includes/localizations_edit.php:40
 #, fuzzy
-msgid "Localizations management : edition of card %id_card"
+msgid "Localizations management : edition of record %id_record"
 msgstr "Gestione localizzazione"
+
+#: includes/localizations_edit.php:46
+msgid "Edit localization %id"
+msgstr ""
+
+#: includes/localizations_list.php:98
+msgid "Edit the location"
+msgstr ""
 
 #: includes/localizations_new.php:34
-#, fuzzy
-msgid "new network localization"
-msgstr "Crea una nuova localizzazione"
+msgid "new network location"
+msgstr ""
 
-#: includes/localizations_new.php:36
+#: includes/localizations_new.php:40
+msgid "New location"
+msgstr ""
+
+#: includes/localizations_new.php:43
 #, fuzzy
-msgid "Localizations management : New card creation"
+msgid "Localizations management : New record creation"
 msgstr "Gestione localizzazione"
 
-#: includes/localizations_new.php:43 includes/localizations_new.php:75
-#, fuzzy
-msgid "Save the new localization"
-msgstr "Crea una nuova localizzazione"
+#: includes/localizations_new.php:50 includes/localizations_new.php:82
+msgid "Save the new location"
+msgstr ""
 
 #: includes/localizations_update.php:61 includes/status_update.php:78
 #: includes/units_update.php:82
@@ -1026,7 +1062,7 @@ msgid ""
 msgstr ""
 
 #: includes/localizations_update.php:79
-msgid "Edition of the localization card %id_card"
+msgid "Edition of the localization record %id_record"
 msgstr ""
 
 #: includes/localizations_update.php:89 includes/localizations_update.php:119
@@ -1043,35 +1079,39 @@ msgstr ""
 msgid "Delete a localization"
 msgstr "Rimuovi una localizzazione"
 
-#: includes/loginfail.php:30
+#: includes/loginfail.php:35
 msgid "You are not allowed to access this page or your session has expired"
 msgstr ""
 
-#: includes/loginfail.php:34 includes/orders_detail.php:244
-#: includes/users_edit.php:102 includes/users_list.php:61
-#: includes/users_new.php:49
+#: includes/loginfail.php:47 login.php:197
+msgid "Log in"
+msgstr ""
+
+#: includes/loginfail.php:51 includes/orders_detail.php:244
+#: includes/users_edit.php:109 includes/users_list.php:67
+#: includes/users_new.php:56 login.php:201
 #, fuzzy
 msgid "Username"
 msgstr "Gestione utenti"
 
-#: includes/loginfail.php:35 includes/orders_detail.php:244
-#: includes/users_new.php:82
+#: includes/loginfail.php:59 includes/orders_detail.php:244
+#: includes/users_new.php:89 login.php:209
 msgid "Password"
 msgstr ""
 
-#: includes/loginfail.php:47 login.php:205
+#: includes/loginfail.php:77 login.php:240
 msgid "Request password"
 msgstr ""
 
-#: includes/loginfail.php:47
-msgid "Service only available to users with an openillink order"
+#: includes/loginfail.php:77 login.php:240
+msgid "Service only available to users with an openillink command"
 msgstr ""
 
 #: includes/orders_detail.php:35
 msgid "%institution_name order: order %order_id detail"
 msgstr ""
 
-#: includes/orders_detail.php:111 includes/searchform.php:47
+#: includes/orders_detail.php:111 includes/searchform.php:58
 #, fuzzy
 msgid "Order number"
 msgstr "Data dell'ordine"
@@ -1091,9 +1131,7 @@ msgstr "Non una priorità"
 msgid "Shared Incoming Order"
 msgstr ""
 
-#: includes/orders_detail.php:121 includes/orders_edit.php:238
-#: includes/orders_edit_backup.php:238 includes/orders_edit_old.php:238
-#: index.php:347
+#: includes/orders_detail.php:121 includes/orders_edit.php:300 index.php:404
 msgid "Order date"
 msgstr "Data dell'ordine"
 
@@ -1134,7 +1172,7 @@ msgstr "Indirizzo mail"
 
 #: includes/orders_detail.php:164 includes/orders_new.php:430
 #: includes/orders_update.php:208 includes/ordertop.php:80
-#: includes/searchform.php:81
+#: includes/searchform.php:92
 msgid "Service"
 msgstr ""
 
@@ -1142,7 +1180,7 @@ msgstr ""
 msgid "Search for orders from this service"
 msgstr ""
 
-#: includes/orders_detail.php:167 index.php:541 index.php:543
+#: includes/orders_detail.php:167 index.php:826 index.php:828
 msgid "Document type"
 msgstr "Tipo del documento"
 
@@ -1151,9 +1189,8 @@ msgstr "Tipo del documento"
 msgid "Search for orders from this title"
 msgstr ""
 
-#: includes/orders_detail.php:172 includes/orders_edit.php:496
-#: includes/orders_edit_backup.php:496 includes/orders_edit_old.php:496
-#: includes/ordertop.php:91 includes/searchform.php:101 index.php:583
+#: includes/orders_detail.php:172 includes/orders_edit.php:845
+#: includes/ordertop.php:91 includes/searchform.php:112 index.php:936
 msgid "Author(s)"
 msgstr "Autore"
 
@@ -1168,27 +1205,25 @@ msgstr ""
 msgid "Volume"
 msgstr ""
 
-#: includes/orders_detail.php:193 includes/ordertop.php:112
+#: includes/orders_detail.php:193 includes/orders_edit.php:798
+#: includes/ordertop.php:112 index.php:889
 msgid "Issue"
 msgstr ""
 
-#: includes/orders_detail.php:195 includes/orders_edit.php:482
-#: includes/orders_edit_backup.php:482 includes/orders_edit_old.php:482
-#: includes/orders_new.php:471 includes/orders_update.php:248 index.php:570
+#: includes/orders_detail.php:195 includes/orders_edit.php:808
+#: includes/orders_new.php:471 includes/orders_update.php:248 index.php:899
 msgid "Suppl."
 msgstr ""
 
-#: includes/orders_detail.php:197 includes/orders_edit.php:486
-#: includes/orders_edit_backup.php:486 includes/orders_edit_old.php:486
+#: includes/orders_detail.php:197 includes/orders_edit.php:818
 #: includes/orders_new.php:475 includes/orders_update.php:252
-#: includes/ordertop.php:114 index.php:574
+#: includes/ordertop.php:114 index.php:909
 msgid "Pages"
 msgstr ""
 
-#: includes/orders_detail.php:199 includes/orders_edit.php:470
-#: includes/orders_edit_backup.php:470 includes/orders_edit_old.php:470
+#: includes/orders_detail.php:199 includes/orders_edit.php:778
 #: includes/orders_new.php:459 includes/orders_update.php:236
-#: includes/ordertop.php:116 index.php:558
+#: includes/ordertop.php:116 index.php:869
 msgid "Year"
 msgstr "Anno"
 
@@ -1250,7 +1285,7 @@ msgstr "Ordine pagato in anticipo"
 msgid "Provider ref."
 msgstr "Ref. fornitore"
 
-#: includes/orders_detail.php:242 includes/searchform.php:109
+#: includes/orders_detail.php:242 includes/searchform.php:120
 msgid "Internal library ref."
 msgstr "Rif. interno alla libreria"
 
@@ -1264,235 +1299,221 @@ msgstr "Modifica codici di accesso"
 msgid "Public comment"
 msgstr ""
 
-#: includes/orders_detail.php:248 includes/orders_new.php:508
+#: includes/orders_detail.php:249 includes/orders_new.php:374
+msgid "Warning. Possible duplicate of the order."
+msgstr ""
+
+#: includes/orders_detail.php:250 includes/orders_new.php:508
 #: includes/orders_update.php:280
 #, fuzzy
 msgid "Professional comment"
 msgstr "Note professionali"
 
-#: includes/orders_detail.php:249
+#: includes/orders_detail.php:252
 #, fuzzy
 msgid "Order history"
 msgstr "Data dell'ordine"
 
-#: includes/orders_edit.php:35 includes/orders_edit_backup.php:35
-#: includes/orders_edit_old.php:35
+#: includes/orders_edit.php:35
 msgid "%institution_name: order %order_id edition"
 msgstr ""
 
-#: includes/orders_edit.php:65 includes/orders_edit_backup.php:65
-#: includes/orders_edit_old.php:65
+#: includes/orders_edit.php:68
 #, php-format
 msgid "Order %order_id modification"
 msgstr ""
 
-#: includes/orders_edit.php:68 includes/orders_edit_backup.php:68
-#: includes/orders_edit_old.php:68
+#: includes/orders_edit.php:71
 #, fuzzy
 msgid "Attributed to library"
 msgstr "Attribuito a"
 
-#: includes/orders_edit.php:90 includes/orders_edit.php:532
-#: includes/orders_edit_backup.php:90 includes/orders_edit_backup.php:532
-#: includes/orders_edit_old.php:90 includes/orders_edit_old.php:532
-#: resendcredentials.php:43
+#: includes/orders_edit.php:101 resendcredentials.php:43
 msgid "Submit"
 msgstr "Inviare"
 
-#: includes/orders_edit.php:196 includes/orders_edit_backup.php:196
-#: includes/orders_edit_old.php:196 index.php:324
+#: includes/orders_edit.php:233 index.php:354
 msgid "Priority"
 msgstr "Priorità"
 
-#: includes/orders_edit.php:201 includes/orders_edit_backup.php:201
-#: includes/orders_edit_old.php:201 index.php:325
+#: includes/orders_edit.php:242 index.php:360
 msgid "Normal"
 msgstr "Normale"
 
-#: includes/orders_edit.php:205 includes/orders_edit_backup.php:205
-#: includes/orders_edit_old.php:205 index.php:326
+#: includes/orders_edit.php:246 index.php:361
 msgid "Urgent"
 msgstr "Urgente"
 
-#: includes/orders_edit.php:209 includes/orders_edit_backup.php:209
-#: includes/orders_edit_old.php:209 index.php:327
+#: includes/orders_edit.php:250 index.php:362
 msgid "Not a priority"
 msgstr "Non una priorità"
 
-#: includes/orders_edit.php:215 includes/orders_edit_backup.php:215
-#: includes/orders_edit_old.php:215 index.php:330
+#: includes/orders_edit.php:263 index.php:372
 msgid "Origin of the order"
 msgstr "Origine dell'ordine"
 
-#: includes/orders_edit.php:229 includes/orders_edit_backup.php:229
-#: includes/orders_edit_old.php:229 includes/units_edit.php:131
-#: includes/units_edit.php:149 includes/units_new.php:105
-#: includes/units_new.php:122 index.php:341
+#: includes/orders_edit.php:281 includes/units_edit.php:138
+#: includes/units_edit.php:156 includes/units_new.php:111
+#: includes/units_new.php:128 index.php:387
 msgid "Add new value..."
 msgstr "Aggiungi nuovo valore ..."
 
-#: includes/orders_edit.php:238 includes/orders_edit_backup.php:238
-#: includes/orders_edit_old.php:238 index.php:347
+#: includes/orders_edit.php:300 index.php:404
 msgid "to be completed only if different from the current date"
 msgstr "Da completare solo se diverso dalla data corrente"
 
-#: includes/orders_edit.php:242 includes/orders_edit_backup.php:242
-#: includes/orders_edit_old.php:242 index.php:351
+#: includes/orders_edit.php:312 index.php:416
 msgid "Date of shipment"
 msgstr "Data dell'invio"
 
-#: includes/orders_edit.php:246 includes/orders_edit_backup.php:246
-#: includes/orders_edit_old.php:246 index.php:355
+#: includes/orders_edit.php:326 index.php:430
 msgid "Invoice date"
 msgstr "Data della fattura"
 
-#: includes/orders_edit.php:251 includes/orders_edit_backup.php:251
-#: includes/orders_edit_old.php:251 index.php:359
+#: includes/orders_edit.php:339 index.php:442
 msgid "To be renewed on"
 msgstr "Da rinnovare il"
 
-#: includes/orders_edit.php:259 includes/orders_edit_backup.php:259
-#: includes/orders_edit_old.php:259 index.php:363
+#: includes/orders_edit.php:354 index.php:456
 #, php-format
 msgid "Price (%currency)"
 msgstr "Prezzo (%currency)"
 
-#: includes/orders_edit.php:264 includes/orders_edit_backup.php:264
-#: includes/orders_edit_old.php:264 index.php:365
+#: includes/orders_edit.php:368 index.php:467
 msgid "order paid in advance"
 msgstr "Ordine pagato in anticipo"
 
-#: includes/orders_edit.php:268 includes/orders_edit_backup.php:268
-#: includes/orders_edit_old.php:268 index.php:368
+#: includes/orders_edit.php:375 index.php:474
 msgid "Provider Ref."
 msgstr "Ref. fornitore "
 
-#: includes/orders_edit.php:272 includes/orders_edit_backup.php:272
-#: includes/orders_edit_old.php:272 index.php:372
+#: includes/orders_edit.php:388 index.php:487
 msgid "Internal ref. to the library"
 msgstr "Rif. interno alla libreria"
 
-#: includes/orders_edit.php:282 includes/orders_edit_backup.php:282
-#: includes/orders_edit_old.php:282 index.php:378
+#: includes/orders_edit.php:407 index.php:502
 msgid "Professional Notes"
 msgstr "Note professionali"
 
-#: includes/orders_edit.php:297 includes/orders_edit_backup.php:297
-#: includes/orders_edit_old.php:297 index.php:422
+#: includes/orders_edit.php:424 index.php:552
+msgid "Contact and billing details"
+msgstr ""
+
+#: includes/orders_edit.php:443 index.php:571
 msgid "First name"
 msgstr "Nome"
 
-#: includes/orders_edit.php:340 includes/orders_edit_backup.php:340
-#: includes/orders_edit_old.php:340 index.php:459
+#: includes/orders_edit.php:514 index.php:637
 msgid "Other unit"
 msgstr "Altre unità"
 
-#: includes/orders_edit.php:349 includes/orders_edit_backup.php:349
-#: includes/orders_edit_old.php:349 index.php:465
+#: includes/orders_edit.php:531 index.php:684
 msgid "Budget heading"
 msgstr ""
 
-#: includes/orders_edit.php:353 includes/orders_edit_backup.php:353
-#: includes/orders_edit_old.php:353 index.php:469
+#: includes/orders_edit.php:543 index.php:694
 msgid "Budget subheading"
 msgstr ""
 
-#: includes/orders_edit.php:363 includes/orders_edit_backup.php:363
-#: includes/orders_edit_old.php:363 includes/orders_new.php:426
-#: includes/orders_update.php:204 includes/users_edit.php:100
-#: includes/users_list.php:59 includes/users_new.php:48 index.php:479
+#: includes/orders_edit.php:561 includes/orders_new.php:426
+#: includes/orders_update.php:204 includes/users_edit.php:107
+#: includes/users_list.php:65 includes/users_new.php:55 index.php:651
 msgid "E-Mail"
 msgstr "E-mail"
 
-#: includes/orders_edit.php:366 includes/orders_edit_backup.php:366
-#: includes/orders_edit_old.php:366 includes/orders_new.php:434
-#: includes/orders_update.php:212 index.php:482
+#: includes/orders_edit.php:575 includes/orders_new.php:434
+#: includes/orders_update.php:212 index.php:665
 msgid "Tel."
 msgstr ""
 
-#: includes/orders_edit.php:371 includes/orders_edit_backup.php:371
-#: includes/orders_edit_old.php:371 index.php:487
+#: includes/orders_edit.php:592 index.php:711
 msgid "Private address"
 msgstr "Indirizzo privato"
 
-#: includes/orders_edit.php:376 includes/orders_edit_backup.php:376
-#: includes/orders_edit_old.php:376 index.php:492
+#: includes/orders_edit.php:606
 msgid "Zip code"
 msgstr "Codice postale"
 
-#: includes/orders_edit.php:380 includes/orders_edit_backup.php:380
-#: includes/orders_edit_old.php:380 index.php:496
+#: includes/orders_edit.php:617 index.php:734
 msgid "City"
 msgstr "Città"
 
-#: includes/orders_edit.php:383 includes/orders_edit_backup.php:383
-#: includes/orders_edit_old.php:383 index.php:499
-msgid "If available at the library"
-msgstr "Se disponibile presso la biblioteca"
+#: includes/orders_edit.php:631 index.php:748
+msgid "If available at the library:"
+msgstr ""
 
-#: includes/orders_edit.php:389 includes/orders_edit_backup.php:389
-#: includes/orders_edit_old.php:389 index.php:502
-msgid "send by e-mail (billed)"
-msgstr "Inviare via e-mail (fatturato)"
+#: includes/orders_edit.php:641 index.php:755
+msgid "Send by e-mail (billed)"
+msgstr ""
 
-#: includes/orders_edit.php:395 includes/orders_edit_backup.php:395
-#: includes/orders_edit_old.php:395 index.php:505
+#: includes/orders_edit.php:648
 msgid "let me know and I come to make a copy (not billed)"
 msgstr "Mi faccia sapere e vengo a fare una copia (non fatturata)"
 
-#: includes/orders_edit.php:401 includes/orders_edit_backup.php:401
-#: includes/orders_edit_old.php:401 index.php:511
+#: includes/orders_edit.php:664 index.php:774
 msgid "Remember data for future orders (cookies allowed)"
 msgstr "Ricorda i dati per ordini futuri (cookie permessi)"
 
-#: includes/orders_edit.php:401 includes/orders_edit_backup.php:401
-#: includes/orders_edit_old.php:401 index.php:511
+#: includes/orders_edit.php:664 index.php:774
 msgid "delete the cookie"
 msgstr "Eliminare il cookie"
 
-#: includes/orders_edit.php:411 includes/orders_edit_backup.php:411
-#: includes/orders_edit_old.php:411 index.php:528
+#: includes/orders_edit.php:681 index.php:794
 msgid "Fill in the order using"
 msgstr "Compilare l'ordine da"
 
-#: includes/orders_edit.php:464 includes/orders_edit_backup.php:464
-#: includes/orders_edit_old.php:464 index.php:552
-msgid "Title of journal or book"
-msgstr "Titolo della rivista o del libro"
+#: includes/orders_edit.php:722 index.php:809
+msgid "Identifier"
+msgstr ""
 
-#: includes/orders_edit.php:467 includes/orders_edit_backup.php:467
-#: includes/orders_edit_old.php:467 index.php:555
+#: includes/orders_edit.php:723 index.php:810
+msgid "Fill in"
+msgstr ""
+
+#: includes/orders_edit.php:760 index.php:850
+msgid "Journal / Book"
+msgstr ""
+
+#: includes/orders_edit.php:770 index.php:861
 msgid "check on journals database"
 msgstr ""
 
-#: includes/orders_edit.php:474 includes/orders_edit_backup.php:474
-#: includes/orders_edit_old.php:474 index.php:562
+#: includes/orders_edit.php:788 index.php:879
 msgid "Vol."
 msgstr ""
 
-#: includes/orders_edit.php:478 includes/orders_edit_backup.php:478
-#: includes/orders_edit_old.php:478 index.php:566
-msgid "(Issue)"
+#: includes/orders_edit.php:858 includes/orders_new.php:479
+#: includes/orders_update.php:256 index.php:949
+#, fuzzy
+msgid "Edition"
+msgstr "Modifica"
+
+#: includes/orders_edit.php:863 index.php:954
+msgid "(for books)"
 msgstr ""
 
-#: includes/orders_edit.php:490 includes/orders_edit_backup.php:490
-#: includes/orders_edit_old.php:490 index.php:578
-msgid "Title of article or book chapter"
-msgstr "Titolo dell'articolo o del capitolo del libro"
+#: includes/orders_edit.php:868 index.php:959
+msgid "ISSN / ISBN"
+msgstr ""
 
-#: includes/orders_edit.php:502 includes/orders_edit_backup.php:502
-#: includes/orders_edit_old.php:502 index.php:589
-msgid "Edition (for books)"
-msgstr "Edizione (per i libri)"
+#: includes/orders_edit.php:878 index.php:969
+msgid "UID"
+msgstr ""
 
-#: includes/orders_edit.php:522 includes/orders_edit_backup.php:522
-#: includes/orders_edit_old.php:522 index.php:601
+#: includes/orders_edit.php:891 index.php:982
 msgid "Notes"
 msgstr "Commento"
 
-#: includes/orders_edit.php:533 includes/orders_edit_backup.php:533
-#: includes/orders_edit_old.php:533 index.php:650
+#: includes/orders_edit.php:913
+msgid "Save"
+msgstr ""
+
+#: includes/orders_edit.php:916 index.php:1040
 msgid "Reset"
+msgstr ""
+
+#: includes/orders_edit.php:921
+msgid "Permanently delete this order"
 msgstr ""
 
 #: includes/orders_list.php:34
@@ -1525,10 +1546,6 @@ msgstr ""
 msgid "Back to entry form"
 msgstr "Torna alla liste dei filtri"
 
-#: includes/orders_new.php:374
-msgid "Warning. Possible duplicate of the order."
-msgstr ""
-
 #: includes/orders_new.php:388
 #, php-format
 msgid "Multiple orders (%d/%d)"
@@ -1556,11 +1573,6 @@ msgstr "Autore"
 #: includes/orders_new.php:467 includes/orders_update.php:244
 msgid "Number"
 msgstr ""
-
-#: includes/orders_new.php:479 includes/orders_update.php:256
-#, fuzzy
-msgid "Edition"
-msgstr "Modifica"
 
 #: includes/orders_new.php:519
 #, fuzzy
@@ -1630,6 +1642,12 @@ msgstr "Localizzazione"
 msgid "Shared incoming order"
 msgstr ""
 
+#: includes/pages.php:53 includes/pages.php:63 includes/pages.php:67
+#: includes/pages.php:77
+#, php-format
+msgid "Page %s"
+msgstr ""
+
 #: includes/resend_credential.php:36
 msgid "OpenILLink resend password"
 msgstr "OpenILLink rinvio della password"
@@ -1659,49 +1677,49 @@ msgstr "La tua password è :% s"
 msgid "If you have not made ​​that request thank you to let us know."
 msgstr "Se non hai fatto quella richiesta, grazie per farci sapere."
 
-#: includes/searchform.php:51
+#: includes/searchform.php:62
 #, fuzzy
 msgid "Order date (YYY-MM-DD)"
 msgstr "Data dell'ordine"
 
-#: includes/searchform.php:55
+#: includes/searchform.php:66
 msgid "Sending date (YYY-MM-DD)"
 msgstr ""
 
-#: includes/searchform.php:59
+#: includes/searchform.php:70
 msgid "Billing date (YYY-MM-DD)"
 msgstr ""
 
-#: includes/searchform.php:73
+#: includes/searchform.php:84
 #, fuzzy
 msgid "User name"
 msgstr "Gestione utenti"
 
-#: includes/searchform.php:77
+#: includes/searchform.php:88
 msgid "User e-mail"
 msgstr ""
 
-#: includes/searchform.php:105
+#: includes/searchform.php:116
 msgid "Provider ref. (Subito n˚)"
 msgstr "Ref. fornitore (n˚ Subito)"
 
-#: includes/searchform.php:113
+#: includes/searchform.php:124
 msgid "All over"
 msgstr ""
 
-#: includes/searchform.php:135
+#: includes/searchform.php:157
 msgid "Filter by status"
 msgstr ""
 
-#: includes/searchform.php:150
+#: includes/searchform.php:189
 msgid "Orders submitted by me only"
 msgstr ""
 
-#: includes/searchform.php:152
+#: includes/searchform.php:199
 msgid "Use"
 msgstr ""
 
-#: includes/searchform.php:152
+#: includes/searchform.php:204
 msgid "Search and filter can be used cumulatively or separately"
 msgstr ""
 
@@ -1719,106 +1737,104 @@ msgstr ""
 msgid "Status management : edition of the order step %order_id"
 msgstr "Gestione localizzazione"
 
-#: includes/status_edit.php:81 includes/status_list.php:62
-#: includes/status_new.php:49
+#: includes/status_edit.php:48
+#, php-format
+msgid "Edit step %order_id"
+msgstr ""
+
+#: includes/status_edit.php:88 includes/status_list.php:68
+#: includes/status_new.php:56
 msgid "Help in French"
 msgstr "Aiuto in francese"
 
-#: includes/status_edit.php:83 includes/status_new.php:51
+#: includes/status_edit.php:90 includes/status_new.php:58
 msgid "Help in English"
 msgstr "Aiuto in inglese"
 
-#: includes/status_edit.php:85 includes/status_new.php:53
+#: includes/status_edit.php:92 includes/status_new.php:60
 msgid "Help in German"
 msgstr "Aiuto in tedescho"
 
-#: includes/status_edit.php:87 includes/status_new.php:55
+#: includes/status_edit.php:94 includes/status_new.php:62
 msgid "Help in Italian"
 msgstr "Aiuto in italiano"
 
-#: includes/status_edit.php:89 includes/status_new.php:57
+#: includes/status_edit.php:96 includes/status_new.php:64
 msgid "Help in Spanish"
 msgstr "Aiuto in spagnolo"
 
-#: includes/status_edit.php:90 includes/status_new.php:58
+#: includes/status_edit.php:97 includes/status_new.php:65
 msgid "Display orders with this status in the IN listing"
 msgstr ""
 
-#: includes/status_edit.php:94 includes/status_new.php:59
+#: includes/status_edit.php:101 includes/status_new.php:66
 msgid "Display orders with this status in the OUT listing"
 msgstr ""
 
-#: includes/status_edit.php:98 includes/status_new.php:60
+#: includes/status_edit.php:105 includes/status_new.php:67
 msgid "Display orders with this status in the TRASH listing"
 msgstr ""
 
-#: includes/status_edit.php:102 includes/status_list.php:68
-#: includes/status_new.php:61
+#: includes/status_edit.php:109 includes/status_list.php:74
+#: includes/status_new.php:68
 msgid "Add special status flag"
 msgstr ""
 
-#: includes/status_edit.php:108 includes/status_new.php:64
+#: includes/status_edit.php:115 includes/status_new.php:71
 #, fuzzy
 msgid "New order (new)"
 msgstr "Nuovo ordine"
 
-#: includes/status_edit.php:112
+#: includes/status_edit.php:119
 msgid "New multiple order (newmultiple)"
 msgstr ""
 
-#: includes/status_edit.php:116 includes/status_new.php:65
+#: includes/status_edit.php:123 includes/status_new.php:72
 msgid "Order sent (sent)"
 msgstr ""
 
-#: includes/status_edit.php:120 includes/status_new.php:66
+#: includes/status_edit.php:127 includes/status_new.php:73
 #, fuzzy
 msgid "Order paid (paid)"
 msgstr "Ordine pagato in anticipo"
 
-#: includes/status_edit.php:124 includes/status_new.php:67
+#: includes/status_edit.php:131 includes/status_new.php:74
 msgid "Order to renew (renew)"
 msgstr ""
 
-#: includes/status_edit.php:128 includes/status_new.php:68
+#: includes/status_edit.php:135 includes/status_new.php:75
 msgid "Order rejected (reject)"
 msgstr ""
 
-#: includes/status_edit.php:132 includes/status_new.php:69
+#: includes/status_edit.php:139 includes/status_new.php:76
 msgid "Order to be validated (tobevalidated)"
 msgstr ""
 
-#: includes/status_edit.php:135 includes/status_new.php:72
+#: includes/status_edit.php:142 includes/status_new.php:79
 msgid "Color (.CSS valid value is expected)"
-msgstr ""
-
-#: includes/status_edit.php:146 includes/status_edit.php:155
-#: includes/units_edit.php:181 includes/units_edit.php:190
-#: includes/users_edit.php:178 includes/users_edit.php:187
-msgid "The record was not found in the database."
 msgstr ""
 
 #: includes/status_list.php:35
 msgid "%institution_name : edition of the order steps"
 msgstr ""
 
-#: includes/status_list.php:48
+#: includes/status_list.php:54
 msgid "order step found"
 msgstr ""
 
-#: includes/status_list.php:50
+#: includes/status_list.php:56
 msgid "order steps found"
 msgstr ""
 
-#: includes/status_list.php:67
+#: includes/status_list.php:73
 msgid "Display in listing"
 msgstr ""
 
-#: includes/status_list.php:119
-#, fuzzy
-msgid "Edit record"
-msgstr "Modifica"
+#: includes/status_list.php:125
+msgid "Edit the step"
+msgstr ""
 
-#: includes/status_list.php:127
+#: includes/status_list.php:133
 #, fuzzy
 msgid "Add a new step"
 msgstr "Aggiungi nuovo filtro"
@@ -1827,11 +1843,15 @@ msgstr "Aggiungi nuovo filtro"
 msgid "%institution_name : new order step"
 msgstr ""
 
-#: includes/status_new.php:35
+#: includes/status_new.php:39
+msgid "New step"
+msgstr ""
+
+#: includes/status_new.php:42
 msgid "Order steps management : new order step"
 msgstr ""
 
-#: includes/status_new.php:45
+#: includes/status_new.php:52
 msgid "Code (number)"
 msgstr ""
 
@@ -1880,65 +1900,74 @@ msgstr ""
 msgid "Units management : edition of the unit %id"
 msgstr "Gestione localizzazione"
 
-#: includes/units_edit.php:117 includes/units_list.php:73
-#: includes/units_new.php:92
-msgid "Department"
-msgstr "Dipartimento"
-
-#: includes/units_edit.php:135 includes/units_list.php:74
-#: includes/units_new.php:109
-msgid "Faculty"
-msgstr "Facoltà"
-
-#: includes/units_edit.php:153 includes/units_new.php:126
-msgid "IP-based display"
-msgstr ""
-
-#: includes/units_edit.php:157 includes/units_new.php:126
-msgid "Internal IP 1"
-msgstr ""
-
-#: includes/units_edit.php:161 includes/units_new.php:126
-msgid "Internal IP 2"
-msgstr ""
-
-#: includes/units_edit.php:165
-msgid "External IP"
-msgstr ""
-
-#: includes/units_edit.php:166 includes/units_list.php:78
-#: includes/units_new.php:127
-msgid "Need validation"
-msgstr "Necessita validazione"
-
-#: includes/units_list.php:43
+#: includes/units_edit.php:47 includes/units_list.php:43
+#: includes/units_list.php:49 includes/units_new.php:41
 #, fuzzy
 msgid "Management of network units"
 msgstr "Gestione delle unità / servizi"
 
-#: includes/units_list.php:53
+#: includes/units_edit.php:48
+msgid "Edit unit %id"
+msgstr ""
+
+#: includes/units_edit.php:124 includes/units_list.php:79
+#: includes/units_new.php:98
+msgid "Department"
+msgstr "Dipartimento"
+
+#: includes/units_edit.php:142 includes/units_list.php:80
+#: includes/units_new.php:115
+msgid "Faculty"
+msgstr "Facoltà"
+
+#: includes/units_edit.php:160 includes/units_new.php:132
+msgid "IP-based display"
+msgstr ""
+
+#: includes/units_edit.php:164 includes/units_new.php:132
+msgid "Internal IP 1"
+msgstr ""
+
+#: includes/units_edit.php:168 includes/units_new.php:132
+msgid "Internal IP 2"
+msgstr ""
+
+#: includes/units_edit.php:172
+msgid "External IP"
+msgstr ""
+
+#: includes/units_edit.php:173 includes/units_list.php:84
+#: includes/units_new.php:133
+msgid "Need validation"
+msgstr "Necessita validazione"
+
+#: includes/units_list.php:59
 #, fuzzy
 msgid "unit found"
 msgstr "biblioteca trovata"
 
-#: includes/units_list.php:55
+#: includes/units_list.php:61
 #, fuzzy
 msgid "units found"
 msgstr "biblioteca trovata"
 
-#: includes/units_list.php:75
+#: includes/units_list.php:81
 msgid "ip int.1"
 msgstr ""
 
-#: includes/units_list.php:76
+#: includes/units_list.php:82
 msgid "ip int.2"
 msgstr ""
 
-#: includes/units_list.php:77
+#: includes/units_list.php:83
 msgid "ip ext."
 msgstr ""
 
-#: includes/units_list.php:124
+#: includes/units_list.php:122
+msgid "Edit the unit"
+msgstr ""
+
+#: includes/units_list.php:130
 #, fuzzy
 msgid "Add a new unit"
 msgstr "Aggiungi nuovo filtro"
@@ -1948,12 +1977,16 @@ msgstr "Aggiungi nuovo filtro"
 msgid "New network unit"
 msgstr "Crea una nuova biblioteca"
 
-#: includes/units_new.php:39
+#: includes/units_new.php:42
+msgid "New unit"
+msgstr ""
+
+#: includes/units_new.php:45
 #, fuzzy
 msgid "Units management : new unit record"
 msgstr "Gestione localizzazione"
 
-#: includes/units_new.php:59 includes/units_new.php:130
+#: includes/units_new.php:65 includes/units_new.php:136
 #, fuzzy
 msgid "Save new unit"
 msgstr "Salvare la nuova biblioteca"
@@ -1997,10 +2030,12 @@ msgstr "Crea una nuova biblioteca"
 
 #: includes/units_update.php:174 includes/users_update.php:217
 #, fuzzy
-msgid "The card %id has been successfully deleted"
+msgid "The record %id has been successfully deleted"
 msgstr "Il cestino è stato vuotato con successo"
 
-#: includes/users_edit.php:36 includes/users_list.php:36
+#: includes/users_edit.php:36 includes/users_edit.php:65
+#: includes/users_list.php:38 includes/users_list.php:42
+#: includes/users_new.php:40
 #, fuzzy
 msgid "Users management"
 msgstr "Gestione utenti"
@@ -2019,77 +2054,85 @@ msgstr ""
 msgid "Users management : edit my profile (%login_name)"
 msgstr ""
 
-#: includes/users_edit.php:111 includes/users_list.php:104
-#: includes/users_new.php:50
+#: includes/users_edit.php:66
+msgid "Edit user %id"
+msgstr ""
+
+#: includes/users_edit.php:118 includes/users_list.php:110
+#: includes/users_new.php:57
 msgid "Inactive"
 msgstr ""
 
-#: includes/users_edit.php:112 includes/users_list.php:62
-#: includes/users_new.php:51
+#: includes/users_edit.php:119 includes/users_list.php:68
+#: includes/users_new.php:58
 msgid "Rights"
 msgstr ""
 
-#: includes/users_edit.php:160
+#: includes/users_edit.php:167
 msgid "New password"
 msgstr ""
 
-#: includes/users_edit.php:161
+#: includes/users_edit.php:168
 msgid "Confirmation of new password"
 msgstr ""
 
-#: includes/users_list.php:45
+#: includes/users_list.php:51
 #, fuzzy
 msgid "user found"
 msgstr "biblioteca trovata"
 
-#: includes/users_list.php:47
+#: includes/users_list.php:53
 #, fuzzy
 msgid "users found"
 msgstr "biblioteca trovata"
 
-#: includes/users_list.php:58
+#: includes/users_list.php:64
 #, fuzzy
 msgid "Nom"
 msgstr "Normale"
 
-#: includes/users_list.php:92 includes/users_new.php:54
+#: includes/users_list.php:98 includes/users_new.php:61
 #, fuzzy
 msgid "Super Administrator"
 msgstr "Amministrazione"
 
-#: includes/users_list.php:94 includes/users_new.php:55
+#: includes/users_list.php:100 includes/users_new.php:62
 #, fuzzy
 msgid "Administrator"
 msgstr "Amministrazione"
 
-#: includes/users_list.php:96 includes/users_new.php:57
+#: includes/users_list.php:102 includes/users_new.php:64
 msgid "Collaborator"
 msgstr ""
 
-#: includes/users_list.php:98 includes/users_new.php:58
+#: includes/users_list.php:104 includes/users_new.php:65
 msgid "Guest"
 msgstr ""
 
-#: includes/users_list.php:102 includes/users_new.php:50
+#: includes/users_list.php:108 includes/users_new.php:57
 msgid "Active"
 msgstr ""
 
-#: includes/users_list.php:115
+#: includes/users_list.php:113
+msgid "Edit the user"
+msgstr ""
+
+#: includes/users_list.php:121
 #, fuzzy
 msgid "Add a new user"
 msgstr "Aggiungi nuovo filtro"
 
-#: includes/users_new.php:35
+#: includes/users_new.php:35 includes/users_new.php:41
 #, fuzzy
 msgid "New user"
 msgstr "Nuovo ordine"
 
-#: includes/users_new.php:37
+#: includes/users_new.php:44
 #, fuzzy
 msgid "Users management : new user"
 msgstr "Gestione utenti"
 
-#: includes/users_new.php:83
+#: includes/users_new.php:90
 #, fuzzy
 msgid "Confirm password"
 msgstr "La tua password è :% s"
@@ -2178,64 +2221,80 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
-#: index.php:230 index.php:391
+#: index.php:233 index.php:523
 msgid "Document order form to the "
 msgstr ""
 
-#: index.php:396
+#: index.php:527
 msgid "Please note, all orders are subject to a financial contribution"
 msgstr ""
 "Si prega di notare che tutti gli ordini sono soggetti ad un contributo "
 "finanziario"
 
-#: index.php:396
+#: index.php:527
 msgid "Contact us by email for more information (pricing, billing, etc.)"
 msgstr ""
 "Contattaci per e-mail per ulteriori informazioni (prezzi, fatturazione, ecc.)"
 
-#: index.php:624
+#: index.php:689
+msgid "CGR A"
+msgstr ""
+
+#: index.php:699
+msgid "CGR B"
+msgstr ""
+
+#: index.php:724
+msgid "Postal code"
+msgstr ""
+
+#: index.php:757
+msgid "Let me know and I come to make a copy (not billed)"
+msgstr ""
+
+#: index.php:1009
 #, php-format
 msgid ""
 "Fill in your order or %x_url_startupload a file with references%x_url_end:"
 msgstr ""
 
-#: index.php:627
+#: index.php:1011
 msgid "Supported file formats:"
 msgstr ""
 
-#: index.php:628
+#: index.php:1012
 msgid "EndNote XML (created via \"File\" → \"Export\" → Type \"XML\")"
 msgstr ""
 
-#: index.php:629
+#: index.php:1013
 msgid "RIS"
 msgstr ""
 
-#: index.php:630
+#: index.php:1014
 msgid ""
 "MEDLINE/PubMed (.nbib files created via \"Send to\" → \"Citation Manager\")"
 msgstr ""
 
-#: index.php:632
+#: index.php:1016
 #, php-format
 msgid "Maximum file size: %s MB"
 msgstr ""
 
-#: index.php:633
+#: index.php:1017
 #, php-format
 msgid "Maximum number of references: %s"
 msgstr ""
 
-#: index.php:646
+#: index.php:1027
 msgid "Add an item to the order"
 msgstr ""
 
-#: index.php:649
+#: index.php:1037
 msgid "Send order"
 msgstr ""
 
-#: login.php:205
-msgid "Service only available to users with an openillink command"
+#: index.php:1037
+msgid "Save order"
 msgstr ""
 
 #: reports.php:48
@@ -2413,6 +2472,45 @@ msgstr "In caso di preoccupazione si prega di"
 #: resendcredentials.php:46
 msgid "contact us"
 msgstr "contattarci"
+
+#~ msgid "Localisations management"
+#~ msgstr "Gestione localizzazione"
+
+#~ msgid "Create a new localisation"
+#~ msgstr "Crea una nuova localizzazione"
+
+#~ msgid "Reports"
+#~ msgstr "Rapporti"
+
+#~ msgid "Save the changes"
+#~ msgstr "Salva le modifiche"
+
+#, fuzzy
+#~ msgid "Edit record"
+#~ msgstr "Modifica"
+
+#, fuzzy
+#~ msgid "new network localization"
+#~ msgstr "Crea una nuova localizzazione"
+
+#, fuzzy
+#~ msgid "Save the new localization"
+#~ msgstr "Crea una nuova localizzazione"
+
+#~ msgid "If available at the library"
+#~ msgstr "Se disponibile presso la biblioteca"
+
+#~ msgid "send by e-mail (billed)"
+#~ msgstr "Inviare via e-mail (fatturato)"
+
+#~ msgid "Title of journal or book"
+#~ msgstr "Titolo della rivista o del libro"
+
+#~ msgid "Title of article or book chapter"
+#~ msgstr "Titolo dell'articolo o del capitolo del libro"
+
+#~ msgid "Edition (for books)"
+#~ msgstr "Edizione (per i libri)"
 
 #~ msgid "Fulfill the order from"
 #~ msgstr "Compilare l'ordine da"

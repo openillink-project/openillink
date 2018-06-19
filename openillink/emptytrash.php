@@ -38,9 +38,14 @@ if (!empty($_COOKIE['illinkid'])){
         $pagetitle = format_string(__("%institution_name orders: empty trash"), array('institution_name' => $configinstitution[$lang]));
         require ("includes/headeradmin.php");
         echo "\n";
-        echo "<br/><br/>\n";
+		echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+    <li class="is-active"><a href="emptytrash.php" aria-current="page">'.__("Empty trash").'</a></li>
+  </ul>
+</nav>';
         // Liens pour les administrateurs
-        echo "<h1>". __("Empty trash") ."</h1>\n";
+        echo "<h1 class=\"title\">". __("Empty trash") ."</h1>\n";
         echo "<br/>\n";
         if ($action == "deleteall"){
             $query = "DELETE orders.* FROM status, orders WHERE orders.stade = status.code AND status.trash = 1";

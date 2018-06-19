@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -32,15 +32,22 @@ if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")){
         $myhtmltitle = format_string(__("%institution_name : new order step"), array('institution_name' => $configinstitution[$lang]));
         require ("headeradmin.php");
-        echo "<h1>".__("Order steps management : new order step")."</h1>\n";
+		echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+    <li><a href="list.php?table=status">'.__("Order steps management").'</a></li>
+	<li class="is-active"><a href="new.php?table=status" aria-current="page">'.__("New step").'</a></li>
+  </ul>
+</nav>';
+        echo "<h1 class=\"title\">".__("Order steps management : new order step")."</h1>\n";
         echo "<br /></b>";
         echo "<ul>\n";
         echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
         echo "<input name=\"table\" type=\"hidden\" value=\"status\">\n";
         echo "<input name=\"action\" type=\"hidden\" value=\"new\">\n";
-        echo "<table id=\"hor-zebra\">\n";
-        echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
-        echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=status'\"></td></tr>\n";
+        echo "<table class=\"table is-striped\" id=\"hor-zebra\">\n";
+        echo "<tr><td></td><td><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save changes")."\">\n";
+        echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=status'\"></td></tr>\n";
         echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
         echo "<tr><td><b>".__("Code (number)")." *</b></td><td>\n";
         echo "<input name=\"code\" type=\"text\" size=\"6\" maxlength=\"6\" value=\"\"></td></tr>\n";
@@ -71,8 +78,8 @@ if (!empty($_COOKIE['illinkid'])){
         echo "</td></tr>\n";
         echo "<tr><td class=\"odd\"><b>".__("Color (.CSS valid value is expected)")."</b></td><td class=\"odd\"><input name=\"color\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
         echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-        echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
-        echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=status'\"></td></tr>\n";
+        echo "<tr><td></td><td><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save changes")."\">\n";
+        echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=status'\"></td></tr>\n";
         echo "</table>\n";
         echo "</form><br /><br />\n";
         require ("footer.php");
@@ -80,7 +87,7 @@ if (!empty($_COOKIE['illinkid'])){
     else{
         require ("header.php");
         echo "<center><br/><b><font color=\"red\">\n";
-        echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
+        echo __("Your rights are insufficient to edit this record")."</b></font></center><br /><br /><br /><br />\n";
         require ("footer.php");
     }
 }

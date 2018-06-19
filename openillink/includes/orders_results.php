@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -48,7 +48,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
     echo "<br />";
 
     if ($nb > 0){
-        echo "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n";
+        echo "<table class=\"ordersList\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n";
         echo "<tr><td valign=\"top\" width=\"95%\">\n";
         for ($i=0 ; $i<$nb ; $i++){
             $enreg = iimysqli_result_fetch_array($result);

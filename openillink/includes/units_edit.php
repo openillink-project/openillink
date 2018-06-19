@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -41,10 +41,17 @@ if (!empty($_COOKIE['illinkid'])){
             $myhtmltitle = $configname[$lang] . " : ". format_string(__("edition of the unit %id"), array('id' => $id));
             $montitle = format_string(__("Units management : edition of the unit %id"), array('id' => $id));
             require ("headeradmin.php");
+			echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+    <li><a href="list.php?table=units">'.__("Management of network units").'</a></li>
+    <li class="is-active"><a href="edit.php?table=units" aria-current="page">'.format_string(__("Edit unit %id"), array('id' => $id)).'</a></li>
+  </ul>
+</nav>';
             $result = dbquery($req, array($id), "i");
             $nb = iimysqli_num_rows($result);
             if ($nb == 1){
-                echo "<h1>" . $montitle . "</h1>\n";
+                echo "<h1 class=\"title\">" . $montitle . "</h1>\n";
                 echo "<br /></b>";
                 echo "<ul>\n";
                 $enreg = iimysqli_result_fetch_array($result);
@@ -79,10 +86,10 @@ if (!empty($_COOKIE['illinkid'])){
                 echo "<input name=\"table\" type=\"hidden\" value=\"units\">\n";
                 echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($unitid)."\">\n";
                 echo "<input name=\"action\" type=\"hidden\" value=\"update\">\n";
-                echo "<table id=\"hor-zebra\">\n";
-                echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=units'\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=units&id=" . htmlspecialchars($unitid) . "'\"></td></tr>\n";
+                echo "<table class=\"table is-striped\" id=\"hor-zebra\">\n";
+                echo "<tr><td></td><td><div class=\"field is-grouped\"><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save changes")."\">\n";
+                echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=units'\">\n";
+                echo "&nbsp;&nbsp;<input class=\"button is-danger\" type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=units&id=" . htmlspecialchars($unitid) . "'\"></div></td></tr>\n";
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
                 echo "<tr><td><b>Code *</b></td><td>\n";
                 echo "<input name=\"code\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($unitcode) . "\"></td></tr>\n";
@@ -169,9 +176,9 @@ if (!empty($_COOKIE['illinkid'])){
                     echo " checked";
                 echo "></td></tr>\n";
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-                echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=units'\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=units&id=" . htmlspecialchars($unitid) . "'\"></td></tr>\n";
+                echo "<tr><td></td><td><div class=\"field is-grouped\"><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save changes")."\">\n";
+                echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=units'\">\n";
+                echo "&nbsp;&nbsp;<input class=\"button is-danger\" type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=units&id=" . htmlspecialchars($unitid) . "'\"></div></td></tr>\n";
                 echo "</table>\n";
                 echo "</form><br /><br />\n";
                 require ("footer.php");
@@ -198,7 +205,7 @@ if (!empty($_COOKIE['illinkid'])){
     else{
         require ("header.php");
         echo "<center><br/><b><font color=\"red\">\n";
-        echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
+        echo __("Your rights are insufficient to edit this record")."</b></font></center><br /><br /><br /><br />\n";
         require ("footer.php");
     }
 }

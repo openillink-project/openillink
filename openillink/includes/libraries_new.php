@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -34,15 +34,22 @@ if (($monaut == "admin")||($monaut == "sadmin"))
 {
 $myhtmltitle = $configname[$lang]. __("New network library");
 require ("headeradmin.php");
-echo "<h1>".__("Libraries management : New card creation")."</h1>\n";
+echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+    <li><a href="list.php?table=libraries" aria-current="page">'.__("Managing network libraries").'</a></li>
+	<li class="is-active"><a href="new.php?table=libraries" aria-current="page">'.__("New library").'</a></li>
+  </ul>
+</nav>';
+echo "<h1 class=\"title\">".__("Libraries management : New record creation")."</h1>\n";
 echo "<br /></b>";
 echo "<ul>\n";
 echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
 echo "<input name=\"table\" type=\"hidden\" value=\"libraries\">\n";
 echo "<input name=\"action\" type=\"hidden\" value=\"new\">\n";
-echo "<table class=\"genericEditFormOIL\" id=\"hor-zebra\">\n";
-echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save the new library")."\">\n";
-echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=libraries'\"></td></tr>\n";
+echo "<table class=\"table is-striped genericEditFormOIL\" id=\"hor-zebra\">\n";
+echo "<tr><td></td><td><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save the new library")."\">\n";
+echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=libraries'\"></td></tr>\n";
 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
 echo "<tr><td><b>".__("Code")." *</b></td><td>\n";
 echo "<input name=\"code\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
@@ -60,8 +67,8 @@ echo '<b><label for="signature">'.__("Signature (for emails sent to users)"). '<
 echo '<textarea id="signature" name="signature" rows="5" cols="80"></textarea>';
 echo '</td></tr>';
 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save the new library")."\">\n";
-echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=libraries'\"></td></tr>\n";
+echo "<tr><td></td><td><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save the new library")."\">\n";
+echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=libraries'\"></td></tr>\n";
 echo "</table>\n";
 echo "</form><br /><br />\n";
 require ("footer.php");

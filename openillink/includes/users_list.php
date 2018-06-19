@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -32,8 +32,14 @@ if (($monaut == "admin")||($monaut == "sadmin")){
     $myhtmltitle = "Commandes de " . $configinstitution[$lang] . " : gestion des utilisateurs";
     require ("headeradmin.php");
     echo "\n";
+	echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+    <li class="is-active"><a href="list.php?table=users" aria-current="page">'.__("Users management").'</a></li>
+  </ul>
+</nav>';
     // Liste des utilisateurs
-    echo "<h1>".__("Users management")."</h1>\n";
+    echo "<h1 class=\"title\">".__("Users management")."</h1>\n";
     $req = "SELECT * FROM users ORDER BY library ASC, name ASC";// LIMIT 0, 200";
     $result = dbquery($req);
     $total_results = iimysqli_num_rows($result);
@@ -48,7 +54,7 @@ if (($monaut == "admin")||($monaut == "sadmin")){
     echo "<br/>";
     echo "<br/>";
 
-    echo "<table id=\"one-column-emphasis\" summary=\"\">\n";
+    echo "<table class=\"table is-hoverable\" id=\"one-column-emphasis\" summary=\"\">\n";
     echo "<colgroup>\n";
     echo "<col class=\"oce-first\" />\n";
     echo "</colgroup>\n";
@@ -104,7 +110,7 @@ if (($monaut == "admin")||($monaut == "sadmin")){
             echo __("Inactive");
         echo "</td>\n";
         if (($monaut == "admin")||($monaut == "sadmin")){
-            echo "<td><a href=\"edit.php?table=users&id=".$user_id."\"><img src=\"img/edit.png\" title=\"".__("Edit")."\" width=\"20\"></a></td>";
+            echo "<td><a title=\"".__("Edit the user")."\" href=\"edit.php?table=users&id=".$user_id."\"><i class=\"fas fa-edit has-text-primary\"></i></a></td>";
         }
         echo "</tr>\n";
     }
@@ -112,14 +118,14 @@ if (($monaut == "admin")||($monaut == "sadmin")){
     echo "</table>\n";
     echo "\n";
     echo "<br/><br/><ul>\n";
-    echo "<b><a href=\"new.php?table=users\">".__("Add a new user")."</a></b>\n";
+    echo "<b><a class=\"button is-primary\" href=\"new.php?table=users\">".__("Add a new user")."</a></b>\n";
     echo "<br/><br/>\n";
     echo "</ul>\n";
     require ("footer.php");
 }
 else{
     require ("header.php");
-    echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
+    echo __("Your rights are insufficient to edit this record")."</b></font></center><br /><br /><br /><br />\n";
     require ("footer.php");
 }
 ?>

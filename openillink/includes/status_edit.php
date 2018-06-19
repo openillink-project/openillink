@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
@@ -41,10 +41,17 @@ if (!empty($_COOKIE['illinkid'])){
             $myhtmltitle = format_string(__("%institution_name : edition of the order step %order_id"), array('institution_name' => $configinstitution[$lang], 'order_id' => $id));
             $montitle = format_string(__("Status management : edition of the order step %order_id"), array('order_id' => $id));
             require ("headeradmin.php");
+			echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+    <li><a href="list.php?table=status">'.__("Order steps management").'</a></li>
+	<li class="is-active"><a href="edit.php?table=status" aria-current="page">'.format_string(__("Edit step %order_id"), array('order_id' => $id)).'</a></li>
+  </ul>
+</nav>';
             $result = dbquery($req, array($id), "i");
             $nb = iimysqli_num_rows($result);
             if ($nb == 1){
-                echo "<h1>" . $montitle . "</h1>\n";
+                echo "<h1 class=\"title\">" . $montitle . "</h1>\n";
                 echo "<br /></b>";
                 echo "<ul>\n";
                 $enreg = iimysqli_result_fetch_array($result);
@@ -69,10 +76,10 @@ if (!empty($_COOKIE['illinkid'])){
                 echo "<input name=\"table\" type=\"hidden\" value=\"status\">\n";
                 echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($statusid)."\">\n";
                 echo "<input name=\"action\" type=\"hidden\" value=\"update\">\n";
-                echo "<table id=\"hor-zebra\">\n";
-                echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=status'\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=status&id=" . htmlspecialchars($statusid) . "'\"></td></tr>\n";
+                echo "<table class=\"table is-striped\" id=\"hor-zebra\">\n";
+                echo "<tr><td></td><td><div class=\"field is-grouped\"><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save changes")."\">\n";
+                echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=status'\">\n";
+                echo "&nbsp;&nbsp;<input class=\"button is-danger\" type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=status&id=" . htmlspecialchars($statusid) . "'\"></div></td></tr>\n";
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
                 echo "<tr><td><b>".__("Code")." *</b></td><td>\n";
                 echo "<input name=\"code\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($statuscode) . "\"></td></tr>\n";
@@ -134,9 +141,9 @@ if (!empty($_COOKIE['illinkid'])){
                 echo "</td></tr>\n";
                 echo "<tr><td><b>".__("Color (.CSS valid value is expected)")."</b></td><td><input name=\"color\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($color) . "\"></td></tr>\n";
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-                echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=status'\">\n";
-                echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=status&id=" . htmlspecialchars($statusid) . "'\"></td></tr>\n";
+                echo "<tr><td></td><td><div class=\"field is-grouped\"><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save changes")."\">\n";
+                echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=status'\">\n";
+                echo "&nbsp;&nbsp;<input class=\"button is-danger\" type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=status&id=" . htmlspecialchars($statusid) . "'\"></div></td></tr>\n";
                 echo "</table>\n";
                 echo "</form><br /><br />\n";
                 require ("footer.php");
@@ -163,7 +170,7 @@ if (!empty($_COOKIE['illinkid'])){
     else{
         require ("header.php");
         echo "<center><br/><b><font color=\"red\">\n";
-        echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
+        echo __("Your rights are insufficient to edit this record")."</b></font></center><br /><br /><br /><br />\n";
         require ("footer.php");
     }
 }

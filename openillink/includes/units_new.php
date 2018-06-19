@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -35,8 +35,14 @@ if (($monaut == "admin")||($monaut == "sadmin"))
 {
 $myhtmltitle = $configname[$lang] . " : ".__("New network unit");
 require ("headeradmin.php");
-
-echo "<h1>".__("Units management : new unit record")."</h1>\n";
+echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+    <li><a href="list.php?table=units">'.__("Management of network units").'</a></li>
+    <li class="is-active"><a href="edit.php?table=units" aria-current="page">'.__("New unit").'</a></li>
+  </ul>
+  </nav>';
+echo "<h1 class=\"title\">".__("Units management : new unit record")."</h1>\n";
 echo "<br /></b>";
 echo "<ul>\n";
 echo "<script type=\"text/javascript\">\n";
@@ -55,9 +61,9 @@ echo "</script>\n";
 echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
 echo "<input name=\"table\" type=\"hidden\" value=\"units\">\n";
 echo "<input name=\"action\" type=\"hidden\" value=\"new\">\n";
-echo "<table id=\"hor-zebra\">\n";
-echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save new unit")."\">\n";
-echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=units'\"></td></tr>\n";
+echo "<table class=\"table is-striped\" id=\"hor-zebra\">\n";
+echo "<tr><td></td><td><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save new unit")."\">\n";
+echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=units'\"></td></tr>\n";
 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
 echo "<tr><td><b>".__("Code")." *</b></td><td>\n";
 echo "<input name=\"code\" type=\"text\" size=\"60\" value=\"\"></td></tr>\n";
@@ -127,8 +133,8 @@ echo "<tr><td class=\"odd\"><b>".__("IP-based display")."</b></td><td class=\"od
 echo "<tr><td><b>".__("Need validation")."</b></td><td>\n";
 echo "<input name=\"validation\" value=\"1\" type=\"checkbox\"></td></tr>\n";
 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save new unit")."\">\n";
-echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=units'\"></td></tr>\n";
+echo "<tr><td></td><td><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save new unit")."\">\n";
+echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=units'\"></td></tr>\n";
 echo "</table>\n";
 echo "</form><br /><br />\n";
 require ("footer.php");
@@ -137,7 +143,7 @@ else
 {
 require ("header.php");
 echo "<center><br/><b><font color=\"red\">\n";
-echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
+echo __("Your rights are insufficient to edit this record")."</b></font></center><br /><br /><br /><br />\n";
 require ("footer.php");
 }
 }

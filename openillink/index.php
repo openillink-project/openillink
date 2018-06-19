@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
@@ -119,7 +119,7 @@ if (isset($_POST['tid_0']) || isset($_GET['tid_0'])) {
 	}
 }
 
-if (!empty($_FILES['order_file']) && 
+if (!empty($_FILES['order_file']) &&
 	 ((isset($_SERVER['CONTENT_LENGTH']) && (int) $_SERVER['CONTENT_LENGTH'] > (1024*1024*(int) ini_get('post_max_size'))) ||
 	     $_FILES['order_file']['error'] === UPLOAD_ERR_INI_SIZE)) {
         // The uploaded file was too large
@@ -227,10 +227,16 @@ if (!isset($_POST['add_form'])){
 $mybodyonload .= " remplirauto();";
 if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     require ("includes/headeradmin.php");
-    echo "<h1><center>" . __("Document order form to the ") . " <a href=\"" . $configlibraryurl[$lang] . "\" target=\"_blank\">" . $configlibrary[$lang] . "</a></center></h1>\n";
+    echo '<section class="hero">
+			<div class="hero-body">
+				<div class="container has-text-centered">';
+	echo '<h1 class="title">' . __("Document order form to the ") . " <a href=\"" . $configlibraryurl[$lang] . "\" target=\"_blank\">" . $configlibrary[$lang] . "</a></h1>\n";
 	if (isset($secondmessage) && array_key_exists($lang, $secondmessage)) {
-		echo "<h2><center>" . $secondmessage[$lang] . "</center></h2>\n";
+		echo '<h2 class="subtitle">' . $secondmessage[$lang] . "</h2>\n";
 	}
+    echo '</div>
+			</div>
+		</section>';
     echo "<script type=\"text/javascript\">\n";
     echo "function textchanged(changes) {\n";
     echo "document.fiche.modifs.value = document.fiche.modifs.value + changes + ' - ';\n";
@@ -245,8 +251,12 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     echo "}\n";
     echo "</script>\n";
     echo "<form action=\"new.php\" method=\"POST\" enctype=\"multipart/form-data\" id=\"orderform\" name=\"commande\" onsubmit=\"javascript:okcooc()\">\n";
-    // START Management Fields
-    echo "<input name=\"table\" type=\"hidden\"  value=\"orders\">\n";
+
+	// START Management Fields
+    echo '<section class="message">
+	<div class="message-body">';
+
+	echo "<input name=\"table\" type=\"hidden\"  value=\"orders\">\n";
     echo "<input name=\"userid\" type=\"hidden\"  value=\"".htmlspecialchars($monnom)."\">\n";
     echo "<input name=\"bibliotheque\" type=\"hidden\"  value=\"".htmlspecialchars($monbib)."\">\n";
     echo "<input name=\"sid\" type=\"hidden\"  value=\"\">\n";
@@ -257,11 +267,15 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
         echo "<input name=\"referer\" type=\"hidden\" value=\"\">\n";
     echo "<input name=\"action\" type=\"hidden\" value=\"saisie\">\n";
     echo "<input name=\"source\" type=\"hidden\" value=\"adminform\">\n";
-    echo "<div class=\"box\"><div class=\"box-content\">\n";
-    echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"3\" width=\"100%\">\n";
-    echo "<tr><td colspan=\"4\">\n";
-	echo '<label for="stade">';
-    echo __("Status") . " * </label>: \n";
+	echo '<div class="columns is-gapless is-columns-form">
+  <div class="column is-one-fifth">';
+	echo '<div class="field is-horizontal">';
+	echo '<label class="label field-label is-normal required" for="stade">';
+    echo __("Status") . "</label>";
+	echo '</div></div>
+	 <div class="column is-3">';
+	echo '<div class="control is-expanded has-icons-left">';
+	echo '<div class="select is-fullwidth">';
     echo "<select name=\"stade\" id=\"stade\">\n";
     $reqstatus="SELECT code, title1, title2, title3, title4, title5 FROM status ORDER BY code ASC";
     $optionsstatus="";
@@ -278,9 +292,19 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     }
     echo $optionsstatus;
     echo "</select>\n";
-    echo "&nbsp;&nbsp;&nbsp;&nbsp;\n";
-	echo '<label for="localisation">';
-    echo __("Localization") . "</label> : &nbsp;\n";
+	echo '</div>
+	<div class="icon is-small is-left">
+      <i class="fas fa-code-branch"></i>
+    </div>
+	</div></div>
+	 <div class="column is-3">';
+	echo '<div class="field is-horizontal">';
+	echo '<label class="label field-label is-normal" for="localisation">';
+    echo __("Localization") . "</label>";
+	echo '</div></div>
+	 <div class="column is-3">';
+	echo '<div class="control is-expanded has-icons-left">';
+	echo '<div class="select is-fullwidth">';
     echo "<select name=\"localisation\" id=\"localisation\">\n";
     echo "<option value=\"\"></option>";
     echo "<optgroup label=\"" . __("Our Localizations") . "\">\n";
@@ -317,17 +341,39 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
         echo $optionslocalisationext;
     }
     echo "</select>\n";
-    echo "</td></tr>";
-
-    echo "<tr><td colspan=\"4\">\n";
-	echo '<label for="urgent">';
-    echo __("Priority") . "</label> : <select name=\"urgent\" id=\"urgent\">\n";
+	echo '</div>
+	<div class="icon is-small is-left">
+      <i class="fas fa-map-marker-alt"></i>
+    </div>
+	</div></div>
+	</div>';
+	echo '<div class="columns is-gapless is-columns-form">
+  <div class="column is-one-fifth">';
+	echo '<div class="field is-horizontal">';
+	echo '<label class="label field-label is-normal" for="urgent">';
+    echo __("Priority") . "</label>";
+	echo '</div></div>
+	 <div class="column is-3">';
+	echo '<div class="control is-expanded has-icons-left">';
+	echo '<div class="select is-fullwidth">';
+	echo "<select name=\"urgent\" id=\"urgent\">\n";
     echo "<option value=\"2\"".('2' == $urgent ? " selected " : ""). ">" . __("Normal") . "</option>\n";
     echo "<option value=\"1\"".('1' == $urgent ? " selected " : ""). ">" . __("Urgent") . "</option>\n";
     echo "<option value=\"3\"".('3' == $urgent ? " selected " : ""). ">" . __("Not a priority") . "</option>\n";
     echo "</select>\n";
+	echo '</div>
+		<div class="icon is-small is-left">
+      <i class="fas fa-flag"></i>
+    </div>
+	</div></div>';
 	if ($displayFormOrderSourceField) {
-		echo "&nbsp;&nbsp;&nbsp;&nbsp;<label for=\"source\">" . __("Origin of the order") . "</label> : \n";
+		echo '<div class="column is-3">';
+		echo '<div class="field is-horizontal">';
+		echo "<label class=\"label field-label is-normal\" for=\"source\">" . __("Origin of the order") . "</label>";
+		echo '</div></div>
+		<div class="column is-3">';
+		echo '<div class="control is-expanded has-icons-left">';
+		echo '<div class="select is-fullwidth">';
 		echo "<select name=\"source\" id=\"source\" onchange=\"ajoutevaleur('source');\">\n";
 		echo "<option value=\"\"> </option>\n";
 		$reqsource = "SELECT arrivee FROM orders WHERE arrivee != '' GROUP BY arrivee ORDER BY arrivee ASC";
@@ -340,47 +386,128 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 		echo $optionssource;
 		echo "<option value=\"new\"".($source == "new" ? " selected " : ""). ">" . __("Add new value...") . "</option>\n";
 		echo "</select>\n";
-		echo "&nbsp;<input name=\"sourcenew\" id=\"sourcenew\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($sourcenew)."\" style=\"". ($source == "new" ? "display:inline" : "display:none")."\">\n";
+		echo '</div>
+	<div class="icon is-small is-left">
+      <i class="fas fa-globe"></i>
+    </div>
+		</div></div>
+	 <div class="column is-2">';
+		echo '<div class="control">';
+		echo "<input class=\"input\" name=\"sourcenew\" id=\"sourcenew\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($sourcenew)."\" style=\"". ($source == "new" ? "display:inline" : "display:none")."\">\n";
+		echo '</div></div>
+		</div>';
 	}
-    echo "</td></tr><tr><td>\n";
-	echo '<label for="datesaisie">';
-    echo "<a href=\"#\" title=\"" . __("to be completed only if different from the current date") . "\">" . __("Order date") . "</a></label> : </td><td> \n";
-    echo "<input name=\"datesaisie\" id=\"datesaisie\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($datesaisie)."\" class=\"tcal\">\n";
-    echo "</td><td>\n";
-	echo '<label for="envoye">';
-    echo __("Date of shipment") . "</label> : </td><td>\n";
-    echo "<input name=\"envoye\" id=\"envoye\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($envoye)."\" class=\"tcal\">\n";
-    echo "</td></tr><tr><td>\n";
-	echo '<label for="facture">';
-    echo __("Invoice date") . "</label> : </td><td>\n";
-    echo "<input name=\"facture\" id=\"facture\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($facture)."\" class=\"tcal\">\n";
-    echo "</td><td>\n";
-	echo '<label for="renouveler">';
-    echo __("To be renewed on") . "</label> : </td><td>\n";
-    echo "<input name=\"renouveler\" id=\"renouveler\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($renouveler)."\" class=\"tcal\">\n";
-    echo "</td></tr><tr><td colspan=\"4\">\n";
-	echo '<label for="prix">';
-    echo format_string(__("Price (%currency)"), array('currency' => $currency)) . "</label> : &nbsp;\n";
-    echo "<input name=\"prix\" id=\"prix\" type=\"text\" size=\"5\" value=\"".htmlspecialchars($prix)."\">\n";
-    echo "&nbsp;&nbsp;(<input type=\"checkbox\" name=\"avance\" id=\"avance\" value=\"on\" ".($avance == "on" ? " checked ": "")."/><label for=\"avance\">" . __("order paid in advance") . "</label>) &nbsp;&nbsp;&nbsp;&nbsp;\n";
-    echo "</td></tr><tr><td colspan=\"4\">\n";
-	echo '<label for="ref">';
-    echo __("Provider Ref.") . "</label> : &nbsp;\n";
-    echo "<input name=\"ref\" id=\"ref\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($ref)."\">&nbsp;&nbsp;&nbsp;\n";
+	echo '<div class="columns is-gapless is-columns-form">
+  <div class="column is-one-fifth">';
+    echo '<div class="field is-horizontal">';
+	echo '<label class="label field-label is-normal" for="datesaisie">';
+    echo "<a title=\"" . __("to be completed only if different from the current date") . "\">" . __("Order date") . "</a></label>";
+    echo '</div></div>
+	 <div class="column is-3">';
+	echo '<div class="control has-icons-left">';
+	echo "<input class=\"input tcal\" autocomplete=\"off\" name=\"datesaisie\" id=\"datesaisie\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($datesaisie)."\">\n";
+	echo '<div class="icon is-small is-left">
+      <i class="fas fa-download"></i>
+    </div>';
+	echo '</div></div>
+	 <div class="column is-3">';
+	echo '<div class="field is-horizontal">';
+	echo '<label class="label field-label is-normal" for="envoye">';
+    echo __("Date of shipment") . "</label>";
+	echo '</div></div>
+	 <div class="column is-3">';
+	echo '<div class="control has-icons-left">';
+    echo "<input class=\"input tcal\" autocomplete=\"off\" name=\"envoye\" id=\"envoye\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($envoye)."\">\n";
+	echo '<div class="icon is-small is-left">
+      <i class="fas fa-upload"></i>
+    </div>';
+	echo '</div></div>
+	</div>
+	<div class="columns is-gapless is-columns-form">
+	 <div class="column is-one-fifth">';
+	echo '<div class="field is-horizontal">';
+	echo '<label class="label field-label is-normal" for="facture">';
+    echo __("Invoice date") . "</label>";
+	echo '</div></div>
+	 <div class="column is-3">';
+	echo '<div class="control has-icons-left">';
+    echo "<input class=\"input tcal\" autocomplete=\"off\" name=\"facture\" id=\"facture\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($facture)."\">\n";
+	echo '<div class="icon is-small is-left">
+      <i class="fas fa-piggy-bank"></i>
+    </div>';
+	echo '</div></div>
+	 <div class="column is-3">';
+	echo '<div class="field is-horizontal">';
+	echo '<label class="label field-label is-normal" for="renouveler">';
+    echo __("To be renewed on") . "</label>";
+	echo '</div></div>
+	 <div class="column is-3">';
+	 echo '<div class="control has-icons-left">';
+    echo "<input class=\"input tcal\" autocomplete=\"off\" name=\"renouveler\" id=\"renouveler\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($renouveler)."\">\n";
+	echo '<div class="icon is-small is-left">
+      <i class="fas fa-bell"></i>
+    </div>';
+	echo '</div></div>
+	</div>
+	 <div class="columns is-gapless is-columns-form">
+  <div class="column is-one-fifth">';
+	echo '<div class="field is-horizontal">';
+	echo '<label class="label field-label is-normal" for="prix">';
+    echo format_string(__("Price (%currency)"), array('currency' => $currency)) . "</label>";
+	echo '</div></div>
+	 <div class="column is-3">';
+	echo '<div class="control has-icons-left">';
+    echo "<input class=\"input\" name=\"prix\" id=\"prix\" type=\"text\" size=\"5\" value=\"".htmlspecialchars($prix)."\">\n";
+	echo '<div class="icon is-small is-left">
+      <i class="far fa-money-bill-alt"></i>
+    </div></div>';
+	echo '</div><div class="column is-two-fifth">';
+	echo '<div class="field">';
+	echo '<div class="control">';
+    echo "&nbsp;&nbsp;(<label class=\"checkbox\"> <input type=\"checkbox\" name=\"avance\" id=\"avance\" value=\"on\" ".($avance == "on" ? " checked ": "").">\n". __("order paid in advance") . "\n</label>) &nbsp;&nbsp;&nbsp;&nbsp;\n";
+	echo '</div></div></div>
+	</div>
+	 <div class="columns is-gapless is-columns-form">
+  <div class="column is-one-fifth">';
+	echo '<div class="field is-horizontal">';
+	echo '<label class="label field-label is-normal" for="ref">';
+    echo __("Provider Ref.") . "</label>";
+	echo '</div></div>
+	 <div class="column is-3">';
+	echo '<div class="control has-icons-left">';
+    echo "<input class=\"input\" name=\"ref\" id=\"ref\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($ref)."\">\n";
+	echo '<div class="icon is-small is-left">
+      <i class="fas fa-barcode"></i>
+    </div>';
+	echo '</div></div>';
 	if ($displayFormInternalRefField) {
-		echo '<label for="refinterbib">';
-		echo __("Internal ref. to the library") . "</label> : &nbsp;\n";
-		echo "<input name=\"refinterbib\" id=\"refinterbib\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($refinterbib)."\">";
+		echo '<div class="column is-3">';
+		echo '<div class="field is-horizontal">';
+		echo '<label class="label field-label is-normal" for="refinterbib">';
+		echo __("Internal ref. to the library") . "</label>";
+		echo '</div></div>
+	 <div class="column is-3">';
+		echo '<div class="control has-icons-left">';
+		echo "<input class=\"input\" name=\"refinterbib\" id=\"refinterbib\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($refinterbib)."\">";
+		echo '<div class="icon is-small is-left">
+      <i class="fas fa-tag"></i>
+    </div></div></div>';
 	}
-	echo "</td></tr>\n";
-	echo "<tr><td valign=\"top\">\n";
-	echo '<label for="remarques">';
-    echo __("Professional Notes") . "</label> : \n";
-    echo "</td><td valign=\"bottom\" colspan=\"3\"><textarea name=\"remarques\" id=\"remarques\" rows=\"2\" cols=\"60\" valign=\"bottom\">".htmlspecialchars($remarques)."</textarea>\n";
-    echo "</td></tr>\n";
-    echo "</table>\n";
-    echo "</div></div>\n";
-    echo "<div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
+	echo '
+	</div>
+	 <div class="columns is-gapless is-columns-form">
+  <div class="column is-one-fifth">';
+	echo '<div class="field is-horizontal">';
+	echo '<label class="label field-label is-normal" for="remarques">';
+    echo __("Professional Notes") . "</label>";
+	echo '</div></div>
+	 <div class="column is-9">';
+	echo '<div class="control">';
+    echo "<textarea class=\"textarea\" name=\"remarques\" id=\"remarques\" rows=\"2\" cols=\"60\" valign=\"bottom\">".htmlspecialchars($remarques)."</textarea>\n";
+	echo '</div></div>';
+	echo '</div>'; // end columns
+    echo '</div><!-- end message-body -->
+	</section><!-- end message -->';
 }
 else{
     // display to guest or users not logged in
@@ -389,18 +516,24 @@ else{
     if ($monaut == "")
         require ("includes/header.php");
 
-	echo "<h1><center>" . __("Document order form to the ") . " <a href=\"" . $configlibraryurl[$lang] . "\" target=\"_blank\">" . $configlibrary[$lang] . "</a></center></h1>\n";
-	if (isset($secondmessage)) {
-		echo "<h2><center>" . __("") . "</center></h2>\n";
+
+    echo '<section class="hero">
+			<div class="hero-body">
+				<div class="container has-text-centered">';
+	echo '<h1 class="title">' . __("Document order form to the ") . " <a href=\"" . $configlibraryurl[$lang] . "\" target=\"_blank\">" . $configlibrary[$lang] . "</a></h1>\n";
+	if (isset($secondmessage) && array_key_exists($lang, $secondmessage)) {
+		echo '<h2 class="subtitle">' . $secondmessage[$lang] . "</h2>\n";
 	}
-    echo "<div class=\"notification has-text-centered\">\n";
     echo "<b><font color=\"red\">" . __("Please note, all orders are subject to a financial contribution") . "</font></b><br />" . __("Contact us by email for more information (pricing, billing, etc.)") . " : <a href=\"mailto:" . $configlibraryemail[$lang] . "\">" . $configlibraryemail[$lang] . "</a>\n";
-    echo "</div>\n";
-	
-    echo "<form action=\"new.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"commande\" onsubmit=\"javascript:okcooc()\">\n";
+    echo '</div>
+			</div>
+		</section>';
+
+
+    echo "<form action=\"new.php\" method=\"POST\" enctype=\"multipart/form-data\" id=\"orderform\" name=\"commande\" onsubmit=\"javascript:okcooc()\">\n";
     echo "<input name=\"table\" type=\"hidden\" value=\"orders\">\n";
-    echo "<input name=\"userid\" type=\"hidden\" value=\"\">\n";
-    echo "<input name=\"bibliotheque\" type=\"hidden\" value=\"\">\n";
+    echo "<input name=\"userid\" type=\"hidden\" value=\"".htmlspecialchars($monnom)."\">\n";
+    echo "<input name=\"bibliotheque\" type=\"hidden\" value=\"".htmlspecialchars($monbib)."\">\n";
     echo "<input name=\"sid\" type=\"hidden\" value=\"\">\n";
     echo "<input name=\"pid\" type=\"hidden\" value=\"\">\n";
     if (!empty($referer))
@@ -416,37 +549,55 @@ else{
 // Display to all users
 echo '
 <section class="message">
-	<div class="message-header">'.__("Personal informations").'</div>
+	<div class="message-header">'.__("Contact and billing details").'</div>
 	<div class="message-body">
-	
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-2">
 	<div class="field is-horizontal">
-      <label class="label field-label is-normal" for="nom">'.__("Name").' *</label>
-      <div class="field-body">
-       <div class="field">
+      <label class="label field-label is-normal required" for="nom">'.__("Name").'</label>
+	</div>
+	</div>
+	<div class="column is-one-quarter">
+        <div class="control has-icons-left">
+         <input id="nom" name="nom" class="input" type="text" value="'.htmlspecialchars($nom).'" required>
+         <span class="icon is-small is-left">
+			<i class="fas fa-user"></i>
+         </span>
+        </div>
+    </div>
+	<div class="column is-2">
+		<div class="field is-horizontal">
+		<label class="label field-label is-normal required" for="prenom">
+		'.__("First name").'
+		</label>
+		</div>
+	</div>
+	<div class="column is-one-quarter">
         <div class="control">
-         <input id="nom" name="nom" class="input" type="text" value="'.htmlspecialchars($nom).'" placeholder="'.__("Name").' : e.g. Dupont" required>
+         <input id="prenom" name="prenom" class="input" type="text" value="'.htmlspecialchars($prenom).'" required>
         </div>
-       </div>
-       <div class="field has-addons">
-        <div class="control is-expanded">
-         <input id="prenom" name="prenom" class="input" type="text" value="'.htmlspecialchars($prenom).'" placeholder="' .__("First name") .': e.g. Jean" required>
-        </div>
-       </div>';
+	</div>
+	<div class="column is-2">
+	<div class="field is-horizontal">
+   <span class="buttons label field-label is-normal has-text-left" style=""> &nbsp;';
 if ($directoryurl1 != "")
-	echo " <a href=\"javascript:directory('$directoryurl1')\" title=\"" . __("Search the name in the directory of the hospital") . "\"><span class=\"button is-small\"><i aria-hidden=\"true\" class=\"fa fa-address-book\"></i></span></a>\n";
+	echo " <a href=\"javascript:directory('$directoryurl1')\" class=\"is-light\" title=\"" . __("Search the name in the directory of the hospital") . "\"><span class=\"directoryurl1\"><i aria-hidden=\"true\" class=\"fa fa-address-book fa-lg\"></i></span></a>\n";
 if ($directoryurl2 != "")
-	echo "<a href=\"javascript:directory('$directoryurl2')\" title=\"" . __("Search the name in the directory of the university") . "\"><span class=\"button is-small\"><i aria-hidden=\"true\" class=\"fa fa-university\"></i></span></a>\n";
-echo '
+	echo "&nbsp;<a href=\"javascript:directory('$directoryurl2')\" class=\"is-light\" title=\"" . __("Search the name in the directory of the university") . "\"><span class=\"directoryurl2\"><i aria-hidden=\"true\" class=\"fa fa-address-book fa-lg\"></i></span></a>\n";
+echo '</span>
+	</div>
       </div>
 	  </div>
-	
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-2">
 	  <div class="field is-horizontal">
-      <label class="label field-label is-normal" for="service">'.__("Unit").' *</label>
-      <div class="field-body">
-       <div class="field">
-        <div class="control">
+      <label class="label field-label is-normal required" for="service">'.__("Unit").'</label>
+	  </div>
+	</div>
+	<div class="column is-one-quarter">
+        <div class="control has-icons-left is-expanded">
          <div class="select is-fullwidth">
-          <select id="service" name="service" required>
+          <select id="service" name="service">
 						<option></option>';
 $unitsortlang = "name1";
 if ($lang == "en")
@@ -474,76 +625,131 @@ while ($rowunits = iimysqli_result_fetch_array($resultunits)){
 echo $optionsunits;
 echo '
           </select>
-         </div>
-        </div>
        </div>
-       <div class="field">
+	   <span class="icon is-small is-left">
+		<i class="fas fa-sitemap"></i>
+        </span>
+	   </div>
+	</div>
+	<div class="column is-2">
+		<div class="field is-horizontal">
+		<label class="label field-label is-normal" for="servautre">
+		'.__("Other unit").'
+		</label>
+		</div>
+	</div>
+	<div class="column is-one-quarter">
         <div class="control">
-         <input id="servautre" name="servautre" class="input" type="text" value="'.htmlspecialchars($servautre).'" placeholder="'.__("Other unit").'">
-        </div>
+         <input id="servautre" name="servautre" class="input" type="text" value="'.htmlspecialchars($servautre).'">
        </div>
-      </div>
-	  </div>
-	  
+    </div>
+	</div>
+
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-2">
 	  <div class="field is-horizontal">
       <label class="label field-label is-normal" for="mail">'.__("E-Mail").'</label>
-      <div class="field-body">
-       <div class="field">
-        <div class="control">
-         <input id="mail" name="mail" class="input" type="email" value="'.htmlspecialchars($mail).'" placeholder="e.g. jean.dupont@exemple.com">
+	  </div>
+	</div>
+	<div class="column is-one-quarter">
+        <div class="control has-icons-left">
+         <input id="mail" name="mail" class="input" type="email" value="'.htmlspecialchars($mail).'">
+         <span class="icon is-small is-left">
+			<i class="fas fa-envelope"></i>
+         </span>
         </div>
-       </div>
-       <div class="field">
-        <div class="control">
-         <input id="tel" name="tel" class="input" type="tel"  value="'.htmlspecialchars($tel).'" placeholder="'.__("Téléphone").': e.g. +41 79 123 45 67" pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$">
+    </div>
+	<div class="column is-2">
+		<div class="field is-horizontal">
+		<label class="label field-label is-normal" for="tel">
+		'.__("Tel.").'
+		</label>
+		</div>
+	</div>
+	<div class="column is-one-quarter">
+        <div class="control has-icons-left">
+         <input id="tel" name="tel" class="input" type="tel"  value="'.htmlspecialchars($tel).'">
+         <span class="icon is-small is-left">
+			<i class="fas fa-phone"></i>
+         </span>
         </div>
        </div>
       </div>
-	  </div>
+';
+if ($ip1 == 1){
+	echo '
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-2">
 	  <div class="field is-horizontal">
-      <label class="label field-label is-normal" for="cgra">'.__("Budget heading").'</label>
-      <div class="field-body">
-       <div class="field">
+      <label class="label field-label is-normal" for="cgra">'.str_replace(' ', '&nbsp;', __("Budget heading")).'</label>
+	  </div>
+	</div>
+	<div class="column is-one-quarter">
         <div class="control">
          <input id="cgra" name="cgra" class="input" type="text" value="'.htmlspecialchars($cgra).'" placeholder="'.__("CGR A").'">
         </div>
-       </div>
-	   </div>
-	   <label class="label field-label is-normal" for="cgrb">'.__("Budget subheading").'</label>
-       <div class="field-body">
-	   <div class="field">
+    </div>
+	<div class="column is-2">
+		<div class="field is-horizontal">
+	    <label class="label field-label is-normal" for="cgrb">'.str_replace(' ', '&nbsp;', __("Budget subheading")).'</label>
+		</div>
+	</div>
+	<div class="column is-one-quarter">
         <div class="control">
          <input id="cgrb" name="cgrb" class="input" type="text"  value="'.htmlspecialchars($cgrb).'" placeholder="'.__("CGR B").'" >
         </div>
-       </div>
-      </div>
-	  </div>
-	  
+    </div>
+    </div>';
+} else {
+    echo "<input name=\"cgra\" type=\"hidden\"  value=\"\">\n";
+    echo "<input name=\"cgrb\" type=\"hidden\"  value=\"\">\n";
+}
+echo '
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-2">
 	  <div class="field is-horizontal">
       <label class="label field-label is-normal" for="adresse">'.__("Private address").'</label>
-      <div class="field-body">
-       <div class="field">
-        <div class="control">
-         <input id="adresse" name="adresse" class="input" type="text" value="'.htmlspecialchars($adresse).'" placeholder="e.g. Rue de Lausanne 2">
-        </div>
-       </div>
-       <div class="field">
-        <div class="control">
-         <input id="postal" name="postal" class="input" type="text" value="'.htmlspecialchars($postal).'" placeholder="e.g. 1001">
-        </div>
-       </div>
-       <div class="field">
-        <div class="control">
-         <input id="localite" name="localite" class="input" type="text" value="'.htmlspecialchars($localite).'" placeholder="e.g. Lausanne">
-        </div>
-       </div>
-      </div>
 	  </div>
-	  
+	</div>
+	<div class="column is-one-quarter">
+        <div class="control has-icons-left">
+         <input id="adresse" name="adresse" class="input" type="text" value="'.htmlspecialchars($adresse).'">
+		 <span class="icon is-small is-left">
+			<i class="fas fa-home"></i>
+         </span>
+        </div>
+    </div>
+    <div class="column is-2">
 	  <div class="field is-horizontal">
-      <label class="label field-label is-normal" for="envoi">'.__("Transmission").'</label>
-      <div class="field-body">
-       <div class="field">
+      <label class="label field-label is-normal" for="postal">'.__("Postal code").'</label>
+	  </div>
+	</div>
+	<div class="column is-1">
+        <div class="control">
+         <input id="postal" name="postal" class="input" type="text" value="'.htmlspecialchars($postal).'">
+        </div>
+    </div>
+    <div class="column is-narrow">
+	  <div class="field is-horizontal" style="display:block">
+      <label class="label field-label is-normal" for="localite">&nbsp;&nbsp;&nbsp;&nbsp;'.__("City").'</label>
+	  </div>
+	</div>
+	<div class="column is-2">
+        <div class="control">
+         <input id="localite" name="localite" class="input" type="text" value="'.htmlspecialchars($localite).'">
+        </div>
+    </div>
+    </div>
+
+
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-3">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="envoi">'.__("If available at the library:").'</label>
+	  </div>
+	</div>
+	<div class="column is-9">
+	<div class="field is-horizontal">
         <div class="control">
          <label class="radio field-label is-normal">
           <input type="radio" checked id="envoimail" name="envoi" '. (($envoi == "" || $envoi == "mail") ? " checked ": "") .' value="mail"> '.__("Send by e-mail (billed)").'</label>
@@ -551,11 +757,15 @@ echo '
           <input type="radio" id="envoisurplace" name="envoi" '. ($envoi == "surplace" ? " checked ": "") .' value="surplace"> '.__("Let me know and I come to make a copy (not billed)").'</label>
         </div>
        </div>
-      </div>
 	  </div>
-	  
+      </div>
+
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-2">
+		&nbsp;
+	</div>
+	<div class="column is-10">
 	  <div class="field is-horizontal">
-      <label class="label field-label is-normal" for="cooc"></label>
       <div class="field-body">
        <div class="field">
         <div class="control">
@@ -567,7 +777,8 @@ echo '
        </div>
       </div>
 	  </div>
-	  
+
+	</div>
 	</div>
 </section>';
 
@@ -576,13 +787,14 @@ function get_document_form($lookupuid, $doctypesmessage, $doctypes,  $periodical
 	$document_form .=  "<a id=\"order_nb_".$form_index."\"></a>\n";
 	$document_form .= '
 	<section class="message">
-		<div class="message-header">'.__("Document").'</div>
-    <div class="message-body">
-		<div class="box">
-			
-		<div class="field is-horizontal">
-       <label class="label field-label is-normal column is-4" for="tid_'.$form_index.'">'. __("Fill in the order using") .'</label>
-       <div class="field-body">
+		<div class="message-header">
+		<div class="container">
+	<div class="columns is-vcentered">
+	  <div class="column has-text-right is-two-fifths">
+       <label class="has-text-white" for="tid_'.$form_index.'">'.  __("Fill in the order using") .'</label>
+	   </div><!-- end first column-->
+	   <div class="column">
+	   <div class="field-body">
         <div class="field has-addons">
          <div class="control">
           <span class="select is-fullwidth">
@@ -590,27 +802,35 @@ function get_document_form($lookupuid, $doctypesmessage, $doctypes,  $periodical
 				foreach($lookupuid as $value) {
 	$document_form .=  "<option value=\"" . htmlspecialchars($value["code"]) . "\" ".($tid_code==$value["code"]? 'selected': '').">" . htmlspecialchars($value["name"]) . "</option>\n";
 }
-echo'
+$document_form .= '
 			</select>
 		</span>
          </div>
-         <div class="control"><input class="input" name="uids_'.$form_index.'" placeholder="'. __("Identification number") .'" type="text" value="'.htmlspecialchars($uids).'"></div>
+         <div class="control"><input class="input" name="uids_'.$form_index.'" placeholder="'. __("Identifier") .'" type="text" value="'.htmlspecialchars($uids).'"></div>
          <div class="control"><input class="button is-primary" onclick="lookupid('.$form_index.')" type="button" value="'. __("Fill in") .'"></div>
         </div>
        </div>
-	   </div>
-	   
-	   </div> <!-- end .box -->
-	   
-	   <div class="field is-horizontal">';
+
+	   </div > <!-- end second .column -->
+	   </div> <!-- end .columns -->
+	   </div> <!-- end .container -->
+	   </div> <!-- end message-header -->
+    <div class="message-body">';
+
+	$document_form .= '
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-one-fifth">
+	<div class="field is-horizontal">
+	';
 if((!empty($doctypesmessage)) && $doctypesmessage[$lang])
 		$document_form .=  '<label class="label field-label is-normal" for="genre_'.$form_index.'">'. $doctypesmessage[$lang] . __("Document type").'</label>';
 else
 		$document_form .=  '<label class="label field-label is-normal" for="genre_'.$form_index.'">'.__("Document type").'</label>';
 
 	$document_form .=  '
-      <div class="field-body">
-       <div class="field">
+	</div>
+	</div>
+	<div class="column is-one-quarter">
         <div class="control">
          <div class="select is-fullwidth">
           <select id="genre_'.$form_index.'" name="genre_'.$form_index.'">';
@@ -622,108 +842,158 @@ else
          </div>
         </div>
        </div>
-      </div>
-	  </div>
-	   
-	  
+	</div>
+
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-one-fifth">
 	  <div class="field is-horizontal">
-      <label class="label field-label is-normal" for="genre_'.$form_index.'">'__("Périodique").'</label>
-      <div class="field-body">
-       <div class="field">
+      <label class="label field-label is-normal required" for="title_'.$form_index.'">'.__("Journal / Book").'</label>
+	  </div>
+	</div>
+	<div class="column is-three-quarters">
         <div class="control">
-         <input class="input" id="title_'.$form_index.'" name="title_'.$form_index.'" type="text" value="'.htmlspecialchars($title).'" placeholder="Titre du périodique ou du livre">
+         <input class="input" id="title_'.$form_index.'" name="title_'.$form_index.'" type="text" value="'.htmlspecialchars($title).'" placeholder="Journal or book title">
         </div>
-       </div>
-       <a href="javascript:openlist(\''.$periodical_title_search_url.'\', \''.$form_index.'\')"><span class="button is-small" title="'. __("check on journals database") .'"><i aria-hidden="true" class="fa fa-database"></i></span></a>
+    </div>
+	<div class="column is-2">
+	<div class="field is-horizontal">
+	<span class="buttons label field-label is-normal has-text-left"> &nbsp;
+       <a href="javascript:openlist(\''.$periodical_title_search_url.'\', \''.$form_index.'\')"><span class="is-light" title="'. __("check on journals database") .'"><i aria-hidden="true" class="fa fa-search fa-lg"></i></span></a>
+     </span>
+	 </div>
       </div>
 	  </div>
-	  
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-one-fifth">
 	  <div class="field is-horizontal">
-      <label class="label field-label is-normal" for="date_'.$form_index.'"></label>
-      <div class="field-body">
-       <div class="field">
-        <div class="control">
-         <input class="input" id="date_'.$form_index.'" name="date_'.$form_index.'" type="text" value="'.htmlspecialchars($date).'" placeholder="'.__("Year").'">
-        </div>
-       </div>
-       <div class="field">
-        <div class="control">
-         <input class="input" id="volume_'.$form_index.'" name="volume_'.$form_index.'" type="text" value="'.htmlspecialchars($volume).'" placeholder="'.__("Volume").'">
-        </div>
-       </div>
-       <div class="field">
-        <div class="control">
-         <input class="input" id="issue_'.$form_index.'" name="issue_'.$form_index.'" type="text" value="'.htmlspecialchars($issue).'" placeholder="'.__("Issue (No)").'">
-        </div>
-       </div>
-       <div class="field">
-        <div class="control">
-         <input class="input" id="suppl_'.$form_index.'" name="suppl_'.$form_index.'" type="text" value="'.htmlspecialchars($suppl).'" placeholder="'.__("Supplement").'">
-        </div>
-       </div>
-       <div class="field">
-        <div class="control">
-         <input class="input" id="pages_'.$form_index.'" name="pages_'.$form_index.'" type="text" value="'.htmlspecialchars($pages).'" placeholder="'.__("Pages").'">
-        </div>
-       </div>
-      </div>
+      <label class="label field-label is-normal" for="date_'.$form_index.'">'.__('Year').'</label>
 	  </div>
-	  
+	</div>
+	<div class="column is-1">
+        <div class="control">
+         <input class="input" id="date_'.$form_index.'" name="date_'.$form_index.'" type="text" value="'.htmlspecialchars($date).'">
+        </div>
+    </div>
+     <div class="column is-1">
 	  <div class="field is-horizontal">
-      <label class="label field-label is-normal" for="atitle_'.$form_index.'">'.__("Article").'</label>
-      <div class="field-body">
-       <div class="field">
+      <label class="label field-label is-normal" for="volume_'.$form_index.'">'.__('Vol.').'</label>
+	  </div>
+	</div>
+	<div class="column is-1">
         <div class="control">
-         <input class="input" id="atitle_'.$form_index.'" name="atitle_'.$form_index.'" type="text" value="'.htmlspecialchars($atitle).'" placeholder="'.__("Title of article or chapter").'">
+         <input class="input" id="volume_'.$form_index.'" name="volume_'.$form_index.'" type="text" value="'.htmlspecialchars($volume).'">
+        </div>
+    </div>
+     <div class="column is-1">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="issue_'.$form_index.'">'.__('Issue').'</label>
+	  </div>
+	</div>
+	<div class="column is-1">
+        <div class="control">
+         <input class="input" id="issue_'.$form_index.'" name="issue_'.$form_index.'" type="text" value="'.htmlspecialchars($issue).'">
+       </div>
+    </div>
+     <div class="column is-1">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="suppl_'.$form_index.'">'.__('Suppl.').'</label>
+	  </div>
+	</div>
+	<div class="column is-1">
+        <div class="control">
+         <input class="input" id="suppl_'.$form_index.'" name="suppl_'.$form_index.'" type="text" value="'.htmlspecialchars($suppl).'">
+       </div>
+    </div>
+     <div class="column is-1">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="pages_'.$form_index.'">'.__('Pages').'</label>
+	  </div>
+	</div>
+	<div class="column is-1">
+        <div class="control">
+         <input class="input" id="pages_'.$form_index.'" name="pages_'.$form_index.'" type="text" value="'.htmlspecialchars($pages).'">
         </div>
        </div>
       </div>
-	  </div>
+
+
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-one-fifth">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="atitle_'.$form_index.'">'.__("Title").'</label>
+      	  </div>
+	</div>
+	<div class="column is-three-quarters">
+        <div class="control">
+         <input class="input" id="atitle_'.$form_index.'" name="atitle_'.$form_index.'" type="text" value="'.htmlspecialchars($atitle).'" placeholder="'.__("Article or chapter title").'">
+        </div>
+       </div>
+      </div>
+
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-one-fifth">
 	  <div class="field is-horizontal">
       <label class="label field-label is-normal" for="auteurs_'.$form_index.'">'.__("Author(s)").'</label>
-      <div class="field-body">
-       <div class="field">
+      </div>
+	</div>
+	<div class="column is-three-quarters">
         <div class="control">
-         <input class="input" id="auteurs_'.$form_index.'" name="auteurs_'.$form_index.'" type="text" value="'.htmlspecialchars($auteurs).'" placeholder="'.__("Authors").'">
+         <input class="input" id="auteurs_'.$form_index.'" name="auteurs_'.$form_index.'" type="text" value="'.htmlspecialchars($auteurs).'">
         </div>
        </div>
       </div>
-	  </div>
+
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-one-fifth">
 	  <div class="field is-horizontal">
-      <label class="label field-label is-normal" for="edition_'.$form_index.'"></label>
-      <div class="field-body">
-       <div class="field">
+      <label class="label field-label is-normal" for="edition_'.$form_index.'">'.__("Edition").'</label>
+ 	  </div>
+	</div>
+	<div class="column is-2">
         <div class="control">
-         <input class="input" id="edition_'.$form_index.'" name="edition_'.$form_index.'" type="text" value="'.htmlspecialchars($edition).'" placeholder="'.__("Edition (for books)").'">
+         <input class="input" id="edition_'.$form_index.'" name="edition_'.$form_index.'" type="text" value="'.htmlspecialchars($edition).'" placeholder="'.__("(for books)").'">
         </div>
-       </div>
-       <div class="field">
+    </div>
+     <div class="column is-2">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="issn_'.$form_index.'">'.__('ISSN / ISBN').'</label>
+	  </div>
+	</div>
+	<div class="column is-2">
         <div class="control">
-         <input class="input" id="issn_'.$form_index.'" name="issn_'.$form_index.'" type="text"  value="'.htmlspecialchars($issn).'" placeholder="ISSN / ISBN">
-        </div>
-       </div>
-       <div class="field">
+         <input class="input" id="issn_'.$form_index.'" name="issn_'.$form_index.'" type="text"  value="'.htmlspecialchars($issn).'">
+		</div>
+    </div>
+     <div class="column is-1">
+	  <div class="field is-horizontal">
+      <label class="label field-label is-normal" for="uid_'.$form_index.'">'.__('UID').'</label>
+	  </div>
+	</div>
+	<div class="column is-2">
         <div class="control">
-         <input class="input" id="uid_'.$form_index.'" name="uid_'.$form_index.'" type="text" value="'.htmlspecialchars($uid).'" placeholder="UID">
+         <input class="input" id="uid_'.$form_index.'" name="uid_'.$form_index.'" type="text" value="'.htmlspecialchars($uid).'">
         </div>
        </div>
       </div>
-	  </div>
-	  
+
+	<div class="columns is-gapless is-columns-form">
+    <div class="column is-one-fifth">
 	  <div class="field is-horizontal">
       <label class="label field-label is-normal" for="remarquespub_'.$form_index.'">'.__("Notes").'</label>
-      <div class="field-body">
-       <div class="field">
+      </div>
+	</div>
+	<div class="column is-three-quarters">
         <div class="control">
          <textarea id="remarquespub_'.$form_index.'" name="remarquespub_'.$form_index.'" class="textarea" placeholder="" rows="2">'.htmlspecialchars($remarquespub).'</textarea>
         </div>
        </div>
       </div>
-	  </div>
 ';
 	if ($can_remove_orders) {
-		$document_form .= '<div class=""><a class="removeLink" style="cursor:pointer;" onclick="form=document.getElementById(\'orderform\');form.remove_form.value='.$form_index.';form.action=\'index.php#order_nb_'.($form_index-1).'\';form.submit();">'.__("Remove").'</a></div>';
+		$document_form .= '<div class="control"><a class="removeLink button is-danger is-outlined" style="cursor:pointer;" onclick="form=document.getElementById(\'orderform\');form.remove_form.value='.$form_index.';form.action=\'index.php#order_nb_'.($form_index-1).'\';form.submit();">'.__("Remove").'</a></div>';
 	}
+	$document_form .= '	</div>
+	</section>';
 	return $document_form;
 }
 $can_remove_orders = false;
@@ -736,9 +1006,7 @@ foreach ($uploaded_orders_messages as $uploaded_orders_message) {
 }
 if (is_privileged_enough($monaut, $enableOrdersUploadForUser) && count($order_form_values) < max($maxSimultaneousOrders, 1)) {
 	echo '<div class="fileUploadPanel">';
-	//echo format_string(__('Fill in your order or %x_url_startupload a file with references%x_url_end:'), array('x_url_start' => '<a href="#" onclick="var fileUploadPanelContent = document.getElementById(\'fileUploadPanelContent\'); if(fileUploadPanelContent.style.display==\'none\'){fileUploadPanelContent.style.display=\'block\';}else{fileUploadPanelContent.style.display=\'none\';}">', 'x_url_end' => '</a>')) . " </p>";
 	echo format_string(__('Fill in your order or %x_url_startupload a file with references%x_url_end:'), array('x_url_start' => '<a style="cursor: pointer;" onclick="document.getElementById(\'order_file\').click();">', 'x_url_end' => '</a>'));
-	//echo '<div id="fileUploadPanelContent" style="display:none;" class="fileUploadPanelContent">';
 	echo '&nbsp;<a href="#" class="helpinfo" onclick="return false;">?<span class="supportedFileFormats">';
 	echo htmlspecialchars(__('Supported file formats:'));
 	echo '<ul><li>' . htmlspecialchars(__('EndNote XML (created via "File" → "Export" → Type "XML")'));
@@ -748,11 +1016,8 @@ if (is_privileged_enough($monaut, $enableOrdersUploadForUser) && count($order_fo
 	echo sprintf(__('Maximum file size: %s MB'), round(min(parse_size_str(ini_get('upload_max_filesize')), parse_size_str(ini_get('post_max_size'))) / (1024*1024), 0, PHP_ROUND_HALF_DOWN)) . "<br/>";
 	echo sprintf(__('Maximum number of references: %s'), $maxSimultaneousOrders);
 	echo '</span></a>';
-	//echo '<input style="display:none;" type="file" id="order_file" name="order_file" onchange="if(this.value){document.getElementById(\'fileUploadPanelSubmitButton\').style.display=\'inline\';}else{document.getElementById(\'fileUploadPanelSubmitButton\').style.display=\'none\';};"/>';
 	echo '<input style="display:none;" type="file" id="order_file" name="order_file" onchange="form=document.getElementById(\'orderform\');form.action=\'index.php\';form.submit();" />';
 
-	//echo '<input id="fileUploadPanelSubmitButton" style="display:none" type="button" value="'. __("Upload file") . '" onclick="form=document.getElementById(\'orderform\');form.action=\'index.php\';form.submit();"/>';
-	//echo '</div>';
 	echo '</div>';
 }
 foreach ($order_form_values as $form_index => $value) {
@@ -763,13 +1028,20 @@ if (count($order_form_values) < max($maxSimultaneousOrders, 1))  {
 }
 
 echo '
-	  <div class="field is-grouped">
-      <input type="submit" class="button is-primary" value="'. __("Send order") .'" onsubmit="javascript:okcooc();document.body.style.cursor = \'wait\';" />
-      <input type="reset" value="'. __("Reset") .'" class="button is-link" />
+
+
+
+	<div class="container">
+	  <div class="field is-grouped is-grouped-centered">
+	  <p class="control">
+      <input type="submit" class="button is-primary" value="'. ((($monaut == "guest")||($monaut == "")) ? __("Send order") : __("Save order")) .'" onsubmit="javascript:okcooc();document.body.style.cursor = \'wait\';" />
+      </p>
+	  <p class="control">
+	  <input type="reset" value="'. __("Reset") .'" class="button" />
+	  </p>
 	  </div>
-	
 	</div>
-	</section>';
+	';
 
 echo "</form>\n";
 

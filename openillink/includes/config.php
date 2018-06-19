@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -37,6 +37,24 @@ $configanalytics = "";
 // Add logging option: used to trace and analyse problems, allowed levels: DEV, TEST, PROD
 // any other value will be ignored
 $configdebuglogging = '';
+
+// CSS files
+// Customize the look of OpenILLink by defining custom CSS files in OpenILLink
+// 'css' directory:
+//   * config_css_framework: file containing main styles defined by the CSS
+//                           framework (currently Bulma). Update this variable
+//                           to your own customized Bulma CSS file.
+//   * config_css_main: file containing OpenILLink styles not defined by the
+//                      CSS framework. Also contains some workaround for the CSS
+//                      framework.
+//   * config_css_custom: file containing custom CSS styles that you would like
+//                        to add / override. Useful in case you want to keep
+//                       'config_css_framework' and 'config_css_main' untouched
+//                       but still add some minor tweaks to the UI. There is no
+//                       value / file defined by default.
+$config_css_framework = 'openillink_bulma.css';
+$config_css_main = 'openillink.css';
+$config_css_custom = '';
 
 // Site title in the header
 $sitetitle["fr"] = "OpenILLink";

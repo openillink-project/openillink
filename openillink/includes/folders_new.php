@@ -1,10 +1,10 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
 // Copyright (C) 2017 UNIGE.
-// Copyright (C) 2017 CHUV.
+// Copyright (C) 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -35,15 +35,22 @@ if (!empty($_COOKIE['illinkid'])){
 	if (($monaut == "admin")||($monaut == "sadmin")){
 		$myhtmltitle = $configname[$lang] . " : nouveau filtre ";
 		require ("headeradmin.php");
-		echo "<h1>".__("Filters management : New card creation")."</h1>\n";
+		echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+    <li><a href="list.php?table=folders" aria-current="page">'.__("Filters management").'</a></li>
+	<li class="is-active"><a href="new.php?table=folders" aria-current="page">'.__("Create new filter").'</a></li>
+  </ul>
+</nav>';
+		echo "<h1 class=\"title\">".__("Filters management : Create new filter")."</h1>\n";
 		echo "<br /></b>";
 		echo "<ul>\n";
 		echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
 		echo "<input name=\"table\" type=\"hidden\" value=\"folders\">\n";
 		echo "<input name=\"action\" type=\"hidden\" value=\"new\">\n";
-		echo "<table id=\"hor-zebra\">\n";
-		echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save the new filter")."\">\n";
-		echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=folders'\"></td></tr>\n";
+		echo "<table class=\"table is-striped\" id=\"hor-zebra\">\n";
+		echo "<tr><td></td><td><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save the new filter")."\">\n";
+		echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=folders'\"></td></tr>\n";
 		echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
 
 		// title
@@ -114,7 +121,7 @@ if (!empty($_COOKIE['illinkid'])){
 		// *****************************************************************************************
 		// Start Query
 		echo "<h2>".__("Criterion")." 1</h2>\n";
-		echo "<table id=\"hor-zebra\">\n";
+		echo "<table class=\"table is-striped\" id=\"hor-zebra\">\n";
 
 		// library
 		echo "<tr><td><b>".__("Assignment library")." 1</b></td><td>\n";
@@ -404,7 +411,7 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "<option value=\"NOT\">NOT</option>";
 		echo "</select>\n";
 
-		echo "<table id=\"hor-zebra\">\n";
+		echo "<table class=\"table is-striped\" id=\"hor-zebra\">\n";
 
 		// library
 		echo "<tr><td><b>".__("Assignment library")." 2</b></td><td>\n";
@@ -694,7 +701,7 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "<option value=\"NOT\">NOT</option>";
 		echo "</select>\n";
 
-		echo "<table id=\"hor-zebra\">\n";
+		echo "<table class=\"table is-striped\" id=\"hor-zebra\">\n";
 
 		// library
 		echo "<tr><td><b>".__("Assignment library")." 3</b></td><td>\n";
@@ -971,14 +978,21 @@ if (!empty($_COOKIE['illinkid'])){
 
 
 		echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-		echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save the new filter")."\">\n";
-		echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=folders'\"></td></tr>\n";
+		echo "<tr><td></td><td><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save the new filter")."\">\n";
+		echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=folders'\"></td></tr>\n";
 		echo "</table>\n";
 		echo "</form><br /><br />\n";
 		require ("footer.php");
 	}
 	else{
 		require ("header.php");
+		echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+    <li><a href="list.php?table=folders" aria-current="page">'.__("Filters management").'</a></li>
+	<li class="is-active"><a href="new.php?table=folders" aria-current="page">'.__("Create new filter").'</a></li>
+  </ul>
+</nav>';
 		echo "<center><br/><b><font color=\"red\">\n";
 		echo __("Your rights are insufficient to view this page")."</b></font></center><br /><br /><br /><br />\n";
 		require ("footer.php");

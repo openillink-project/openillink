@@ -1,0 +1,242 @@
+﻿/* ***************************************************************************
+// ***************************************************************************
+// ***************************************************************************
+// This file is part of OpenILLink software.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
+// Original author(s): Pablo Iriarte <pablo@iriarte.ch>
+// Other contributors are listed in the AUTHORS file at the top-level
+// directory of this distribution.
+// 
+// OpenILLink is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// OpenILLink is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with OpenILLink.  If not, see <http://www.gnu.org/licenses/>.
+// 
+// ***************************************************************************
+// ***************************************************************************
+// ***************************************************************************
+*/
+/*
+ OpenILLink custom styles (and overriding of Bulma CSS framework styles)
+*/
+
+.container {max-width:1008px;}
+
+.columns.is-columns-form {
+  margin-bottom: 0.6rem ! important;
+}
+
+/* Info tooltip in order list */
+a.info {
+    position:relative; 
+    z-index:24;
+    color:#000;
+    text-decoration:none
+}
+
+a.info:hover{
+    z-index:25; 
+    background-color:#ff0
+}
+
+a.info span{
+    display: none
+}
+
+a.info:hover span{ 
+    display:block; 
+    position:absolute;
+    top:2em; left:2em; width:15em;
+    border:1px solid #6699cc;
+    background-color:#FFFF00; color:#404040;
+    text-align: justify;
+    font-weight:none;
+    padding:5px;
+    text-decoration:none;
+}
+
+/* Tooltip */
+a.helpinfo {
+    position: relative;
+    display: inline-block;
+    z-index:24;
+    color:#fff;
+    text-decoration:none;
+    background-color:#999;
+    width:16px;
+    height:16px;
+    display:inline-block;
+    border-radius:100%;
+    text-align:center;
+    font-size: 12px;
+}
+
+a.helpinfo:hover{
+    z-index:25;
+    cursor: help;
+}
+
+a.helpinfo span{
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s;
+    position: absolute;
+}
+
+a.helpinfo:hover span{
+    opacity: 1;
+    visibility: visible;
+    top: 100%;
+    left: 50%;
+    width:32em;
+    text-align: justify;
+    text-decoration:none;
+    background-color: #404040;
+    color: #fff;
+    padding: 0.5em;
+    border-radius: 6px;
+    margin-left: -16em;
+    margin-top: 1em;
+}
+a.helpinfo span::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;  /* At the top of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #404040 transparent;
+}
+a.helpinfo ul {
+    list-style: disc inside;
+}
+
+/* Order tags */
+.notMyBib, .notMyLocalisation, .notMyService, .isSharedOrder {
+	background-color: #fb0;
+	padding:2px;
+	border-radius: 2px;
+	/*border: 1px solid #c38e08;*/
+    display: inline-block;
+	margin-left: 2px;
+}
+
+/* Reference file upload */
+.fileUploadPanel {
+	margin-left:15px;
+}
+.addItemPanel {
+    text-align: right;
+}
+.removeLink:hover {
+    color: red;
+}
+
+/*b, strong {
+    font-weight: 600;
+    color: rgb(64, 64, 64);
+}
+a {
+    color: #369;
+}
+*/
+
+.field:not(:last-child) {
+    /* Workaround for fields spacing */
+  margin-bottom: 0.35rem;
+}
+.hero-body {
+    /* Workaround for hero padding */
+    padding-top:0;
+}
+
+.alert {
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    margin-right: 0.5em;
+    margin-left: 0.5em;
+}
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+.alert-warning {
+    color: #856404;
+    background-color: #ffeeb9;
+    border-color: #e0c05f;
+}
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+.alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+.directoryurl1 {
+    color: #093;
+}
+.directoryurl2 {
+    color: #008ccc;
+}
+
+.keepLists ol {
+  list-style: decimal outside;
+  margin-left: 2em;
+  margin-top: 1em;
+}
+.keepLists ul {
+  list-style: disc outside;
+  margin-left: 2em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.keepLists ul ul {
+  list-style-type: circle;
+  margin-top: 0.5em;
+}
+.keepLists ul ul ul {
+  list-style-type: square;
+}
+
+.ordersList {
+    font-family: Verdana, Geneva, sans-serif ! important;
+    font-size: 13px;
+    letter-spacing: -0.01em;
+    line-height: normal;
+}
+
+label.required:after {
+    content: " *";
+    color: inherit;
+}
+.orderEditAttributedLibraryBox{
+    line-height: 2.5rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+ .is-normal.checkbox, .is-normal.radio {
+    /* Workaround for checkboxes + radio */
+    line-height: 1.5;
+}
+.textarea {
+    /* Workaround for textarea not respecting rows attribute */
+    min-height:auto;
+    height: auto;
+}

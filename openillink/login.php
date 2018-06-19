@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -174,45 +174,16 @@ if ((!empty($log))||(!empty($pwd))){
 }
 require ("includes/header.php");
 
-/*
-echo "<ul>\n";
-if (!empty($mes))
-    echo "<br /><b><font color=\"red\">".$mes."</font></b><br />\n";
-if ($shibboleth == 1)
-    echo "<a href=\"". $shibbolethurl . "\"><img src=\"img/shibboleth.png\" alt=\"Shibboleth authentication\" style=\"float:right;\"/></a>";
-echo "<form name=\"loginform\" id=\"loginform\" action=\"login.php\" method=\"post\">\n";
-if (empty($log))
-    $log='';
-
-echo "<label>Username:<br /><input type=\"text\" name=\"log\" id=\"log\" value=\"" . htmlspecialchars($log) . "\" size=\"20\" tabindex=\"1\" /></label></p>\n";
-echo "<label>Password:<br /> <input type=\"password\" name=\"pwd\" id=\"pwd\" value=\"\" size=\"20\" tabindex=\"2\" /></label></p>\n";
-// echo "<p>\n";
-// echo "  <label><input name=\"rememberme\" type=\"checkbox\" id=\"rememberme\" value=\"forever\" tabindex=\"3\" /> \n";
-// echo "  Garder en mémoire</label></p>\n";
-echo "<p>\n";
-echo "<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"login\" tabindex=\"4\" />\n";
-echo "<input type=\"hidden\" name=\"redirect_to\" value=\"/\" />\n";
-echo "</p>\n";
-echo "<br />\n";
-echo "</form>\n";
-
-echo "</ul>\n";
-echo "\n";
-if ((!empty($action)) && $action == 'logout'){
-    $monnom="";
-    $monaut="";
-    $monlog="";
+if (!empty($mes)){
+	echo '
+	<div class="container">
+	<div class="columns is-centered">
+	<article class="message is-danger">
+  <div class="message-body">
+    '.$mes.'
+  </div>
+</article></div></div><br/><br/>';
 }
-if ($displayResendLink){
-    echo '<p><a href="resendcredentials.php" target="_self"> '.__("Request password").'</a> : '.__("Service only available to users with an openillink command").'</p>';
-	
-
-	}
-*/
-
-
-if (!empty($mes))
-    echo "<br /><b><font color=\"red\">".$mes."</font></b><br />\n";
 if ($shibboleth == 1)
     echo "<a href=\"". $shibbolethurl . "\"><img src=\"img/shibboleth.png\" alt=\"Shibboleth authentication\" style=\"float:right;\"/></a>";
 if (empty($log))
@@ -223,16 +194,24 @@ echo '
 	<div class="columns is-centered">
 		<article class="card is-rounded">
 			<div class="card-content">
-				<h1 class="title">Login</h1>
+				<h1 class="title">'.__("Log in").'</h1>
 				<form name="loginform" id="loginform" action="login.php" method="post">
+				<div class="field">
 				<p class="control has-icon">
-					<input class="input" type="text" name="log" id="log" value="' . htmlspecialchars($log) . '"placeholder="'.__("Username").'">
-					<i class="fa fa-user"></i>
+					<input class="input" type="text" name="log" id="log" value="' . htmlspecialchars($log) . '" placeholder="'.__("Username").'">
+					 <span class="icon is-small is-left">
+						<i class="fa fa-user"></i>
+					</span>
 				</p>
+				</div>
+				<div class="field">
 				<p class="control has-icon">
 					<input class="input" type="password" name="pwd" id="pwd" value="" placeholder="'.__("Password").'">
-					<i class="fa fa-lock"></i>
-				</p>';
+					 <span class="icon is-small is-left">
+						<i class="fa fa-lock"></i>
+					</span>
+				</p>
+				</div>';
 /*
 echo '
 				<p class="control">

@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -36,20 +36,27 @@ $listfolders="";
 $resultfolders = dbquery($reqfolders, array($monlog, $monbib), 'ss');
 $nbfolders = iimysqli_num_rows($resultfolders);
 if ($nbfolders > 0){
-	echo '	<div class="navbar-item has-dropdown is-hoverable">
-				<a class="navbar-link">Folders</a>
-				<div class="navbar-dropdown">';
+	$folderMenuTitle = __ ("Folders");
+	$folderMenuIsSelected = false;
 	$listfolders.= "";
 	while ($rowfolders = iimysqli_result_fetch_array($resultfolders)){
 		$idfolder = $rowfolders["id"];
 		$titlefolder = $rowfolders["title"];
 		$descriptionfolder = $rowfolders["description"];
 		$queryfolder = $rowfolders["query"];
-		$listfolders.="<a class=\"navbar-item\" href=\"list.php?folder=perso&folderid=" . htmlspecialchars($idfolder) . "\" title=\"" . htmlspecialchars($descriptionfolder) . "\"";
-		if ($idfolder == $folderid)
-			$listfolders.=" class=\"selected\"";
+		$listfolders.="<a class=\"navbar-item".((strval($idfolder) == strval($folderid))?' is-active':'')."\" href=\"list.php?folder=perso&folderid=" . htmlspecialchars($idfolder) . "\" title=\"" . htmlspecialchars($descriptionfolder) . "\"";
 		$listfolders.=">" . htmlspecialchars($titlefolder) . "</a>\n";
+		if (strval($idfolder) == strval($folderid)) {
+			$folderMenuIsSelected = true;
+			$folderMenuTitle = htmlspecialchars($titlefolder);
+			if (strlen($folderMenuTitle) > 30) {
+				$folderMenuTitle = substr($folderMenuTitle, 0, 29) . "&hellip;";
+			}
+		}
 	}
+	echo '	<div class="navbar-item has-dropdown is-hoverable">
+				<a class="navbar-link'. ($folderMenuIsSelected ? " is-active" : "").'">'. $folderMenuTitle. '</a>
+				<div class="navbar-dropdown">';
 	echo $listfolders;
 	echo '
 		</div>

@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -35,8 +35,14 @@ if (!empty($_COOKIE['illinkid'])){
         $myhtmltitle = $configname[$lang] . " : gestion des localisations";
         require ("headeradmin.php");
         echo "\n";
+		echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+    <li class="is-active"><a href="list.php?table=localizations" aria-current="page">'.__("Location management").'</a></li>
+  </ul>
+</nav>';
         // Localizations List
-        echo "<h1>Gestion des localisations du réseau</h1>\n";
+        echo "<h1 class=\"title\">".__("Location management")."</h1>\n";
         $req = "SELECT * FROM localizations ORDER BY library ASC,name1 ASC";// LIMIT 0, 200";
         $result = dbquery($req);
         $total_results = iimysqli_num_rows($result);
@@ -52,7 +58,7 @@ if (!empty($_COOKIE['illinkid'])){
         echo "<br/>";
         echo "<br/>";
 
-        echo "<table id=\"one-column-emphasis\" summary=\"\">\n";
+        echo "<table class=\"table is-hoverable\" id=\"one-column-emphasis\" summary=\"\">\n";
         echo "<colgroup>\n";
         echo "<col class=\"oce-first\" />\n";
         echo "</colgroup>\n";
@@ -89,7 +95,7 @@ if (!empty($_COOKIE['illinkid'])){
 // echo "<td>".$locname5."</td>\n";
             echo "<td>".htmlspecialchars($loclibrary)."</td>\n";
             if (($monaut == "admin")||($monaut == "sadmin")){
-                echo "<td><a href=\"edit.php?table=localizations&id=".htmlspecialchars($locid)."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
+                echo "<td><a title=\"".__("Edit the location")."\"href=\"edit.php?table=localizations&id=".htmlspecialchars($locid)."\"><i class=\"fas fa-edit has-text-primary\"></i></a></td>";
             }
             echo "</tr>\n";
         }
@@ -97,7 +103,7 @@ if (!empty($_COOKIE['illinkid'])){
         echo "</table>\n";
         echo "\n";
         echo "<br/><br/><ul>\n";
-        echo "<b><a href=\"new.php?table=localizations\">Ajouter une nouvelle localisation</a></b>\n";
+        echo "<b><a class=\"button is-primary\" href=\"new.php?table=localizations\">Ajouter une nouvelle localisation</a></b>\n";
         echo "<br/><br/>\n";
         echo "</ul>\n";
         require ("footer.php");

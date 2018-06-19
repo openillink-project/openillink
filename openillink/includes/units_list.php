@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -37,10 +37,16 @@ if (($monaut == "admin")||($monaut == "sadmin"))
 $myhtmltitle = $configname[$lang] . " : ".__("Units management");
 require ("headeradmin.php");
 echo "\n";
+echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+    <li class="is-active"><a href="list.php?table=units" aria-current="page">'.__("Management of network units").'</a></li>
+  </ul>
+</nav>';
 // 
 // Localizations List
 // 
-echo "<h1>".__("Management of network units")."</h1>\n";
+echo "<h1 class=\"title\">".__("Management of network units")."</h1>\n";
 $req = "SELECT * FROM units ORDER BY name1 ASC, code ASC";// LIMIT 0, 200";
 $result = dbquery($req);
 $total_results = iimysqli_num_rows($result);
@@ -56,7 +62,7 @@ echo " ".__("units found")."</b></font>\n";
 echo "<br/>";
 echo "<br/>";
 
-echo "<table id=\"one-column-emphasis\" summary=\"\">\n";
+echo "<table class=\"table is-hoverable\" id=\"one-column-emphasis\" summary=\"\">\n";
 echo "<colgroup>\n";
 echo "<col class=\"oce-first\" />\n";
 echo "</colgroup>\n";
@@ -113,7 +119,7 @@ echo "<td>".htmlspecialchars($unitipext)."</td>\n";
 echo "<td>".htmlspecialchars($validation)."</td>\n";
 if (($monaut == "admin")||($monaut == "sadmin"))
 {
-echo "<td><a href=\"edit.php?table=units&id=".htmlspecialchars($unitid)."\"><img src=\"img/edit.png\" title=\"Editer la fiche\" width=\"20\"></a></td>";
+echo "<td><a title=\"".__("Edit the unit")."\" href=\"edit.php?table=units&id=".htmlspecialchars($unitid)."\"><i class=\"fas fa-edit has-text-primary\"></i></a></td>";
 }
 echo "</tr>\n";
 }
@@ -121,7 +127,7 @@ echo "</tbody>\n";
 echo "</table>\n";
 echo "\n";
 echo "<br/><br/><ul>\n";
-echo "<b><a href=\"new.php?table=units\">".__("Add a new unit")." </a></b>\n";
+echo "<b><a class=\"button is-primary\" href=\"new.php?table=units\">".__("Add a new unit")." </a></b>\n";
 echo "<br/><br/>\n";
 echo "</ul>\n";
 require ("footer.php");
@@ -129,7 +135,7 @@ require ("footer.php");
 else
 {
 require ("header.php");
-echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
+echo __("Your rights are insufficient to edit this record")."</b></font></center><br /><br /><br /><br />\n";
 require ("footer.php");
 }
 }

@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -35,8 +35,14 @@ if (!empty($_COOKIE['illinkid'])){
         $myhtmltitle = $configname[$lang] . " : ".__("links management");
         require ("headeradmin.php");
         echo "\n";
-        // Localizations List
-        echo "<h1>".__("Management of external links")."</h1>\n";
+		echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+    <li class="is-active"><a href="list.php?table=links" aria-current="page">'.__("Management of external links").'</a></li>
+  </ul>
+</nav>';
+        // links List
+        echo "<h1 class=\"title\">".__("Management of external links")."</h1>\n";
         $req = "SELECT * FROM links ORDER BY library ASC, title ASC";// LIMIT ?, ?";
         $result = dbquery($req);//, array(0,200), 'ii');
         $total_results = iimysqli_num_rows($result);
@@ -50,7 +56,7 @@ if (!empty($_COOKIE['illinkid'])){
             echo " ".__("links found")."</b></font>\n";
         echo "<br/>";
         echo "<br/>";
-        echo "<table id=\"one-column-emphasis\" summary=\"\">\n";
+        echo "<table class=\"table is-hoverable\" id=\"one-column-emphasis\" summary=\"\">\n";
         echo "<colgroup>\n";
         echo "<col class=\"oce-first\" />\n";
         echo "</colgroup>\n";
@@ -65,7 +71,7 @@ if (!empty($_COOKIE['illinkid'])){
         echo "<th scope=\"col\">".__("Library")."</th>\n";
         echo "<th scope=\"col\">".__("List position")."</th>\n";
         echo "<th scope=\"col\">".__("Active link")."</th>\n";
-        echo "<th scope=\"col\"></th>\n";
+        echo "<th scope=\"col\">&nbsp;</th>\n";
         echo "</tr>\n";
         echo "</thead>\n";
         echo "<tbody>\n";
@@ -131,7 +137,7 @@ if (!empty($_COOKIE['illinkid'])){
             echo "<td>".htmlspecialchars($linkposition)."</td>\n";
             echo "<td>".htmlspecialchars($linkactive)."</td>\n";
             if (($monaut == "admin")||($monaut == "sadmin")){
-                echo "<td><a href=\"edit.php?table=links&amp;id=".htmlspecialchars($linkid)."\"><img src=\"img/edit.png\" title=\"".__("Edit card")."\" width=\"20\"></a></td>";
+                echo "<td><a title=\"".__("Edit the link")."\" href=\"edit.php?table=links&amp;id=".htmlspecialchars($linkid)."\"><i class=\"fas fa-edit has-text-primary\"></i></a></td>";
             }
             echo "</tr>\n";
         }
@@ -139,7 +145,7 @@ if (!empty($_COOKIE['illinkid'])){
         echo "</table>\n";
         echo "\n";
         echo "<br/><br/><ul>\n";
-        echo "<b><a href=\"new.php?table=links\">".__("Add a new link")."</a></b>\n";
+        echo "<b><a class=\"button is-primary\" href=\"new.php?table=links\">".__("Add a new link")."</a></b>\n";
         echo "<br/><br/>\n";
         echo "</ul>\n";
         require ("footer.php");

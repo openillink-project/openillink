@@ -1,10 +1,10 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
 // Copyright (C) 2017 UNIGE.
-// Copyright (C) 2017 CHUV.
+// Copyright (C) 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -38,14 +38,21 @@ $id= ((!empty($_GET['id'])) && isValidInput($_GET['id'],11,'s',false)) ? $_GET['
 if (!empty($_COOKIE['illinkid'])){
 	if (($monaut == "admin")||($monaut == "sadmin")){
 		if ($id!=""){
-			$myhtmltitle = $configname[$lang] . " : ". format_string(__("edition of filter %id_filter"), array('id_filter' => $id));
-			$montitle = format_string(__("Filters management : edition of card %id_card"), array('id_card' => $id));
+			$myhtmltitle = $configname[$lang] . " : ". format_string(__("Edit filter %id_filter"), array('id_filter' => $id));
+			$montitle = format_string(__("Filters management : Edit filter %id_filter"), array('id_filter' => $id));
 			require ("headeradmin.php");
+			echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+    <li><a href="list.php?table=folders" aria-current="page">'.__("Filters management").'</a></li>
+	<li class="is-active"><a href="edit.php?table=folders" aria-current="page">'.format_string(__("Edit filter %id_filter"), array('id_filter' => $id)).'</a></li>
+  </ul>
+</nav>';
 			$req = "SELECT * FROM folders WHERE id = ?";
 			$result = dbquery($req, array($id), 'i');
 			$nb = iimysqli_num_rows($result);
 			if ($nb == 1) {
-				echo "<h1>" . $montitle . "</h1>\n";
+				echo "<h1 class=\"title\">" . $montitle . "</h1>\n";
 				echo "<br /></b>";
 				echo "<ul>\n";
 				$enreg = iimysqli_result_fetch_array($result);
@@ -61,10 +68,10 @@ if (!empty($_COOKIE['illinkid'])){
 				echo "<input name=\"table\" type=\"hidden\" value=\"folders\">\n";
 				echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($folderid)."\">\n";
 				echo "<input name=\"action\" type=\"hidden\" value=\"update\">\n";
-				echo "<table id=\"hor-zebra\" class=\"genericEditFormOIL\">\n";
-				echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
-				echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=folders'\">\n";
-				echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=folders&id=" . $folderid . "'\"></td></tr>\n";
+				echo "<table class=\"table is-striped\" id=\"hor-zebra\" class=\"genericEditFormOIL\">\n";
+				echo "<tr><td></td><td><div class=\"field is-grouped\"><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save changes")."\">\n";
+				echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=folders'\">\n";
+				echo "&nbsp;&nbsp;<input class=\"button is-danger\" type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=folders&id=" . $folderid . "'\"></div></td></tr>\n";
 				echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
 				echo "<tr><td><b>Titre *</b></td><td>\n";
 				echo "<input name=\"title\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($foldertitle) . "\"></td></tr>\n";
@@ -126,25 +133,32 @@ if (!empty($_COOKIE['illinkid'])){
 				echo "<textarea name=\"query\" id=\"query\" rows=\"3\" cols=\"60\" valign=\"bottom\">" . htmlspecialchars($folderquery) . "</textarea></td></tr>\n";
 
 				echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-				echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
-				echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=folders'\">\n";
-				echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=folders&id=" . $folderid . "'\"></td></tr>\n";
+				echo "<tr><td></td><td><div class=\"field is-grouped\"><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save changes")."\">\n";
+				echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=folders'\">\n";
+				echo "&nbsp;&nbsp;<input class=\"button is-danger\" type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=folders&id=" . $folderid . "'\"></div></td></tr>\n";
 				echo "</table>\n";
 				echo "</form><br /><br />\n";
 				require ("footer.php");
 			}
 			else{
 				echo "<center><br/><b><font color=\"red\">\n";
-				echo format_string(__("The card %id_card was not found in the database."), array('id_card' => $id))."</b></font>\n";
+				echo format_string(__("The record %id_record was not found in the database."), array('id_record' => $id))."</b></font>\n";
 				echo "<br /><br /><b>".__("Please restart your search or contact the database administrator")." : " . $configemail . "</b></center><br /><br /><br /><br />\n";
 				require ("footer.php");
 			}
 		}
 		else{
 			require ("header.php");
+			echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+        <li><a href="list.php?table=folders" aria-current="page">'.__("Filters management").'</a></li>
+	<li class="is-active"><a href="edit.php?table=folders" aria-current="page">'.format_string(__("Edit filter %id_filter"), array('id_filter' => $id)).'</a></li>
+  </ul>
+</nav>';
 			//require ("menurech.php");
 			echo "<center><br/><b><font color=\"red\">\n";
-			echo __("The card was not found in the database."). "</b></font>\n";
+			echo __("The record was not found in the database."). "</b></font>\n";
 			echo "<br /><br /><b>".__("Please restart your search or contact the database administrator")." : " . $configemail . "</b></center><br /><br /><br /><br />\n";
 			echo "<br /><br />\n";
 			echo "</ul>\n";
@@ -155,7 +169,7 @@ if (!empty($_COOKIE['illinkid'])){
 	else{
 		require ("header.php");
 		echo "<center><br/><b><font color=\"red\">\n";
-		echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
+		echo __("Your rights are insufficient to edit this record")."</b></font></center><br /><br /><br /><br />\n";
 		require ("footer.php");
 	}
 }

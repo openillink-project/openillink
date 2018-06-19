@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -31,17 +31,24 @@ require ("authcookie.php");
 require_once ("connexion.php");
 if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")){
-        $myhtmltitle = $configname[$lang] . " : ". __("new network localization");
+        $myhtmltitle = $configname[$lang] . " : ". __("new network location");
         require ("headeradmin.php");
-        echo "<h1>".__("Localizations management : New card creation")."</h1>\n";
+		echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+    <li><a href="list.php?table=localizations">'.__("Location management").'</a></li>
+	<li class="is-active"><a href="edit.php?table=localizations" aria-current="page">'.__("New location").'</a></li>
+  </ul>
+</nav>';
+        echo "<h1 class=\"title\">".__("Localizations management : New record creation")."</h1>\n";
         echo "<br /></b>";
         echo "<ul>\n";
         echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
         echo "<input name=\"table\" type=\"hidden\" value=\"localizations\">\n";
         echo "<input name=\"action\" type=\"hidden\" value=\"new\">\n";
-        echo "<table id=\"hor-zebra\">\n";
-        echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save the new localization")."\">\n";
-        echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=localizations'\"></td></tr>\n";
+        echo "<table class=\"table is-striped\" id=\"hor-zebra\">\n";
+        echo "<tr><td></td><td><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save the new location")."\">\n";
+        echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=localizations'\"></td></tr>\n";
         echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
         echo "<tr><td><b>".__("Code")." *</b></td><td>\n";
         echo "<input name=\"code\" type=\"text\" size=\"30\" value=\"\"></td></tr>\n";
@@ -72,8 +79,8 @@ if (!empty($_COOKIE['illinkid'])){
         }
         echo "</select></td></tr>\n";
         echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-        echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save the new localization")."\">\n";
-        echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=localizations'\"></td></tr>\n";
+        echo "<tr><td></td><td><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save the new location")."\">\n";
+        echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=localizations'\"></td></tr>\n";
         echo "</table>\n";
         echo "</form><br /><br />\n";
         require ("footer.php");

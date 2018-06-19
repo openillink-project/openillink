@@ -4,7 +4,7 @@
 // ***************************************************************************
 // This file is part of OpenILLink software.
 // Copyright (C) 2007, 2008, 2009, 2010, 2011, 2012, 2013 UNIGE.
-// Copyright (C) 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Jan Krause <pro@jankrause.net>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -45,7 +45,7 @@ if (!empty($_COOKIE['illinkid']))
     $endDate = date("d.m.Y",mktime(0, 0, 0, 12, 31, date("Y")-1));
 
     // contenu ici
-    echo "<h1>".__("Reports and statistics")."</h1>\n";
+    echo "<h1 class=\"title\">".__("Reports and statistics")."</h1>\n";
     echo "<center>";
     echo "<table>\n";
     echo "<form action=\"reports.php\" method=\"GET\">\n";
@@ -72,11 +72,11 @@ if (!empty($_COOKIE['illinkid']))
     "refinterbib, nom, prénom, mail, illinkid, date, envoye, prix, localisation, type_doc, titre_periodique, annee, volume, numero, pages, titre_article, stade, uid, issn, eissn.</div>");
 
     echo boxContent('resume_service', "RÉSUMÉ PAR SERVICE", 
-    "<div>".__("List of orders grouped by service, are detailed:")."<ul><li>".__("The organization (which in principle is empty at the moment);")."</li><li>".__("The service i.e. the unit that made the request, designated by its code;")."</li><li>".__("The CGRA of the service, i.e. the unit that made the request;")."</li><li>".__("The number of orders for the service / CGRA;")."</li><li>".__("The price, corresponding to the total amount invoiced for all orders according to the data entered in openillink.")."</li></ul>".__("Only orders with status 'Received and sent to the customer' are taken into account.")."</div><div/>");
+    "<div>".__("List of orders grouped by service, are detailed:")."<ul><li>".__("The organization (which in principle is empty at the moment);")."</li><li>".__("The service i.e. the unit that made the request, designated by its code;")."</li><li>".__("The CGRA of the service, i.e. the unit that made the request;")."</li><li>".__("The number of orders for the service / CGRA;")."</li><li>".__("The price, corresponding to the total amount invoiced for all orders according to the data entered in openillink.")."</li></ul>".__("Only orders with status 'Received and sent to the customer' are taken into account.")."</div>");
 
     echo boxContent('stats', "STATISTIQUES", __("Contains three tables:").
     "<ul><li>".__("Orders by status (total number and percentage);")."</li><li>".__("Orders by location (total number and percentage);")."</li><li>".__("Order detail invoiced by location (total number and percentage)")."</li></ul>".__("Only sales-ordered orders are included in this statistic.")."<div/>");
-    echo "</div></div>\n";
+    echo "</div>\n";
     require ("includes/footer.php");
 	
 	} else {

@@ -10,7 +10,10 @@
 
 /* input box in default state */ 
 .tcalInput {
-	background: url('../img/calendar/cal.gif') 100% 50% no-repeat;
+    background-image: url('../img/calendar/cal.gif');
+    background-position-x: 99%;
+    background-position-y: 50%;
+    background-repeat: no-repeat;
 	padding-right: 20px;
 	cursor: pointer;
 }
@@ -98,3 +101,7 @@
 #tcalGrid td.tcalWeekend { background-color: #ACD6F5; }
 #tcalGrid td.tcalToday { border: 1px solid red; }
 #tcalGrid td.tcalSelected { background-color: #FFB3BE; }		
+
+#tcalGrid td, #tcalControls th {
+    color: black;
+}

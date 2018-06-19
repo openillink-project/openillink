@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -131,7 +131,7 @@ if (!empty($_COOKIE['illinkid'])){
 					$params = array($title1, $title2, $title3, $title4, $title5, $help1, $help2, $help3, $help4, $help5, $code, $in, $out, $trash, $special, $color);
 					$id = dbquery($query, $params,'ssssssssssiiiiss') or die("Error : ".mysqli_error());
 					echo "<center><br/><b><font color=\"green\">\n";
-					echo format_string(__("The new card %id_card has been successfully registered"),array('id_card' => htmlspecialchars($id)))."</b></font>\n";
+					echo format_string(__("The new record %id_record has been successfully registered"),array('id_record' => htmlspecialchars($id)))."</b></font>\n";
 					echo "<br/><br/><br/><a href=\"list.php?table=status\">".__("Back to the order steps list")."</a></center>\n";
 					echo "</center>\n";
 					echo "\n";
@@ -146,13 +146,13 @@ if (!empty($_COOKIE['illinkid'])){
             $myhtmltitle = $configname[$lang] . " : ".__("Confirmation for deleting an order step");
             require ("headeradmin.php");
             echo "<center><br/><br/><br/><b><font color=\"red\">\n";
-            echo format_string(__("Do you really want to delete the card %id_card ?"),array('id_card' => htmlspecialchars($id)))."</b></font>\n";
+            echo format_string(__("Do you really want to delete the record %id_record ?"),array('id_record' => htmlspecialchars($id)))."</b></font>\n";
             echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
             echo "<input name=\"table\" type=\"hidden\" value=\"status\">\n";
             echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($id)."\">\n";
             echo "<input name=\"action\" type=\"hidden\" value=\"deleteok\">\n";
             echo "<br /><br />\n";
-            echo "<input type=\"submit\" value=\"".format_string(__("Confirm the deletion of the card %id_card by clicking here"),array('id_card' => htmlspecialchars($id)))."\">\n";
+            echo "<input type=\"submit\" value=\"".format_string(__("Confirm the deletion of the record %id_record by clicking here"),array('id_record' => htmlspecialchars($id)))."\">\n";
             echo "</form>\n";
             echo "<br/><br/><br/><a href=\"list.php?table=status\">".__("Back to the order steps list")."</a></center>\n";
             echo "</center>\n";
@@ -165,7 +165,7 @@ if (!empty($_COOKIE['illinkid'])){
             $query = "DELETE FROM status WHERE status.id = ?";
             $result = dbquery($query, array($id), 'i') or die("Error : ".mysqli_error());
             echo "<center><br/><b><font color=\"green\">\n";
-            echo format_string(__("The card %id_card has been successfully deleted"),array('id_card' => htmlspecialchars($id)))."</b></font>\n";
+            echo format_string(__("The record %id_record has been successfully deleted"),array('id_record' => htmlspecialchars($id)))."</b></font>\n";
             echo "<br/><br/><br/><a href=\"list.php?table=status\">".__("Back to the order steps list")."</a></center>\n";
             echo "</center>\n";
             echo "\n";

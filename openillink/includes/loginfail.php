@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -26,24 +26,54 @@
 // ***************************************************************************
 // Message displayed if the login fails or if the permissions are fewer than required
 //
-echo "<div class=\"box\"><div class=\"box-content\">\n";
-echo "<b><font color=\"red\">". __("You are not allowed to access this page or your session has expired")."</font></b><br />\n";
-// (MDV) allow loginfail to work for subdirectory pages as well
-$loginPage = (is_readable ( "login.php" ))? "login.php" : "../login.php";
-echo "<form name=\"loginform\" id=\"loginform\" action=\"$loginPage\" method=\"post\">\n";
-echo "<p><label>".__("Username").":<br /><input type=\"text\" name=\"log\" id=\"log\" value=\"\" size=\"20\" tabindex=\"1\" /></label></p>\n";
-echo "<p><label>".__("Password"). ":<br /> <input type=\"password\" name=\"pwd\" id=\"pwd\" value=\"\" size=\"20\" tabindex=\"2\" /></label></p>\n";
-echo "<p>\n";
-// echo "  <label><input name=\"rememberme\" type=\"checkbox\" id=\"rememberme\" value=\"forever\" tabindex=\"3\" /> \n";
-// echo "  Garder en mémoire</label></p>\n";
-// echo "<p>\n";
-echo "	<input type=\"submit\" name=\"submit\" id=\"submit\" value=\"login\" tabindex=\"4\" />\n";
-echo "	<input type=\"hidden\" name=\"redirect_to\" value=\"in/\" />\n";
-echo "</p>\n";
-echo "<br />\n";
-echo "</div></div><div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
-echo "</form>\n";
-if ($displayResendLink){
-    echo '<p><a href="resendcredentials.php" target="_self"> '.__("Request password").'</a> : '.__("Service only available to users with an openillink order").'</p>';
+
+echo '
+	<div class="container">
+	<div class="columns is-centered">
+	<article class="message is-danger">
+  <div class="message-body">
+    '. __("You are not allowed to access this page or your session has expired") .'
+  </div>
+</article></div></div><br/><br/>';
+if ($shibboleth == 1){
+    echo "<a href=\"". $shibbolethurl . "\"><img src=\"img/shibboleth.png\" alt=\"Shibboleth authentication\" style=\"float:right;\"/></a>";
 }
+$loginPage = (is_readable ( "login.php" ))? "login.php" : "../login.php";
+echo '
+<div class="container">
+	<div class="columns is-centered">
+		<article class="card is-rounded">
+			<div class="card-content">
+				<h1 class="title">'.__("Log in").'</h1>
+				<form name="loginform" id="loginform" action="'.$loginPage.'" method="post">
+				<div class="field">
+				<p class="control has-icon">
+					<input class="input" type="text" name="log" id="log" value="" placeholder="'.__("Username").'">
+					 <span class="icon is-small is-left">
+						<i class="fa fa-user"></i>
+					</span>
+				</p>
+				</div>
+				<div class="field">
+				<p class="control has-icon">
+					<input class="input" type="password" name="pwd" id="pwd" value="" placeholder="'.__("Password").'">
+					 <span class="icon is-small is-left">
+						<i class="fa fa-lock"></i>
+					</span>
+				</p>
+				</div>';
+echo '
+				<p class="control">
+					<input type="submit" name="submit" id="submit" class="button is-primary is-fullwidth" value="'.__("Login").'" />
+					<input type="hidden" name="redirect_to" value="/" />
+				</p>
+				</form>
+			</div>
+		</article>
+	</div>';
+if ($displayResendLink){
+	echo '
+	<div class="columns is-centered section">
+		<p><a href="resendcredentials.php" target="_self"> '.__("Request password").'</a> : '.__("Service only available to users with an openillink command").'</p>
+	</div>';}
 ?>

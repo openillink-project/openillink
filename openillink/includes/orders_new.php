@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
@@ -418,7 +418,7 @@ echo "<br/>\n";
 echo "\n";
     echo "<center><b><font color=\"green\">".__("Your order has been successfully registered and will be processed soon")."</b></center></font>\n";
     echo "<div class=\"hr\"><hr></div>\n";
-    echo "<table align=\"center\">\n";
+    echo "<table class=\"table is-striped\" align=\"center\">\n";
     echo "</td></tr>\n";
     echo "<tr><td width=\"90\"><b>".__("Order")."</b></td>\n";
     echo "<td><b>$monno</b></td></tr>\n";

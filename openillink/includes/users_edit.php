@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -59,10 +59,17 @@ if (!empty($_COOKIE['illinkid'])){
 				$param_types = "s";
             }
             require ("headeradmin.php");
+			echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+    <li><a href="list.php?table=users">'.__("Users management").'</a></li>
+	<li class="is-active"><a href="edit.php?table=users" aria-current="page">'.format_string(__("Edit user %id"), array('id' => htmlspecialchars($id))).'</a></li>
+  </ul>
+</nav>';
             $result = dbquery($req, $params, $param_types);
             $nb = iimysqli_num_rows($result);
             if ($nb == 1){
-                echo "<h1>" . $montitle . "</h1>\n";
+                echo "<h1 class=\"title\">" . $montitle . "</h1>\n";
                 echo "<br /></b>";
                 echo "<ul>\n";
                 $enreg = iimysqli_result_fetch_array($result);
@@ -76,7 +83,7 @@ if (!empty($_COOKIE['illinkid'])){
                 $library = $enreg['library'];
                 if (($monaut != "sadmin")&&($monlog != $login)&&($admin < 3)){
                     echo "<center><br/><b><font color=\"red\">\n";
-                    echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
+                    echo __("Your rights are insufficient to edit this record")."</b></font></center><br /><br /><br /><br />\n";
                     require ("footer.php");
                 }
                 else{
@@ -87,7 +94,7 @@ if (!empty($_COOKIE['illinkid'])){
                         echo "<input name=\"action\" type=\"hidden\" value=\"update\">\n";
                     if (($monaut == "user")&&($action == "updateprofile"))
                         echo "<input name=\"action\" type=\"hidden\" value=\"updateprofile\">\n";
-                    echo "<table id=\"hor-zebra\">\n";
+                    echo "<table class=\"table is-striped\" id=\"hor-zebra\">\n";
 /*
                     echo "<tr><td></td><td><input type=\"submit\" value=\"Enregistrer les modifications\">\n";
                     echo "&nbsp;&nbsp;<input type=\"button\" value=\"Annuler\" onClick=\"self.location='list.php?table=users'\">\n";
@@ -160,15 +167,15 @@ if (!empty($_COOKIE['illinkid'])){
                     echo "<tr><td class=\"odd\"><b>".__("New password")."</b></td><td class=\"odd\"><input name=\"newpassword1\" type=\"password\" size=\"30\" value=\"\"></td></tr>\n";
                     echo "<tr><td><b>".__("Confirmation of new password")."</b></td><td><input name=\"newpassword2\" type=\"password\" size=\"30\" value=\"\"></td></tr>\n";
                     echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-                    echo "<tr><td></td><td><input type=\"submit\" value=\"".__("Save changes")."\">\n";
+                    echo "<tr><td></td><td><div class=\"field is-grouped\"><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save changes")."\">\n";
                     if (($monaut == "user")&&($action == "updateprofile")){
-                        echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='admin.php'\">\n";
+                        echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='admin.php'\">\n";
                     }
                     if (($monaut == "admin")||($monaut == "sadmin")){
-                        echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=users'\">\n";
-                        echo "&nbsp;&nbsp;<input type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=users&id=" . htmlspecialchars($user_id) . "'\"></td></tr>\n";
+                        echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=users'\">\n";
+                        echo "&nbsp;&nbsp;<input class=\"button is-danger\" type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=users&id=" . htmlspecialchars($user_id) . "'\">\n";
                     }
-                    echo "</table>\n";
+                    echo "</div></td></tr></table>\n";
                     echo "</form><br /><br />\n";
                     require ("footer.php");
                 }
@@ -195,7 +202,7 @@ if (!empty($_COOKIE['illinkid'])){
     else{
         require ("header.php");
         echo "<center><br/><b><font color=\"red\">\n";
-        echo __("Your rights are insufficient to edit this card")."</b></font></center><br /><br /><br /><br />\n";
+        echo __("Your rights are insufficient to edit this record")."</b></font></center><br /><br /><br /><br />\n";
         require ("footer.php");
     }
 }

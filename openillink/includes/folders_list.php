@@ -1,10 +1,10 @@
-﻿<?php
+<?php
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
 // Copyright (C) 2017 UNIGE.
-// Copyright (C) 2017 CHUV.
+// Copyright (C) 2017, 2018 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -36,8 +36,14 @@ if (!empty($_COOKIE['illinkid'])){
 		$myhtmltitle = $configname[$lang] . " : ".__("filters management");
 		require ("headeradmin.php");
 		echo "\n";
+		echo '<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="admin.php">'.__("Administration").'</a></li>
+    <li class="is-active"><a href="list.php?table=folders" aria-current="page">'.__("Filters management").'</a></li>
+  </ul>
+</nav>';
 		// Folders List
-		echo "<h1>".__("Filters management")."</h1>\n";
+		echo "<h1 class=\"title\">".__("Filters management")."</h1>\n";
 		$req = "SELECT * FROM folders ORDER BY title ASC, user ASC";// LIMIT ?, ?";
 		$result = dbquery($req);//, array(0,200), 'ii');
 		$total_results = iimysqli_num_rows($result);
@@ -51,7 +57,7 @@ if (!empty($_COOKIE['illinkid'])){
 			echo " ".__("filters found")."</b></font>\n";
 		echo "<br/>";
 		echo "<br/>";
-		echo "<table id=\"one-column-emphasis\" summary=\"\">\n";
+		echo "<table class=\"table\" id=\"one-column-emphasis\" summary=\"\">\n";
 		echo "<colgroup>\n";
 		echo "<col class=\"oce-first\" />\n";
 		echo "</colgroup>\n";
@@ -65,7 +71,7 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "<th scope=\"col\">".__("Library")."</th>\n";
 		echo "<th scope=\"col\">".__("Menu position")."</th>\n";
 		echo "<th scope=\"col\">".__("Active filter")."</th>\n";
-		echo "<th scope=\"col\"></th>\n";
+		echo "<th scope=\"col\">&nbsp;</th>\n";
 		echo "</tr>\n";
 		echo "</thead>\n";
 		echo "<tbody>\n";
@@ -92,7 +98,7 @@ if (!empty($_COOKIE['illinkid'])){
 			echo "<td>".htmlspecialchars($folderposition)."</td>\n";
 			echo "<td>".htmlspecialchars($folderactive)."</td>\n";
 			if (($monaut == "admin")||($monaut == "sadmin")){
-				echo "<td><a href=\"edit.php?table=folders&amp;id=".htmlspecialchars($folderid)."\"><img src=\"img/edit.png\" title=\"".__("Edit the card")."\" width=\"20\"></a></td>";
+				echo "<td><a title=\"".__("Edit the filter")."\" href=\"edit.php?table=folders&amp;id=".htmlspecialchars($folderid)."\"><i class=\"fas fa-edit has-text-primary\"></i></a></td>";
 			}
 			echo "</tr>\n";
 		}
@@ -100,7 +106,7 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "</table>\n";
 		echo "\n";
 		echo "<br/><br/><ul>\n";
-		echo "<b><a href=\"new.php?table=folders\">".__("Add a new filter")."</a></b>\n";
+		echo "<b><a class=\"button is-primary\" href=\"new.php?table=folders\">".__("Add a new filter")."</a></b>\n";
 		echo "<br/><br/>\n";
 		echo "</ul>\n";
 		require ("footer.php");

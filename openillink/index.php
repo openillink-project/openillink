@@ -552,7 +552,7 @@ function get_document_form($lookupuid, $doctypesmessage, $doctypes,  $periodical
 	$document_form .=  __("Title of journal or book") . " *</label> : </td><td>\n";
 	$document_form .=  "<input name=\"title_".$form_index."\" id=\"title_".$form_index."\" type=\"text\" size=\"80\" value=\"".htmlspecialchars($title)."\">\n";
 	$document_form .=  "&nbsp;\n";
-	$document_form .=  "<a href=\"javascript:openlist('".$periodical_title_search_url."')\"><img src=\"img/find.png\" title=\"" . __("check on journals database") . "\"></a>\n";
+	$document_form .=  "<a href=\"javascript:openlist('".$periodical_title_search_url."', '".$form_index."')\"><img src=\"img/find.png\" title=\"" . __("check on journals database") . "\"></a>\n";
 	$document_form .=  "</td></tr><tr><td>\n";
 	$document_form .=  '<label for="date">';
 	$document_form .=  __("Year") . "</label> : </td><td>\n";

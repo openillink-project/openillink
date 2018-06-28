@@ -1330,12 +1330,12 @@ function directory(urlpass) {
 
 
 
-function openlist(urlbase) {
+function openlist(urlbase, item_index) {
 	if (urlbase === undefined || urlbase == "") {
 		urlbase = "../openlist/search.php?search=simple&q=";
 	}
     if  (document.commande["title_"+item_index].value != "") {
-        var monurl = urlbase + document.commande["title_"+item_index].value;
+        var monurl = urlbase + encodeURIComponent(document.commande["title_"+item_index].value);
         window.open(monurl); }
     else
         alert("Rentrez un titre d'abord")

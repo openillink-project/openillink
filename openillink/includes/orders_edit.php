@@ -464,7 +464,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo __("Title of journal or book") . " *</label> : </td><td>\n";
                 echo "<input name=\"title_0\" id=\"title_0\" type=\"text\" size=\"80\" value=\"".htmlspecialchars($enreg['titre_periodique'])."\" onchange=\"textchanged('titre_periodique')\">\n";
                 echo "&nbsp;\n";
-                echo "<a href=\"javascript:openlist('".$periodical_title_search_url."')\"><img src=\"img/find.png\" title=\"" . __("check on journals database") . "\"></a>\n";
+                echo "<a href=\"javascript:openlist('".$periodical_title_search_url."', '0')\"><img src=\"img/find.png\" title=\"" . __("check on journals database") . "\"></a>\n";
                 echo "</td></tr><tr><td>\n";
 				echo '<label for="date_0">';
                 echo __("Year") . " *</label> : </td><td>\n";

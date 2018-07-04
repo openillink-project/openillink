@@ -272,7 +272,7 @@ if ($nblinks > 0){
             $linkurl .= "&date=" . urlencode ($enreg['annee']);
         }
         if ($linkorder_form == 1)
-            $linkurl = $linkurl . "&id=" . $enreg['illinkid'];
+            $linkurl = $linkurl . "&intId=" . $enreg['illinkid'];
         $linkurlreplace = $linkurl;
         $linkurlreplace = str_replace("XSIDX",$openurlsid,$linkurlreplace);
         $linkurlencoded = $rowlinks["url_encoded"]==1?true:false;

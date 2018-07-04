@@ -116,7 +116,7 @@ if (!empty($_COOKIE['illinkid'])){
                 echo "<input name=\"order_form\" value=\"1\" type=\"checkbox\"";
                 if ($linkorder_form == 1)
                     echo " checked";
-                echo ">".__("Internal form")."Formulaire interne\n";
+                echo ">".__("Internal form")."\n";
                 echo "</td></tr>\n";
                 echo "<tr><td><b>".__("Assignment library")."</b></td><td>\n";
                 echo "<select name=\"library\">\n";

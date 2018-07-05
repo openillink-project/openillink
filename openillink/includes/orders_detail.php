@@ -244,8 +244,11 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "\n<br /><b>". __("Guest access code") ." : </b> ". __("Username") .": ".htmlspecialchars($maillog)." | ". __("Password") .": ".htmlspecialchars($passwordg);
             if ($enreg['remarquespub'])
                 echo "\n<br /><b>". __("Public comment") ." : </b>".nl2br(htmlspecialchars($enreg['remarquespub']));
-            if ($enreg['remarques'])
-                echo "\n<br /><b>". __("Professional comment") ." : </b>".nl2br(htmlspecialchars($enreg['remarques']));
+            if ($enreg['remarques']){
+				$prepared_remarque_for_html = nl2br(htmlspecialchars($enreg['remarques']));
+				$prepared_remarque_for_html = str_replace(__("Warning. Possible duplicate of the order."), '<span class="remarkDuplicateOrder">'.__("Warning. Possible duplicate of the order.") . '</span>', $prepared_remarque_for_html);
+                echo "\n<br /><b>". __("Professional comment") ." : </b>". $prepared_remarque_for_html;
+			}
             echo "\n<br /><br /><b>". __("Order history") ." : </b>\n<br />".str_replace('&lt;br /&gt;', '<br />', htmlspecialchars($enreg['historique']));
             echo "</td>\n";
             echo "<td valign=\"top\" width=\"26%\">\n";

@@ -371,7 +371,7 @@ else{
 			if ($nb > 0){
 				if ($remarques)
 					$order_form['remarques'] = $remarques."\r\n";
-				$order_form['remarques'] = $remarques. __("Warning. Possible duplicate of the order.");
+				$order_form['remarques'] = $remarques. __("Warning. Possible duplicate of the order."); // string must be kept in sync with order_details.php for highlighting
 				for ($i=0 ; $i<$nb ; $i++){
 					$enreg2 = iimysqli_result_fetch_array($result2);
 					$doublon = $enreg2['illinkid'];

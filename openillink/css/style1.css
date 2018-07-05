@@ -602,7 +602,7 @@ fieldset.organizedForm {
     font-size: 24px;
 }
 
-.notMyBib, .notMyLocalisation, .notMyService, .isSharedOrder {
+.notMyBib, .notMyLocalisation, .notMyService, .isSharedOrder, .remarkDuplicateOrder {
 	background-color: #fb0;
 	padding:2px;
 	border-radius: 2px;

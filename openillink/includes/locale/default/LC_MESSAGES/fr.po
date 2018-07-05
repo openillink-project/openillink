@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenILLink\n"
 "POT-Creation-Date: 2018-07-05 11:17+0200\n"
-"PO-Revision-Date: 2018-07-05 11:24+0200\n"
+"PO-Revision-Date: 2018-07-05 11:42+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -1248,12 +1248,12 @@ msgstr "Code d’accès invité"
 #: includes/orders_detail.php:246 includes/orders_new.php:513
 #: includes/orders_update.php:284
 msgid "Public comment"
-msgstr "Commentaire publique"
+msgstr "Commentaire public"
 
 #: includes/orders_detail.php:248 includes/orders_new.php:508
 #: includes/orders_update.php:280
 msgid "Professional comment"
-msgstr "Commentaire professionnelle"
+msgstr "Commentaire professionnel"
 
 #: includes/orders_detail.php:249
 msgid "Order history"

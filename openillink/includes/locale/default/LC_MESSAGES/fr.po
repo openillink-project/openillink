@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenILLink\n"
-"POT-Creation-Date: 2018-04-03 11:15+0200\n"
-"PO-Revision-Date: 2018-04-26 08:34+0200\n"
+"POT-Creation-Date: 2018-07-05 11:17+0200\n"
+"PO-Revision-Date: 2018-07-05 11:24+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -76,6 +76,10 @@ msgstr "Gestion des filtres"
 msgid "Create a new filter"
 msgstr "Créer un nouveau filtre"
 
+#: emptytrash.php:38
+msgid "%institution_name orders: empty trash"
+msgstr "%institution_name orders: vider la corbeille définitivement"
+
 #: emptytrash.php:43
 msgid "Empty trash"
 msgstr "Vider la corbeille"
@@ -111,41 +115,41 @@ msgstr "Vos droits sont insuffisants pour consulter cette page"
 msgid "Missing id or form parameters"
 msgstr "L'id ou des paramètres manquent"
 
-#: includes/config.php:181
+#: includes/config.php:192
 msgid "Article"
 msgstr "Article"
 
-#: includes/config.php:182
+#: includes/config.php:193
 msgid "Preprint"
 msgstr "Preprint"
 
-#: includes/config.php:183 includes/orders_detail.php:179
+#: includes/config.php:194 includes/orders_detail.php:179
 #: includes/ordertop.php:98
 msgid "Book"
 msgstr "Livre"
 
-#: includes/config.php:184
+#: includes/config.php:195
 msgid "Book chapter"
 msgstr "Chapitre de livre"
 
-#: includes/config.php:185 includes/orders_detail.php:181
+#: includes/config.php:196 includes/orders_detail.php:181
 #: includes/ordertop.php:100
 msgid "Thesis"
 msgstr "Thèse"
 
-#: includes/config.php:186
+#: includes/config.php:197
 msgid "Journal issue"
 msgstr "No de revue"
 
-#: includes/config.php:187
+#: includes/config.php:198
 msgid "Conference proceedings"
 msgstr "Actes d'un congrès"
 
-#: includes/config.php:188
+#: includes/config.php:199
 msgid "Conference paper"
 msgstr "Article d'une conférence"
 
-#: includes/config.php:189
+#: includes/config.php:200
 msgid "Other"
 msgstr "Autre"
 
@@ -600,10 +604,10 @@ msgstr "Gestion des bibliothèques"
 
 #: includes/libraries_edit.php:41
 msgid ""
-"%institution_name command: Librairies management : Edition of the library "
+"%institution_name orders: Librairies management : Edition of the library "
 "%id_library"
 msgstr ""
-"Commande de l’%institution_name : Gestion des bibliothèques : Edition de la "
+"Commandes de %institution_name : Gestion des bibliothèques : Edition de la "
 "bibliothèque %id_library"
 
 #: includes/libraries_edit.php:42
@@ -1079,8 +1083,8 @@ msgid "Non-priority order"
 msgstr "Commande non prioritaire"
 
 #: includes/orders_detail.php:117
-msgid "Shared Incoming Command"
-msgstr "Commande entrante partagée"
+msgid "Shared Incoming Order"
+msgstr "Commande Entrante Partagée"
 
 #: includes/orders_detail.php:121 includes/orders_edit.php:238
 #: includes/orders_edit_backup.php:238 includes/orders_edit_old.php:238
@@ -1105,7 +1109,7 @@ msgid "User"
 msgstr "Lecteur"
 
 #: includes/orders_detail.php:148
-msgid "Search for commands from this user"
+msgid "Search for orders from this user"
 msgstr "Chercher les commandes de ce lecteur"
 
 #: includes/orders_detail.php:152 includes/ordertop.php:76
@@ -1113,7 +1117,7 @@ msgid "E-mail"
 msgstr "E-mail"
 
 #: includes/orders_detail.php:152 includes/ordertop.php:76
-msgid "Search for commands from this email"
+msgid "Search for orders from this email"
 msgstr "Chercher les commandes de cet email"
 
 #: includes/orders_detail.php:158 includes/orders_new.php:438
@@ -1128,7 +1132,7 @@ msgid "Service"
 msgstr "Service"
 
 #: includes/orders_detail.php:164 includes/ordertop.php:85
-msgid "Search for commands from this service"
+msgid "Search for orders from this service"
 msgstr "Chercher les commandes de ce service"
 
 #: includes/orders_detail.php:167 index.php:541 index.php:543
@@ -1137,7 +1141,7 @@ msgstr "Type de document"
 
 #: includes/orders_detail.php:170 includes/orders_detail.php:188
 #: includes/ordertop.php:89 includes/ordertop.php:107
-msgid "Search for commands from this title"
+msgid "Search for orders from this title"
 msgstr "Rechercher des commandes à partir de ce titre"
 
 #: includes/orders_detail.php:172 includes/orders_edit.php:496
@@ -1476,8 +1480,8 @@ msgid "Reset"
 msgstr "Réinitialiser"
 
 #: includes/orders_list.php:34
-msgid "%institution_name command: orders list"
-msgstr "Commande de l’%institution_name : liste des commandes"
+msgid "%institution_name orders: orders list"
+msgstr "Commandes de %institution_name: liste des commandes"
 
 #: includes/orders_new.php:312
 #, php-format
@@ -1505,7 +1509,7 @@ msgid "Back to entry form"
 msgstr "Retour au formulaire"
 
 #: includes/orders_new.php:374
-msgid "Warning. Possible duplicate of the command."
+msgid "Warning. Possible duplicate of the order."
 msgstr "Attention ! Possible doublon de la commande."
 
 #: includes/orders_new.php:388
@@ -1565,7 +1569,7 @@ msgstr "Retour au formulaire"
 #: includes/orders_update.php:304
 msgid "%institution_name : confirmation for deletion of the order %order_id"
 msgstr ""
-"Commande de l’%institution_name : confirmation pour la suppression de la "
+"Commande de %institution_name : confirmation pour la suppression de la "
 "commande %order_id"
 
 #: includes/orders_update.php:307
@@ -1601,7 +1605,7 @@ msgid "Localisation"
 msgstr "Localisation"
 
 #: includes/ordertop.php:47
-msgid "Shared incoming command"
+msgid "Shared incoming order"
 msgstr "Commande entrante partagée"
 
 #: includes/resend_credential.php:36
@@ -2254,7 +2258,7 @@ msgstr "Quelle option choisir ?"
 
 #: reports.php:63
 msgid ""
-"List of commands whose sending date is included in the period indicated when "
+"List of orders whose sending date is included in the period indicated when "
 "the file was generated; The result list is sorted by decreasing send date "
 "and reports all columns in the table."
 msgstr ""
@@ -2273,7 +2277,7 @@ msgstr ""
 
 #: reports.php:69
 msgid ""
-"The document generated with this option details the commands with the status "
+"The document generated with this option details the orders with the status "
 "'Received and sent to the client', which are assigned to the library to the "
 "user who generates the statistic is attached."
 msgstr ""
@@ -2394,6 +2398,56 @@ msgstr "En cas de souci merci de"
 #: resendcredentials.php:46
 msgid "contact us"
 msgstr "nous contacter"
+
+#~ msgid ""
+#~ "%institution_name command: Librairies management : Edition of the library "
+#~ "%id_library"
+#~ msgstr ""
+#~ "Commande de l’%institution_name : Gestion des bibliothèques : Edition de "
+#~ "la bibliothèque %id_library"
+
+#~ msgid "Shared Incoming Command"
+#~ msgstr "Commande entrante partagée"
+
+#~ msgid "Search for commands from this user"
+#~ msgstr "Chercher les commandes de ce lecteur"
+
+#~ msgid "Search for commands from this email"
+#~ msgstr "Chercher les commandes de cet email"
+
+#~ msgid "Search for commands from this service"
+#~ msgstr "Chercher les commandes de ce service"
+
+#~ msgid "Search for commands from this title"
+#~ msgstr "Rechercher des commandes à partir de ce titre"
+
+#~ msgid "%institution_name command: orders list"
+#~ msgstr "Commande de l’%institution_name : liste des commandes"
+
+#~ msgid "Warning. Possible duplicate of the command."
+#~ msgstr "Attention ! Possible doublon de la commande."
+
+#~ msgid "Shared incoming command"
+#~ msgstr "Commande entrante partagée"
+
+#~ msgid ""
+#~ "List of commands whose sending date is included in the period indicated "
+#~ "when the file was generated; The result list is sorted by decreasing send "
+#~ "date and reports all columns in the table."
+#~ msgstr ""
+#~ "Liste des commandes dont la date d’envoi est inclue dans la période "
+#~ "indiquée lors de la génération du fichier ; la liste des résultats est "
+#~ "triée par date d’envoi décroissante et reporte toutes les colonnes de la "
+#~ "table."
+
+#~ msgid ""
+#~ "The document generated with this option details the commands with the "
+#~ "status 'Received and sent to the client', which are assigned to the "
+#~ "library to the user who generates the statistic is attached."
+#~ msgstr ""
+#~ "Le document généré avec cette option détaille les commandes avec statut « "
+#~ "Reçue et envoyée au client », qui sont assignées à la bibliothèque à "
+#~ "laquelle l’utilisateur qui génère la statistique est rattaché."
 
 #~ msgid "Fulfill the order from"
 #~ msgstr "Remplir la commande à partir du"

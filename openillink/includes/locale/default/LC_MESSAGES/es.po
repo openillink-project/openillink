@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenILLink\n"
-"POT-Creation-Date: 2018-04-03 11:16+0200\n"
-"PO-Revision-Date: 2018-04-03 11:16+0200\n"
+"POT-Creation-Date: 2018-07-05 12:40+0200\n"
+"PO-Revision-Date: 2018-07-05 12:40+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -76,6 +76,10 @@ msgstr ""
 msgid "Create a new filter"
 msgstr ""
 
+#: emptytrash.php:38
+msgid "%institution_name orders: empty trash"
+msgstr ""
+
 #: emptytrash.php:43
 msgid "Empty trash"
 msgstr ""
@@ -110,41 +114,41 @@ msgstr ""
 msgid "Missing id or form parameters"
 msgstr ""
 
-#: includes/config.php:181
+#: includes/config.php:192
 msgid "Article"
 msgstr ""
 
-#: includes/config.php:182
+#: includes/config.php:193
 msgid "Preprint"
 msgstr ""
 
-#: includes/config.php:183 includes/orders_detail.php:179
+#: includes/config.php:194 includes/orders_detail.php:179
 #: includes/ordertop.php:98
 msgid "Book"
 msgstr ""
 
-#: includes/config.php:184
+#: includes/config.php:195
 msgid "Book chapter"
 msgstr ""
 
-#: includes/config.php:185 includes/orders_detail.php:181
+#: includes/config.php:196 includes/orders_detail.php:181
 #: includes/ordertop.php:100
 msgid "Thesis"
 msgstr ""
 
-#: includes/config.php:186
+#: includes/config.php:197
 msgid "Journal issue"
 msgstr ""
 
-#: includes/config.php:187
+#: includes/config.php:198
 msgid "Conference proceedings"
 msgstr ""
 
-#: includes/config.php:188
+#: includes/config.php:199
 msgid "Conference paper"
 msgstr ""
 
-#: includes/config.php:189
+#: includes/config.php:200
 msgid "Other"
 msgstr ""
 
@@ -594,7 +598,7 @@ msgstr ""
 
 #: includes/libraries_edit.php:41
 msgid ""
-"%institution_name command: Librairies management : Edition of the library "
+"%institution_name orders: Librairies management : Edition of the library "
 "%id_library"
 msgstr ""
 
@@ -1062,7 +1066,7 @@ msgid "Non-priority order"
 msgstr ""
 
 #: includes/orders_detail.php:117
-msgid "Shared Incoming Command"
+msgid "Shared Incoming Order"
 msgstr ""
 
 #: includes/orders_detail.php:121 includes/orders_edit.php:238
@@ -1088,7 +1092,7 @@ msgid "User"
 msgstr ""
 
 #: includes/orders_detail.php:148
-msgid "Search for commands from this user"
+msgid "Search for orders from this user"
 msgstr ""
 
 #: includes/orders_detail.php:152 includes/ordertop.php:76
@@ -1096,7 +1100,7 @@ msgid "E-mail"
 msgstr ""
 
 #: includes/orders_detail.php:152 includes/ordertop.php:76
-msgid "Search for commands from this email"
+msgid "Search for orders from this email"
 msgstr ""
 
 #: includes/orders_detail.php:158 includes/orders_new.php:438
@@ -1111,7 +1115,7 @@ msgid "Service"
 msgstr ""
 
 #: includes/orders_detail.php:164 includes/ordertop.php:85
-msgid "Search for commands from this service"
+msgid "Search for orders from this service"
 msgstr ""
 
 #: includes/orders_detail.php:167 index.php:541 index.php:543
@@ -1120,7 +1124,7 @@ msgstr ""
 
 #: includes/orders_detail.php:170 includes/orders_detail.php:188
 #: includes/ordertop.php:89 includes/ordertop.php:107
-msgid "Search for commands from this title"
+msgid "Search for orders from this title"
 msgstr ""
 
 #: includes/orders_detail.php:172 includes/orders_edit.php:496
@@ -1229,12 +1233,16 @@ msgstr ""
 msgid "Public comment"
 msgstr ""
 
-#: includes/orders_detail.php:248 includes/orders_new.php:508
+#: includes/orders_detail.php:249 includes/orders_new.php:374
+msgid "Warning. Possible duplicate of the order."
+msgstr ""
+
+#: includes/orders_detail.php:250 includes/orders_new.php:508
 #: includes/orders_update.php:280
 msgid "Professional comment"
 msgstr ""
 
-#: includes/orders_detail.php:249
+#: includes/orders_detail.php:252
 msgid "Order history"
 msgstr ""
 
@@ -1458,7 +1466,7 @@ msgid "Reset"
 msgstr ""
 
 #: includes/orders_list.php:34
-msgid "%institution_name command: orders list"
+msgid "%institution_name orders: orders list"
 msgstr ""
 
 #: includes/orders_new.php:312
@@ -1484,10 +1492,6 @@ msgstr ""
 
 #: includes/orders_new.php:334 includes/orders_update.php:181
 msgid "Back to entry form"
-msgstr ""
-
-#: includes/orders_new.php:374
-msgid "Warning. Possible duplicate of the command."
 msgstr ""
 
 #: includes/orders_new.php:388
@@ -1581,7 +1585,7 @@ msgid "Localisation"
 msgstr ""
 
 #: includes/ordertop.php:47
-msgid "Shared incoming command"
+msgid "Shared incoming order"
 msgstr ""
 
 #: includes/resend_credential.php:36
@@ -2203,7 +2207,7 @@ msgstr ""
 
 #: reports.php:63
 msgid ""
-"List of commands whose sending date is included in the period indicated when "
+"List of orders whose sending date is included in the period indicated when "
 "the file was generated; The result list is sorted by decreasing send date "
 "and reports all columns in the table."
 msgstr ""
@@ -2218,7 +2222,7 @@ msgstr ""
 
 #: reports.php:69
 msgid ""
-"The document generated with this option details the commands with the status "
+"The document generated with this option details the orders with the status "
 "'Received and sent to the client', which are assigned to the library to the "
 "user who generates the statistic is attached."
 msgstr ""

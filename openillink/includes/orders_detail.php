@@ -114,7 +114,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             if ($enreg['urgent']=='3' || $enreg['urgent']=='non')
                 echo " (<font color=\"SteelBlue\">".__("Non-priority order")."</font>)\n";
 			if ($is_shared){
-				echo '<span class="isSharedOrder">'.__("Shared Incoming Command").'</span>';
+				echo '<span class="isSharedOrder">'.__("Shared Incoming Order").'</span>';
 			}
             if (($enreg['type_doc']!='article') && ($enreg['type_doc']!='Article'))
                 echo "&nbsp;&nbsp;&nbsp;<img src=\"img/book.png\">";
@@ -145,11 +145,11 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 if ($enreg['renouveler'])
                     echo " le ".htmlspecialchars($enreg['renouveler']);
             }
-            echo "<br /><b>". __("User") ." : </b><a href=\"list.php?folder=search&champ=nom&term=".htmlspecialchars(urlencode ($nom))."\" title=\"". __("Search for commands from this user") ."\">\n";
+            echo "<br /><b>". __("User") ." : </b><a href=\"list.php?folder=search&champ=nom&term=".htmlspecialchars(urlencode ($nom))."\" title=\"". __("Search for orders from this user") ."\">\n";
             echo htmlspecialchars($nom)."</a>\n";
             // formated e-mails
             if ($mail){
-                echo "<br /><b>". __("E-mail") ." : </b><a href=\"list.php?folder=search&champ=email&term=".htmlspecialchars(urlencode($mail))."\" title=\"". __("Search for commands from this email") ."\">".htmlspecialchars($mail)."</a>\n";
+                echo "<br /><b>". __("E-mail") ." : </b><a href=\"list.php?folder=search&champ=email&term=".htmlspecialchars(urlencode($mail))."\" title=\"". __("Search for orders from this email") ."\">".htmlspecialchars($mail)."</a>\n";
                 $monhost = "http://" . $_SERVER['SERVER_NAME'];
                 $monuri = $monhost . rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . "/";
                 displayMailText($monaut, $monuri, $enreg, $emailTxt, $titreart, $titreper, $nom, $maillog, $passwordg, $mail, $library_signature);
@@ -161,13 +161,13 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 				if (!$is_my_service) {
 					$service_class = ' class="notMyService" ';
 				}
-                echo "<br /><b>". __("Service") ." : </b><a ".$service_class."href=\"list.php?folder=search&champ=service&term=".htmlspecialchars(urlencode($enreg['service']))."\" title=\"". __("Search for commands from this service") ."\">".htmlspecialchars($enreg['service'])."</a>\n";
+                echo "<br /><b>". __("Service") ." : </b><a ".$service_class."href=\"list.php?folder=search&champ=service&term=".htmlspecialchars(urlencode($enreg['service']))."\" title=\"". __("Search for orders from this service") ."\">".htmlspecialchars($enreg['service'])."</a>\n";
             }
 			if ($enreg['type_doc'])
                 echo "<br /><b>". __("Document type") ." : </b>".htmlspecialchars($enreg['type_doc']);
             echo "<br />\n";
             if ($enreg['titre_article'])
-                echo "<b>Titre : </b><a href=\"list.php?folder=search&champ=atitle&term=".htmlspecialchars(urlencode ($enreg['titre_article']))."\" title=\"". __("Search for commands from this title") ."\">".htmlspecialchars($enreg['titre_article'])."</a><br />\n";
+                echo "<b>Titre : </b><a href=\"list.php?folder=search&champ=atitle&term=".htmlspecialchars(urlencode ($enreg['titre_article']))."\" title=\"". __("Search for orders from this title") ."\">".htmlspecialchars($enreg['titre_article'])."</a><br />\n";
             if ($enreg['auteurs'])
                 echo "<b>". __("Author(s)") ." : </b>".htmlspecialchars($enreg['auteurs'])."<br />\n";
             if ($enreg['titre_periodique']){
@@ -185,7 +185,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                     echo "<b>". __("In") ." : </b>\n";
                 if (($enreg['type_doc']=='Congres') || ($enreg['type_doc']=='proceeding') || ($enreg['type_doc']=='conference'))
                     echo "<b>". __("In") ." : </b>\n";
-                echo "</b><a href=\"list.php?folder=search&champ=title&term=".htmlspecialchars(urlencode ($enreg['titre_periodique']))."\" title=\"". __("Search for commands from this title") ."\">".htmlspecialchars($enreg['titre_periodique'])."</a>\n";
+                echo "</b><a href=\"list.php?folder=search&champ=title&term=".htmlspecialchars(urlencode ($enreg['titre_periodique']))."\" title=\"". __("Search for orders from this title") ."\">".htmlspecialchars($enreg['titre_periodique'])."</a>\n";
             }
             if ($enreg['volume'])
                 echo "<br /><b>". __("Volume") ." : </b>".htmlspecialchars($enreg['volume']);

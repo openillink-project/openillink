@@ -60,13 +60,13 @@ if (!empty($_COOKIE['illinkid']))
     echo "</center>";
 
     echo "<h1>".__("Which option to choose?")."</h1>";
-    echo boxContent('liste_tout', "LISTING TOTAL", "<div>".__("List of commands whose sending date is included in the period indicated when the file was generated; The result list is sorted by decreasing send date and reports all columns in the table.")."</div>".
+    echo boxContent('liste_tout', "LISTING TOTAL", "<div>".__("List of orders whose sending date is included in the period indicated when the file was generated; The result list is sorted by decreasing send date and reports all columns in the table.")."</div>".
     '<div>'.__("List of currently available columns:").'<br/>'.
     'refinterbib, nom, prénom, mail, illinkid, date , envoye, prix, localisation, type_doc, titre_periodique, annee, numero, pages, titre_article, stade, uid, issn, eissn</div>'.
     '<div>'.__("This list can change dynamically when new columns are added.").'</div>');
 
     echo boxContent('liste_service', "LISTING PAR SERVICE", 
-    "<div>".__("The document generated with this option details the commands with the status 'Received and sent to the client', which are assigned to the library to the user who generates the statistic is attached.")."</div>".
+    "<div>".__("The document generated with this option details the orders with the status 'Received and sent to the client', which are assigned to the library to the user who generates the statistic is attached.")."</div>".
     "<div>".__("The selected orders are only those for which the date of entry or the date of sending is within the range of dates indicated at the time of the generation of the document.")."</div>".
     "<div>".__("For each order, the following columns are filled in:")."<br/>".
     "refinterbib, nom, prénom, mail, illinkid, date, envoye, prix, localisation, type_doc, titre_periodique, annee, volume, numero, pages, titre_article, stade, uid, issn, eissn.</div>");

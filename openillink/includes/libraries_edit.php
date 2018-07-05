@@ -38,7 +38,7 @@ if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")){
         if ($id!=""){
             $req = "SELECT * FROM libraries WHERE id = ?";
-            $myhtmltitle = format_string(__("%institution_name command: Librairies management : Edition of the library %id_library"), array('id_library' => htmlspecialchars($id), 'institution_name' => $configinstitution[$lang]));
+            $myhtmltitle = format_string(__("%institution_name orders: Librairies management : Edition of the library %id_library"), array('id_library' => htmlspecialchars($id), 'institution_name' => $configinstitution[$lang]));
             $montitle = format_string(__("Librairies management : edition of card %id_card"), array('id_card' => htmlspecialchars($id)));
             require ("headeradmin.php");
             $result = dbquery($req, array($id), 's');

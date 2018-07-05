@@ -31,7 +31,7 @@ require_once ("toolkit.php");
 require_once ("connexion.php");
 $monbibr=$monbib."%";
 if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut == "guest")){
-	$myhtmltitle = format_string(__("%institution_name command: orders list"), array('institution_name' => $configinstitution[$lang]));
+	$myhtmltitle = format_string(__("%institution_name orders: orders list"), array('institution_name' => $configinstitution[$lang]));
 	$page = ((!empty($_GET['page'])) && isValidInput($_GET['page'],8,'s',false))?$_GET['page']:1;
 
 $link = dbconnect();

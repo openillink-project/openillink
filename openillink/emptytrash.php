@@ -35,7 +35,7 @@ if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
         $action = "";
         $action= (!empty($_POST['action'])) && isValidInput($_POST['action'],9,'s',false,array('deleteall'))?$_POST['action']:'';
-        $pagetitle = "commandes de l'" . $configinstitution[$lang] . " : vider la corbeille definitivement ";
+        $pagetitle = format_string(__("%institution_name orders: empty trash"), array('institution_name' => $configinstitution[$lang]));
         require ("includes/headeradmin.php");
         echo "\n";
         echo "<br/><br/>\n";

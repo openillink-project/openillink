@@ -44,7 +44,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
 		}
 	}
 	if ($is_shared){
-		echo '<span class="isSharedOrder">'.__("Shared incoming command").'</span>';
+		echo '<span class="isSharedOrder">'.__("Shared incoming order").'</span>';
 	}
     if ($enreg['prepaye']=="on")
         echo "  |  <b><font color=\"green\">".__("Paid in advance")."</b></font>";
@@ -73,7 +73,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
     echo "<b>". __("User") ." : </b><a href=\"list.php?folder=search&champ=nom&term=".htmlspecialchars(urlencode ($nom))."\" title=\"".__("Non-priority order")."\">\n";
     echo htmlspecialchars($nom)."</a>\n";
     if ($mail)
-        echo "  |  <b>". __("E-mail") ." : </b><a href=\"list.php?folder=search&champ=email&term=".htmlspecialchars(urlencode ($mail))."\" title=\"". __("Search for commands from this email") ."\">".htmlspecialchars($mail)."</a>\n";
+        echo "  |  <b>". __("E-mail") ." : </b><a href=\"list.php?folder=search&champ=email&term=".htmlspecialchars(urlencode ($mail))."\" title=\"". __("Search for orders from this email") ."\">".htmlspecialchars($mail)."</a>\n";
     if ($enreg['adresse'])
         echo "  |  <b>". __("Address") ." : </b>".htmlspecialchars($adresse);
     if ($enreg['service']) {
@@ -82,11 +82,11 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
 		if (!$is_my_service) {
 			$service_class = ' class="notMyService" ';
 		}
-		echo "<a ".$service_class."href=\"list.php?folder=search&champ=service&term=".htmlspecialchars(urlencode ($enreg['service']))."\" title=\"".__("Search for commands from this service") ."\">".htmlspecialchars($enreg['service'])."</a>";
+		echo "<a ".$service_class."href=\"list.php?folder=search&champ=service&term=".htmlspecialchars(urlencode ($enreg['service']))."\" title=\"".__("Search for orders from this service") ."\">".htmlspecialchars($enreg['service'])."</a>";
 	}
 	echo "<br />\n";
     if ($enreg['titre_article'])
-        echo "<b>". __("Title") ." : </b><a href=\"list.php?folder=search&champ=atitle&term=".htmlspecialchars(urlencode ($enreg['titre_article']))."\" title=\"". __("Search for commands from this title") ."\">".htmlspecialchars($enreg['titre_article'])."</a><br />\n";
+        echo "<b>". __("Title") ." : </b><a href=\"list.php?folder=search&champ=atitle&term=".htmlspecialchars(urlencode ($enreg['titre_article']))."\" title=\"". __("Search for orders from this title") ."\">".htmlspecialchars($enreg['titre_article'])."</a><br />\n";
     if ($enreg['auteurs'])
         echo "<b>". __("Author(s)") ." : </b>".htmlspecialchars($enreg['auteurs'])."<br />\n";
     if ($enreg['titre_periodique']){
@@ -104,7 +104,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
             echo "<b>". __("In") ." : </b>\n";
         if (in_array($enreg['type_doc'],array('Congres', 'proceeding', 'conference'), TRUE))
             echo "<b>". __("In") ." : </b>\n";
-        echo "</b><a href=\"list.php?folder=search&champ=title&term=".htmlspecialchars(urlencode ($enreg['titre_periodique']))."\" title=\"". __("Search for commands from this title") ."\">".htmlspecialchars($enreg['titre_periodique'])."</a><br />\n";
+        echo "</b><a href=\"list.php?folder=search&champ=title&term=".htmlspecialchars(urlencode ($enreg['titre_periodique']))."\" title=\"". __("Search for orders from this title") ."\">".htmlspecialchars($enreg['titre_periodique'])."</a><br />\n";
     }
     if ($enreg['volume'])
         echo "<b>". __("Volume") ." : </b>".htmlspecialchars($enreg['volume'])."  |  ";

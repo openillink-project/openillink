@@ -72,7 +72,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     $article = $enreg['titre_article'];
     $commentaire = "Ref interne:".$enreg['illinkid'];
     echo "<h2>Envoi de la commande au réseau Bâle/Berne</h2>\n";
-    echo "<FORM method=\"post\" name=\"ILL\" action=\"http://www.ub.unibas.ch/cgi-bin/sfx_dod_m.pl\">\n";
+    echo "<FORM method=\"post\" name=\"ILL\" action=\"https://www.ub.unibas.ch/cgi-bin/sfx_dod_m.pl\">\n";
     echo "<INPUT TYPE=\"hidden\" NAME=\"action\" value=\"submit\">\n";
     echo "<INPUT TYPE=\"hidden\" NAME=\"uid\" VALUE=\"".htmlspecialchars($customerCode)."\">\n";
     echo "<INPUT TYPE=\"hidden\" NAME=\"pwd\" VALUE=\"".htmlspecialchars($customerPassword)."\">\n";

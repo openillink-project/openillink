@@ -202,6 +202,11 @@ $langautodetect = 0;
 // Default language when it cannot be determined or does not exist among OpenILLink translations
 $configdefaultlang = "en";
 
+// Languages available for the user interface.
+// If not defined, use all existing translations.
+// If only one language left, the language switcher is hidden.
+$config_available_langs = array("fr", "en", "de", "it", "es");
+
 // See the others values on tranlations.php
 require_once("translations.php");
 

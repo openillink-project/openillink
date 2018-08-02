@@ -90,16 +90,29 @@ echo '
 			</div>
 			<div class="navbar-end">
 				<a class="navbar-item is-tab" href="' .$atozlinkurl[$lang]. '" title="' . $atozname[$lang] . '"><span class="icon"><i class="fa fa-compass fa-lg"></i></span></a>
-				<div class="navbar-item has-dropdown is-hoverable">
+				';
+				if (count($config_available_langs) > 1) {
+				echo '<div class="navbar-item has-dropdown is-hoverable">
 					<a class="navbar-link">'.strtoupper($lang).'</a>
-					<div class="navbar-dropdown">
-						<a class="navbar-item" href="'.$siteUrl.'?lang=en" title="English">EN</a>
-						<a class="navbar-item" href="'.$siteUrl.'?lang=fr" title="Français">FR</a>
-						<a class="navbar-item" href="'.$siteUrl.'?lang=de" title="Deutsch">DE</a>
-						<a class="navbar-item" href="'.$siteUrl.'?lang=it" title="Italiano">IT</a>
-						<a class="navbar-item" href="'.$siteUrl.'?lang=es" title="Español">ES</a>
-					</div>
-				</div>
+					<div class="navbar-dropdown">';
+						if (in_array('de', $config_available_langs)) {
+							echo '<a class="navbar-item" href="'.$siteUrl.'?lang=de" title="Deutsch">DE</a>';
+						}
+						if (in_array('en', $config_available_langs)) {
+							echo '<a class="navbar-item" href="'.$siteUrl.'?lang=en" title="English">EN</a>';
+						}
+						if (in_array('es', $config_available_langs)) {
+							echo '<a class="navbar-item" href="'.$siteUrl.'?lang=es" title="Español">ES</a>';
+						}
+						if (in_array('fr', $config_available_langs)) {
+							echo '<a class="navbar-item" href="'.$siteUrl.'?lang=fr" title="Français">FR</a>';
+					    }
+						if (in_array('it', $config_available_langs)) {
+							echo '<a class="navbar-item" href="'.$siteUrl.'?lang=it" title="Italiano">IT</a>';
+						}
+					echo '</div>';
+				}
+				echo '</div>
 				<span class="navbar-item"><a class="button is-primary" href="index.php" title="' .__("New Order"). '">' .__("New Order"). '</a></span>
 				<a class="navbar-item is-tab" href="login.php" title="'.__("Login").'"><span class="icon"><i class="fas fa-user-circle fa-lg"></i></span></a>
 			</div>

@@ -28,7 +28,10 @@
 // Translations of terms used on front-end
 
 require_once('vendor/php-gettext/gettext.inc');
-$config_available_langs = array("fr", "en", "de", "it", "es");
+
+if (!isset($config_available_langs)) {
+	$config_available_langs = array("fr", "en", "de", "it", "es");
+}
 
 function format_string($string, array $args = array()) {
     /*
@@ -81,17 +84,22 @@ function get_user_language() {
        OpenILLink translations. If langauge is not set or does not belong to the existing
        translations, return the default language configured in configdefaultlang
     */
-    global $config_available_langs;
+    global $config_available_langs, $langautodetect, $configdefaultlang;
     if (!isset($configdefaultlang)) {
         // If default language is not defined, use English
         $configdefaultlang = "en";
     }
     // When no information is provided, use default
     $lang = $configdefaultlang;
+
+	// Retrieve language from cookies if available.
+	if (array_key_exists('openillink_lang', $_COOKIE) && in_array($_COOKIE['openillink_lang'], $config_available_langs)) {
+		$lang = $_COOKIE['openillink_lang'];
+	}
     // When browser sends preferred language
-    if ($langautodetect = 1 &&
-        empty($_REQUEST["lang"]) &&
-        !empty($_SERVER["HTTP_ACCEPT_LANGUAGE"])) {
+	else if ($langautodetect == 1 &&
+        !array_key_exists('lang', $_REQUEST) &&
+        array_key_exists('HTTP_ACCEPT_LANGUAGE', $_SERVER)) {
         $browser_preferred_langs = parse_browser_preferred_languages();
         foreach ($browser_preferred_langs as $browser_preferred_lang => $score ) {
             if (in_array(substr($browser_preferred_lang, 0, 2), $config_available_langs)) {
@@ -102,9 +110,15 @@ function get_user_language() {
     }
 
     // When language is set in URL, use it (if possible)
-    if (!empty($_REQUEST["lang"]) && in_array($_REQUEST["lang"], $config_available_langs)) {
+    if (array_key_exists('lang', $_REQUEST) && in_array($_REQUEST["lang"], $config_available_langs)) {
         $lang = $_REQUEST["lang"];
     }
+
+	// Set cookie with language
+	if (!array_key_exists('openillink_lang', $_COOKIE) || $_COOKIE['openillink_lang'] != $lang) {
+		setcookie('openillink_lang', $lang);
+	}
+
     return $lang;
 }
 

@@ -90,6 +90,7 @@ echo '
 			</div>
 			<div class="navbar-end">
 				<a class="navbar-item is-tab" href="' .$atozlinkurl[$lang]. '" title="' . $atozname[$lang] . '"><span class="icon"><i class="fa fa-compass fa-lg"></i></span></a>
+				<span class="navbar-item"><a class="button is-primary" href="index.php" title="' .__("New Order"). '">' .__("New Order"). '</a></span>
 				';
 				if (count($config_available_langs) > 1) {
 				echo '<div class="navbar-item has-dropdown is-hoverable">
@@ -113,7 +114,6 @@ echo '
 					echo '</div>';
 				}
 				echo '</div>
-				<span class="navbar-item"><a class="button is-primary" href="index.php" title="' .__("New Order"). '">' .__("New Order"). '</a></span>
 				<a class="navbar-item is-tab" href="login.php" title="'.__("Login").'"><span class="icon"><i class="fas fa-user-circle fa-lg"></i></span></a>
 			</div>
 		</div>

@@ -136,6 +136,31 @@ echo'
 				<span class="navbar-item"><a class="button is-primary" href="index.php" title="' .__("New Order"). '">' .__("New Order"). '</a></span>
 				<a class="navbar-item is-tab" href="'.$fileAdmin.'" title="' . __("Administration of users and values") . '"><i class="fa fa-cogs fa-lg"></i></a>
 				<a class="navbar-item is-tab" href="'.$fileReports.'" title="' . __("Obtain configured reports") . '"><span class="icon"><i class="fa fa-chart-bar fa-lg"></i></span></a>
+				';
+				if (count($config_available_langs) > 1) {
+				echo '<div class="navbar-item has-dropdown is-hoverable">
+					<a class="navbar-link">'.strtoupper($lang).'</a>
+					<div class="navbar-dropdown">';
+						if (in_array('de', $config_available_langs)) {
+							echo '<a class="navbar-item" href="'.$configSiteUrl.'?lang=de" title="Deutsch">DE</a>';
+						}
+						if (in_array('en', $config_available_langs)) {
+							echo '<a class="navbar-item" href="'.$configSiteUrl.'?lang=en" title="English">EN</a>';
+						}
+						if (in_array('es', $config_available_langs)) {
+							echo '<a class="navbar-item" href="'.$configSiteUrl.'?lang=es" title="Español">ES</a>';
+						}
+						if (in_array('fr', $config_available_langs)) {
+							echo '<a class="navbar-item" href="'.$configSiteUrl.'?lang=fr" title="Français">FR</a>';
+					    }
+						if (in_array('it', $config_available_langs)) {
+							echo '<a class="navbar-item" href="'.$configSiteUrl.'?lang=it" title="Italiano">IT</a>';
+						}
+					echo '</div>';
+				}
+				echo '</div>
+
+
 				<a class="navbar-item is-tab" href="'.$fileLogin.'?action=logout" title="Logout ('.htmlspecialchars($monnom).')"><i class="fa fa-sign-out-alt fa-lg"></i></a>
 			</div>
 		</div>

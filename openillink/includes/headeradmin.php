@@ -133,10 +133,13 @@ echo '			<a class="navbar-item is-tab" href="'.$fileList.'?folder=guest" title="
 		
 echo'
 				<a class="navbar-item is-tab" href="' .$atozlinkurl[$lang]. '" title="' . $atozname[$lang] . '"><span class="icon"><i class="fa fa-compass fa-lg"></i></span></a>
-				<span class="navbar-item"><a class="button is-primary" href="index.php" title="' .__("New Order"). '">' .__("New Order"). '</a></span>
+				<span class="navbar-item"><a class="button is-primary" href="index.php" title="' .__("New Order"). '">' .__("New Order"). '</a></span>';
+if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
+	echo '
 				<a class="navbar-item is-tab" href="'.$fileAdmin.'" title="' . __("Administration of users and values") . '"><i class="fa fa-cogs fa-lg"></i></a>
 				<a class="navbar-item is-tab" href="'.$fileReports.'" title="' . __("Obtain configured reports") . '"><span class="icon"><i class="fa fa-chart-bar fa-lg"></i></span></a>
 				';
+}
 				if (count($config_available_langs) > 1) {
 				echo '<div class="navbar-item has-dropdown is-hoverable">
 					<a class="navbar-link">'.strtoupper($lang).'</a>

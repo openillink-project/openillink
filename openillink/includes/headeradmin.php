@@ -161,7 +161,7 @@ echo'
 				echo '</div>
 
 
-				<a class="navbar-item is-tab" href="'.$fileLogin.'?action=logout" title="Logout ('.htmlspecialchars($monnom).')"><i class="fa fa-sign-out-alt fa-lg"></i></a>
+				<a class="navbar-item is-tab" href="'.$fileLogin.'?action=logout" title="Logout ('.htmlspecialchars($monnom).')">'.htmlspecialchars($monnom).'&nbsp;&nbsp;<i class="fa fa-sign-out-alt fa-lg"></i></a>
 			</div>
 		</div>
 	</div>

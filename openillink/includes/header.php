@@ -38,6 +38,19 @@ $siteUrl = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['SERVE
 echo "<!DOCTYPE html>\n";
 echo "<html lang=\"" . $lang . "\">\n";
 echo "<head>\n";
+
+if (isset($configanalytics) && $configanalytics != '') {
+	echo '<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id='.$configanalytics.'"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag(\'js\', new Date());
+
+  gtag(\'config\', \''.$configanalytics.'\');
+</script>';
+}
+
 echo "<meta charset=\"utf-8\">\n";
 echo "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n";
 

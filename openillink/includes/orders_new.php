@@ -340,7 +340,7 @@ else{
     // No errors, searching duplicates
     // Recherche de doublons par PMID ou par volume année et pages
 	$order_index = 0;
-	foreach($order_form_values as $order_form) {
+	foreach($order_form_values as $index => $order_form) {
 		$order_index += 1;
 		$pages_array = preg_split("/[\s,-]+/", $order_form['pages']);
 		$start_page = reset($pages_array); // Retrieve first value, in a php < 5.4 compatible manner
@@ -365,17 +365,18 @@ else{
 				$typeparam2 = 'sss';
 			}
 		}
+		$order_form['remarques'] = $remarques;
 		if ($req2!=''){
 			$result2 = dbquery($req2,$param2,$typeparam2);
 			$nb = iimysqli_num_rows($result2);
 			if ($nb > 0){
-				if ($remarques)
-					$order_form['remarques'] = $remarques."\r\n";
-				$order_form['remarques'] = $remarques. __("Warning. Possible duplicate of the order."); // string must be kept in sync with order_details.php for highlighting
+				if ($order_form['remarques'])
+					$order_form['remarques'] .= "\r\n";
+				$order_form['remarques'] .= __("Warning. Possible duplicate of the order."); // string must be kept in sync with order_details.php for highlighting
 				for ($i=0 ; $i<$nb ; $i++){
 					$enreg2 = iimysqli_result_fetch_array($result2);
 					$doublon = $enreg2['illinkid'];
-					$order_form['remarques'] = $order_form['remarques']." ".$doublon;
+					$order_form['remarques'] .= " ".$doublon;
 				}
 			}
 		}
@@ -387,6 +388,7 @@ else{
 			}
 			$order_form['remarques'] .= sprintf(__("Multiple orders (%d/%d)"), $order_index, $order_form_values_count);
 		}
+		$order_form_values[$index]['remarques'] = $order_form['remarques']; // save to $order_form_values for later reuse when iterating from this variable
 		// START save record
 		if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
 			$query ="INSERT INTO `orders` (`illinkid`, `stade`, `localisation`, `date`, `envoye`, `facture`, `renouveler`, `prix`, `prepaye`, `ref`, `arrivee`, `nom`, `prenom`, `service`, `cgra`, `cgrb`, `mail`, `tel`, `adresse`, `code_postal`, `localite`, `type_doc`, `urgent`, `envoi_par`, `titre_periodique`, `annee`, `volume`, `numero`, `supplement`, `pages`, `titre_article`, `auteurs`, `edition`, `isbn`, `issn`, `eissn`, `doi`, `uid`, `remarques`, `remarquespub`, `historique`, `saisie_par`, `bibliotheque`, `refinterbib`, `PMID`, `ip`, `referer`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -506,7 +508,7 @@ echo "\n";
 		if (in_array($monaut, array('admin', 'sadmin','user'), true)){
 			if ($order_form['remarques']) {
 				echo "<tr><td  width=\"90\" valign=\"top\"><b>".__("Professional comment")."</b></td>\n";
-				echo "<td>". nl2br(htmlspecialchars($order_form['$remarques']))."</td></tr>\n";
+				echo "<td>". nl2br(htmlspecialchars($order_form['remarques']))."</td></tr>\n";
 			}
 		}
 		if ($order_form['remarquespub']) {

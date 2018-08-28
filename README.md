@@ -21,3 +21,8 @@ Please refer to the [OpenILLink installation guide](INSTALL.md)
 
 ## Contributing
 Please refer to [CONTRIBUTING guide](CONTRIBUTING.md) and [Native Language Support](ABOUT-NLS.md)
+
+## Browsers compatibility
+OpenILLink should work on modern browsers. Should you encounter a compatibility problem on a particular browser and version, please [submit an issue](https://github.com/openillink-project/openillink/issues) so that we can test it for that specific browser/version using BrowserStack.
+
+![browserstack-logo 2x](https://user-images.githubusercontent.com/1829647/44712884-29fac100-aab2-11e8-9cf7-17d241a3baae.png)

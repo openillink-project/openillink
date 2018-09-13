@@ -35,7 +35,7 @@ $champ = ((!empty($_GET['champ'])) && isValidInput($_GET['champ'],12,'s',false,$
 $myorders = ((!empty($_GET['myorders'])) && isValidInput($_GET['myorders'],1,'s',false,array("1")))?$_GET['myorders']:'';
 
 echo '<div class="columns is-mobile is-centered">
-  <div class="column is-three-quarters is-narrow">';
+  <div class="column">';
 echo "<div class=\"box\"><div class=\"box-content\">\n";
 echo "<form action=\"list.php\" method=\"GET\" enctype=\"x-www-form-encoded\" name=\"recherche\">\n";
 echo "<input name=\"action\" type=\"hidden\" value=\"recherche\">\n";

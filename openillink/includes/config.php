@@ -112,6 +112,11 @@ $secure_string_cookie = "HYdfhrtznvcw354AETte5üPO!äP236%ç";
 // Define the number of results per page 
 $max_results = 25;
 
+// Folders: display items count? Installations with large amount of folders and
+// complex queries might want to disable display of number of orders next to
+// folders menu items (admin interface)
+$config_display_folders_count = true;
+
 // CrossRef identifiers
 $configcrossrefpid1 = "abc";
 $configcrossrefpid2 = "abc123";

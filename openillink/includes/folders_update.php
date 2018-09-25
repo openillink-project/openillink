@@ -439,6 +439,7 @@ if (!empty($_COOKIE['illinkid'])){
 							echo format_string(__("The modification of the record %id_record has been successfully registered"),array('id_record' => htmlspecialchars($id)))."</b></font>\n";
 							echo "<br/><br/><br/><a href=\"list.php?table=folders\">".__("Back to the filters list")."</a></center>\n";
 							require ("footer.php");
+							update_folders_item_count();
 						}
 						else{
 							echo "<center><br/><b><font color=\"red\">\n";
@@ -470,6 +471,7 @@ if (!empty($_COOKIE['illinkid'])){
 					echo "</center>\n";
 					echo "\n";
 					require ("footer.php");
+					update_folders_item_count();
 				}
 			}
 		}

@@ -188,6 +188,7 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
                 $params = array($stade, $localisation, $date, $envoye, $facture, $renouveler, $prix, $prepaye, $ref, $source, $nom, $prenom, $service, $cgra, $cgrb, $mail, $tel, $adresse, $postal, $localite, $typedoc, $urgent, $envoi, $journal, $annee, $vol, $no, $suppl, $pages, $titre, $auteurs, $edition, $isbn, $issn, $eissn, $doi, $uid, $remarques, $remarquespub,$historique, $userid, $bibliotheque, $refinterbib, $pmid, $ip, $id);
                 $typeparams = 'sssssssssssssssssssssssssssssssssssssssssssssi';
                 $result = dbquery($query,$params,$typeparams) or die("Error : ".mysqli_error());
+				update_folders_item_count();
                 require ("headeradmin.php");
                 echo "\n";
                 echo "<div class=\"box\"><div class=\"box-content\">\n";
@@ -328,9 +329,10 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
         if (($monaut == "admin")||($monaut == "sadmin")){
             $id = ((!empty($_POST['id'])) && isValidInput($_POST['id'],8,'i',false)) ? $_POST['id'] : NULL;
             $myhtmltitle = format_string(__("%institution_name : deletion of the order %order_id"), array('institution_name' => $configname[$lang], 'order_id' => $id));
-            require ("headeradmin.php");
             $query = "DELETE FROM orders WHERE orders.illinkid = ?";
             $result = dbquery($query, array($id), 's') or die("Error : ".mysqli_error());
+			update_folders_item_count();
+			require ("headeradmin.php");
             echo "<center><br/><b><font color=\"green\">\n";
             echo format_string(__("The order %order_id has been successfully deleted"), array('order_id' => htmlspecialchars($id)))."</b></font>\n";
             echo "<br/><br/><br/><a href=\"list.php?table=orders\">".__("Return to the orders list")."</a></center>\n";

@@ -266,10 +266,13 @@ CREATE TABLE `folders` (
   `library` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
   `position` int(5) DEFAULT NULL,
+  `order_count` int(11) DEFAULT NULL,
+  `count_updated` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `title` (`title`),
   KEY `user` (`user`),
-  KEY `library` (`library`)
+  KEY `library` (`library`),
+  KEY `active` (`active`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

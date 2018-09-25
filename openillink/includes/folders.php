@@ -29,9 +29,10 @@
 require_once("toolkit.php");
 require_once("connexion.php");
 
-
-
-$reqfolders="SELECT id, title, description, query FROM folders WHERE active = 1 AND (user = ? OR library = ?) ORDER BY position, title ASC";
+$today = date("Y-m-d");
+$totalFolderItemsCount = 0;
+update_folders_item_count(true);
+$reqfolders="SELECT id, title, description, query, order_count, count_updated FROM folders WHERE active = 1 AND (user = ? OR library = ?) ORDER BY position, title ASC";
 $listfolders="";
 $resultfolders = dbquery($reqfolders, array($monlog, $monbib), 'ss');
 $nbfolders = iimysqli_num_rows($resultfolders);
@@ -44,18 +45,25 @@ if ($nbfolders > 0){
 		$titlefolder = $rowfolders["title"];
 		$descriptionfolder = $rowfolders["description"];
 		$queryfolder = $rowfolders["query"];
+		$thisFolderCount = $rowfolders["order_count"];
+		if (is_null($thisFolderCount)) {$thisFolderCount = 0;}
+		$totalFolderItemsCount += $thisFolderCount;
+
 		$listfolders.="<a class=\"navbar-item".((strval($idfolder) == strval($folderid))?' is-active':'')."\" href=\"list.php?folder=perso&folderid=" . htmlspecialchars($idfolder) . "\" title=\"" . htmlspecialchars($descriptionfolder) . "\"";
-		$listfolders.=">" . htmlspecialchars($titlefolder) . "</a>\n";
+		$listfolders.=">" . htmlspecialchars($titlefolder) . ((!isset($config_display_folders_count) || $config_display_folders_count) && $thisFolderCount > 0 ?" <span class=\"openillink-badge is-size-7\">".$thisFolderCount."</span>" : "") . "</a>\n";
 		if (strval($idfolder) == strval($folderid)) {
 			$folderMenuIsSelected = true;
 			$folderMenuTitle = htmlspecialchars($titlefolder);
 			if (strlen($folderMenuTitle) > 30) {
 				$folderMenuTitle = substr($folderMenuTitle, 0, 29) . "&hellip;";
 			}
+			if ((!isset($config_display_folders_count) || $config_display_folders_count) && $thisFolderCount > 0) {
+				$folderMenuTitle .= " <span class=\"openillink-badge is-size-7\">".$thisFolderCount."</span>";
+			}
 		}
 	}
 	echo '	<div class="navbar-item has-dropdown is-hoverable">
-				<a class="navbar-link'. ($folderMenuIsSelected ? " is-active" : "").'">'. $folderMenuTitle. '</a>
+				<a class="navbar-link'. ($folderMenuIsSelected ? " is-active" : "").'">'. $folderMenuTitle . (!$folderMenuIsSelected && (!isset($config_display_folders_count) || $config_display_folders_count) && $totalFolderItemsCount > 0 ?" <span class=\"openillink-badge is-size-7\">".$totalFolderItemsCount."</span>" : "") .'</a>
 				<div class="navbar-dropdown">';
 	echo $listfolders;
 	echo '

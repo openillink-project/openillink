@@ -171,27 +171,7 @@ $debugOn = (!empty($configdebuglogging)) && in_array($configdebuglogging, array(
 			$nbfold = iimysqli_num_rows($resultfold);
 			if ($nbfold == 1) {
 				$enreg = iimysqli_result_fetch_array($resultfold);
-				$myfolderquery = $enreg['query'];
-				// replace values for orders to be renewed in futur, past or current date (renewdate = past, futur, day)
-				$mystringrenewpast = " renouveler < '" . $madatej . "' AND renouveler > '1900-01-01'";
-				$mystringrenewfutur = " renouveler > '" . $madatej . "'";
-				$mystringrenewday = " renouveler = '" . $madatej . "'";
-				$myfolderquery = str_replace ("renewdate LIKE 'past'" , $mystringrenewpast, $myfolderquery);
-				$myfolderquery = str_replace ("renewdate LIKE 'futur'" , $mystringrenewfutur, $myfolderquery);
-				$myfolderquery = str_replace ("renewdate LIKE 'day'" , $mystringrenewday, $myfolderquery);
-				$posand = strpos($myfolderquery, 'AND ');
-				if (($posand == 0) || ($posand == 1))
-				{
-					$countreplaceand = 1;
-					$myfolderquery = str_replace ('AND ' , '', $myfolderquery, $countreplaceand);
-				}
-				$posand2 = strpos($myfolderquery, 'AND ');
-				if (($posand2 == 0) || ($posand2 == 1))
-				{
-					$countreplaceand = 1;
-					$myfolderquery = str_replace ('AND ' , '', $myfolderquery, $countreplaceand);
-				}
-				$conditions = "WHERE " . $myfolderquery;
+				$conditions = "WHERE " . prepare_folder_query($enreg['query']);
 			}
 			else {
 				$conditions = $conditionsParDefauts;

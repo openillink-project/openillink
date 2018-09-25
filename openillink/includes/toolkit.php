@@ -387,4 +387,70 @@ function get_message_box($message, $message_type='success', $title=null, $escape
 	$output .= '</div>';
 	return $output;
 }
+
+function prepare_folder_query($query) {
+	/*
+	Returns the prepared query of a folder, for eg. by replacing keywords 'past', 'futur'.
+	*/
+	$today = date("Y-m-d");
+	$mystringrenewpast = " renouveler < '" . $today . "' AND renouveler > '1900-01-01'";
+	$mystringrenewfutur = " renouveler > '" . $today . "'";
+	$mystringrenewday = " renouveler = '" . $today . "'";
+	$query = str_replace ("renewdate LIKE 'past'" , $mystringrenewpast, $query);
+	$query = str_replace ("renewdate LIKE 'futur'" , $mystringrenewfutur, $query);
+	$query = str_replace ("renewdate LIKE 'day'" , $mystringrenewday, $query);
+	$posand = strpos($query, 'AND ');
+	if (($posand == 0) || ($posand == 1))
+	{
+		$countreplaceand = 1;
+		$query = str_replace ('AND ' , '', $query, $countreplaceand);
+	}
+	$posand2 = strpos($query, 'AND ');
+	if (($posand2 == 0) || ($posand2 == 1))
+	{
+		$countreplaceand = 1;
+		$query = str_replace ('AND ' , '', $query, $countreplaceand);
+	}
+	return $query;
+}
+
+function update_folders_item_count($only_if_necessary = false) {
+	/*
+	Updates the count for each folder (filter) in the database.
+
+	if the configuration variable 'config_display_folders_count' is false, this
+	function has not effect.
+
+	if $only_if_necessary is true, then only the folders that need to be refreshed are updated.
+	*/
+	global $config_display_folders_count;
+
+	if (isset($config_display_folders_count) && !$config_display_folders_count) {
+		// $config_display_folders_count is defined and set to false: do not update items count
+		return;
+	}
+
+	$today = date("Y-m-d");
+	if ($only_if_necessary) {
+		$reqfolders = "SELECT id, title, description, query, order_count, count_updated FROM folders WHERE active = 1 AND (order_count IS NULL OR (query LIKE \"%renewdate%\" AND count_updated < CURDATE()))";
+	} else {
+		$reqfolders = "SELECT id, title, description, query, order_count, count_updated FROM folders WHERE active = 1";
+	}
+	$resultfolders = dbquery($reqfolders);
+	while ($rowfolders = iimysqli_result_fetch_array($resultfolders)){
+			$folderId = $rowfolders["id"];
+			$queryfolder = $rowfolders["query"];
+			$thisFolderCount = $rowfolders["order_count"];
+			$thisFolderCountUpdate = $rowfolders["count_updated"];
+
+			if ($only_if_necessary && !is_null($thisFolderCount) && (strpos($queryfolder, 'renewdate') === false || $thisFolderCountUpdate >= $today) ) {
+				continue; // skip this line that does not need to be updated apparently
+			}
+
+			$reqFolderCount = "UPDATE folders SET count_updated = NOW(), order_count = (SELECT count(illinkid) as foldercount FROM orders WHERE ";
+			$myfolderquery =  prepare_folder_query($rowfolders["query"]);
+			$reqFolderCount .= $myfolderquery . ") WHERE folders.id = ?";
+			$success = dbquery($reqFolderCount, array($folderId) , 'i');
+	}
+}
 ?>

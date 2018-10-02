@@ -46,7 +46,8 @@ $default_order_form = array('tid_code' => "",
 							'edition' => "",
 							'issn' => "",
 							'uid' => "",
-							'remarquespub' => "");
+							'remarquespub' => "",
+							'need_lookup' => false);
 
 $uploaded_orders_messages = array(); // array of messages (error_level, msg, title) related to display to the user
 
@@ -205,7 +206,18 @@ if (!empty($_FILES['order_file']) && $_FILES['order_file']['size'] > 0 && is_pri
 			break;
 		}
 	}
+} else if (isset($_GET['PMID_1']) && $maxSimultaneousOrders >= 100) {
+	$pmid_form_index = 1;
+	while ($pmid_form_index <= 100 && isset($_GET['PMID_'.$pmid_form_index])){
+			$order_form = $default_order_form;
+			$order_form['tid_code'] = "pmid";
+			$order_form['uids'] = get_from_post($pmid_form_index, 'PMID');
+			$order_form['need_lookup'] = true;
+			array_push($order_form_values, $order_form);
+			$pmid_form_index += 1;
+	}
 }
+
 // Make sure we always display at least one line
 if (count($order_form_values) == 0) {
 	array_push($order_form_values, $default_order_form);
@@ -782,7 +794,7 @@ echo '
 	</div>
 </section>';
 
-function get_document_form($lookupuid, $doctypesmessage, $doctypes,  $periodical_title_search_url, $can_remove_orders, $form_index=0, $tid_code="", $uids="", $genre_code="", $title="", $date="", $volume="", $issue="", $suppl="", $pages="", $atitle="", $auteurs="", $edition="", $issn="", $uid="", $remarquespub="") {
+function get_document_form($lookupuid, $doctypesmessage, $doctypes,  $periodical_title_search_url, $can_remove_orders, $form_index=0, $tid_code="", $uids="", $genre_code="", $title="", $date="", $volume="", $issue="", $suppl="", $pages="", $atitle="", $auteurs="", $edition="", $issn="", $uid="", $remarquespub="", $need_lookup=false) {
 	$document_form = "";
 	$document_form .=  "<a id=\"order_nb_".$form_index."\"></a>\n";
 	$document_form .= '
@@ -994,6 +1006,9 @@ else
 	}
 	$document_form .= '	</div>
 	</section>';
+	if ($need_lookup) {
+		$document_form .= '<script type="text/javascript">lookupid('.$form_index.');</script>';
+	}
 	return $document_form;
 }
 $can_remove_orders = false;
@@ -1021,7 +1036,7 @@ if (is_privileged_enough($monaut, $enableOrdersUploadForUser) && count($order_fo
 	echo '</div>';
 }
 foreach ($order_form_values as $form_index => $value) {
-	echo get_document_form($lookupuid, !empty($doctypesmessage) ? $doctypesmessage : "", $doctypes, $periodical_title_search_url, $can_remove_orders, $form_index, $value['tid_code'], $value['uids'], $value['genre_code'], $value['title'], $value['date'], $value['volume'], $value['issue'], $value['suppl'], $value['pages'], $value['atitle'], $value['auteurs'], $value['edition'], $value['issn'], $value['uid'], $value['remarquespub']);
+	echo get_document_form($lookupuid, !empty($doctypesmessage) ? $doctypesmessage : "", $doctypes, $periodical_title_search_url, $can_remove_orders, $form_index, $value['tid_code'], $value['uids'], $value['genre_code'], $value['title'], $value['date'], $value['volume'], $value['issue'], $value['suppl'], $value['pages'], $value['atitle'], $value['auteurs'], $value['edition'], $value['issn'], $value['uid'], $value['remarquespub'], $value['need_lookup']);
 }
 if (count($order_form_values) < max($maxSimultaneousOrders, 1))  {
 	echo '<div class="addItemPanel"><input type="hidden" name="add_form" value="0"/><a style="cursor:pointer" onclick="form=document.getElementById(\'orderform\');form.add_form.value=1;form.action=\'index.php#order_nb_'.count($order_form_values).'\';form.submit();">'.__("Add an item to the order").'</a></div>';

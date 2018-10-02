@@ -1,6 +1,6 @@
 ﻿/* 
    This file is part of OpenILLink software.
-   Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+   Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
    Original author(s): Pablo Iriarte <pablo@iriarte.ch>
    Other contributors are listed in the AUTHORS file at the top-level directory of this distribution.
    
@@ -90,6 +90,17 @@ function lookupid(item_index) {
     }
 }
 
+var http_objects = [];
+function get_http_obj(http_type, item_index) {
+    if (!(http_type in http_objects) || !(item_index in http_objects[http_type])) {
+        if (!(http_type in http_objects)) {
+            http_objects[http_type] = [];
+        }
+        http_objects[http_type][item_index] = getHTTPObject();
+    }
+    return http_objects[http_type][item_index];
+}
+
 //
 // ********************************************************************************************************
 //
@@ -101,6 +112,7 @@ function lookupid(item_index) {
 var url = 'lookup.php?pmid=';
 
 function handleHttpResponse(item_index) {
+    var http = get_http_obj(1, item_index);
     if (http.readyState == 4) {
         if ((http.responseText.indexOf('<!-- Error>XML not found for id') == -1) 
         && (http.responseText.indexOf('<ERROR>Empty id list') == -1) 
@@ -176,22 +188,23 @@ function handleHttpResponse(item_index) {
             document.commande["pages_"+item_index].value = unescape_string(pages);
             document.commande["issn_"+item_index].value = unescape_string(issn);
             document.commande["uid_"+item_index].value = "pmid:" + document.commande["uids_"+item_index].value;
-            isWorking = false;
+            isWorking[item_index] = false;
         }
         else {
-            isWorking = false;
+            isWorking[item_index] = false;
         }
     }
 }
 
-var isWorking = false;
+var isWorking = [];
 
 function updateIllform(item_index) {
-    if (!isWorking && http) {
+    var http = get_http_obj(1, item_index);
+    if ((!item_index in isWorking || !isWorking[item_index]) && http) {
         var pmidValue = document.commande["uids_"+item_index].value;
         http.open("GET", url + encodeURI(pmidValue), true);
         http.onreadystatechange = function(){handleHttpResponse(item_index)};
-        isWorking = true;
+        isWorking[item_index] = true;
         http.send(null);
     }
 }
@@ -222,7 +235,7 @@ function getHTTPObject() {
     return xmlhttp;
 }
 
-var http = getHTTPObject();
+//var http = getHTTPObject();
 
 //
 // END PMID
@@ -236,6 +249,7 @@ var http = getHTTPObject();
 
 var url2 = 'lookup.php?reroid=';
 function handleHttpResponse2(item_index) {
+    var http2 = get_http_obj(2, item_index);
     if (http2.readyState == 4) {
         // when no match for given reroid is found, the text "Pas de résultat trouvé" is outputted twice otherwise only once
         var notFoundTxt = (http2.responseText.match(/Pas de résultat trouvé/g) || []).length;
@@ -338,53 +352,27 @@ function handleHttpResponse2(item_index) {
             document.commande["edition_"+item_index].value = unescape_string(edition + editeur);
             document.commande["issn_"+item_index].value = unescape_string(issn);
             document.commande["uid_"+item_index].value = "RERO:" + document.commande["uids_"+item_index].value;
-            isWorking2 = false;
+            isWorking2[item_index] = false;
         }
         else {
             alert("Aucun resultat pour la recherche effectuée");
-            isWorking2 = false;
+            isWorking2[item_index] = false;
         }
     }
 }
-var isWorking2 = false;
+var isWorking2 = [];
 
 function updateIllform2(item_index) {
-    if (!isWorking2 && http2) {
+    var http2 = get_http_obj(2, item_index);
+    if ((!item_index in isWorking || !isWorking2[item_index]) && http2) {
         var idrero = document.commande["uids_"+item_index].value;
         http2.open("GET", url2 + encodeURI(idrero), true);
         http2.onreadystatechange = function(){handleHttpResponse2(item_index)};
-        isWorking2 = true;
+        isWorking2[item_index] = true;
         http2.send(null);
     }
 }
 
-function getHTTPObject2() {
-    var xmlhttp2;
-/*@cc_on
-@if (@_jscript_version >= 5)
-try {
-xmlhttp2 = new ActiveXObject("Msxml2.XMLHTTP");
-} catch (e) {
-try {
-xmlhttp2 = new ActiveXObject("Microsoft.XMLHTTP");
-} catch (E) {
-xmlhttp2 = false;
-}
-}
-@else
-xmlhttp2 = false;
-@end @*/
-    if (!xmlhttp2 && typeof XMLHttpRequest != 'undefined') {
-        try {
-            xmlhttp2 = new XMLHttpRequest();
-        } catch (e) {
-            xmlhttp2 = false;
-        }
-    }
-    return xmlhttp2;
-}
-
-var http2 = getHTTPObject2();
 
 //
 // END RERO ID
@@ -397,6 +385,7 @@ var http2 = getHTTPObject2();
 //
 var url3 = 'lookup.php?isbn=';
 function handleHttpResponse3(item_index) {
+    var http3 = get_http_obj(3, item_index);
     if (http3.readyState == 4) {
         if (http3.responseText.indexOf('invalid') == -1 && http3.responseText.indexOf('>Pas de résultat trouvé<') == -1) {
             // alert(http3.responseText);
@@ -474,53 +463,26 @@ function handleHttpResponse3(item_index) {
             document.commande["edition_"+item_index].value = unescape_string(edition + editeur);
             document.commande["issn_"+item_index].value = unescape_string(issn);
             document.commande["uid_"+item_index].value = "ISBN:" + document.commande["uids_"+item_index].value;
-            isWorking3 = false;
+            isWorking3[item_index] = false;
         }
         else {
-            isWorking3 = false;
+            isWorking3[item_index] = false;
         }
     }
 }
 
-var isWorking3 = false;
+var isWorking3 = [];
 
 function updateIllform3(item_index) {
-    if (!isWorking3 && http3) {
+    var http3 = get_http_obj(3, item_index);
+    if ((!item_index in isWorking || !isWorking3[item_index]) && http3) {
         var isbn = document.commande["uids_"+item_index].value;
         http3.open("GET", url3 + encodeURI(isbn), true);
         http3.onreadystatechange = function(){handleHttpResponse3(item_index)};
-        isWorking3 = true;
+        isWorking3[item_index] = true;
         http3.send(null);
     }
 }
-
-function getHTTPObject3() {
-   var xmlhttp3;
-   /*@cc_on
-   @if (@_jscript_version >= 5)
-   try {
-   xmlhttp3 = new ActiveXObject("Msxml3.XMLHTTP");
-   } catch (e) {
-   try {
-   xmlhttp3 = new ActiveXObject("Microsoft.XMLHTTP");
-   } catch (E) {
-   xmlhttp3 = false;
-   }
-   }
-   @else
-   xmlhttp3 = false;
-   @end @*/
-   if (!xmlhttp3 && typeof XMLHttpRequest != 'undefined') {
-       try {
-           xmlhttp3 = new XMLHttpRequest();
-       } catch (e) {
-           xmlhttp3 = false;
-       }
-   }
-   return xmlhttp3;
-}
-
-var http3 = getHTTPObject3();
 
 //
 // END ISBN
@@ -532,6 +494,7 @@ var http3 = getHTTPObject3();
 //
 var url4 = 'lookup.php?doi=';
 function handleHttpResponse4(item_index) {
+    var http4 = get_http_obj(4, item_index);
     if (http4.readyState == 4) {
         if (http4.responseText.indexOf('<error>DOI not found') == -1 && http4.responseText.indexOf('>Malformed DOI') == -1) {
             // alert(http4.responseText);
@@ -652,54 +615,27 @@ function handleHttpResponse4(item_index) {
             // document.commande["edition_"+item_index].value = typedoc;
             document.commande["issn_"+item_index].value = unescape_string(issn);
             document.commande["uid_"+item_index].value = "DOI:" + document.commande["uids_"+item_index].value;
-            isWorking4 = false;
+            isWorking4[item_index] = false;
         }
         else {
-            isWorking4 = false;
+            isWorking4[item_index] = false;
         }
     }
 }
 
 
-var isWorking4 = false;
+var isWorking4 = [];
 
 function updateIllform4(item_index) {
-    if (!isWorking4 && http4) {
+    var http4 = get_http_obj(4, item_index);
+    if ((!item_index in isWorking || !isWorking4[item_index]) && http4) {
         var doi = document.commande["uids_"+item_index].value;
         http4.open("GET", url4 + encodeURI(doi), true);
         http4.onreadystatechange = function(){handleHttpResponse4(item_index)};
-        isWorking4 = true;
+        isWorking4[item_index] = true;
         http4.send(null);
     }
 }
-
-function getHTTPObject4() {
-    var xmlhttp4;
-/*@cc_on
-@if (@_jscript_version >= 5)
-try {
-xmlhttp4 = new ActiveXObject("Msxml4.XMLHTTP");
-} catch (e) {
-try {
-xmlhttp4 = new ActiveXObject("Microsoft.XMLHTTP");
-} catch (E) {
-xmlhttp4 = false;
-}
-}
-@else
-xmlhttp4 = false;
-@end @*/
-    if (!xmlhttp4 && typeof XMLHttpRequest != 'undefined') {
-        try {
-            xmlhttp4 = new XMLHttpRequest();
-        } catch (e) {
-            xmlhttp4 = false;
-        }
-    }
-    return xmlhttp4;
-}
-
-var http4 = getHTTPObject4();
 
 //
 // END DOI
@@ -713,6 +649,7 @@ var url5 = 'lookup.php?wosid=';
 // Wos ID d'exemple : A1991FK71500008
 
 function handleHttpResponse5(item_index) {
+    var http5 = get_http_obj(5, item_index);
     if (http5.readyState == 4) {
         try {
   console.log(http5.responseText);
@@ -814,64 +751,37 @@ function handleHttpResponse5(item_index) {
     document.commande["issn_"+item_index].value = issn;
     document.commande["uid_"+item_index].value = "WOSUT:" + document.commande["uids_"+item_index].value;
     document.commande["remarquespub_"+item_index].value = notesn;
-    isWorking5 = false;
+    isWorking5[item_index] = false;
     // entryForm.submit();
   }
   // Message d'erreur si le WOSID n'est pas valable
   else 
       if ( result && result.hasOwnProperty("return") && result.return.hasOwnProperty("recordsFound") && result.return.recordsFound == "0") {
           alert('WOS ID not found, please check your reference');
-    isWorking5 = false;
+    isWorking5[item_index] = false;
   }
   else
   {
     alert("La recherche n'a pas abouti: le service distant n'a pas repondu");
-    isWorking5 = false;
+    isWorking5[item_index] = false;
   }
   }
 }
 
 
-var isWorking5 = false;
+var isWorking5 = [];
 
 function updateIllform5(item_index) {
-  if (!isWorking5 && http5) {
+  var http5 = get_http_obj(5, item_index);
+  if ((!item_index in isWorking || !isWorking5[item_index]) && http5) {
     var wosid = document.commande["uids_"+item_index].value;
 	console.log(url5 + encodeURI(wosid))
     http5.open("GET", url5 + encodeURI(wosid), true);
     http5.onreadystatechange = function(){handleHttpResponse5(item_index)};
-    isWorking5 = true;
+    isWorking5[item_index] = true;
     http5.send(null);
   }
 }
-
-function getHTTPObject5() {
-  var xmlhttp5;
-  /*@cc_on
-  @if (@_jscript_version >= 5)
-    try {
-      xmlhttp5 = new ActiveXObject("Msxml5.XMLHTTP");
-    } catch (e) {
-      try {
-        xmlhttp5 = new ActiveXObject("Microsoft.XMLHTTP");
-      } catch (E) {
-        xmlhttp5 = false;
-      }
-    }
-  @else
-  xmlhttp5 = false;
-  @end @*/
-  if (!xmlhttp5 && typeof XMLHttpRequest != 'undefined') {
-    try {
-      xmlhttp5 = new XMLHttpRequest();
-    } catch (e) {
-      xmlhttp5 = false;
-    }
-  }
-  return xmlhttp5;
-}
-
-var http5 = getHTTPObject5();
 
 //
 // END Wos ID
@@ -884,6 +794,7 @@ var url6 = 'lookup.php?swissbib-identifier=';
 // sample ISBN : 9780444632746
 
 function handleHttpResponse6(item_index) {
+    var http6 = get_http_obj(6, item_index);
     if (http6.readyState == 4) {
         try {
   console.log(http6.responseText);
@@ -1027,63 +938,36 @@ function handleHttpResponse6(item_index) {
 		document.commande["edition_"+item_index].value = edition + editeur;
 		document.commande["issn_"+item_index].value = issn;
 		document.commande["uid_"+item_index].value = "ISBN:" + document.commande["uids_"+item_index].value;
-		isWorking6 = false;
+		isWorking6[item_index] = false;
     // entryForm.submit();
   }
   // Message d'erreur si le ISBN n'est pas valable
   else if (result && result.hasOwnProperty("numberOfRecords") && result.numberOfRecords == "0") {
           alert('Identifier not found, please check your reference');
-    isWorking6 = false;
+    isWorking6[item_index] = false;
   }
   else
   {
     alert("La recherche n'a pas abouti: le service distant n'a pas repondu");
-    isWorking6 = false;
+    isWorking6[item_index] = false;
   }
   }
 }
 
 
-var isWorking6 = false;
+var isWorking6 = [];
 
 function updateIllform6(item_index) {
-  if (!isWorking6 && http6) {
+  var http6 = get_http_obj(6, item_index);
+  if ((!item_index in isWorking || !isWorking6[item_index]) && http6) {
     var swissbib_identifier = document.commande["uids_"+item_index].value;
 	console.log(url6 + encodeURI(swissbib_identifier))
     http6.open("GET", url6 + encodeURI(swissbib_identifier), true);
     http6.onreadystatechange = function(){handleHttpResponse6(item_index)};
-    isWorking6 = true;
+    isWorking6[item_index] = true;
     http6.send(null);
   }
 }
-
-function getHTTPObject6() {
-  var xmlhttp6;
-  /*@cc_on
-  @if (@_jscript_version >= 5)
-    try {
-      xmlhttp6 = new ActiveXObject("Msxml5.XMLHTTP");
-    } catch (e) {
-      try {
-        xmlhttp6 = new ActiveXObject("Microsoft.XMLHTTP");
-      } catch (E) {
-        xmlhttp6 = false;
-      }
-    }
-  @else
-  xmlhttp6 = false;
-  @end @*/
-  if (!xmlhttp6 && typeof XMLHttpRequest != 'undefined') {
-    try {
-      xmlhttp6 = new XMLHttpRequest();
-    } catch (e) {
-      xmlhttp6 = false;
-    }
-  }
-  return xmlhttp6;
-}
-
-var http6 = getHTTPObject6();
 
 //
 // END ISBN swissbib
@@ -1099,6 +983,7 @@ var url7 = 'lookup.php?swissbib-renouvaud-mms=';
 // sample MMS: 991007671199702851 or 991009462209702852
 
 function handleHttpResponse7(item_index) {
+    var http7 = get_http_obj(7, item_index);
     if (http7.readyState == 4) {
         try {
   console.log(http7.responseText);
@@ -1249,63 +1134,36 @@ function handleHttpResponse7(item_index) {
 		document.commande["edition_"+item_index].value = edition + editeur;
 		document.commande["issn_"+item_index].value = issn;
 		document.commande["uid_"+item_index].value = "MMS:" + document.commande["uids_"+item_index].value.trim();
-		isWorking7 = false;
+		isWorking7[item_index] = false;
     // entryForm.submit();
   }
   // Message d'erreur si l'identifiant n'est pas valable
   else if (result && result.hasOwnProperty("numberOfRecords") && result.numberOfRecords == "0") {
           alert('Identifier not found, please check your reference');
-    isWorking7 = false;
+    isWorking7[item_index] = false;
   }
   else
   {
     alert("La recherche n'a pas abouti: le service distant n'a pas repondu");
-    isWorking7 = false;
+    isWorking7[item_index] = false;
   }
   }
 }
 
 
-var isWorking7 = false;
+var isWorking7 = [];
 
 function updateIllform7(item_index) {
-  if (!isWorking7 && http7) {
+  var http7 = get_http_obj(7, item_index);
+  if ((!item_index in isWorking || !isWorking7[item_index]) && http7) {
     var swissbib_identifier = document.commande["uids_"+item_index].value;
 	console.log(url7 + encodeURI(swissbib_identifier))
     http7.open("GET", url7 + encodeURI(swissbib_identifier), true);
     http7.onreadystatechange = function(){handleHttpResponse7(item_index)};
-    isWorking7 = true;
+    isWorking7[item_index] = true;
     http7.send(null);
   }
 }
-
-function getHTTPObject7() {
-  var xmlhttp7;
-  /*@cc_on
-  @if (@_jscript_version >= 5)
-    try {
-      xmlhttp7 = new ActiveXObject("Msxml5.XMLHTTP");
-    } catch (e) {
-      try {
-        xmlhttp7 = new ActiveXObject("Microsoft.XMLHTTP");
-      } catch (E) {
-        xmlhttp7 = false;
-      }
-    }
-  @else
-  xmlhttp7 = false;
-  @end @*/
-  if (!xmlhttp7 && typeof XMLHttpRequest != 'undefined') {
-    try {
-      xmlhttp7 = new XMLHttpRequest();
-    } catch (e) {
-      xmlhttp7 = false;
-    }
-  }
-  return xmlhttp7;
-}
-
-var http7 = getHTTPObject7();
 
 //
 // END Renouvaud MMS swissbib
@@ -1491,6 +1349,9 @@ function unescape_string(value) {
 	/* Helper function to unescape XML/HTML encoded strings.
 	   Useful since we are not parsing XML, but extracting the raw content.
 	*/
+    if (value == undefined) {
+        return "";
+    }
 	value = value.replace("&amp;", "&");
 	value = value.replace("&quot;", '"');
 	value = value.replace("&lt;", "<");

@@ -191,6 +191,9 @@ $enableOrdersUploadForUser = "guest";
 // you can set for $maxSimultaneousOrders = (max_input_vars - 39 ) / 17
 // See also file upload limitations defined in the `upload_max_filesize` and 
 // `post_max_size ` variables in the php.ini file on your server.
+// In order to be compatible with the NLM/PubMed Document Delivery Service
+// (https://www.ncbi.nlm.nih.gov/books/NBK3803/#related.Document_Delivery_Service_DDS)
+// this value must be set at least 100.
 $maxSimultaneousOrders = 50;
 
 // OpenURL parameters

@@ -42,7 +42,7 @@ function resendPwd($to, $pwd, $language, $configemail){
 <p>".__("This account allows you to review list of your document orders.")."</p>
 <p>".sprintf(__("Your password is: %s"), htmlspecialchars($pwd))."</p>
 <p>".__("If you have not made ​​that request thank you to let us know.")."</p>
-".str_replace("/n","<br>",$configadresse[$language])."
+".str_replace("\n","<br/>",$configadresse[$language])."
 </body>
 </html>
 ";

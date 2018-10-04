@@ -27,7 +27,7 @@
 //
 
 
-require_once ('includes/translations.php');
+require_once ('includes/config.php');
 require_once ('includes/toolkit.php');
 
     $formSubmitted = (array_key_exists( 'commande', $_POST) || array_key_exists( 'id', $_POST));

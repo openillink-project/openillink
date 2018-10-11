@@ -74,7 +74,7 @@ if(isset($reroid) && !empty($reroid)){
 $pmid = !empty($_GET['pmid']) ? $_GET['pmid'] : null;
 if(isset($pmid) && !empty($pmid)){
     $pmid = (isset($pmid) &&  isValidInput($pmid,50,'s',false))?trim($pmid):NULL;
-    $url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=xml&tool=OpenLinker&email=" . $configemail . "&id=" . $pmid;
+    $url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?version=2.0&db=pubmed&retmode=xml&tool=OpenLinker&email=" . $configemail . "&id=" . $pmid;
     //  $url = $_SERVER['QUERY_STRING'];
     $ch = curl_init($url);
     // following ssl ca fix should be dealt with by updating php config, it's not needed for prod server, may arise on local test server needing ssl ca fixing

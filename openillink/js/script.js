@@ -119,67 +119,74 @@ function handleHttpResponse(item_index) {
         && (http.responseText.indexOf('<ERROR>Invalid uid') == -1)){
             //alert(http.responseText);
             var xmlDocument = http.responseText;
-            var atitled = xmlDocument.indexOf("<Item Name=\"Title\" Type=\"String\">");
-            atitled = atitled+33;
-            var atitlef = xmlDocument.indexOf("</Item>",atitled);
+            var atitled = xmlDocument.indexOf("<Title>");
+            atitled = atitled+7;
+            var atitlef = xmlDocument.indexOf("</Title>",atitled);
             var atitle = xmlDocument.substring(atitled,atitlef);
-            var authorsd = xmlDocument.indexOf("<Item Name=\"Author\" Type=\"String\">");
+
+            var aVernacularTitled = xmlDocument.indexOf("<VernacularTitle>");
+            aVernacularTitled = aVernacularTitled+17;
+            var aVernacularTitlef = xmlDocument.indexOf("</VernacularTitle>",aVernacularTitled);
+            var aVernacularTitle = xmlDocument.substring(aVernacularTitled,aVernacularTitlef);
+
+            var authorsd = xmlDocument.indexOf("<Name>");
             if (authorsd != -1) {
-                authorsd = authorsd+34;
-                var authorsf = xmlDocument.indexOf("</Item>",authorsd);
+                authorsd = authorsd+6;
+                var authorsf = xmlDocument.indexOf("</Name>",authorsd);
                 var authors = xmlDocument.substring(authorsd,authorsf);
             }
             else {
                 var authors = '';
             }
-            var journald = xmlDocument.indexOf("<Item Name=\"FullJournalName\" Type=\"String\">");
+            var journald = xmlDocument.indexOf("<FullJournalName>");
             if (journald != -1){
-                journald = journald+43;
-                var journalf = xmlDocument.indexOf("</Item>",journald);
+                journald = journald+17;
+                var journalf = xmlDocument.indexOf("</FullJournalName>",journald);
                 var journal = xmlDocument.substring(journald,journalf);
             }
             else {
-                journald = xmlDocument.indexOf("<Item Name=\"Source\" Type=\"String\">");
-                journald = journald+34;
-                var journalf = xmlDocument.indexOf("</Item>",journald);
+                journald = xmlDocument.indexOf("<Source>");
+                journald = journald+8;
+                var journalf = xmlDocument.indexOf("</Source>",journald);
                 var journal = xmlDocument.substring(journald,journalf);
             }
-            var anneed = xmlDocument.indexOf("<Item Name=\"PubDate\" Type=\"Date\">");
-            anneed = anneed+33;
+            var anneed = xmlDocument.indexOf("<PubDate>");
+            anneed = anneed+9;
             var anneef = anneed + 4;
             var annee = xmlDocument.substring(anneed,anneef);
-            var vold = xmlDocument.indexOf("<Item Name=\"Volume\" Type=\"String\">");
+            var vold = xmlDocument.indexOf("<Volume>");
             if (vold != -1) {
-                vold = vold+34;
-                var volf = xmlDocument.indexOf("</Item>",vold);
+                vold = vold+8;
+                var volf = xmlDocument.indexOf("</Volume>",vold);
                 var vol = xmlDocument.substring(vold,volf);
             }
             else {
                 var vol = '-';
             }
-            var nod = xmlDocument.indexOf("<Item Name=\"Issue\" Type=\"String\">");
+            var nod = xmlDocument.indexOf("<Issue>");
             if (nod != -1) {
-                nod = nod+33;
-                var nof = xmlDocument.indexOf("</Item>",nod);
+                nod = nod+7;
+                var nof = xmlDocument.indexOf("</Issue>",nod);
                 var no = xmlDocument.substring(nod,nof);
             }
             else {
                 var vol = '-';
             }
-            var pagesd = xmlDocument.indexOf("<Item Name=\"Pages\" Type=\"String\">");
-            pagesd = pagesd+33;
-            var pagesf = xmlDocument.indexOf("</Item>",pagesd);
+            var pagesd = xmlDocument.indexOf("<Pages>");
+            pagesd = pagesd+7;
+            var pagesf = xmlDocument.indexOf("</Pages>",pagesd);
             var pages = xmlDocument.substring(pagesd,pagesf);
-            var issnd = xmlDocument.indexOf("<Item Name=\"ISSN\" Type=\"String\">");
+            var issnd = xmlDocument.indexOf("<ISSN>");
             if (issnd != -1) {
-                issnd = issnd+32;
-                var issnf = xmlDocument.indexOf("</Item>",issnd);
+                issnd = issnd+6;
+                var issnf = xmlDocument.indexOf("</ISSN>",issnd);
                 var issn = xmlDocument.substring(issnd,issnf);
             }
             else {
                 var issn = '';
             }
-            document.commande["atitle_"+item_index].value = unescape_string(atitle);
+
+            document.commande["atitle_"+item_index].value = unescape_string(aVernacularTitle) + (aVernacularTitle && atitle ? " " : "") + unescape_string(atitle);
             document.commande["auteurs_"+item_index].value = unescape_string(authors);
             document.commande["title_"+item_index].value = unescape_string(journal);
             document.commande["date_"+item_index].value = unescape_string(annee);
@@ -1352,11 +1359,9 @@ function unescape_string(value) {
     if (value == undefined) {
         return "";
     }
-	value = value.replace("&amp;", "&");
-	value = value.replace("&quot;", '"');
-	value = value.replace("&lt;", "<");
-	value = value.replace("&gt;", ">")
-	return value;
+    var textarea = document.createElement("textarea");
+    textarea.innerHTML = value;
+    return textarea.value;
 }
 
 function remplirauto() {

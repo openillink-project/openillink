@@ -40,20 +40,37 @@ function unCheckAll(commande) {
     }
 }
 
-function cleanIllForm(item_index){
-    document.commande["atitle_"+item_index].value = '';
-    document.commande["title_"+item_index].value = '';
-    document.commande["auteurs_"+item_index].value = '';
-    document.commande["date_"+item_index].value = '';
-    document.commande["volume_"+item_index].value = '';
-    document.commande["issue_"+item_index].value = '';
-    document.commande["pages_"+item_index].value = '';
-    document.commande["issn_"+item_index].value = '';
-    document.commande["uid_"+item_index].value = '';
-    document.commande["remarquespub_"+item_index].value = '';
+if(!Array.isArray) {
+  Array.isArray = function(arg) {
+    return Object.prototype.toString.call(arg) === '[object Array]';
+  };
 }
 
-function lookupid(item_index) {
+function cleanIllForm(item_index){
+    /* Clear content of order form at given index. Index can be an array too */
+    var items_indexes = [];
+    if (Array.isArray(items_indexes)) {
+        items_indexes = item_index;
+    } else {
+        items_indexes = [item_index];
+    }
+    for (var i = 0; i < items_indexes.length; i++) {
+        var this_item_index = item_index[i];
+        document.commande["atitle_"+this_item_index].value = '';
+        document.commande["title_"+this_item_index].value = '';
+        document.commande["auteurs_"+this_item_index].value = '';
+        document.commande["date_"+this_item_index].value = '';
+        document.commande["volume_"+this_item_index].value = '';
+        document.commande["issue_"+this_item_index].value = '';
+        document.commande["pages_"+this_item_index].value = '';
+        document.commande["issn_"+this_item_index].value = '';
+        document.commande["uid_"+this_item_index].value = '';
+        document.commande["remarquespub_"+this_item_index].value = '';
+    }
+}
+
+function lookupid(item_index, openillink_config_email) {
+    /* Fill in order form at given index. item_index can be an index too in case all items must be looked up by PMID */
     // si la valeur du champ uids est vide
     if (document.commande["uids_"+item_index].value == ""){
         // message d'alerte
@@ -62,7 +79,8 @@ function lookupid(item_index) {
     if ((document.commande["uids_"+item_index].value != "") && (document.commande["tid_"+item_index].value == "pmid")){
         // alors on remplit automatiquement le formulaire, ceci écrase ce qui est inscrit dans le formulaire normal et l'envoie
         cleanIllForm(item_index);
-        updateIllform(item_index);
+        lookup_pmids([item_index], openillink_config_email, 3);
+        
     }
     if ((document.commande["uids_"+item_index].value != "") && (document.commande["tid_"+item_index].value == "reroid")){    
         cleanIllForm(item_index);
@@ -99,6 +117,93 @@ function get_http_obj(http_type, item_index) {
         http_objects[http_type][item_index] = getHTTPObject();
     }
     return http_objects[http_type][item_index];
+}
+
+function get_node_name_value(root, nodeName, defaultValue, concatenate) {
+    /*
+    Return the value of the given nodeName in the tree.
+    if concatenate is false, return only first node value. Else use value of concatenate parameter as string to join all values
+    */
+    var nodes = root.getElementsByTagName(nodeName);
+    if (nodes.length > 0) {
+        if (concatenate === false) {
+            if (nodes[0].childNodes.length > 0) {
+                return nodes[0].childNodes[0].nodeValue;
+            }
+        } else {
+            var values = [];
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].childNodes.length > 0) {
+                    values.push(nodes[i].childNodes[0].nodeValue);
+                }
+            }
+            return values.join(concatenate);
+        }
+    }
+    return "";
+}
+
+function lookup_pmids(items_indexes, openillink_config_email, max_retry) {
+    var http = getHTTPObject();
+    var url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?version=2.0&db=pubmed&retmode=xml&tool=OpenLinker&email=" + openillink_config_email + "&id="
+    if (http) {
+        var pmids = [];
+        var pmids_to_item_index = {};
+        for (var i = 0; i < items_indexes.length; i++) {
+            var pmid = document.commande["uids_"+items_indexes[i]].value;
+            pmids.push(pmid);
+            if (!(pmid in pmids_to_item_index)) {
+                pmids_to_item_index[pmid] = [];
+            }
+            pmids_to_item_index[pmid].push(items_indexes[i]);
+        }
+        http.open("GET", url + encodeURI(pmids.join(",")), true);
+        http.onreadystatechange = function(){handle_pubmed_response(http, pmids_to_item_index, openillink_config_email, max_retry)};
+        http.send(null);
+    }
+}
+
+function handle_pubmed_response(http, pmids_to_item_index, openillink_config_email, max_retry){
+    if (http.readyState == 4) {
+        if (http.status === 200) {
+            var xmlDoc = http.responseXML;
+            var documentSummaryNodes = xmlDoc.getElementsByTagName("DocumentSummary")
+            for (i = 0; i <documentSummaryNodes.length; i++) {
+                var documentSummaryNode = documentSummaryNodes[i];
+                var pmid = documentSummaryNode.getAttribute("uid");
+                var atitle = get_node_name_value(documentSummaryNode, "Title", "", false);
+                var aVernacularTitle = get_node_name_value(documentSummaryNode, "VernacularTitle", "", false);
+                var authors = get_node_name_value(documentSummaryNode, "Name", "", false);
+                var journal = get_node_name_value(documentSummaryNode, "FullJournalName", "", false);
+                if (journal == "") {
+                    journal = get_node_name_value(documentSummaryNode, "Source", "", false);
+                }
+                var annee = get_node_name_value(documentSummaryNode, "PubDate", "", false).substring(0,4);
+                var vol = get_node_name_value(documentSummaryNode, "Volume", "-", false);
+                var no = get_node_name_value(documentSummaryNode, "Issue", "-", false);
+                var pages = get_node_name_value(documentSummaryNode, "Pages", "", false);
+                var issn = get_node_name_value(documentSummaryNode, "ISSN", "", false);
+
+                if (pmid in pmids_to_item_index) {
+                    for (j = 0; j <pmids_to_item_index[pmid].length; j++) {
+                        item_index = pmids_to_item_index[pmid][j];
+                        document.commande["atitle_"+item_index].value = aVernacularTitle + (aVernacularTitle && atitle ? " " : "") + atitle;
+                        document.commande["auteurs_"+item_index].value = authors;
+                        document.commande["title_"+item_index].value = journal;
+                        document.commande["date_"+item_index].value = annee;
+                        document.commande["volume_"+item_index].value = vol;
+                        document.commande["issue_"+item_index].value = no;
+                        document.commande["pages_"+item_index].value = pages;
+                        document.commande["issn_"+item_index].value = issn;
+                        document.commande["uid_"+item_index].value = "pmid:" + document.commande["uids_"+item_index].value;
+                    }
+                }
+            }
+        } else if (http.status === 429) {
+            // retry later
+            setTimeout(function () {lookup_pmids(items_indexes, openillink_config_email, max_retry - 1);}, 1000);
+        }
+    }
 }
 
 //
@@ -1364,7 +1469,7 @@ function unescape_string(value) {
     return textarea.value;
 }
 
-function remplirauto() {
+function remplirauto(openillink_config_email) {
     if (getCookie("nom") != null)
         document.commande.nom.value = getCookie("nom");
     if (getCookie("prenom") != null)
@@ -1465,7 +1570,7 @@ function remplirauto() {
 			// PubMed Linkout / Outside Tool: https://www.ncbi.nlm.nih.gov/books/NBK3803/
             document.commande["uids_"+item_index].value = get_url_parameter("id").substr(5);
 			document.commande["tid_"+item_index].value = "pmid";
-			lookupid(item_index);
+			lookupid(item_index, openillink_config_email);
 		}
     }
 }

@@ -236,7 +236,7 @@ $mybodyonload = "";
 if (!isset($_POST['add_form'])){
 	$mybodyonload .= "document.commande.nom.focus();";
 }
-$mybodyonload .= " remplirauto();";
+$mybodyonload .= " remplirauto('".htmlspecialchars($configemail)."');";
 if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     require ("includes/headeradmin.php");
     echo '<section class="hero">
@@ -794,7 +794,8 @@ echo '
 	</div>
 </section>';
 
-function get_document_form($lookupuid, $doctypesmessage, $doctypes,  $periodical_title_search_url, $can_remove_orders, $form_index=0, $tid_code="", $uids="", $genre_code="", $title="", $date="", $volume="", $issue="", $suppl="", $pages="", $atitle="", $auteurs="", $edition="", $issn="", $uid="", $remarquespub="", $need_lookup=false) {
+function get_document_form($lookupuid, $doctypesmessage, $doctypes,  $periodical_title_search_url, $can_remove_orders, $form_index=0, $tid_code="", $uids="", $genre_code="", $title="", $date="", $volume="", $issue="", $suppl="", $pages="", $atitle="", $auteurs="", $edition="", $issn="", $uid="", $remarquespub="") {
+	global $configemail;
 	$document_form = "";
 	$document_form .=  "<a id=\"order_nb_".$form_index."\"></a>\n";
 	$document_form .= '
@@ -819,7 +820,7 @@ $document_form .= '
 		</span>
          </div>
          <div class="control"><input class="input" name="uids_'.$form_index.'" placeholder="'. __("Identifier") .'" type="text" value="'.htmlspecialchars($uids).'"></div>
-         <div class="control"><input class="button is-primary" onclick="lookupid('.$form_index.')" type="button" value="'. __("Fill in") .'"></div>
+         <div class="control"><input class="button is-primary" onclick="lookupid('.$form_index.', \''.htmlspecialchars($configemail).'\')" type="button" value="'. __("Fill in") .'"></div>
         </div>
        </div>
 
@@ -1006,9 +1007,6 @@ else
 	}
 	$document_form .= '	</div>
 	</section>';
-	if ($need_lookup) {
-		$document_form .= '<script type="text/javascript">lookupid('.$form_index.');</script>';
-	}
 	return $document_form;
 }
 $can_remove_orders = false;
@@ -1035,8 +1033,16 @@ if (is_privileged_enough($monaut, $enableOrdersUploadForUser) && count($order_fo
 
 	echo '</div>';
 }
+$form_index_to_lookup = array();
 foreach ($order_form_values as $form_index => $value) {
-	echo get_document_form($lookupuid, !empty($doctypesmessage) ? $doctypesmessage : "", $doctypes, $periodical_title_search_url, $can_remove_orders, $form_index, $value['tid_code'], $value['uids'], $value['genre_code'], $value['title'], $value['date'], $value['volume'], $value['issue'], $value['suppl'], $value['pages'], $value['atitle'], $value['auteurs'], $value['edition'], $value['issn'], $value['uid'], $value['remarquespub'], $value['need_lookup']);
+	echo get_document_form($lookupuid, !empty($doctypesmessage) ? $doctypesmessage : "", $doctypes, $periodical_title_search_url, $can_remove_orders, $form_index, $value['tid_code'], $value['uids'], $value['genre_code'], $value['title'], $value['date'], $value['volume'], $value['issue'], $value['suppl'], $value['pages'], $value['atitle'], $value['auteurs'], $value['edition'], $value['issn'], $value['uid'], $value['remarquespub']);
+	if ($value['need_lookup']) {
+		$form_index_to_lookup[]=$form_index;
+	}
+}
+if (count($form_index_to_lookup) > 0){
+	// Auto-fill those PMIDs given via PMID_% url paramters
+	echo '<script type="text/javascript">lookup_pmids(['. join(',', $form_index_to_lookup) .'], "'.htmlspecialchars($configemail).'", 3);</script>';
 }
 if (count($order_form_values) < max($maxSimultaneousOrders, 1))  {
 	echo '<div class="addItemPanel"><input type="hidden" name="add_form" value="0"/><a style="cursor:pointer" onclick="form=document.getElementById(\'orderform\');form.add_form.value=1;form.action=\'index.php#order_nb_'.count($order_form_values).'\';form.submit();">'.__("Add an item to the order").'</a></div>';

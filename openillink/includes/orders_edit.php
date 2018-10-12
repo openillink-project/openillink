@@ -720,7 +720,7 @@ echo '</span>
 				</span>
          </div>
          <div class="control"><input class="input" name="uids_0" placeholder="'. __("Identifier") .'" type="text" value="'.htmlspecialchars($uids).'"></div>
-         <div class="control"><input class="button is-primary" onclick="lookupid(0); textchanged(\'ref écrasée par PMID\');" type="button" value="'. __("Fill in") .'"></div>
+         <div class="control"><input class="button is-primary" onclick="lookupid(0, \''.htmlspecialchars($configemail).'\'); textchanged(\'ref écrasée par PMID\');" type="button" value="'. __("Fill in") .'"></div>
         </div>
        </div>
 

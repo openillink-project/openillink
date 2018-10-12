@@ -74,13 +74,26 @@ if(isset($reroid) && !empty($reroid)){
 $pmid = !empty($_GET['pmid']) ? $_GET['pmid'] : null;
 if(isset($pmid) && !empty($pmid)){
     $pmid = (isset($pmid) &&  isValidInput($pmid,50,'s',false))?trim($pmid):NULL;
-    $url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?version=2.0&db=pubmed&retmode=xml&tool=OpenLinker&email=" . $configemail . "&id=" . $pmid;
+    $url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?version=2.0&db=pubmed&retmode=xml&tool=OpenLinker&email=" . $configemail . "&id=" . $pmid . (isset($configNCBIAPIKey) && $configNCBIAPIKey ? "&api_key=".urlencode($configNCBIAPIKey) : "");
     //  $url = $_SERVER['QUERY_STRING'];
     $ch = curl_init($url);
     // following ssl ca fix should be dealt with by updating php config, it's not needed for prod server, may arise on local test server needing ssl ca fixing
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
-    curl_exec($ch);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $res = curl_exec($ch);
+	$http_status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+	if (is_string($res)) {
+		if (isset($configNCBIAPIKey) && $configNCBIAPIKey) {
+			// Error response might contain API key. Make sure we do not include in response
+			$res = str_replace ($configNCBIAPIKey, "", $res);
+		}
+	} else {
+		$res = "";
+	}
+	header("Content-type: text/xml");
+	http_response_code($http_status_code); // might return 429 (Too Many Requests)
+	echo $res;
 }
 
 $doi = !empty($_GET['doi']) ? $_GET['doi'] : null;

@@ -129,6 +129,13 @@ $configBaselCode = 'BASEL_SPECIFIC_CODE';
 $configBaselPassword = 'BASEL_SPECIFIC_PASSWORD';
 $configBaselName = 'BASEL_SPECIFIC_NAME';
 
+// NCBI API key
+// Used server-side to retrieve metadata from NCBI Entrez APIs when auto-filling
+// via PMID from PubMed. If left empty, default limit apply for the maximum
+// number of requests per seconds
+// See https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/
+$configNCBIAPIKey = '';
+
 // authentication levels
 $auth_sadmin = "1";
 $auth_admin = "2";

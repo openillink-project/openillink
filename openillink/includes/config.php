@@ -361,4 +361,19 @@ $configMMSdiscoveryurl["de"] = "";
 $configMMSdiscoveryurl["it"] = "";
 $configMMSdiscoveryurl["es"] = "";
 
+// Optional. Second header line displayed on public+admin order form
+$secondmessage["fr"] = "";
+$secondmessage["en"] = "";
+$secondmessage["de"] = "";
+$secondmessage["it"] = "";
+$secondmessage["es"] = "";
+
+// Optional. Third header line displayed on public order form
+$thirdmessage["fr"] = "<b><font color=\"red\">" . __("Please note, all orders are subject to a financial contribution") . "</font></b><br />" . __("Contact us by email for more information (pricing, billing, etc.)") . " : <a href=\"mailto:" . $configlibraryemail["fr"] . "\">" . $configlibraryemail["fr"] . "</a>\n";
+$thirdmessage["en"] = "<b><font color=\"red\">" . __("Please note, all orders are subject to a financial contribution") . "</font></b><br />" . __("Contact us by email for more information (pricing, billing, etc.)") . " : <a href=\"mailto:" . $configlibraryemail["en"] . "\">" . $configlibraryemail["en"] . "</a>\n";
+$thirdmessage["de"] = "<b><font color=\"red\">" . __("Please note, all orders are subject to a financial contribution") . "</font></b><br />" . __("Contact us by email for more information (pricing, billing, etc.)") . " : <a href=\"mailto:" . $configlibraryemail["de"] . "\">" . $configlibraryemail["de"] . "</a>\n";
+$thirdmessage["it"] = "<b><font color=\"red\">" . __("Please note, all orders are subject to a financial contribution") . "</font></b><br />" . __("Contact us by email for more information (pricing, billing, etc.)") . " : <a href=\"mailto:" . $configlibraryemail["it"] . "\">" . $configlibraryemail["it"] . "</a>\n";
+$thirdmessage["es"] = "<b><font color=\"red\">" . __("Please note, all orders are subject to a financial contribution") . "</font></b><br />" . __("Contact us by email for more information (pricing, billing, etc.)") . " : <a href=\"mailto:" . $configlibraryemail["es"] . "\">" . $configlibraryemail["es"] . "</a>\n";
+
+
 ?>

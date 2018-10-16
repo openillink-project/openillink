@@ -536,7 +536,9 @@ else{
 	if (isset($secondmessage) && array_key_exists($lang, $secondmessage)) {
 		echo '<h2 class="subtitle">' . $secondmessage[$lang] . "</h2>\n";
 	}
-    echo "<b><font color=\"red\">" . __("Please note, all orders are subject to a financial contribution") . "</font></b><br />" . __("Contact us by email for more information (pricing, billing, etc.)") . " : <a href=\"mailto:" . $configlibraryemail[$lang] . "\">" . $configlibraryemail[$lang] . "</a>\n";
+	if (isset($thirdmessage) && array_key_exists($lang, $thirdmessage)) {
+		echo $thirdmessage[$lang];
+	}
     echo '</div>
 			</div>
 		</section>';

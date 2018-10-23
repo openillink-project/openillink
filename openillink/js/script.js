@@ -150,7 +150,7 @@ function lookup_pmids(items_indexes, openillink_config_email, max_retry) {
         var pmids = [];
         var pmids_to_item_index = {};
         for (var i = 0; i < items_indexes.length; i++) {
-            var pmid = document.commande["uids_"+items_indexes[i]].value;
+            var pmid = document.commande["uids_"+items_indexes[i]].value.trim();
             pmids.push(pmid);
             if (!(pmid in pmids_to_item_index)) {
                 pmids_to_item_index[pmid] = [];

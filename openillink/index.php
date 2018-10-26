@@ -231,7 +231,7 @@ if  (isset($_POST['remove_form']) && is_numeric($_POST['remove_form']) && intval
 	array_splice($order_form_values, intval($_POST['remove_form']), 1);
 }
 
-$myhtmltitle = $configname[$lang] . " : nouvelle commande";
+$myhtmltitle = $configname[$lang] . " : " . __("New Order");
 $mybodyonload = "";
 if (!isset($_POST['add_form'])){
 	$mybodyonload .= "document.commande.nom.focus();";

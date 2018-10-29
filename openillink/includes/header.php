@@ -109,20 +109,26 @@ echo '
 				echo '<div class="navbar-item has-dropdown is-hoverable">
 					<a class="navbar-link">'.strtoupper($lang).'</a>
 					<div class="navbar-dropdown">';
+						$url_params = $_GET;
 						if (in_array('de', $config_available_langs)) {
-							echo '<a class="navbar-item" href="'.$siteUrl.'?lang=de" title="Deutsch">DE</a>';
+							$url_params['lang'] = 'de';
+							echo '<a class="navbar-item" href="'.$siteUrl. '?' . htmlspecialchars(http_build_query($url_params)). '" title="Deutsch">DE</a>';
 						}
 						if (in_array('en', $config_available_langs)) {
-							echo '<a class="navbar-item" href="'.$siteUrl.'?lang=en" title="English">EN</a>';
+							$url_params['lang'] = 'en';
+							echo '<a class="navbar-item" href="'.$siteUrl. '?' . htmlspecialchars(http_build_query($url_params)).'" title="English">EN</a>';
 						}
 						if (in_array('es', $config_available_langs)) {
-							echo '<a class="navbar-item" href="'.$siteUrl.'?lang=es" title="Español">ES</a>';
+							$url_params['lang'] = 'es';
+							echo '<a class="navbar-item" href="'.$siteUrl. '?' . htmlspecialchars(http_build_query($url_params)).'" title="Español">ES</a>';
 						}
 						if (in_array('fr', $config_available_langs)) {
-							echo '<a class="navbar-item" href="'.$siteUrl.'?lang=fr" title="Français">FR</a>';
+							$url_params['lang'] = 'fr';
+							echo '<a class="navbar-item" href="'.$siteUrl. '?' . htmlspecialchars(http_build_query($url_params)).'" title="Français">FR</a>';
 					    }
 						if (in_array('it', $config_available_langs)) {
-							echo '<a class="navbar-item" href="'.$siteUrl.'?lang=it" title="Italiano">IT</a>';
+							$url_params['lang'] = 'it';
+							echo '<a class="navbar-item" href="'.$siteUrl. '?' . htmlspecialchars(http_build_query($url_params)).'" title="Italiano">IT</a>';
 						}
 					echo '</div>';
 				}

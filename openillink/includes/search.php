@@ -61,7 +61,7 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
         $statut = isValidInput($statuscode,6,'s',false) || $statuscode == "0" ? $statuscode : '';
         $filtreStatut = "  stade = ".mysqli_real_escape_string($link, $statut)." ";
     }
-    $champValides = array('id', 'datecom', 'dateenv', 'datefact', 'statut', 'localisation', 'nom', 'email', 'service', 'issn', 'pmid', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all');
+    $champValides = array('id', 'datecom', 'dateenv', 'datefact', 'statut', 'localisation', 'bibliotheque',  'nom', 'email', 'service', 'issn', 'pmid', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all');
     $champ = ((!empty($_GET['champ'])) && isValidInput($_GET['champ'], 15, 's', false, $champValides))?$_GET['champ']:'';
     $term = (isset($_GET['term']))?$_GET['term']:'';
 	$myorders = ((!empty($_GET['myorders'])) && isValidInput($_GET['myorders'],1,'s',false,array("1")))?$_GET['myorders']:'';
@@ -131,6 +131,11 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
             $localisation = isValidInput($term,20,'s',false)?$term:'';
             $req2 = "SELECT illinkid FROM orders ";
             $conditions = " WHERE ".$guestFilter." localisation like '".mysqli_real_escape_string($link, $localisation)."'";
+            }
+        if($champ == 'bibliotheque'){
+            $bibliotheque = isValidInput($term,20,'s',false)?$term:'';
+            $req2 = "SELECT illinkid FROM orders ";
+            $conditions = " WHERE ".$guestFilter." bibliotheque like '".mysqli_real_escape_string($link, $bibliotheque)."'";
             }
         if($champ == 'reff'){
             $reff = isValidInput($term,50,'s',false)?'%'.$term.'%':'';

@@ -30,7 +30,7 @@ require_once('connexion.php');
 require_once('toolkit.php');
 require_once('translations.php');
 
-$controlSet = array('id', 'datecom', 'dateenv', 'datefact', 'statut', 'localisation', 'nom', 'email', 'service', 'issn', 'pmid', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all', 'myorders');
+$controlSet = array('id', 'datecom', 'dateenv', 'datefact', 'statut', 'localisation', 'bibliotheque', 'nom', 'email', 'service', 'issn', 'pmid', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all', 'myorders');
 $champ = ((!empty($_GET['champ'])) && isValidInput($_GET['champ'],12,'s',false,$controlSet))?$_GET['champ']:'';
 $myorders = ((!empty($_GET['myorders'])) && isValidInput($_GET['myorders'],1,'s',false,array("1")))?$_GET['myorders']:'';
 
@@ -78,6 +78,10 @@ echo "<option value=\"localisation\"";
 if ((!empty($champ))&&($champ=='localisation'))
     echo " selected";
 echo ">".__("Localization")."</option>\n";
+echo "<option value=\"bibliotheque\"";
+if ((!empty($champ))&&($champ=='bibliotheque'))
+    echo " selected";
+echo ">".__("Assignment Library")."</option>\n";
 echo "<option value=\"nom\"";
 if ((!empty($champ))&&($champ=='nom'))
     echo " selected";

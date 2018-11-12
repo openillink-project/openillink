@@ -285,6 +285,6 @@ if ($nblinks > 0){
     echo "</ul>\n";
 }
 
-echo "<br /></div></div><div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
+echo "<br /></div></div>\n";
 echo "</div>\n";
 ?>

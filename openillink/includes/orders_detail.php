@@ -105,9 +105,8 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             $adresse = $enreg['adresse'].', '.$enreg['code_postal'].' '.$enreg['localite'];
             $titreper = $enreg['titre_periodique'];
             $titreart = $enreg['titre_article'];
-            echo "<div class=\"box\"><div class=\"box-content\">\n";
-            echo "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n";
-            echo "<tr><td valign=\"top\" width=\"74%\">\n";
+			echo '<div class="columns box is-gapless">
+					<div class="column is-three-quarters">';
             echo "<b>".__("Order number")." : </b>".$id;
             if ($enreg['urgent']=='1' || $enreg['urgent']=='oui')
                 echo " (<b><font color=\"red\">".__("Urgent order")."</font></b>)\n";
@@ -250,12 +249,12 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "\n<br /><b>". __("Professional comment") ." : </b>". $prepared_remarque_for_html;
 			}
             echo "\n<br /><br /><b>". __("Order history") ." : </b>\n<br />".str_replace('&lt;br /&gt;', '<br />', htmlspecialchars($enreg['historique']));
-            echo "</td>\n";
-            echo "<td valign=\"top\" width=\"26%\">\n";
+			echo '</div>
+				  <div class="column">';
             require ("links.php");
-            echo "</td></tr></table>\n";
+			echo '</div>
+			</div>'; 
         }
-        echo "</div></div><div class=\"box-footer\"><div class=\"box-footer-right\"></div></div>\n";
         require ("footer.php");
         }
     else{

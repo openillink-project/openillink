@@ -240,3 +240,10 @@ label.required:after {
     min-height:auto;
     height: auto;
 }
+
+#simplesearchlink, #advancedsearchlink {
+    margin-left: 0.5rem;
+    line-height: 4.5em;
+    height: 2.25em;
+    white-space: nowrap;
+}

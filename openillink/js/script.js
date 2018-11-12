@@ -1653,3 +1653,29 @@ function QueryData(queryString, preserveDuplicates){
   }
 
 }
+
+function showAdvancedSearch() {
+    /* Toogle visibility of elements for the advanced search */
+    document.getElementById("advancedsearchlink").style.display="none";
+    document.getElementById("simplesearchlink").style.display="";
+    if (document.getElementsByName('champ')[0].value!="id") {
+        document.getElementById("advancedsearchmatchfieldone").style.display="";
+    }
+    document.getElementById("advancedsearchcondition2").style.display="";
+    document.getElementById("advancedsearchcondition3").style.display="";
+    document.getElementById("searchtype").value="advanced";
+}
+
+function showSimpleSearch() {
+    /* Toogle visibility of elements for the simple search */
+    document.getElementById("advancedsearchlink").style.display="";
+    document.getElementById("simplesearchlink").style.display="none";
+    document.getElementById("advancedsearchmatchfieldone").style.display="none";
+    document.getElementById("advancedsearchcondition2").style.display="none";
+    document.getElementById("advancedsearchcondition3").style.display="none";
+    document.getElementById("searchtype").value="simple";
+    /* Reset form element */
+    document.getElementsByName('term2')[0].value="";
+    document.getElementsByName('term3')[0].value=""; 
+    document.getElementsByName('match')[0].value="starts";
+}

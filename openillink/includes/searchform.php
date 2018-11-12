@@ -30,9 +30,21 @@ require_once('connexion.php');
 require_once('toolkit.php');
 require_once('translations.php');
 
-$controlSet = array('id', 'datecom', 'dateenv', 'datefact', 'statut', 'localisation', 'bibliotheque', 'nom', 'email', 'service', 'issn', 'pmid', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all', 'myorders');
+$controlSet = array('id', 'datecom', 'dateenv', 'datefact', 'date', 'statut', 'localisation', 'bibliotheque', 'nom', 'email', 'service', 'issn', 'pmid', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all', 'myorders');
 $champ = ((!empty($_GET['champ'])) && isValidInput($_GET['champ'],12,'s',false,$controlSet))?$_GET['champ']:'';
+$champ2 = ((!empty($_GET['champ2'])) && isValidInput($_GET['champ2'],12,'s',false,$controlSet))?$_GET['champ2']:'';
+$champ3 = ((!empty($_GET['champ3'])) && isValidInput($_GET['champ3'],12,'s',false,$controlSet))?$_GET['champ3']:'';
+$champ2_operator = ((!empty($_GET['op2'])) && isValidInput($_GET['op2'], 3, 's', false, ['AND', 'OR', 'NOT']))?$_GET['op2']:'AND';
+$champ3_operator = ((!empty($_GET['op3'])) && isValidInput($_GET['op3'], 3, 's', false, ['AND', 'OR', 'NOT']))?$_GET['op3']:'AND';
 $myorders = ((!empty($_GET['myorders'])) && isValidInput($_GET['myorders'],1,'s',false,array("1")))?$_GET['myorders']:'';
+$searchtype = ((!empty($_GET['searchtype'])) && isValidInput($_GET['searchtype'],8,'s',false,array("simple", "advanced")))?$_GET['searchtype']:'simple';
+$term = (!empty($_GET['term']))?$_GET['term']:'';
+$term2 = (!empty($_GET['term2']))?$_GET['term2']:'';
+$term3 = (!empty($_GET['term3']))?$_GET['term3']:'';
+$match = ((!empty($_GET['match'])) && isValidInput($_GET['match'], 8, 's', false, ['starts', 'contains', 'exact']))?$_GET['match']:'starts';
+$match2 = ((!empty($_GET['match2'])) && isValidInput($_GET['match2'], 8, 's', false, ['starts', 'contains', 'exact']))?$_GET['match2']:'starts';
+$match3 = ((!empty($_GET['match3'])) && isValidInput($_GET['match3'], 8, 's', false, ['starts', 'contains', 'exact']))?$_GET['match3']:'starts';
+
 
 echo '<div class="columns is-mobile is-centered">
   <div class="column">';
@@ -51,7 +63,7 @@ echo '
   <div class="control">
 	<div class="select  is-fullwidth">
 ';
-echo "<select name=\"champ\">\n";
+echo "<select name=\"champ\" onchange=\"if(this.value=='id'){document.getElementById('advancedsearchmatchfieldone').style.display='none'}else if(document.getElementById('searchtype').value=='advanced'){document.getElementById('advancedsearchmatchfieldone').style.display=''}\">\n";
 echo "<option value=\"id\"";
 if ((!empty($champ)) && ($champ=='id') )
     echo " selected";
@@ -68,6 +80,10 @@ echo "<option value=\"datefact\"";
 if ((!empty($champ))&&($champ=='datefact'))
     echo " selected";
 echo ">".__("Billing date (YYY-MM-DD)")."</option>\n";
+echo "<option value=\"date\"";
+if ((isset($champ))&&($champ=='date'))
+    echo " selected";
+echo ">".__("Date (any; YYY-MM-DD)")."</option>\n";
 /*
 echo "<option value=\"statut\"";
 if ((!empty($champ))&&($champ=='statut'))
@@ -131,16 +147,280 @@ echo "</select>\n";
 echo '</div>
   </div>';
 
-//echo "<font class=\"titleblack10\"> = &nbsp;\n";
+echo '  <div class="control" id="advancedsearchmatchfieldone" style="'.($searchtype == 'simple' ? 'display:none' :  ($champ == 'id' ? 'display:none' : '')) .'">
+	<div class="select  is-fullwidth">
+	  <select name="match">
+	      <option value="starts" '.($match == 'starts' ? 'selected' : '').'>'. __("starts with").'</option>
+		  <option value="contains" '.($match == 'contains' ? 'selected' : '').'>'. __("contains").'</option>
+		  <option value="exact" '.($match == 'exact' ? 'selected' : '').'>'. __("is").'</option>
+       </select></div>
+  </div>';
+  
 $allStatus = readStatus();
 echo '<p class="control">';
 echo "<input class=\"input\" name=\"term\" type=\"text\" value=\"";
-// TODO improve input validation
-$term = (!empty($_GET['term']))?$_GET['term']:'';
 if (!empty($term))
     echo htmlspecialchars($_GET['term']);
 echo "\">\n";
 echo  '</p>';
+
+echo '<a href="#" id="advancedsearchlink" class="is-size-7"  style="'.($searchtype == 'advanced' ? 'display:none' : '').'" onclick="showAdvancedSearch(this)"><i class="fas fa-caret-right"></i> '.__("Advanced search").'</a>';
+echo '<input type="hidden" id="searchtype" name="searchtype" value="'.htmlspecialchars($searchtype).'"/>';
+
+echo '</div>';
+echo '</div>';
+echo '</div>';
+
+
+
+
+
+/* Second advanced search line */
+
+echo '<div class="field is-horizontal" id="advancedsearchcondition2" style="'.($searchtype == 'simple' ? 'display:none' : '').'">
+	 <div class="field-label is-normal">';
+echo "<label class=\"label\" for=\"champ2\">&nbsp;</label>\n";
+echo '</div>';
+echo '
+<div class="field-body">
+
+<div class="field has-addons is-expanded">
+  <div class="control">
+   <div class="select">
+	  <select name="op2">
+	      <option value="AND" '.($champ2_operator == 'AND' ? 'selected' : '').'>'. __("and").'</option>
+		  <option value="OR" '.($champ2_operator == 'OR' ? 'selected' : '').'>'. __("or").'</option>
+		  <option value="NOT" '.($champ2_operator == 'NOT' ? 'selected' : '').'>'. __("and not").'</option>
+       </select></div>
+  </div>
+  <div class="control">
+	<div class="select  is-fullwidth">
+';
+echo "<select name=\"champ2\" onchange=\"if(this.value=='id'){document.getElementById('advancedsearchmatchfieldtwo').style.display='none'}else if(document.getElementById('searchtype').value=='advanced'){document.getElementById('advancedsearchmatchfieldtwo').style.display=''}\">\n";
+echo "<option value=\"id\"";
+if ((!empty($champ2)) && ($champ2=='id') )
+    echo " selected";
+echo ">".__("Order number")."</option>\n";
+echo "<option value=\"datecom\"";
+if ((isset($champ2))&&($champ2=='datecom'))
+    echo " selected";
+echo ">".__("Order date (YYY-MM-DD)")."</option>\n";
+echo "<option value=\"dateenv\"";
+if ((!empty($champ2))&&($champ2=='dateenv'))
+    echo " selected";
+echo ">".__("Sending date (YYY-MM-DD)")."</option>\n";
+echo "<option value=\"datefact\"";
+if ((!empty($champ2))&&($champ2=='datefact'))
+    echo " selected";
+echo ">".__("Billing date (YYY-MM-DD)")."</option>\n";
+echo "<option value=\"date\"";
+if ((isset($champ2))&&($champ2=='date'))
+    echo " selected";
+echo ">".__("Date (any; YYY-MM-DD)")."</option>\n";
+/*
+echo "<option value=\"statut\"";
+if ((!empty($champ))&&($champ=='statut'))
+    echo " selected";
+echo ">Statut</option>\n";
+*/
+echo "<option value=\"localisation\"";
+if ((!empty($champ2))&&($champ2=='localisation'))
+    echo " selected";
+echo ">".__("Localization")."</option>\n";
+echo "<option value=\"bibliotheque\"";
+if ((!empty($champ2))&&($champ2=='bibliotheque'))
+    echo " selected";
+echo ">".__("Assignment Library")."</option>\n";
+echo "<option value=\"nom\"";
+if ((!empty($champ2))&&($champ2=='nom'))
+    echo " selected";
+echo ">".__("User name")."</option>\n";
+echo "<option value=\"email\"";
+if ((!empty($champ2))&&($champ2=='email'))
+    echo " selected";
+echo ">".__("User e-mail")."</option>\n";
+echo "<option value=\"service\"";
+if ((!empty($champ2))&&($champ2=='service'))
+    echo " selected";
+echo ">".__("Service")."</option>\n";
+echo "<option value=\"issn\"";
+if ((!empty($champ2))&&($champ2=='issn'))
+    echo " selected";
+echo ">ISSN</option>\n";
+echo "<option value=\"pmid\"";
+if ((!empty($champ2))&&($champ2=='pmid'))
+    echo " selected";
+echo ">PMID</option>\n";
+echo "<option value=\"title\"";
+if ((!empty($champ2))&&($champ2=='title'))
+    echo " selected";
+echo ">".__("Journal title")."</option>\n";
+echo "<option value=\"atitle\"";
+if ((!empty($champ2))&&($champ2=='atitle'))
+    echo " selected";
+echo ">".__("Article title")."</option>\n";
+echo "<option value=\"auteurs\"";
+if ((!empty($champ2))&&($champ2=='auteurs'))
+    echo " selected";
+echo ">".__("Author(s)")."</option>\n";
+echo "<option value=\"reff\"";
+if ((!empty($champ2))&&($champ2=='reff'))
+    echo " selected";
+echo ">".__("Provider ref. (Subito n˚)")."</option>\n";
+echo "<option value=\"refb\"";
+if ((!empty($champ2))&&($champ2=='refb'))
+    echo " selected";
+echo ">".__("Internal library ref.")."</option>\n";
+echo "<option value=\"all\"";
+if ((!empty($champ2))&&($champ2=='all'))
+    echo " selected";
+echo ">".__("All over")."</option>\n";
+echo "</select>\n";
+
+echo '</div>
+  </div>';
+
+echo '  <div class="control"  id="advancedsearchmatchfieldtwo"  '.($champ2 == 'id' ? 'style="display:none"' : '').'>
+	<div class="select  is-fullwidth">
+	  <select name="match2">
+	      <option value="starts" '.($match2 == 'starts' ? 'selected' : '').'>'. __("starts with").'</option>
+		  <option value="contains" '.($match2 == 'contains' ? 'selected' : '').'>'. __("contains").'</option>
+		  <option value="exact" '.($match2 == 'exact' ? 'selected' : '').'>'. __("is").'</option>
+       </select></div>
+  </div>';
+  
+echo '<p class="control">';
+echo "<input class=\"input\" name=\"term2\" type=\"text\" value=\"";
+if (!empty($term2))
+    echo htmlspecialchars($_GET['term2']);
+echo "\">\n";
+echo  '</p>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+
+/* Third advanced search line */
+
+echo '<div class="field is-horizontal" id="advancedsearchcondition3" style="'.($searchtype == 'simple' ? 'display:none' : '').'">
+	 <div class="field-label is-normal">';
+echo "<label class=\"label\" for=\"champ3\"> &nbsp;</label>\n";
+echo '</div>';
+echo '
+<div class="field-body">
+<div class="field has-addons is-expanded">
+  <div class="control">
+	<div class="select">
+	  <select name="op3">
+	      <option value="AND" '.($champ3_operator == 'AND' ? 'selected' : '').'>'. __("and").'</option>
+		  <option value="OR" '.($champ3_operator == 'OR' ? 'selected' : '').'>'. __("or").'</option>
+		  <option value="NOT" '.($champ3_operator == 'NOT' ? 'selected' : '').'>'. __("and not").'</option>
+       </select></div>
+  </div>
+  <div class="control">
+	<div class="select  is-fullwidth">
+';
+echo "<select name=\"champ3\" onchange=\"if(this.value=='id'){document.getElementById('advancedsearchmatchfieldthree').style.display='none'}else if(document.getElementById('searchtype').value=='advanced'){document.getElementById('advancedsearchmatchfieldthree').style.display=''}\">\n";
+echo "<option value=\"id\"";
+if ((!empty($champ3)) && ($champ3=='id') )
+    echo " selected";
+echo ">".__("Order number")."</option>\n";
+echo "<option value=\"datecom\"";
+if ((isset($champ3))&&($champ3=='datecom'))
+    echo " selected";
+echo ">".__("Order date (YYY-MM-DD)")."</option>\n";
+echo "<option value=\"dateenv\"";
+if ((!empty($champ3))&&($champ3=='dateenv'))
+    echo " selected";
+echo ">".__("Sending date (YYY-MM-DD)")."</option>\n";
+echo "<option value=\"datefact\"";
+if ((!empty($champ3))&&($champ3=='datefact'))
+    echo " selected";
+echo ">".__("Billing date (YYY-MM-DD)")."</option>\n";
+echo "<option value=\"date\"";
+if ((isset($champ3))&&($champ3=='date'))
+    echo " selected";
+echo ">".__("Date (any; YYY-MM-DD)")."</option>\n";
+/*
+echo "<option value=\"statut\"";
+if ((!empty($champ))&&($champ=='statut'))
+    echo " selected";
+echo ">Statut</option>\n";
+*/
+echo "<option value=\"localisation\"";
+if ((!empty($champ3))&&($champ3=='localisation'))
+    echo " selected";
+echo ">".__("Localization")."</option>\n";
+echo "<option value=\"bibliotheque\"";
+if ((!empty($champ3))&&($champ3=='bibliotheque'))
+    echo " selected";
+echo ">".__("Assignment Library")."</option>\n";
+echo "<option value=\"nom\"";
+if ((!empty($champ3))&&($champ3=='nom'))
+    echo " selected";
+echo ">".__("User name")."</option>\n";
+echo "<option value=\"email\"";
+if ((!empty($champ3))&&($champ3=='email'))
+    echo " selected";
+echo ">".__("User e-mail")."</option>\n";
+echo "<option value=\"service\"";
+if ((!empty($champ3))&&($champ3=='service'))
+    echo " selected";
+echo ">".__("Service")."</option>\n";
+echo "<option value=\"issn\"";
+if ((!empty($champ3))&&($champ3=='issn'))
+    echo " selected";
+echo ">ISSN</option>\n";
+echo "<option value=\"pmid\"";
+if ((!empty($champ3))&&($champ3=='pmid'))
+    echo " selected";
+echo ">PMID</option>\n";
+echo "<option value=\"title\"";
+if ((!empty($champ3))&&($champ3=='title'))
+    echo " selected";
+echo ">".__("Journal title")."</option>\n";
+echo "<option value=\"atitle\"";
+if ((!empty($champ3))&&($champ3=='atitle'))
+    echo " selected";
+echo ">".__("Article title")."</option>\n";
+echo "<option value=\"auteurs\"";
+if ((!empty($champ3))&&($champ3=='auteurs'))
+    echo " selected";
+echo ">".__("Author(s)")."</option>\n";
+echo "<option value=\"reff\"";
+if ((!empty($champ3))&&($champ3=='reff'))
+    echo " selected";
+echo ">".__("Provider ref. (Subito n˚)")."</option>\n";
+echo "<option value=\"refb\"";
+if ((!empty($champ3))&&($champ3=='refb'))
+    echo " selected";
+echo ">".__("Internal library ref.")."</option>\n";
+echo "<option value=\"all\"";
+if ((!empty($champ3))&&($champ3=='all'))
+    echo " selected";
+echo ">".__("All over")."</option>\n";
+echo "</select>\n";
+
+echo '</div>
+  </div>';
+
+echo '  <div class="control" id="advancedsearchmatchfieldthree" '.($champ3 == 'id' ? 'style="display:none"' : '').'>
+	<div class="select  is-fullwidth">
+	  <select name="match3">
+	      <option value="starts" '.($match == 'starts' ? 'selected' : '').'>'. __("starts with").'</option>
+		  <option value="contains" '.($match3 == 'contains' ? 'selected' : '').'>'. __("contains").'</option>
+		  <option value="exact" '.($match3 == 'exact' ? 'selected' : '').'>'. __("is").'</option>
+       </select></div>
+  </div>';
+  
+echo '<p class="control">';
+echo "<input class=\"input\" name=\"term3\" type=\"text\" value=\"";
+if (!empty($term3))
+    echo htmlspecialchars($_GET['term3']);
+echo "\">\n";
+echo  '</p>';
+
+echo '<a href="#" id="simplesearchlink" class="is-size-7" style="'.($searchtype == 'simple' ? 'display:none' : '').'" onclick="showSimpleSearch(this)"><i class="fas fa-caret-up"></i> '.__("Simple search").'</a>';
+
 echo '</div>';
 echo '</div>';
 echo '</div>';

@@ -109,26 +109,28 @@ echo '
 				echo '<div class="navbar-item has-dropdown is-hoverable">
 					<a class="navbar-link">'.strtoupper($lang).'</a>
 					<div class="navbar-dropdown">';
+						$current_protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+						$current_url = $current_protocol . $_SERVER['HTTP_HOST'] .  parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 						$url_params = $_GET;
 						if (in_array('de', $config_available_langs)) {
 							$url_params['lang'] = 'de';
-							echo '<a class="navbar-item" href="'.$siteUrl. '?' . htmlspecialchars(http_build_query($url_params)). '" title="Deutsch">DE</a>';
+							echo '<a class="navbar-item" href="'.$current_url. '?' . htmlspecialchars(http_build_query($url_params)). '" title="Deutsch">DE</a>';
 						}
 						if (in_array('en', $config_available_langs)) {
 							$url_params['lang'] = 'en';
-							echo '<a class="navbar-item" href="'.$siteUrl. '?' . htmlspecialchars(http_build_query($url_params)).'" title="English">EN</a>';
+							echo '<a class="navbar-item" href="'.$current_url. '?' . htmlspecialchars(http_build_query($url_params)).'" title="English">EN</a>';
 						}
 						if (in_array('es', $config_available_langs)) {
 							$url_params['lang'] = 'es';
-							echo '<a class="navbar-item" href="'.$siteUrl. '?' . htmlspecialchars(http_build_query($url_params)).'" title="Español">ES</a>';
+							echo '<a class="navbar-item" href="'.$current_url. '?' . htmlspecialchars(http_build_query($url_params)).'" title="Español">ES</a>';
 						}
 						if (in_array('fr', $config_available_langs)) {
 							$url_params['lang'] = 'fr';
-							echo '<a class="navbar-item" href="'.$siteUrl. '?' . htmlspecialchars(http_build_query($url_params)).'" title="Français">FR</a>';
+							echo '<a class="navbar-item" href="'.$current_url. '?' . htmlspecialchars(http_build_query($url_params)).'" title="Français">FR</a>';
 					    }
 						if (in_array('it', $config_available_langs)) {
 							$url_params['lang'] = 'it';
-							echo '<a class="navbar-item" href="'.$siteUrl. '?' . htmlspecialchars(http_build_query($url_params)).'" title="Italiano">IT</a>';
+							echo '<a class="navbar-item" href="'.$current_url. '?' . htmlspecialchars(http_build_query($url_params)).'" title="Italiano">IT</a>';
 						}
 					echo '</div>';
 				}

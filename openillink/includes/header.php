@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -33,7 +33,8 @@ error_reporting(-1);
 ini_set('display_errors', 'On');
 
 // Set the $siteUrl as base url for the stylesheets, scripts and links.
-$siteUrl = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['SERVER_NAME'] . dirname($_SERVER['PHP_SELF']);
+$current_http_protocol = (((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on'))  ? 'https://' : 'http://');
+$siteUrl = $current_http_protocol . $_SERVER['SERVER_NAME'] . dirname($_SERVER['PHP_SELF']);
 
 echo "<!DOCTYPE html>\n";
 echo "<html lang=\"" . $lang . "\">\n";
@@ -109,8 +110,7 @@ echo '
 				echo '<div class="navbar-item has-dropdown is-hoverable">
 					<a class="navbar-link">'.strtoupper($lang).'</a>
 					<div class="navbar-dropdown">';
-						$current_protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-						$current_url = $current_protocol . $_SERVER['HTTP_HOST'] .  parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+						$current_url = $current_http_protocol . $_SERVER['HTTP_HOST'] .  parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 						$url_params = $_GET;
 						if (in_array('de', $config_available_langs)) {
 							$url_params['lang'] = 'de';

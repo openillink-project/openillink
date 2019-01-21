@@ -32,7 +32,8 @@ require_once ("includes/connexion.php");
 require_once ("includes/toolkit.php");
 
 $logok=0;
-$monhost = "http://" . $_SERVER['SERVER_NAME'];
+$current_http_protocol = (((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on'))  ? 'https://' : 'http://');
+$monhost = $current_http_protocol . $_SERVER['SERVER_NAME'];
 $monuri = $monhost . rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . "/";
 $rediradmin = "Location: " . $monuri . "list.php?folder=in";
 $rediruser = "Location: " . $monuri . "list.php?folder=in";

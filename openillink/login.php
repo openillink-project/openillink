@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -82,24 +82,29 @@ if(!empty($action)){
                 $logok=$logok+1;
                 for ($i=0 ; $i<$nb ; $i++){
                     $enreg = iimysqli_result_fetch_array($result);
-                    $nom = $enreg['name'];
-                    $login = $enreg['login'];
-                    $status = $enreg['status'];
-                    $library = $enreg['library'];
-                    $admin = $enreg['admin'];
-                    $admin = md5 ($admin . $secure_string_cookie);
-                    setcookie('illinkid[nom]', $nom, (time() + 36000));
-                    setcookie('illinkid[bib]', $library, (time() + 36000));
-                    setcookie('illinkid[aut]', $admin, (time() + 36000));
-                    setcookie('illinkid[log]', $login, (time() + 36000));
-                    if ($monaut=="sadmin")
-                        header("$rediradmin");
-                    if ($monaut=="admin")
-                        header("$rediradmin");
-                    if ($monaut=="user")
-                        header("$rediruser");
-                    if ($monaut=="guest")
-                        header("$redirguest");
+					$status = $enreg['status'];
+					if (1 == $status) {
+						$nom = $enreg['name'];
+						$login = $enreg['login'];
+						$library = $enreg['library'];
+						$admin = $enreg['admin'];
+						$admin = md5 ($admin . $secure_string_cookie);
+						setcookie('illinkid[nom]', $nom, (time() + 36000));
+						setcookie('illinkid[bib]', $library, (time() + 36000));
+						setcookie('illinkid[aut]', $admin, (time() + 36000));
+						setcookie('illinkid[log]', $login, (time() + 36000));
+						if ($monaut=="sadmin")
+							header("$rediradmin");
+						if ($monaut=="admin")
+							header("$rediradmin");
+						if ($monaut=="user")
+							header("$rediruser");
+						if ($monaut=="guest")
+							header("$redirguest");
+					} else {
+						# Generic error message: we do not want to disclose that account exists but been disabled
+						$mes='Le login ou le password ne sont pas corrects';
+					}
                 }
             }
             else{
@@ -123,6 +128,7 @@ if(!empty($action)){
 
 $log = ((!empty($_POST['log'])) && isValidInput($_POST['log'],255,'s',false))?$_POST['log']:NULL;
 $pwd = ((!empty($_POST['pwd'])) && isValidInput($_POST['pwd'],255,'s',false))?$_POST['pwd']:NULL;
+$login_type = '';
 if ((!empty($log))&&(!empty($pwd))){
     $logok=0;
     $password=md5($pwd);
@@ -132,34 +138,43 @@ if ((!empty($log))&&(!empty($pwd))){
     $nb = iimysqli_num_rows($result);
     if ($nb == 1){
         // the user id and password match,
-        $logok=$logok+1;
-        $enreg = iimysqli_result_fetch_array($result);
-        $nom = $enreg['name'];
-        $login = $enreg['login'];
-        $status = $enreg['status'];
-        $library = $enreg['library'];
-        $admin = $enreg['admin'];
-        $admin = md5 ($admin . $secure_string_cookie);
-        setcookie('illinkid[nom]', $nom, (time() + 36000));
-        setcookie('illinkid[bib]', $library, (time() + 36000));
-        setcookie('illinkid[aut]', $admin, (time() + 36000));
-        setcookie('illinkid[log]', $login, (time() + 36000));
-        if (in_array($enreg['admin'], array($auth_sadmin, $auth_admin)))
-           header("$rediradmin");
-        if ($enreg['admin'] == $auth_user)
-           header("$rediruser");
-        if ($enreg['admin'] == $auth_guest)
-           header("$redirguest");
-    }
-    else
+		$login_type = 'account';
+		$enreg = iimysqli_result_fetch_array($result);
+		$status = $enreg['status'];
+		if (1 == $status) {
+			$logok=$logok+1;
+			$nom = $enreg['name'];
+			$login = $enreg['login'];
+			$library = $enreg['library'];
+			$admin = $enreg['admin'];
+			$admin = md5 ($admin . $secure_string_cookie);
+			setcookie('illinkid[nom]', $nom, (time() + 36000));
+			setcookie('illinkid[bib]', $library, (time() + 36000));
+			setcookie('illinkid[aut]', $admin, (time() + 36000));
+			setcookie('illinkid[log]', $login, (time() + 36000));
+			if (in_array($enreg['admin'], array($auth_sadmin, $auth_admin))) {
+			   header("$rediradmin");
+			}
+			if ($enreg['admin'] == $auth_user) {
+			   header("$rediruser");
+			}
+			if ($enreg['admin'] == $auth_guest) {
+			   header("$redirguest");
+			}
+		} else {
+			$mes='Le login ou le password ne sont pas corrects';
+		}
+    } else {
         $mes='Le login ou le password ne sont pas corrects';
+	}
 }
-if ((!empty($log))||(!empty($pwd))){
+if (((!empty($log))||(!empty($pwd))) && ($login_type != 'account')){
     if ($logok==0){
         // Connexion par login crypté
         $mailg = strtolower($log) . $secure_string_guest_login;
         $passwordg = substr(md5($mailg), 0, 8);
         if ($pwd == $passwordg){
+			$login_type = 'guest_account';
             $cookie_guest = md5 ($auth_guest . $secure_string_cookie);
             $logok=$logok+1;
             setcookie('illinkid[nom]', strtolower($log), (time() + 36000));
@@ -168,8 +183,9 @@ if ((!empty($log))||(!empty($pwd))){
             setcookie('illinkid[log]', strtolower($log), (time() + 36000));
             header("$redirguest");
         }
-        else
+        else {
             $mes='Le login ou le password ne sont pas corrects';
+		}
     }
 }
 require ("includes/header.php");
@@ -186,9 +202,9 @@ if (!empty($mes)){
 }
 if ($shibboleth == 1)
     echo "<a href=\"". $shibbolethurl . "\"><img src=\"img/shibboleth.png\" alt=\"Shibboleth authentication\" style=\"float:right;\"/></a>";
-if (empty($log))
- $log='';
-
+if (empty($log)) {
+   $log='';
+}
 echo '
 <div class="container">
 	<div class="columns is-centered">

@@ -71,7 +71,7 @@ if(!empty($action)){
         $email = strtolower($_SERVER['Shib-InetOrgPerson-mail']);
         if (strlen($email)<6){
             $email = 'nobody@nowhere.ch';
-            $mes='Votre login Shibboleth ne correspond pas avec un compte sur OpenILLink, veuillez contacter l\'administrateur du site : ' . $configemail;
+            $mes=format_string(__("Your institutional login is not authorized to access %sitename. If needed please %x_url_startcontact the administrator%x_url_end."), array('x_url_start' => '<a href="mailto:'.$configemail.'">', 'x_url_end' => '</a>', 'sitename' => $sitetitle[$lang]));
         }
         else{
             // check if the user id and password combination exist in database
@@ -104,7 +104,7 @@ if(!empty($action)){
 							header("$redirguest");
 					} else {
 						# Generic error message: we do not want to disclose that account exists but been disabled
-						$mes='Le login ou le password ne sont pas corrects';
+						$mes=__("The username or password you entered is incorrect");
 					}
                 }
             }
@@ -163,10 +163,10 @@ if ((!empty($log))&&(!empty($pwd))){
 			   header("$redirguest");
 			}
 		} else {
-			$mes='Le login ou le password ne sont pas corrects';
+			$mes=__("The username or password you entered is incorrect");
 		}
     } else {
-        $mes='Le login ou le password ne sont pas corrects';
+        $mes=__("The username or password you entered is incorrect");
 	}
 }
 if (((!empty($log))||(!empty($pwd))) && ($login_type != 'account')){
@@ -185,7 +185,7 @@ if (((!empty($log))||(!empty($pwd))) && ($login_type != 'account')){
             header("$redirguest");
         }
         else {
-            $mes='Le login ou le password ne sont pas corrects';
+            $mes=__("The username or password you entered is incorrect");
 		}
     }
 }

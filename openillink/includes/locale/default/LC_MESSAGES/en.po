@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenILLink\n"
-"POT-Creation-Date: 2018-11-13 15:17+0100\n"
-"PO-Revision-Date: 2018-11-13 15:17+0100\n"
+"POT-Creation-Date: 2019-01-22 08:22+0100\n"
+"PO-Revision-Date: 2019-01-22 08:22+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -559,62 +559,62 @@ msgstr ""
 msgid "Powered by"
 msgstr ""
 
-#: includes/header.php:106 includes/headeradmin.php:136 index.php:234
+#: includes/header.php:107 includes/headeradmin.php:137 index.php:234
 msgid "New Order"
 msgstr ""
 
-#: includes/header.php:138 includes/loginfail.php:67 login.php:224
+#: includes/header.php:138 includes/loginfail.php:67 login.php:241
 msgid "Login"
 msgstr ""
 
-#: includes/headeradmin.php:122
+#: includes/headeradmin.php:123
 msgid "Inbox"
 msgstr ""
 
-#: includes/headeradmin.php:122 includes/orders_detail.php:182
+#: includes/headeradmin.php:123 includes/orders_detail.php:182
 #: includes/orders_detail.php:184 includes/orders_detail.php:186
 #: includes/ordertop.php:102 includes/ordertop.php:104
 #: includes/ordertop.php:106
 msgid "In"
 msgstr ""
 
-#: includes/headeradmin.php:123
+#: includes/headeradmin.php:124
 msgid "Orders sent to the outside and not yet received"
 msgstr ""
 
-#: includes/headeradmin.php:123
+#: includes/headeradmin.php:124
 msgid "Out"
 msgstr ""
 
-#: includes/headeradmin.php:124
+#: includes/headeradmin.php:125
 msgid "All orders"
 msgstr ""
 
-#: includes/headeradmin.php:124
+#: includes/headeradmin.php:125
 msgid "All"
 msgstr ""
 
-#: includes/headeradmin.php:125
+#: includes/headeradmin.php:126
 msgid "Orders deleted"
 msgstr ""
 
-#: includes/headeradmin.php:125
+#: includes/headeradmin.php:126
 msgid "Trash"
 msgstr ""
 
-#: includes/headeradmin.php:131
+#: includes/headeradmin.php:132
 msgid "See all my orders"
 msgstr ""
 
-#: includes/headeradmin.php:131
+#: includes/headeradmin.php:132
 msgid "My orders"
 msgstr ""
 
-#: includes/headeradmin.php:139
+#: includes/headeradmin.php:140
 msgid "Administration of users and values"
 msgstr ""
 
-#: includes/headeradmin.php:140
+#: includes/headeradmin.php:141
 msgid "Obtain configured reports"
 msgstr ""
 
@@ -1080,26 +1080,26 @@ msgstr ""
 msgid "You are not allowed to access this page or your session has expired"
 msgstr ""
 
-#: includes/loginfail.php:47 login.php:197
+#: includes/loginfail.php:47 login.php:214
 msgid "Log in"
 msgstr ""
 
 #: includes/loginfail.php:51 includes/orders_detail.php:243
 #: includes/users_edit.php:109 includes/users_list.php:67
-#: includes/users_new.php:56 login.php:201
+#: includes/users_new.php:56 login.php:218
 msgid "Username"
 msgstr ""
 
 #: includes/loginfail.php:59 includes/orders_detail.php:243
-#: includes/users_new.php:89 login.php:209
+#: includes/users_new.php:89 login.php:226
 msgid "Password"
 msgstr ""
 
-#: includes/loginfail.php:77 login.php:240
+#: includes/loginfail.php:77 login.php:257
 msgid "Request password"
 msgstr ""
 
-#: includes/loginfail.php:77 login.php:240
+#: includes/loginfail.php:77 login.php:257
 msgid "Service only available to users with an openillink command"
 msgstr ""
 
@@ -2270,6 +2270,17 @@ msgstr ""
 
 #: index.php:1060
 msgid "Save order"
+msgstr ""
+
+#: login.php:74
+#, php-format
+msgid ""
+"Your institutional login is not authorized to access %sitename. If needed "
+"please %x_url_startcontact the administrator%x_url_end."
+msgstr ""
+
+#: login.php:107 login.php:166 login.php:169 login.php:188
+msgid "The username or password you entered is incorrect"
 msgstr ""
 
 #: reports.php:48

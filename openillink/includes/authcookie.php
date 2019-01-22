@@ -42,8 +42,9 @@ if (!empty($_COOKIE['illinkid'])){
     $cookie_login = ((!empty($_COOKIE['illinkid']['log'])) && isValidInput($_COOKIE['illinkid']['log'],255,'s',false) )? $_COOKIE['illinkid']['log']:'';
 	$cookie_expiration_time= ((!empty($_COOKIE['illinkid']['exp'])) && isValidInput($_COOKIE['illinkid']['exp'],255,'i',false) )? $_COOKIE['illinkid']['exp']: '';
 	$cookie_checksum = ((!empty($_COOKIE['illinkid']['chk'])) && isValidInput($_COOKIE['illinkid']['chk'],255,'s',false) )? $_COOKIE['illinkid']['chk']: '';
+	$cookie_sso = ((!empty($_COOKIE['illinkid']['sso'])) && isValidInput($_COOKIE['illinkid']['sso'],1,'i',false) )? $_COOKIE['illinkid']['sso']: '';
 	
-	$checksum = hash("sha256", $cookie_name.$cookie_library.strval($cookie_auth_level).$cookie_login.strval($cookie_expiration_time).$secure_string_cookie);
+	$checksum = hash("sha256", $cookie_name.$cookie_library.strval($cookie_auth_level).$cookie_login.strval($cookie_expiration_time).($cookie_sso ? '1' : '0').$secure_string_cookie);
 	
 	if (($checksum == $cookie_checksum) && ($cookie_expiration_time > time())){
 		$monnom = $cookie_name;
@@ -61,18 +62,19 @@ if (!empty($_COOKIE['illinkid'])){
 	}
 }
 
-function create_session_cookie($name, $library, $auth_level, $login, $duration=36000) {
+function create_session_cookie($name, $library, $auth_level, $login, $is_sso=false, $duration=36000) {
 	/* Set a cookie for the given values */
 	global $secure_string_cookie;
 	$current_time = time();
 	$expiration_time = $current_time + $duration;
-	$checksum = hash("sha256", $name.$library.strval($auth_level).$login.strval($expiration_time).$secure_string_cookie);
+	$checksum = hash("sha256", $name.$library.strval($auth_level).$login.strval($expiration_time).($is_sso ? '1' : '0').$secure_string_cookie);
 	setcookie('illinkid[nom]', $name, $expiration_time);
 	setcookie('illinkid[bib]', $library, $expiration_time);
 	setcookie('illinkid[aut]', $auth_level, $expiration_time);
 	setcookie('illinkid[log]', $login, $expiration_time);
 	setcookie('illinkid[chk]', $checksum, $expiration_time);
 	setcookie('illinkid[exp]', $expiration_time, $expiration_time);
+	setcookie('illinkid[sso]', $is_sso ? '1' : '0', $expiration_time);
 	
 }
 ?>

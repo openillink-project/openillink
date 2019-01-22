@@ -54,12 +54,20 @@ if (!empty($_COOKIE['illinkid'])) {
 }
 if(!empty($action)){
     if ($action == 'logout'){
+		$logged_in_with_shibboleth = false;
+		if (!empty($_COOKIE['illinkid']) && !empty($_COOKIE['illinkid']['sso']) && $_COOKIE['illinkid']['sso'] == "1") {
+			$logged_in_with_shibboleth = true;
+		}
         setcookie('illinkid[nom]', '', (time() - 31536000));
         setcookie('illinkid[bib]', '', (time() - 31536000));
         setcookie('illinkid[aut]', '', (time() - 31536000));
         setcookie('illinkid[log]', '', (time() - 31536000));
 		setcookie('illinkid[chk]', '', (time() - 31536000));
 		setcookie('illinkid[exp]', '', (time() - 31536000));
+		setcookie('illinkid[sso]', '', (time() - 31536000));
+		if ($config_shibboleth_enabled == 1 && $logged_in_with_shibboleth) {
+			header("Location: " . str_replace('_OPENILLINK_RETURN_URL_', $monuri.'login.php', $config_shibboleth_logout_url));
+		}
     }
 
     // *********************************
@@ -67,12 +75,12 @@ if(!empty($action)){
     // shibboleth authentication
     // *********************************
     // *********************************
-    if (($shibboleth == 1) && ($action == 'shibboleth')){
-        $email = 'nobody@nowhere.ch';
-        // $email = strtolower($_SERVER['mail']);
-        $email = strtolower($_SERVER['Shib-InetOrgPerson-mail']);
+    if (($config_shibboleth_enabled == 1) && ($action == 'shibboleth')){
+		$email = "";
+		if (array_key_exists($config_shibboleth_email_attr, $_SERVER)) {
+			$email = strtolower($_SERVER[$config_shibboleth_email_attr]);
+		}
         if (strlen($email)<6){
-            $email = 'nobody@nowhere.ch';
             $mes=format_string(__("Your institutional login is not authorized to access %sitename. If needed please %x_url_startcontact the administrator%x_url_end."), array('x_url_start' => '<a href="mailto:'.$configemail.'">', 'x_url_end' => '</a>', 'sitename' => $sitetitle[$lang]));
         }
         else{
@@ -91,15 +99,16 @@ if(!empty($action)){
 						$login = $enreg['login'];
 						$library = $enreg['library'];
 						$admin = $enreg['admin'];
-						create_session_cookie($nom, $library, $admin, $login);
-						if ($enreg['admin']=="sadmin")
-							header("$rediradmin");
-						if ($enreg['admin']=="admin")
-							header("$rediradmin");
-						if ($enreg['admin']=="user")
-							header("$rediruser");
-						if ($enreg['admin']=="guest")
-							header("$redirguest");
+						create_session_cookie($nom, $library, $admin, $login, true);
+						if (in_array($enreg['admin'], array($auth_sadmin, $auth_admin))) {
+						   header("$rediradmin");
+						}
+						if ($enreg['admin'] == $auth_user) {
+						   header("$rediruser");
+						}
+						if ($enreg['admin'] == $auth_guest) {
+						   header("$redirguest");
+						}
 					} else {
 						# Generic error message: we do not want to disclose that account exists but been disabled
 						$mes=__("The username or password you entered is incorrect");
@@ -109,7 +118,7 @@ if(!empty($action)){
             else{
                  // the user id and password don't match, so guest with login = email
                  $logok=$logok+1;
-				 create_session_cookie($email, 'guest', $auth_guest, $email);
+				 create_session_cookie($email, 'guest', $auth_guest, $email, true);
                  header("$redirguest");
             }
         }
@@ -142,7 +151,7 @@ if ((!empty($log))&&(!empty($pwd))){
 			$login = $enreg['login'];
 			$library = $enreg['library'];
 			$admin = $enreg['admin'];
-			create_session_cookie($nom, $library, $admin, $login);
+			create_session_cookie($nom, $library, $admin, $login, false);
 			if (in_array($enreg['admin'], array($auth_sadmin, $auth_admin))) {
 			   header("$rediradmin");
 			}
@@ -167,7 +176,7 @@ if (((!empty($log))||(!empty($pwd))) && ($login_type != 'account')){
         if ($pwd == $passwordg){
 			$login_type = 'guest_account';
             $logok=$logok+1;
-			create_session_cookie(strtolower($log), 'guest', $auth_guest, strtolower($log));
+			create_session_cookie(strtolower($log), 'guest', $auth_guest, strtolower($log), false);
             header("$redirguest");
         }
         else {
@@ -187,8 +196,7 @@ if (!empty($mes)){
   </div>
 </article></div></div><br/><br/>';
 }
-if ($shibboleth == 1)
-    echo "<a href=\"". $shibbolethurl . "\"><img src=\"img/shibboleth.png\" alt=\"Shibboleth authentication\" style=\"float:right;\"/></a>";
+
 if (empty($log)) {
    $log='';
 }
@@ -231,7 +239,9 @@ echo '
 			</div>
 		</article>
 	</div>';
-
+if ($config_shibboleth_enabled == 1){
+	echo '<div class="columns is-centered" style="margin-top:5px"><p>' . format_string(__('or %x_url_startlog in with your institutional account%x_url_end%description'), array('x_url_start' => '<a href="'.$config_shibboleth_login_url.'">', 'x_url_end' => '</a>', 'description' => $config_shibboleth_login_description[$lang])) . '</p></div>';
+}
 if ((!empty($action)) && $action == 'logout'){
     $monnom="";
     $monaut="";

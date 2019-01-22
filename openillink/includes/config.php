@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -238,11 +238,35 @@ $doctypes = array(
 			  array('name' => __("Other"), 'code' => "other"),
 		  );
 
-// shibboleth authentication (0 inactive, 1 active)
-$shibboleth = 0;
+// Shibboleth authentication (0 inactive, 1 active)
+$config_shibboleth_enabled = 0;
 
-// shibboleth url including entityID, return URL and target (redirection to the login.php)
-$shibbolethurl = "https://wayf.www.univxyz.com/shibboleth/WAYF?entityID=https%3A%2F%2Fwww.univxyz.com%2Fshibboleth&return=http%3A%2F%2Fwww.univxyz.com%2FShibboleth.sso%2FDS%3FSAMLDS%3D1%26target%3Dhttp%3A%2F%2Fwww.univxyz.com%2Flogin.php%26action%3Dshibboleth";
+// Shibboleth login url including entityID, return URL and target (redirection to the login.php)
+$config_shibboleth_login_url = "https://wayf.www.univxyz.com/shibboleth/WAYF?entityID=https%3A%2F%2Fwww.univxyz.com%2Fshibboleth&return=http%3A%2F%2Fwww.univxyz.com%2FShibboleth.sso%2FDS%3FSAMLDS%3D1%26target%3Dhttp%3A%2F%2Fwww.univxyz.com%2Flogin.php%26action%3Dshibboleth";
+
+// Shibboleth logout url. You might want to ensure that the logout URL has a way
+// to specify a return URL (eg. via 'return' parameter) that you can include in 
+// the configuration variable below to redirect to this OpenILLink server. To help
+// with this, any keyword '_OPENILLINK_RETURN_URL_' within the configuration below
+// will be replaced with an adequate return URL
+$config_shibboleth_logout_url = "";
+
+// Shibboleth email attribute provided by the service provider. OpenILLink expects
+// to retrieve the email of the logged in user in the corresponding attribute
+// of this web server environement. Email is then matched with existing OpenILLink 
+// accounts in OpenILLink. When no corresponding account exists, the user is 
+// considered as guest.
+$config_shibboleth_email_attr = "mail";
+
+// Description displayed after the institutional login link. This gives a chance
+// to clarify the meaning of the "institutional login", for eg. by providing
+// the advertised name for SSO institution-wide, an icon, etc. The content is
+// of this variable is not HTML-escaped.
+$config_shibboleth_login_description["fr"] = "";
+$config_shibboleth_login_description["en"] = "";
+$config_shibboleth_login_description["de"] = "";
+$config_shibboleth_login_description["it"] = "";
+$config_shibboleth_login_description["es"] = "";
 
 // Currency
 

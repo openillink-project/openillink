@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenILLink\n"
-"POT-Creation-Date: 2019-01-22 08:27+0100\n"
-"PO-Revision-Date: 2019-01-22 08:27+0100\n"
+"POT-Creation-Date: 2019-01-22 11:40+0100\n"
+"PO-Revision-Date: 2019-01-22 11:42+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -174,13 +174,13 @@ msgstr "Article d'une conférence"
 msgid "Other"
 msgstr "Autre"
 
-#: includes/config.php:372 includes/config.php:373 includes/config.php:374
-#: includes/config.php:375 includes/config.php:376
+#: includes/config.php:392 includes/config.php:393 includes/config.php:394
+#: includes/config.php:395 includes/config.php:396
 msgid "Please note, all orders are subject to a financial contribution"
 msgstr "Attention, toute commande est soumise à une participation financière"
 
-#: includes/config.php:372 includes/config.php:373 includes/config.php:374
-#: includes/config.php:375 includes/config.php:376
+#: includes/config.php:392 includes/config.php:393 includes/config.php:394
+#: includes/config.php:395 includes/config.php:396
 msgid "Contact us by email for more information (pricing, billing, etc.)"
 msgstr ""
 "Pour plus de renseignements (tarifs, facturation, etc.) contactez nous par "
@@ -571,7 +571,7 @@ msgstr "Site propulsé par"
 msgid "New Order"
 msgstr "Nouvelle commande"
 
-#: includes/header.php:138 includes/loginfail.php:67 login.php:241
+#: includes/header.php:138 includes/loginfail.php:65 login.php:237
 msgid "Login"
 msgstr "Se connecter"
 
@@ -1099,26 +1099,32 @@ msgid "You are not allowed to access this page or your session has expired"
 msgstr ""
 "Vous n’êtes pas autorisé à accéder à cette page ou votre session a expiré"
 
-#: includes/loginfail.php:47 login.php:214
+#: includes/loginfail.php:45 login.php:210
 msgid "Log in"
 msgstr "Connexion"
 
-#: includes/loginfail.php:51 includes/orders_detail.php:243
+#: includes/loginfail.php:49 includes/orders_detail.php:243
 #: includes/users_edit.php:109 includes/users_list.php:67
-#: includes/users_new.php:56 login.php:218
+#: includes/users_new.php:56 login.php:214
 msgid "Username"
 msgstr "Nom d’utilisateur"
 
-#: includes/loginfail.php:59 includes/orders_detail.php:243
-#: includes/users_new.php:89 login.php:226
+#: includes/loginfail.php:57 includes/orders_detail.php:243
+#: includes/users_new.php:89 login.php:222
 msgid "Password"
 msgstr "Mot de passe"
 
-#: includes/loginfail.php:77 login.php:257
+#: includes/loginfail.php:73 login.php:245
+#, php-format
+msgid ""
+"or %x_url_startlog in with your institutional account%x_url_end%description"
+msgstr "ou %x_url_startauthentification institutionnelle%x_url_end%description"
+
+#: includes/loginfail.php:78 login.php:255
 msgid "Request password"
 msgstr "Demander un mot de passe"
 
-#: includes/loginfail.php:77 login.php:257
+#: includes/loginfail.php:78 login.php:255
 msgid "Service only available to users with an openillink command"
 msgstr ""
 "Service disponible uniquement pour les utilisateurs avec une commande "
@@ -2324,7 +2330,7 @@ msgstr "Envoyer la commande"
 msgid "Save order"
 msgstr "Enregistrer la commande"
 
-#: login.php:74
+#: login.php:71
 #, php-format
 msgid ""
 "Your institutional login is not authorized to access %sitename. If needed "
@@ -2333,7 +2339,7 @@ msgstr ""
 "Votre login institutionnel n'est pas autorisé à accéder à %sitename. Si "
 "nécessaire veuillez contacter %x_url_startl'administrateur%x_url_end."
 
-#: login.php:107 login.php:166 login.php:169 login.php:188
+#: login.php:104 login.php:163 login.php:166 login.php:185
 msgid "The username or password you entered is incorrect"
 msgstr "Le nom d'utilisateur ou le mot de passe saisi est incorrect"
 

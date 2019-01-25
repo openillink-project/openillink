@@ -99,7 +99,7 @@ if(!empty($action)){
 						$login = $enreg['login'];
 						$library = $enreg['library'];
 						$admin = $enreg['admin'];
-						create_session_cookie($nom, $library, $admin, $login, true);
+						create_session_cookie($nom, $library, $admin, $login, true, ($current_http_protocol=='https://'));
 						if (in_array($enreg['admin'], array($auth_sadmin, $auth_admin))) {
 						   header("$rediradmin");
 						}
@@ -118,7 +118,7 @@ if(!empty($action)){
             else{
                  // the user id and password don't match, so guest with login = email
                  $logok=$logok+1;
-				 create_session_cookie($email, 'guest', $auth_guest, $email, true);
+				 create_session_cookie($email, 'guest', $auth_guest, $email, true, ($current_http_protocol=='https://'));
                  header("$redirguest");
             }
         }
@@ -151,7 +151,7 @@ if ((!empty($log))&&(!empty($pwd))){
 			$login = $enreg['login'];
 			$library = $enreg['library'];
 			$admin = $enreg['admin'];
-			create_session_cookie($nom, $library, $admin, $login, false);
+			create_session_cookie($nom, $library, $admin, $login, false, ($current_http_protocol=='https://'));
 			if (in_array($enreg['admin'], array($auth_sadmin, $auth_admin))) {
 			   header("$rediradmin");
 			}
@@ -176,7 +176,7 @@ if (((!empty($log))||(!empty($pwd))) && ($login_type != 'account')){
         if ($pwd == $passwordg){
 			$login_type = 'guest_account';
             $logok=$logok+1;
-			create_session_cookie(strtolower($log), 'guest', $auth_guest, strtolower($log), false);
+			create_session_cookie(strtolower($log), 'guest', $auth_guest, strtolower($log), false, ($current_http_protocol=='https://'));
             header("$redirguest");
         }
         else {

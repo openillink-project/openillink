@@ -62,19 +62,18 @@ if (!empty($_COOKIE['illinkid'])){
 	}
 }
 
-function create_session_cookie($name, $library, $auth_level, $login, $is_sso=false, $duration=36000) {
+function create_session_cookie($name, $library, $auth_level, $login, $is_sso=false, $secure=true, $httponly=true, $duration=36000) {
 	/* Set a cookie for the given values */
 	global $secure_string_cookie;
 	$current_time = time();
 	$expiration_time = $current_time + $duration;
 	$checksum = hash("sha256", $name.$library.strval($auth_level).$login.strval($expiration_time).($is_sso ? '1' : '0').$secure_string_cookie);
-	setcookie('illinkid[nom]', $name, $expiration_time);
-	setcookie('illinkid[bib]', $library, $expiration_time);
-	setcookie('illinkid[aut]', $auth_level, $expiration_time);
-	setcookie('illinkid[log]', $login, $expiration_time);
-	setcookie('illinkid[chk]', $checksum, $expiration_time);
-	setcookie('illinkid[exp]', $expiration_time, $expiration_time);
-	setcookie('illinkid[sso]', $is_sso ? '1' : '0', $expiration_time);
-	
+	setcookie('illinkid[nom]', $name, $expiration_time, "", "", $secure, $httponly);
+	setcookie('illinkid[bib]', $library, $expiration_time, "", "", $secure, $httponly);
+	setcookie('illinkid[aut]', $auth_level, $expiration_time, "", "", $secure, $httponly);
+	setcookie('illinkid[log]', $login, $expiration_time, "", "", $secure, $httponly);
+	setcookie('illinkid[chk]', $checksum, $expiration_time, "", "", $secure, $httponly);
+	setcookie('illinkid[exp]', $expiration_time, $expiration_time, "", "", $secure, $httponly);
+	setcookie('illinkid[sso]', $is_sso ? '1' : '0', $expiration_time, "", "", $secure, $httponly);
 }
 ?>

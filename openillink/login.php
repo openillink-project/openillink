@@ -58,6 +58,8 @@ if(!empty($action)){
         setcookie('illinkid[bib]', '', (time() - 31536000));
         setcookie('illinkid[aut]', '', (time() - 31536000));
         setcookie('illinkid[log]', '', (time() - 31536000));
+		setcookie('illinkid[chk]', '', (time() - 31536000));
+		setcookie('illinkid[exp]', '', (time() - 31536000));
     }
 
     // *********************************
@@ -89,18 +91,14 @@ if(!empty($action)){
 						$login = $enreg['login'];
 						$library = $enreg['library'];
 						$admin = $enreg['admin'];
-						$admin = md5 ($admin . $secure_string_cookie);
-						setcookie('illinkid[nom]', $nom, (time() + 36000));
-						setcookie('illinkid[bib]', $library, (time() + 36000));
-						setcookie('illinkid[aut]', $admin, (time() + 36000));
-						setcookie('illinkid[log]', $login, (time() + 36000));
-						if ($monaut=="sadmin")
+						create_session_cookie($nom, $library, $admin, $login);
+						if ($enreg['admin']=="sadmin")
 							header("$rediradmin");
-						if ($monaut=="admin")
+						if ($enreg['admin']=="admin")
 							header("$rediradmin");
-						if ($monaut=="user")
+						if ($enreg['admin']=="user")
 							header("$rediruser");
-						if ($monaut=="guest")
+						if ($enreg['admin']=="guest")
 							header("$redirguest");
 					} else {
 						# Generic error message: we do not want to disclose that account exists but been disabled
@@ -110,12 +108,8 @@ if(!empty($action)){
             }
             else{
                  // the user id and password don't match, so guest with login = email
-                 $cookie_guest = md5 ("9" . $secure_string_cookie);
                  $logok=$logok+1;
-                 setcookie('illinkid[nom]', $email, (time() + 36000));
-                 setcookie('illinkid[bib]', 'guest', (time() + 36000));
-                 setcookie('illinkid[aut]', $cookie_guest, (time() + 36000));
-                 setcookie('illinkid[log]', $email, (time() + 36000));
+				 create_session_cookie($email, 'guest', $auth_guest, $email);
                  header("$redirguest");
             }
         }
@@ -148,11 +142,7 @@ if ((!empty($log))&&(!empty($pwd))){
 			$login = $enreg['login'];
 			$library = $enreg['library'];
 			$admin = $enreg['admin'];
-			$admin = md5 ($admin . $secure_string_cookie);
-			setcookie('illinkid[nom]', $nom, (time() + 36000));
-			setcookie('illinkid[bib]', $library, (time() + 36000));
-			setcookie('illinkid[aut]', $admin, (time() + 36000));
-			setcookie('illinkid[log]', $login, (time() + 36000));
+			create_session_cookie($nom, $library, $admin, $login);
 			if (in_array($enreg['admin'], array($auth_sadmin, $auth_admin))) {
 			   header("$rediradmin");
 			}
@@ -176,12 +166,8 @@ if (((!empty($log))||(!empty($pwd))) && ($login_type != 'account')){
         $passwordg = substr(md5($mailg), 0, 8);
         if ($pwd == $passwordg){
 			$login_type = 'guest_account';
-            $cookie_guest = md5 ($auth_guest . $secure_string_cookie);
             $logok=$logok+1;
-            setcookie('illinkid[nom]', strtolower($log), (time() + 36000));
-            setcookie('illinkid[bib]', 'guest', (time() + 36000));
-            setcookie('illinkid[aut]', $cookie_guest, (time() + 36000));
-            setcookie('illinkid[log]', strtolower($log), (time() + 36000));
+			create_session_cookie(strtolower($log), 'guest', $auth_guest, strtolower($log));
             header("$redirguest");
         }
         else {

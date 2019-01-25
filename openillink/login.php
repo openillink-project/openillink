@@ -135,31 +135,40 @@ $pwd = ((!empty($_POST['pwd'])) && isValidInput($_POST['pwd'],255,'s',false))?$_
 $login_type = '';
 if ((!empty($log))&&(!empty($pwd))){
     $logok=0;
-    $password=md5($pwd);
     // check if the user id and password combination exist in database
-    $req = "SELECT * FROM users WHERE login = ? AND password = ?";
-    $result = dbquery($req, array($log, $password), "ss");
+    $req = "SELECT * FROM users WHERE login = ?";
+    $result = dbquery($req, array($log), "s");
     $nb = iimysqli_num_rows($result);
     if ($nb == 1){
-        // the user id and password match,
-		$login_type = 'account';
 		$enreg = iimysqli_result_fetch_array($result);
-		$status = $enreg['status'];
-		if (1 == $status) {
-			$logok=$logok+1;
-			$nom = $enreg['name'];
-			$login = $enreg['login'];
-			$library = $enreg['library'];
-			$admin = $enreg['admin'];
-			create_session_cookie($nom, $library, $admin, $login, false, ($current_http_protocol=='https://'));
-			if (in_array($enreg['admin'], array($auth_sadmin, $auth_admin))) {
-			   header("$rediradmin");
-			}
-			if ($enreg['admin'] == $auth_user) {
-			   header("$rediruser");
-			}
-			if ($enreg['admin'] == $auth_guest) {
-			   header("$redirguest");
+		$password_hash_matched_p = password_verify($pwd, $enreg['password']);
+		if (!$password_hash_matched_p && hash_equals(md5($pwd), $enreg['password'])) {
+			# old hashing technique still stored in DB for user, update password hash now
+			$query = "UPDATE users SET password=? WHERE user_id=?";
+			dbquery($query, array(password_hash($pwd, PASSWORD_DEFAULT), $enreg['user_id']), 'si') or die("Error : ".mysqli_error());
+			$password_hash_matched_p = true;
+		}
+		if ($password_hash_matched_p) {
+			$login_type = 'account'; // login type set to account even if user is deactivated
+			$status = $enreg['status'];
+			if (1 == $status) {
+				$logok=$logok+1;
+				$nom = $enreg['name'];
+				$login = $enreg['login'];
+				$library = $enreg['library'];
+				$admin = $enreg['admin'];
+				create_session_cookie($nom, $library, $admin, $login, false, ($current_http_protocol=='https://'));
+				if (in_array($enreg['admin'], array($auth_sadmin, $auth_admin))) {
+				   header("$rediradmin");
+				}
+				if ($enreg['admin'] == $auth_user) {
+				   header("$rediruser");
+				}
+				if ($enreg['admin'] == $auth_guest) {
+				   header("$redirguest");
+				}
+			} else {
+				$mes=__("The username or password you entered is incorrect");
 			}
 		} else {
 			$mes=__("The username or password you entered is incorrect");
@@ -172,7 +181,7 @@ if (((!empty($log))||(!empty($pwd))) && ($login_type != 'account')){
     if ($logok==0){
         // Connexion par login crypté
         $mailg = strtolower($log) . $secure_string_guest_login;
-        $passwordg = substr(md5($mailg), 0, 8);
+        $passwordg = substr(hash("sha256", $mailg), 0, 8);
         if ($pwd == $passwordg){
 			$login_type = 'guest_account';
             $logok=$logok+1;

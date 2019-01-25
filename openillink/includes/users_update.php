@@ -64,7 +64,7 @@ if (!empty($_COOKIE['illinkid'])){
             $newpassword1 = ((!empty($_POST['newpassword1'])) && isValidInput($_POST['newpassword1'],255,'s',false))? trim($_POST['newpassword1']):NULL;
             $newpassword2 = ((!empty($_POST['newpassword2'])) && isValidInput($_POST['newpassword2'],255,'s',false))? trim($_POST['newpassword2']):NULL;
             if (!empty($newpassword1)) {
-                $password = md5($newpassword1);
+                $password = password_hash($newpassword1, PASSWORD_DEFAULT);
 			}
             // Tester si le login est unique
             $reqlogin = "SELECT * FROM users WHERE users.login = ?";

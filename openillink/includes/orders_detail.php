@@ -100,7 +100,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                     $maillog = strtolower($maillog);
                 }
                 $mailg = $maillog . $secure_string_guest_login;
-                $passwordg = substr(md5($mailg), 0, 8);
+                $passwordg = substr(hash("sha256", $mailg), 0, 8);
             }
             $adresse = $enreg['adresse'].', '.$enreg['code_postal'].' '.$enreg['localite'];
             $titreper = $enreg['titre_periodique'];

@@ -114,7 +114,7 @@ require_once ('includes/toolkit.php');
                     $maillog = strtolower($maillog);
                 }
                 $mailg = $maillog . $secure_string_guest_login;
-                $passwordg = substr(md5($mailg), 0, 8);
+                $passwordg = substr(hash("sha256", $mailg), 0, 8);
                 require_once('includes/resend_credential.php');
                 resendPwd($destination, $passwordg, $lang, $configemail);
                 $resendOk = true;

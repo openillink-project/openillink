@@ -39,8 +39,8 @@ $rediradmin = "Location: " . $monuri . "list.php?folder=in";
 $rediruser = "Location: " . $monuri . "list.php?folder=in";
 $redirguest = "Location: " . $monuri . "list.php?folder=guest";
 
-$validActionSet = array('logout', 'shibboleth');
-$action = (!empty($_GET['action']) && isValidInput($_GET['action'],10,'s',false,$validActionSet))?$_GET['action']:NULL;
+$validActionSet = array('logout', 'shibboleth', 'ssologoutok');
+$action = (!empty($_GET['action']) && isValidInput($_GET['action'],11,'s',false,$validActionSet))?$_GET['action']:NULL;
 if (!empty($_COOKIE['illinkid'])) {
 	$complement = "&action=$action&monaut=$monaut";
 	if (empty($action) && ($monaut=="sadmin"))
@@ -65,8 +65,12 @@ if(!empty($action)){
 		setcookie('illinkid[chk]', '', (time() - 31536000));
 		setcookie('illinkid[exp]', '', (time() - 31536000));
 		setcookie('illinkid[sso]', '', (time() - 31536000));
+		$monnom = "";
+		$monlog = "";
+		$monbib = "";
+		$monaut = "";
 		if ($config_shibboleth_enabled == 1 && $logged_in_with_shibboleth) {
-			header("Location: " . str_replace('_OPENILLINK_RETURN_URL_', $monuri.'login.php', $config_shibboleth_logout_url));
+			header("Location: " . str_replace('_OPENILLINK_RETURN_URL_', $monuri.'login.php?action=logoutok', $config_shibboleth_logout_url));
 		}
     }
 
@@ -193,7 +197,16 @@ if (((!empty($log))||(!empty($pwd))) && ($login_type != 'account')){
 		}
     }
 }
-require ("includes/header.php");
+
+if($config_shibboleth_enabled && !empty($action) && $action == 'ssologoutok' && empty($monaut)) {
+	$mes = __("You have been logged out. To complete the process you MUST close your browser!");
+}
+
+if (empty($monaut)) {
+	require ("includes/header.php");
+} else {
+	require ("includes/headeradmin.php");
+}
 
 if (!empty($mes)){
 	echo '

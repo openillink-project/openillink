@@ -90,6 +90,11 @@ if ($config_dataprotection_banner_enable) {
 <link rel="stylesheet" type="text/css" href="'.$siteUrl.'/css/cookieconsent/cookieconsent.min.css" />
 <script src="'.$siteUrl.'/js/cookieconsent/cookieconsent.min.js"></script>';
 }
+if (isset($config_units_search_enabled) && $config_units_search_enabled == 1) {
+	echo '
+<link href="'.$siteUrl.'/css/select2/select2.min.css" rel="stylesheet" />
+';
+}
 echo '
 <link rel="stylesheet" href="'.$siteUrl.'/css/'. (isset($config_css_framework) ? $config_css_framework : 'openillink_bulma.css') .'">
 <link rel="stylesheet" href="'.$siteUrl.'/css/'. (isset($config_css_main) ? $config_css_main : 'openillink.css') .'">
@@ -105,6 +110,25 @@ echo '
 <script type="text/javascript" src="'.$siteUrl.'/js/script.js"></script>
 <script type="text/javascript" src="'.$siteUrl.'/js/bulma.js"></script>
 ';
+if (isset($config_units_search_enabled) && $config_units_search_enabled == 1) {
+	echo '
+<script src="'.$siteUrl.'/js/jquery/jquery.min.js"></script>
+';
+}
+if (isset($config_units_search_enabled) && $config_units_search_enabled == 1) {
+	echo '
+<script src="'.$siteUrl.'/js/select2/select2.min.js"></script>
+<script src="'.$siteUrl.'/js/select2/i18n/'.$lang.'.js"></script>
+<script src="'.$siteUrl.'/js/maximize-select2-height/maximize-select2-height.min.js"></script>
+<script>
+$(document).ready(function() {
+    $(\'#service\').select2({
+	dropdownAutoWidth : true,
+	language: "'.$lang.'"}).maximizeSelect2Height();
+});
+</script>
+';
+}
 
 
 echo '<script type="text/javascript">var resolver_enabled='.((isset($config_link_resolver_base_openurl) && $config_link_resolver_base_openurl != '') ? 'true': 'false' ).';</script>';

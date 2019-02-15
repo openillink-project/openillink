@@ -242,6 +242,10 @@ $doctypes = array(
 			  array('name' => __("Other"), 'code' => "other"),
 		  );
 
+// Is search in list of units enabled? Note that enabling this option will 
+// add dependency on jQuery.
+$config_units_search_enabled = 1;
+
 // Shibboleth authentication (0 inactive, 1 active)
 $config_shibboleth_enabled = 0;
 

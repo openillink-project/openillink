@@ -254,3 +254,15 @@ label.required:after {
 #illinks .notification {
   padding: 0.5rem 0 0.5rem 0 !important;
 }
+/* Overriding some Select2 styles */
+.select2-container--default .select2-selection--single {
+    height: 2.25em;
+    padding-left: 1.75em;
+}
+.select2-selection__arrow {
+    display: none;
+}
+.select2-results__option {
+    padding: 0 6px 0 6px;
+}
+

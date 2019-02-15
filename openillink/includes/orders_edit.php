@@ -481,7 +481,7 @@ echo '</span>
                 $unitsortlang = "name5";
             $unitsok = 0;
             echo "<select name=\"service\" id=\"service\" onchange=\"textchanged('service'); document.commande.servautre.value = '';\">\n";
-            echo "<option value=\"\"></option>\n";
+            echo "<option value=\"\">&nbsp;</option>\n";
             if ($ip1 == 1) {
                 $requnits="SELECT code, $unitsortlang FROM units WHERE internalip1display = 1 ORDER BY $unitsortlang ASC";
             } else if ($ip2 == 1) {

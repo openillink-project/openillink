@@ -620,7 +620,7 @@ echo '</span>
         <div class="control has-icons-left is-expanded">
          <div class="select is-fullwidth">
           <select id="service" name="service">
-						<option></option>';
+						<option value="">&nbsp;</option>';
 $unitsortlang = "name1";
 if ($lang == "en")
     $unitsortlang = "name2";

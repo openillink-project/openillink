@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2019 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -30,7 +30,18 @@
 $ip1 = 0;
 $ip2 = 0;
 $ipwww = 0;
-$ip = $_SERVER['REMOTE_ADDR'];
+$ip = "";
+foreach (array('HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR') as $header_key){
+	// Other places to look for maybe: 'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED'
+	if ($ip == "" && array_key_exists($header_key, $_SERVER)){
+		foreach (explode(',', $_SERVER[$header_key]) as $candidate_ip){
+			if (filter_var(trim($candidate_ip), FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false){
+				$ip = trim($candidate_ip);
+				break;
+			}
+		}
+	}
+}
 if (!empty($_SERVER['HTTP_REFERER'])){
     $referer=$_SERVER['HTTP_REFERER'];
 }

@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2019 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -116,7 +116,9 @@ function get_user_language() {
 
 	// Set cookie with language
 	if (!array_key_exists('openillink_lang', $_COOKIE) || $_COOKIE['openillink_lang'] != $lang) {
-		setcookie('openillink_lang', $lang);
+		$current_time = time();
+		$expiration_time = $current_time + 365 * 24 * 60 * 60; // 1 year
+		setcookie('openillink_lang', $lang, $expiration_time);
 	}
 
     return $lang;

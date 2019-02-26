@@ -48,7 +48,7 @@ if (isset($configanalytics) && $configanalytics != '') {
   function gtag(){dataLayer.push(arguments);}
   gtag(\'js\', new Date());
 
-  gtag(\'config\', \''.$configanalytics.'\');
+  gtag(\'config\', \''.$configanalytics.'\''. ($configanalytics_ip_anonymization ? ', { \'anonymize_ip\': true }' : '') .');
 </script>';
 }
 

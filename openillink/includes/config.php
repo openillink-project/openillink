@@ -34,6 +34,10 @@ $configmysqlpwd = "root";
 
 // Google Analytics code (leave blank if not applicable)
 $configanalytics = "";
+
+// Should user IP address be anonymized in Google Analytics?
+$configanalytics_ip_anonymization = true;
+
 // Add logging option: used to trace and analyse problems, allowed levels: DEV, TEST, PROD
 // any other value will be ignored
 $configdebuglogging = '';

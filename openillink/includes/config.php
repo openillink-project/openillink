@@ -399,5 +399,33 @@ $thirdmessage["de"] = "<b><font color=\"red\">" . __("Please note, all orders ar
 $thirdmessage["it"] = "<b><font color=\"red\">" . __("Please note, all orders are subject to a financial contribution") . "</font></b><br />" . __("Contact us by email for more information (pricing, billing, etc.)") . " : <a href=\"mailto:" . $configlibraryemail["it"] . "\">" . $configlibraryemail["it"] . "</a>\n";
 $thirdmessage["es"] = "<b><font color=\"red\">" . __("Please note, all orders are subject to a financial contribution") . "</font></b><br />" . __("Contact us by email for more information (pricing, billing, etc.)") . " : <a href=\"mailto:" . $configlibraryemail["es"] . "\">" . $configlibraryemail["es"] . "</a>\n";
 
+// Enable a banner informing users about the use of cookies?
+$config_dataprotection_banner_enable = false;
+
+// URL used (for each language) in the banner (enabled with $config_dataprotection_banner_enable) 
+// to link to more legal information (cookies, data privacy, etc.)
+$config_dataprotection_banner_legal_information_url["fr"] = "";
+$config_dataprotection_banner_legal_information_url["en"] = "";
+$config_dataprotection_banner_legal_information_url["de"] = "";
+$config_dataprotection_banner_legal_information_url["it"] = "";
+$config_dataprotection_banner_legal_information_url["es"] = "";
+
+// Name of the link used (for each language) in the banner (enabled with $config_dataprotection_banner_enable) 
+// to provide more legal information (cookies, data privacy, etc.)
+$config_dataprotection_banner_legal_information_link_name["fr"] = "Lire les informations l&eacute;gales";
+$config_dataprotection_banner_legal_information_link_name["en"] = "Read the legal information";
+$config_dataprotection_banner_legal_information_link_name["de"] = "Lesen Sie die rechtlichen Informationen";
+$config_dataprotection_banner_legal_information_link_name["it"] = "Leggi le informazioni legali";
+$config_dataprotection_banner_legal_information_link_name["es"] = "Leer la información legal";
+
+// Text used (for each language) in the banner (enabled with $config_dataprotection_banner_enable) 
+// to provide more legal information (cookies, data privacy, etc.)
+$config_dataprotection_banner_message["fr"] = "En poursuivant votre navigation sur ce site, vous acceptez l'utilisation de cookies nous permettant d&rsquo;optimiser votre exp&eacute;rience utilisateur.";
+$config_dataprotection_banner_message["en"] = "By continuing your navigation on this site, you accept the use of cookies allowing us to optimize your user experience.";
+$config_dataprotection_banner_message["de"] = "Indem Sie Ihre Navigation auf dieser site fortsetzen, akzeptieren Sie die Verwendung von Cookies, um Ihre Benutzererfahrung zu optimieren.";
+$config_dataprotection_banner_message["it"] = "Continuando la navigazione sui questo sito, accetti l\'utilizzo di cookie che ci consentono di ottimizzare la tua esperienza utente.";
+$config_dataprotection_banner_message["es"] = "Al continuar su navegación en este sitio, acepta el uso de cookies que nos permiten optimizar su experiencia de usuario.";
+
+
 
 ?>

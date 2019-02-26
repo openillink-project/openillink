@@ -78,6 +78,12 @@ echo "\n";
 
 echo '<link rel="home" href="'.$configSiteUrl.'" />';
 
+if ($config_dataprotection_banner_enable) {
+	echo '
+<link rel="stylesheet" type="text/css" href="'.$configSiteUrl.'/css/cookieconsent/cookieconsent.min.css" />
+<script src="'.$configSiteUrl.'/js/cookieconsent/cookieconsent.min.js"></script>';
+}
+
 echo '
 <link rel="stylesheet" href="'.$configSiteUrl.'/css/'. (isset($config_css_framework) ? $config_css_framework : 'openillink_bulma.css') .'">
 <link rel="stylesheet" href="'.$configSiteUrl.'/css/'. (isset($config_css_main) ? $config_css_main : 'openillink.css') .'">
@@ -96,6 +102,29 @@ echo '
 <script type="text/javascript" src="'.$configSiteUrl.'/js/bulma.js"></script>
 <script type="text/javascript" src="'.$configSiteUrl.'/js/calendar.js"></script>
 ';
+
+
+if ($config_dataprotection_banner_enable) {
+	echo '
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+
+  "theme": "classic",
+  "content": {
+	"message": '. json_encode($config_dataprotection_banner_message[$lang]).',
+	"link": '. json_encode($config_dataprotection_banner_legal_information_link_name[$lang]).',
+    "href":  '. json_encode($config_dataprotection_banner_legal_information_url[$lang]).',
+	"dismiss": "OK"
+  },
+  "cookie": {
+             "name": "openillink_cookieconsent_status",
+             "domain": window.location.hostname,
+             "expiryDays": 365
+  }
+})});
+</script>';
+}
 echo "</head>\n";
 if (!empty($mybodyonload))
 	echo "<body onload=\"" . $mybodyonload . "\">\n";

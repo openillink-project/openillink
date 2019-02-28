@@ -41,6 +41,26 @@ echo "<html lang=\"" . $lang . "\">\n";
 echo "<head>\n";
 
 if (isset($configanalytics) && $configanalytics != '') {
+	// Code for users to opt-out from Google Analytics tracking here
+	// See: https://developers.google.com/analytics/devguides/collection/gajs/#example
+	// A link to opt-out would typically be placed in one site "privacy policy" 
+	// page, for eg. with <a onclick="gaOptout();return false;">opt out</a>
+	echo '<!-- Google Analytics "opt-out" cookie script -->
+	<script>
+
+// Disable tracking if the opt-out cookie exists.
+var disableStr = \'ga-disable-'.$configanalytics.'\';
+if (document.cookie.indexOf(disableStr + \'=true\') > -1) {
+  window[disableStr] = true;
+}
+
+// Opt-out function
+function gaOptout() {
+  document.cookie = disableStr + \'=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/\';
+  window[disableStr] = true;
+}
+</script>';
+
 	echo '<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id='.$configanalytics.'"></script>
 <script>

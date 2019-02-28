@@ -430,6 +430,26 @@ $config_dataprotection_banner_message["de"] = "Indem Sie Ihre Navigation auf die
 $config_dataprotection_banner_message["it"] = "Continuando la navigazione sui questo sito, accetti l\'utilizzo di cookie che ci consentono di ottimizzare la tua esperienza utente.";
 $config_dataprotection_banner_message["es"] = "Al continuar su navegación en este sitio, acepta el uso de cookies que nos permiten optimizar su experiencia de usuario.";
 
-
-
+// Checkbox displayed on order form to collect user consent to process the data
+// - value 0: the consent checkbox is not displayed
+// - value 1: the consent checkbox is displayed on public (not logged in) / "guest" interface
+// - value 2: the consent checkbox is displayed for public (not logged in) / "guest" interface as well as for other logged in users
+$config_dataprotection_consent_mode = 1;
+// URL to the legal information provided in consent checkbox label
+$config_dataprotection_consent_legal_information_url["fr"] = "";
+$config_dataprotection_consent_legal_information_url["en"] = "";
+$config_dataprotection_consent_legal_information_url["de"] = "";
+$config_dataprotection_consent_legal_information_url["it"] = "";
+$config_dataprotection_consent_legal_information_url["es"] = "";
+// URL to the service conditions of use provided in consent checkbox label, if any
+$config_dataprotection_consent_conditionsofuse_url["fr"] = "";
+$config_dataprotection_consent_conditionsofuse_url["en"] = "";
+$config_dataprotection_consent_conditionsofuse_url["de"] = "";
+$config_dataprotection_consent_conditionsofuse_url["it"] = "";
+$config_dataprotection_consent_conditionsofuse_url["es"] = "";
+// Current version of the consent. This value can be anything that allows to
+// unambiguously store in the database what was consented by a user when
+// ordering a document. This could for eg. be the last modification date of the
+// current privacy policy document shown to the users. Max 255 chars
+$config_dataprotection_consent_version = "v1";
 ?>

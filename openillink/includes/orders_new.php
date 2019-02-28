@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -85,6 +85,9 @@ $localite=((!empty($_POST['localite'])) && isValidInput($_POST['localite'],50, '
 $envoi=((!empty($_POST['envoi'])) && isValidInput($_POST['envoi'],50, 's', false))?$_POST['envoi']:'';
 
 $typeDocValidSet = array('article','preprint','book','bookitem','thesis','journal','proceeding','conference','other');
+
+
+$consent = ((!empty($_POST['consent'])) && isValidInput($_POST['consent'],1024, 's', false, array($config_dataprotection_consent_version))) ? $_POST['consent'] : null;
 
 function get_from_post($form_index, $key, $maxSize, $type='s', $optional=true, $controlSet=NULL, $default="") {
 	if (isset($_POST[$key.'_'.$form_index])) {
@@ -322,6 +325,20 @@ foreach($order_form_values as $order_form) {
 }
 if (empty($mail) && empty($adresse))
     $mes=$mes."<br>".__("e-mail or private address are required");
+if (empty($consent)) {
+	if (($config_dataprotection_consent_mode == 2 || ($config_dataprotection_consent_mode == 1 && !is_privileged_enough($monaut, "user"))) &&
+		($config_dataprotection_consent_conditionsofuse_url[$lang] != "" || $config_dataprotection_consent_legal_information_url[$lang] != "")) {
+
+			  if ($config_dataprotection_consent_conditionsofuse_url[$lang] != "" && $config_dataprotection_consent_legal_information_url[$lang] != "") {
+				$mes .= "<br/>".__("You must agree to the service privacy policy and conditions of use");
+			  } else if ($config_dataprotection_consent_legal_information_url[$lang] != "") {
+				$mes .= "<br/>".__("You must agree to the service privacy policy");
+			  } else if ($config_dataprotection_consent_conditionsofuse_url[$lang] != "") {
+				$mes .= "<br/>".__("You must agree to the service conditions of use");
+			  }
+	}
+}
+
 if ($mes){
     if (in_array ( $monaut, array('admin', 'sadmin', 'user'), true ))
         require ("headeradmin.php");
@@ -391,15 +408,15 @@ else{
 		$order_form_values[$index]['remarques'] = $order_form['remarques']; // save to $order_form_values for later reuse when iterating from this variable
 		// START save record
 		if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
-			$query ="INSERT INTO `orders` (`illinkid`, `stade`, `localisation`, `date`, `envoye`, `facture`, `renouveler`, `prix`, `prepaye`, `ref`, `arrivee`, `nom`, `prenom`, `service`, `cgra`, `cgrb`, `mail`, `tel`, `adresse`, `code_postal`, `localite`, `type_doc`, `urgent`, `envoi_par`, `titre_periodique`, `annee`, `volume`, `numero`, `supplement`, `pages`, `titre_article`, `auteurs`, `edition`, `isbn`, `issn`, `eissn`, `doi`, `uid`, `remarques`, `remarquespub`, `historique`, `saisie_par`, `bibliotheque`, `refinterbib`, `PMID`, `ip`, `referer`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			$params = array('', !empty($stade) ? $stade : '', $localisation, $date, $envoye, $facture, $renouveler, $prix, $prepaye, $ref, $source, $nom, $prenom, $service, $cgra, $cgrb, $mail, $tel, $adresse, $postal, $localite, $order_form['genre_code'], $urgent, $envoi, $order_form['title'], $order_form['date'], $order_form['volume'], $order_form['issue'], $order_form['suppl'], $order_form['pages'], $order_form['atitle'], $order_form['auteurs'], $order_form['edition'], $order_form['isbn'], $order_form['issn'], $order_form['eissn'], $order_form['doi'], $order_form['uid'], $order_form['remarques'], $order_form['remarquespub'], $historique, $userid, $bibliotheque, $refinterbib, $order_form['pmid'], $ip, $referer);
-			$monno = dbquery($query, $params, 'sssssssssssssssssssssssssssssssssssssssssssssss') or die("Error : ".mysqli_error(dbconnect()));
+			$query ="INSERT INTO `orders` (`illinkid`, `stade`, `localisation`, `date`, `envoye`, `facture`, `renouveler`, `prix`, `prepaye`, `ref`, `arrivee`, `nom`, `prenom`, `service`, `cgra`, `cgrb`, `mail`, `tel`, `adresse`, `code_postal`, `localite`, `type_doc`, `urgent`, `envoi_par`, `titre_periodique`, `annee`, `volume`, `numero`, `supplement`, `pages`, `titre_article`, `auteurs`, `edition`, `isbn`, `issn`, `eissn`, `doi`, `uid`, `remarques`, `remarquespub`, `historique`, `saisie_par`, `bibliotheque`, `refinterbib`, `PMID`, `ip`, `referer`, `user_consent`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$params = array('', !empty($stade) ? $stade : '', $localisation, $date, $envoye, $facture, $renouveler, $prix, $prepaye, $ref, $source, $nom, $prenom, $service, $cgra, $cgrb, $mail, $tel, $adresse, $postal, $localite, $order_form['genre_code'], $urgent, $envoi, $order_form['title'], $order_form['date'], $order_form['volume'], $order_form['issue'], $order_form['suppl'], $order_form['pages'], $order_form['atitle'], $order_form['auteurs'], $order_form['edition'], $order_form['isbn'], $order_form['issn'], $order_form['eissn'], $order_form['doi'], $order_form['uid'], $order_form['remarques'], $order_form['remarquespub'], $historique, $userid, $bibliotheque, $refinterbib, $order_form['pmid'], $ip, $referer, $consent);
+			$monno = dbquery($query, $params, 'ssssssssssssssssssssssssssssssssssssssssssssssss') or die("Error : ".mysqli_error(dbconnect()));
 			update_folders_item_count();
 		}
 		else{
-			$query ="INSERT INTO `orders` (`illinkid`, `stade`, `localisation`, `date`, `envoye`, `facture`, `renouveler`, `prix`, `prepaye`, `ref`, `arrivee`, `nom`, `prenom`, `service`, `cgra`, `cgrb`, `mail`, `tel`, `adresse`, `code_postal`, `localite`, `type_doc`, `urgent`, `envoi_par`, `titre_periodique`, `annee`, `volume`, `numero`, `supplement`, `pages`, `titre_article`, `auteurs`, `edition`, `isbn`, `issn`, `eissn`, `doi`, `uid`, `remarques`, `remarquespub`, `historique`, `saisie_par`, `bibliotheque`, `refinterbib`, `PMID`, `ip`, `referer`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			$params = array('', !empty($stade) ? $stade : '', $localisation, $date, '' , '', '', '', '', '', $source, $nom, $prenom, $service, $cgra, $cgrb, $mail, $tel, $adresse, $postal, $localite, $order_form['genre_code'], '2', $envoi, $order_form['title'], $order_form['date'], $order_form['volume'], $order_form['issue'], $order_form['suppl'], $order_form['pages'], $order_form['atitle'], $order_form['auteurs'], $order_form['edition'], $order_form['isbn'], $order_form['issn'], $order_form['eissn'], $order_form['doi'], $order_form['uid'], $order_form['remarques'], $order_form['remarquespub'], $historique, $userid, $bibliotheque, '', $order_form['pmid'], $ip, $referer);
-			$monno = dbquery($query, $params, 'sssssssssssssssssssssssssssssssssssssssssssssss') or die("Error : ".mysqli_error(dbconnect()));
+			$query ="INSERT INTO `orders` (`illinkid`, `stade`, `localisation`, `date`, `envoye`, `facture`, `renouveler`, `prix`, `prepaye`, `ref`, `arrivee`, `nom`, `prenom`, `service`, `cgra`, `cgrb`, `mail`, `tel`, `adresse`, `code_postal`, `localite`, `type_doc`, `urgent`, `envoi_par`, `titre_periodique`, `annee`, `volume`, `numero`, `supplement`, `pages`, `titre_article`, `auteurs`, `edition`, `isbn`, `issn`, `eissn`, `doi`, `uid`, `remarques`, `remarquespub`, `historique`, `saisie_par`, `bibliotheque`, `refinterbib`, `PMID`, `ip`, `referer`, `user_consent`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$params = array('', !empty($stade) ? $stade : '', $localisation, $date, '' , '', '', '', '', '', $source, $nom, $prenom, $service, $cgra, $cgrb, $mail, $tel, $adresse, $postal, $localite, $order_form['genre_code'], '2', $envoi, $order_form['title'], $order_form['date'], $order_form['volume'], $order_form['issue'], $order_form['suppl'], $order_form['pages'], $order_form['atitle'], $order_form['auteurs'], $order_form['edition'], $order_form['isbn'], $order_form['issn'], $order_form['eissn'], $order_form['doi'], $order_form['uid'], $order_form['remarques'], $order_form['remarquespub'], $historique, $userid, $bibliotheque, '', $order_form['pmid'], $ip, $referer, $consent);
+			$monno = dbquery($query, $params, 'ssssssssssssssssssssssssssssssssssssssssssssssss') or die("Error : ".mysqli_error(dbconnect()));
 			update_folders_item_count();
 		}
 	}

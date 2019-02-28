@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -1054,7 +1054,38 @@ echo '
 
 
 
-	<div class="container">
+	<div class="container">';
+if (($config_dataprotection_consent_mode == 2 || ($config_dataprotection_consent_mode == 1 && !is_privileged_enough($monaut, "user"))) &&
+	($config_dataprotection_consent_conditionsofuse_url[$lang] != "" || $config_dataprotection_consent_legal_information_url[$lang] != "")) {
+	echo '
+		<div class="field is-grouped is-grouped-centered">
+		  <div class="control" style="flex-shrink: 1">
+			<label class="checkbox">
+			  <input type="checkbox" name="consent" value="'.$config_dataprotection_consent_version.'" required>
+			  ';
+			  if ($config_dataprotection_consent_conditionsofuse_url[$lang] != "" && $config_dataprotection_consent_legal_information_url[$lang] != "") {
+				echo format_string(__('I agree to the service %x_url_start_1privacy policy%x_url_end_1 and %x_url_start_2conditions of use%x_url_end_2'),
+				  array('x_url_start_1' => '<a href="'.$config_dataprotection_consent_legal_information_url[$lang].'" target="_blank">',
+						'x_url_end_1' => '</a>',
+						'x_url_start_2' => '<a href="'.$config_dataprotection_consent_conditionsofuse_url[$lang].'" target="_blank">',
+						'x_url_end_2' => '</a>'));
+			  } else if ($config_dataprotection_consent_legal_information_url[$lang] != "") {
+				echo format_string(__('I agree to the service %x_url_start_1privacy policy%x_url_end_1'),
+				  array('x_url_start_1' => '<a href="'.$config_dataprotection_consent_legal_information_url[$lang].'" target="_blank">',
+						'x_url_end_1' => '</a>'));
+
+			  } else if ($config_dataprotection_consent_conditionsofuse_url[$lang] != "") {
+				echo format_string(__('I agree to the service %x_url_start_1conditions of use%x_url_end_1'),
+				  array('x_url_start_1' => '<a href="'.$config_dataprotection_consent_conditionsofuse_url[$lang].'" target="_blank">',
+						'x_url_end_1' => '</a>'));
+			  }
+	echo '
+			</label>
+		  </div>
+		</div>
+		';
+}
+echo '
 	  <div class="field is-grouped is-grouped-centered">
 	  <p class="control">
       <input type="submit" class="button is-primary" value="'. ((($monaut == "guest")||($monaut == "")) ? __("Send order") : __("Save order")) .'" onsubmit="javascript:okcooc();document.body.style.cursor = \'wait\';" />

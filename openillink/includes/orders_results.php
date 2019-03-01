@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -86,6 +86,39 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
         echo "</table>\n";
         // Build Page Number Hyperlinks
         require ("pages.php");
+		// Build export menu
+		//$url_params = $_GET;
+		//$url_params['lang'] = 'de';
+		//htmlspecialchars(http_build_query($url_params))
+		$current_url = $current_http_protocol . $_SERVER['HTTP_HOST'] .  parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+		echo '<div class="dropdown is-hoverable is-up">
+  <div class="dropdown-trigger">
+    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+      <span>' . __("Export") . '</span>
+      <span class="icon is-small">
+        <i class="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+    </button>
+  </div>
+<div class="dropdown-menu" id="dropdown-menu" role="menu">
+    <div class="dropdown-content">
+      <a href="'. $_SERVER['REQUEST_URI'] . '&export=csv" class="dropdown-item">
+        ' . __("CSV (separator: semi-colons)") . '
+      </a>
+      <a href="'. $_SERVER['REQUEST_URI'] . '&export=endnotexml" class="dropdown-item">
+        EndNote XML
+      </a>
+      <a href="'. $_SERVER['REQUEST_URI'] . '&export=ris" class="dropdown-item">
+        RIS
+      </a>
+      <a href="'. $_SERVER['REQUEST_URI'] . '&export=medline" class="dropdown-item">
+        MEDLINE
+      </a>
+    </div>
+  </div>
+</div>
+  ';
+
     }
 }
 ?>

@@ -867,7 +867,7 @@ else
 	</div>
 	<div class="column is-three-quarters">
         <div class="control">
-         <input class="input" id="title_'.$form_index.'" name="title_'.$form_index.'" type="text" value="'.htmlspecialchars($title).'" placeholder="Journal or book title">
+         <input class="input" id="title_'.$form_index.'" name="title_'.$form_index.'" type="text" value="'.htmlspecialchars($title).'" placeholder='.__("Journal or book title").'>
         </div>
     </div>
 	<div class="column is-2">

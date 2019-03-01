@@ -290,6 +290,61 @@ $debugOn = (!empty($configdebuglogging)) && in_array($configdebuglogging, array(
 		}
 		fclose($out);
 	} else if (in_array($export_format, array('endnotexml', 'medline', 'ris'))) {
+		require_once('includes/vendor/RefLib/reflib.php');
+		$reflib = new RefLib();
+		$type_to_type = array("article" => "Journal Article",
+							  "preprint" => "Manuscript",
+							  "book" => "Book",
+							  "bookitem" => "Book Section",
+							  "thesis" => "Thesis",
+							  "journal" => "Serial",
+							  "proceeding" => "Conference Proceedings",
+							  "conference" => "Conference Paper",
+							  "other" => "Unpublished Work");
+		for ($i=0 ; $i<$nb ; $i++){
+			$order_line = iimysqli_result_fetch_array($result);
+			$reflib->Add(array(
+						'authors' => explode(",", $order_line["auteurs"]),
+						//'address' => $order_line["adresse"] . " " . $order_line["code_postal"] . " " . $order_line["localite"],
+						//'contact-name' => $order_line["prenom"] . " " . $order_line["nom"],
+						//'contact-email' => $order_line["mail"],
+						'type' => (array_key_exists($order_line["type_doc"], $type_to_type) ?  $type_to_type[$order_line["type_doc"]]: $type_to_type[$order_line["other"]]),
+						'title' => $order_line["titre_article"],
+						//'title-secondary' => $order_line[""],
+						//'title-short' => $order_line[""],
+						'periodical-title' => $order_line["titre_periodique"],
+						'pages' => $order_line["pages"],
+						'volume' => $order_line["volume"],
+						'number' => $order_line["numero"],
+						//'section' => $order_line[""],
+						'year' => $order_line["annee"],
+						//'date' => $order_line[""],
+						//'abstract' => $order_line[""],
+						//'urls' => $order_line[""],
+						'notes' => $order_line["remarquespub"],
+						//'research-notes' => $order_line[""],
+						'isbn' => (!empty($order_line["isbn"]) ? $order_line["isbn"] : (!empty($order_line["issn"]) ? $order_line["issn"] : $order_line["eissn"])),
+						//'label' => $order_line[""],
+						//'caption' => $order_line[""],
+						//'language' => $order_line[""],
+						'custom1' => $order_line["prenom"] . " " . $order_line["nom"],
+						'custom2' => $order_line["adresse"] . " " . $order_line["code_postal"] . " " . $order_line["localite"],
+						'custom3' => $order_line["mail"],
+						'custom4' => $order_line["illinkid"],
+						'custom5' => $order_line["bibliotheque"],
+						'custom6' => $order_line["date"],
+						'custom7' => $order_line["service"],
+						'doi' => $order_line["doi"],
+						'accession-num' => $order_line["PMID"],
+					));
+		}
+		if ($export_format == "endnotexml") {
+			$reflib->DownloadContents('openillink.xml', "endnotexml");
+		} else if ($export_format == "ris") {
+			$reflib->DownloadContents('openillink.ris', "ris");
+		} else if ($export_format == "medline") {
+			$reflib->DownloadContents('openillink.nbib', "medline");
+		}
 		
 	}
 	if ($debugOn)

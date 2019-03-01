@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -34,6 +34,12 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
 	$myhtmltitle = format_string(__("%institution_name orders: orders list"), array('institution_name' => $configinstitution[$lang]));
 	$page = ((!empty($_GET['page'])) && isValidInput($_GET['page'],8,'s',false))?$_GET['page']:1;
 
+$export_format = ((!empty($_GET['export'])) && isValidInput($_GET['export'], 10, 's', true, array('html', 'csv', 'endnotexml', 'medline', 'ris'))) ? $_GET['export']: 'html';
+if ($export_format != 'html') {
+	// no paging when exporting
+	$page = 1;
+}
+
 $link = dbconnect();
 
 // Figure out the limit for the query based on the current page number
@@ -41,12 +47,14 @@ $debugOn = (!empty($configdebuglogging)) && in_array($configdebuglogging, array(
 
 	if ($debugOn)
 		prof_flag("Start");
-	require_once ("headeradmin.php");
-	if ($debugOn)
-		prof_flag("After head");
-	require_once ("searchform.php");
-	if ($debugOn)
-		prof_flag("After search");
+	if ($export_format == 'html') {
+		require_once ("headeradmin.php");
+		if ($debugOn)
+			prof_flag("After head");
+		require_once ("searchform.php");
+		if ($debugOn)
+			prof_flag("After search");
+}
 	$madatej=date("Y-m-d");
 // Choice of folder
 	$folder = ((!empty($_GET['folder'])) && isValidInput($_GET['folder'],6,'s',false))?$_GET['folder']:'';
@@ -201,8 +209,12 @@ $debugOn = (!empty($configdebuglogging)) && in_array($configdebuglogging, array(
 			break;
 	}
 	// Paging
-	$from = (($page * $max_results) - $max_results);
-	$req2 = "$req2 $conditions ORDER BY illinkid DESC LIMIT $from, $max_results";
+	$req2 = "$req2 $conditions ORDER BY illinkid DESC";
+	if ($export_format == 'html') {
+		// paging only with html output, not when exporting
+		$from = (($page * $max_results) - $max_results);
+		$req2 = "$req2 LIMIT $from, $max_results";
+	}
 	if ($debugOn)
 		prof_flag("Before first query");
 	// Fetch orders ID for current page
@@ -217,13 +229,21 @@ $debugOn = (!empty($configdebuglogging)) && in_array($configdebuglogging, array(
 
 	if($total_results > 0){
 		$total_pages = ceil($total_results / $max_results);
-		$from = (($page * $max_results) - $max_results);
+
 		for ($i=0 ; $i<$total_results ; $i++){
 			$currOrder = iimysqli_result_fetch_array($result2);
 			$orderListId[] = mysqli_real_escape_string($link, $currOrder['illinkid']);
 		}
-		$req = "SELECT orders.illinkid, orders.type_doc, orders.date, orders.stade, orders.localisation, orders.nom, orders.prenom, orders.mail, orders.code_postal, orders.adresse, orders.localite, orders.bibliotheque, orders.prepaye, orders.remarques, orders.urgent, orders.service, orders.titre_article,  orders.auteurs, orders.titre_periodique, orders.volume , orders.numero, orders.pages , orders.annee , orders.PMID ".
-			"FROM orders ".
+		if ($export_format == 'html') {
+			$req = "SELECT orders.illinkid, orders.type_doc, orders.date, orders.stade, orders.localisation, orders.nom, orders.prenom, orders.mail, orders.code_postal, orders.adresse, orders.localite, orders.bibliotheque, orders.prepaye, orders.remarques, orders.urgent, orders.service, orders.titre_article,  orders.auteurs, orders.titre_periodique, orders.volume , orders.numero, orders.pages , orders.annee , orders.PMID ";
+		} else {
+			if (is_privileged_enough($monaut, "user")) {
+				$req = "SELECT orders.illinkid, orders.stade, orders.localisation, orders.date, orders.envoye, orders.facture, orders.renouveler, orders.prix, orders.prepaye, orders.ref, orders.refinterbib, orders.arrivee, orders.nom, orders.prenom, orders.service, orders.cgra, orders.cgrb, orders.mail, orders.tel, orders.adresse, orders.code_postal, orders.localite, orders.urgent, orders.envoi_par, orders.type_doc, orders.titre_periodique, orders.annee, orders.volume, orders.numero, orders.supplement, orders.pages, orders.titre_article, orders.auteurs, orders.edition, orders.isbn, orders.issn, orders.eissn, orders.doi, orders.uid, orders.remarques, orders.remarquespub, orders.historique, orders.saisie_par, orders.bibliotheque, orders.PMID, orders.ip, orders.referer, orders.user_consent";
+			} else {
+				$req = "SELECT orders.illinkid, orders.stade, orders.localisation, orders.date, orders.envoye, orders.facture, orders.prix, orders.service, orders.cgra, orders.cgrb, orders.nom, orders.prenom, orders.mail, orders.tel, orders.adresse, orders.code_postal, orders.localite, orders.envoi_par, orders.type_doc, orders.titre_periodique, orders.annee, orders.volume, orders.numero, orders.supplement, orders.pages, orders.titre_article, orders.auteurs, orders.edition, orders.isbn, orders.issn, orders.eissn, orders.doi, orders.uid, orders.remarquespub, orders.bibliotheque, orders.PMID";
+			}
+		}
+		$req .= " FROM orders ".
 			"WHERE (orders.illinkid IN ('".implode("','",$orderListId)."'))";
 		switch ($folder){
 			case 'in':
@@ -247,8 +267,31 @@ $debugOn = (!empty($configdebuglogging)) && in_array($configdebuglogging, array(
 		$nb = 0;
 	if ($debugOn)
 		prof_flag("Before printing all");
-	require_once ("orders_results.php");
-	require_once ("footer.php");
+	if ($export_format == 'html') {
+		require_once ("orders_results.php");
+		require_once ("footer.php");
+	} else if ($export_format == 'csv') {
+		
+		header("Content-Type: application/force-download");
+		header("Content-Type: application/octet-stream");
+		header("Content-Type: application/download");
+		header("Content-Disposition: attachment;filename=openillink.csv");
+		header("Content-Transfer-Encoding: binary");
+		$out = fopen('php://output', 'w');
+		echo "\xEF\xBB\xBF"; # UTF-8 BOM
+		if (is_privileged_enough($monaut, "user")) {
+			fputcsv($out, array(__("Order number"), __("Status"), __("Localization"), __("Order date"), __("Date of shipment"), __("Billing date"), __("Renewal date"), format_string(__("Price (%currency)"), array('currency' => $currency)), __("order paid in advance"), __("Provider Ref."),__("Internal ref. to the library"), __("Origin of the order"), __("Name"), __("First name"), __("Unit"), __("Budget heading"), __("Budget subheading"), __("E-Mail"), __("Tel."), __("Address"), __("Postal code"), __("City"), __("Priority"), __("Delivery type"), __("Document type"), __("Journal or book title"), __('Year'), __('Volume'), __('Issue'), __('Suppl.'), __('Pages'), __("Article or chapter title"), __("Author(s)"), __("Edition"), __('ISBN'), __('ISSN'), __("e-ISSN"), __("DOI"), __('UID'), __("Professional Notes"), __("Notes"), __("Order history"), __("Entered by"), __("Assignment Library"), __("PMID"), __("IP adress"), __("Provenance URL"), __("User consent")), ";");
+		} else {
+			fputcsv($out, array(__("Order number"), __("Status"), __("Localization"), __("Order date"), __("Date of shipment"), __("Billing date"), format_string(__("Price (%currency)"), array('currency' => $currency)), __("Unit"), __("Budget heading"), __("Budget subheading"), __("Name"), __("First name"), __("E-Mail"), __("Tel."), __("Address"), __("Postal code"), __("City"), __("Delivery type"), __("Document type"), __("Journal or book title"), __('Year'), __('Volume'), __('Issue'), __('Suppl.'), __('Pages'), __("Article or chapter title"), __("Author(s)"), __("Edition"), __('ISBN'), __('ISSN'), __("e-ISSN"), __("DOI"), __('UID'), __("Notes"), __("Assignment Library"), __("PMID")), ";");
+		}
+		
+		for ($i=0 ; $i<$nb ; $i++){
+			fputcsv($out, iimysqli_result_fetch_array($result), ";");
+		}
+		fclose($out);
+	} else if (in_array($export_format, array('endnotexml', 'medline', 'ris'))) {
+		
+	}
 	if ($debugOn)
 		prof_flag("end of page printing all");
 	if ($debugOn)

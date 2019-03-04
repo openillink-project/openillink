@@ -55,6 +55,8 @@ if (!empty($_COOKIE['illinkid'])){
             echo "<li><h2 class=\"is-size-5\"><a href=\"list.php?table=folders\"><i class=\"far fa-folder-open\"></i> ". __("Filters management") ."</a></h2></li>\n";
             echo "<ul><li><h3><a href=\"new.php?table=folders\">". __("Create a new filter") ."</a></h2></li></ul>\n";
             echo "<br/><br/>\n";
+            echo "<li><h2 class=\"is-size-5\"><a href=\"anonymizeorders.php\"><i class=\"fas fa-mask\"></i>&nbsp;" . __("Anonymize old orders") . "</a></h2></li>\n";
+            echo "<br/>\n";
             echo "<li><h2 class=\"is-size-5\"><a href=\"emptytrash.php\"><i class=\"far fa-trash-alt\"></i> Vider la corbeille</a></h2></li>\n";
         }
         else

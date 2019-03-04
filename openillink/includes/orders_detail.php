@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -74,7 +74,9 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 			$is_my_localisation = (in_array($localisation, $locListArray));
 			$is_shared = ((!empty($enreg['bibliotheque'])) && in_array($enreg['bibliotheque'], $sharedLibrariesArray) && empty($localisation) && in_array($stade, $codeSpecial['new']));
 
-            if ($mail){
+			$maillog = "";
+			$passwordg = "";
+            if ($mail && $enreg['anonymized'] != 1){
                 $pos1 = strpos($mail,';');
                 $pos2 = strpos($mail,',');
                 $pos3 = strpos($mail,' ');
@@ -114,6 +116,9 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo " (<font color=\"SteelBlue\">".__("Non-priority order")."</font>)\n";
 			if ($is_shared){
 				echo '<span class="isSharedOrder">'.__("Shared Incoming Order").'</span>';
+			}
+			if ($enreg['anonymized'] == 1) {
+				echo '&nbsp;<a href="#" class="info has-text-info" onclick="return false"><i class="fas fa-mask"></i><span>'.__("Order anonymized after exceeding maximum data retention period").'</span></a>';
 			}
             if (($enreg['type_doc']!='article') && ($enreg['type_doc']!='Article'))
                 echo "&nbsp;&nbsp;&nbsp;<img src=\"img/book.png\">";
@@ -239,7 +244,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "\n<br /><b>". __("Provider ref.") ." : </b>".htmlspecialchars($enreg['ref']);
             if ($enreg['refinterbib'])
                 echo "\n<br /><b>". __("Internal library ref.") ." : </b>".htmlspecialchars($enreg['refinterbib']);
-            if ($mail)
+            if ($mail && !empty($maillog))
                 echo "\n<br /><b>". __("Guest access code") ." : </b> ". __("Username") .": ".htmlspecialchars($maillog)." | ". __("Password") .": ".htmlspecialchars($passwordg);
             if ($enreg['remarquespub'])
                 echo "\n<br /><b>". __("Public comment") ." : </b>".nl2br(htmlspecialchars($enreg['remarquespub']));

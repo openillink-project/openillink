@@ -150,6 +150,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `ip` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `referer` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_consent` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `anonymized` TINYINT NOT NULL DEFAULT '0' AFTER `user_consent`,
   PRIMARY KEY (`illinkid`),
   KEY `annee` (`annee`),
   KEY `bibliotheque` (`bibliotheque`),

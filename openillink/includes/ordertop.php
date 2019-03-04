@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -58,6 +58,9 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
         if (!empty($enreg['remarquespub']))
             echo "&nbsp;&nbsp;&nbsp;<a href=\"#\" class=\"info\" onclick=\"return false\"><img src=\"img/alert.png\"><span>".htmlspecialchars($enreg['remarquespub'])."</span></a>";
     }
+	if ($enreg['anonymized'] == 1) {
+		    echo '&nbsp;&nbsp;&nbsp;<a href="#" class="info" onclick="return false"><i class="fas fa-mask" style="font-size: large;color: gray;"></i><span>'.__("Order anonymized after exceeding maximum data retention period").'</span></a>';
+	}
     echo "<br />\n";
     echo "<b>". __("Status") ." : \n";
     echo "<a href=\"#\" class=\"statusLink\" onclick=\"return false\" title=\"".htmlspecialchars($statushelp)."\"><font color=\"".htmlspecialchars($statuscolor)."\">".htmlspecialchars($statusname)."</font></a></b>";

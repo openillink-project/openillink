@@ -452,4 +452,6 @@ $config_dataprotection_consent_conditionsofuse_url["es"] = "";
 // ordering a document. This could for eg. be the last modification date of the
 // current privacy policy document shown to the users. Max 255 chars
 $config_dataprotection_consent_version = "v1";
+// How many accounting years data should be kept before being anonymized?
+$config_dataprotection_retention_policy = 10;
 ?>

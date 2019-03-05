@@ -146,8 +146,9 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             echo "<br /><b>". __("Status") ." : \n";
             echo "<a href=\"#\" onclick=\"return false\" class=\"statusLink\" title=\"".htmlspecialchars($statushelp)."\"><font color=\"".htmlspecialchars($statuscolor)."\">".htmlspecialchars($statusname)."</font></a></b>";
             if ($statusspecial == "renew"){
-                if ($enreg['renouveler'])
-                    echo " le ".htmlspecialchars($enreg['renouveler']);
+                if ($enreg['renouveler']){
+					echo format_string(__("%document_on_hold_status_label until %date"), array('date' => $enreg['renouveler'], 'document_on_hold_status_label' => ''));
+				}
             }
             echo "<br /><b>". __("User") ." : </b><a href=\"list.php?folder=search&champ=nom&term=".htmlspecialchars(urlencode ($nom))."\" title=\"". __("Search for orders from this user") ."\">\n";
             echo htmlspecialchars($nom)."</a>\n";

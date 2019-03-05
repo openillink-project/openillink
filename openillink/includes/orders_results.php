@@ -60,13 +60,14 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
             $nom = $enreg['nom'].', '.$enreg['prenom'];
             $mail = $enreg['mail'];
             $adresse = $enreg['adresse'].', '.$enreg['code_postal'].' '.$enreg['localite'];
-            $statusname = $statusInfo[$stade]['title1'];
-            $statushelp = $statusInfo[$stade]['help1'];
+            $statusname = $statusInfo[$stade]['title'][$lang];
+            $statushelp = $statusInfo[$stade]['help'][$lang];
 			$is_my_bib = ($monbib == $enreg['bibliotheque']);
 			$is_my_service = (in_array($enreg['service'], $servListArray));
 			$is_my_localisation = (in_array($localisation, $locListArray));
 			$is_shared = ((!empty($enreg['bibliotheque'])) && in_array($enreg['bibliotheque'], $sharedLibrariesArray) && empty($localisation) && in_array($stade, $codeSpecial['new']));
-            if ((!empty($enreg)) && (!empty($enreg['special'])) && $enreg['special']==='renew'){
+			$statusrenew = 0;
+			if (!empty($statusInfo[$stade]) && !empty($statusInfo[$stade]['special']) && $statusInfo[$stade]['special'] == 'renew'){
                 $statusrenew = 1;
             }
             $statuscolor = $statusInfo[$stade]['color'];

@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -255,6 +255,16 @@ function readStatus(&$codeIn = NULL, &$codeOut = NULL, &$codeTrash = NULL, &$cod
     $nbSt = iimysqli_num_rows($statusRes);
     for ($s=0 ; $s<$nbSt ; $s++){
         $currStatus = iimysqli_result_fetch_array($statusRes);
+		$currStatus["title"]["fr"] = $currStatus["title1"];
+        $currStatus["title"]["en"] = $currStatus["title2"];
+        $currStatus["title"]["de"] = $currStatus["title3"];
+        $currStatus["title"]["it"] = $currStatus["title4"];
+        $currStatus["title"]["es"] = $currStatus["title5"];
+		$currStatus["help"]["fr"] = $currStatus["help1"];
+        $currStatus["help"]["en"] = $currStatus["help2"];
+        $currStatus["help"]["de"] = $currStatus["help3"];
+        $currStatus["help"]["it"] = $currStatus["help4"];
+        $currStatus["help"]["es"] = $currStatus["help5"];
         if ($fillInArray && $currStatus['in']===1)
             $codeIn[] = $currStatus['code'];
         if ($fillOutArray && $currStatus['out']===1)

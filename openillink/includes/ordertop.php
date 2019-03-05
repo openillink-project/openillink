@@ -64,9 +64,11 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
     echo "<br />\n";
     echo "<b>". __("Status") ." : \n";
     echo "<a href=\"#\" class=\"statusLink\" onclick=\"return false\" title=\"".htmlspecialchars($statushelp)."\"><font color=\"".htmlspecialchars($statuscolor)."\">".htmlspecialchars($statusname)."</font></a></b>";
-    if ((!empty($statusrenew)) && $statusrenew == 1){
+    if ((!empty($statusrenew)) && $statusrenew == 1 && $folder != 'in' && $folder != 'guest'){
         if (!empty($enreg['renouveler']))
-            echo " le ".$enreg['renouveler'];
+			//echo '<span style="color:' . htmlspecialchars($statuscolor). ';font-weight:700">';
+            echo format_string(__("%document_on_hold_status_label until %date"), array('date' => $enreg['renouveler'], 'document_on_hold_status_label' => ''));
+			//echo '</span>';
     }
     if ($enreg['urgent']=='1' || $enreg['urgent']=='oui')
         echo " | <b><font color=\"red\">".__("Urgent order")."</font></b>\n";

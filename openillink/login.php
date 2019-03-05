@@ -181,7 +181,7 @@ if ((!empty($log))&&(!empty($pwd))){
         $mes=__("The username or password you entered is incorrect");
 	}
 }
-if (((!empty($log))||(!empty($pwd))) && ($login_type != 'account')){
+if (((!empty($log)) && (!empty($pwd))) && ($login_type != 'account')){
     if ($logok==0){
         // Connexion par login crypté
         $mailg = strtolower($log) . $secure_string_guest_login;
@@ -196,6 +196,9 @@ if (((!empty($log))||(!empty($pwd))) && ($login_type != 'account')){
             $mes=__("The username or password you entered is incorrect");
 		}
     }
+}
+if ((empty($log) || empty($pwd)) && !empty($_POST['submit'])){
+	$mes = __("The username and password must be provided");
 }
 
 if($config_shibboleth_enabled && !empty($action) && $action == 'ssologoutok' && empty($monaut)) {
@@ -231,7 +234,7 @@ echo '
 				<form name="loginform" id="loginform" action="login.php" method="post">
 				<div class="field">
 				<p class="control has-icon">
-					<input class="input" type="text" name="log" id="log" value="' . htmlspecialchars($log) . '" placeholder="'.__("Username").'">
+					<input class="input" type="text" name="log" id="log" value="' . htmlspecialchars($log) . '" placeholder="'.__("Username").'" required>
 					 <span class="icon is-small is-left">
 						<i class="fa fa-user"></i>
 					</span>
@@ -239,7 +242,7 @@ echo '
 				</div>
 				<div class="field">
 				<p class="control has-icon">
-					<input class="input" type="password" name="pwd" id="pwd" value="" placeholder="'.__("Password").'">
+					<input class="input" type="password" name="pwd" id="pwd" value="" placeholder="'.__("Password").'" required>
 					 <span class="icon is-small is-left">
 						<i class="fa fa-lock"></i>
 					</span>

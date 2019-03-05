@@ -57,7 +57,7 @@ if (!empty($_COOKIE['illinkid'])){
             echo "<br/><br/>\n";
             echo "<li><h2 class=\"is-size-5\"><a href=\"anonymizeorders.php\"><i class=\"fas fa-mask\"></i>&nbsp;" . __("Anonymize old orders") . "</a></h2></li>\n";
             echo "<br/>\n";
-            echo "<li><h2 class=\"is-size-5\"><a href=\"emptytrash.php\"><i class=\"far fa-trash-alt\"></i> Vider la corbeille</a></h2></li>\n";
+            echo "<li><h2 class=\"is-size-5\"><a href=\"emptytrash.php\"><i class=\"far fa-trash-alt\"></i>" . __("Empty trash") . "</a></h2></li>\n";
         }
         else
             echo "<li><h2 class=\"is-size-5\"><a href=\"edit.php?table=users&action=updateprofile\">". __("Change my access codes") ."</a></h2></li>\n";

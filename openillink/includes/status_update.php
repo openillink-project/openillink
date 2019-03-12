@@ -65,6 +65,10 @@ if (!empty($_COOKIE['illinkid'])){
             $trash = 0;
         $special = ((!empty($_POST['special'])) && isValidInput($_POST['special'],20,'s',false))? trim($_POST['special']):NULL;
         $color = ((!empty($_POST['color'])) && isValidInput($_POST['color'],50,'s',false))? trim($_POST['color']):NULL;
+        $anonymize = ((!empty($_POST['anonymize'])) && isValidInput($_POST['anonymize'],1,'i',false))? trim($_POST['anonymize']):0;
+        if ($anonymize != 1 || $config_dataprotection_retention_policy <= -1) {
+            $anonymize = 0;
+        }
         if (($action == "update")||($action == "new")) {
             // Tester si le code est unique
             $reqcode = "SELECT * FROM status WHERE code = ?";
@@ -98,9 +102,9 @@ if (!empty($_COOKIE['illinkid'])){
                         $nb = iimysqli_num_rows($resultid);
                         if ($nb == 1){
                             $enregid = iimysqli_result_fetch_array($resultid);
-                            $query = "UPDATE status SET status.title1=?, status.title2=?, status.title3=?, status.title4=?, status.title5=?, status.help1=?, status.help2=?, status.help3=?, status.help4=?, status.help5=?, status.in=?, status.out=?, status.trash=?, status.special=?, status.color=?, status.code=? WHERE status.id=?";
-                            $params = array($title1, $title2, $title3, $title4, $title5, $help1, $help2, $help3, $help4, $help5, $in, $out, $trash, $special, $color, $code, $id);
-                            $resultupdate = dbquery($query, $params,'ssssssssssiiissii') or die("Error : ".mysqli_error());
+                            $query = "UPDATE status SET status.title1=?, status.title2=?, status.title3=?, status.title4=?, status.title5=?, status.help1=?, status.help2=?, status.help3=?, status.help4=?, status.help5=?, status.in=?, status.out=?, status.trash=?, status.special=?, status.color=?, status.code=?, status.anonymize=? WHERE status.id=?";
+                            $params = array($title1, $title2, $title3, $title4, $title5, $help1, $help2, $help3, $help4, $help5, $in, $out, $trash, $special, $color, $code, $anonymize, $id);
+                            $resultupdate = dbquery($query, $params,'ssssssssssiiissiii') or die("Error : ".mysqli_error());
                             echo "<center><br/><b><font color=\"green\">\n";
                             echo __("Your order has been successfully modified")."</b></font>\n";
                             echo "<br/><br/><br/><a href=\"list.php?table=status\">".__("Back to the order steps")."</a></center>\n";
@@ -127,9 +131,9 @@ if (!empty($_COOKIE['illinkid'])){
 				if ($action == "new"){
 					require ("headeradmin.php");
 					$myhtmltitle = $configname[$lang] . " : nouvelle status";
-					$query ="INSERT INTO `status` (`id`, `title1`, `title2`, `title3`, `title4`, `title5`, `help1`, `help2`, `help3`, `help4`, `help5`, `code`, `in`, `out`, `trash`, `special`, `color`) VALUES ('', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-					$params = array($title1, $title2, $title3, $title4, $title5, $help1, $help2, $help3, $help4, $help5, $code, $in, $out, $trash, $special, $color);
-					$id = dbquery($query, $params,'ssssssssssiiiiss') or die("Error : ".mysqli_error());
+					$query ="INSERT INTO `status` (`id`, `title1`, `title2`, `title3`, `title4`, `title5`, `help1`, `help2`, `help3`, `help4`, `help5`, `code`, `in`, `out`, `trash`, `special`, `color`, `anonymize`) VALUES ('', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					$params = array($title1, $title2, $title3, $title4, $title5, $help1, $help2, $help3, $help4, $help5, $code, $in, $out, $trash, $special, $color, $anonymize);
+					$id = dbquery($query, $params,'ssssssssssiiiissi') or die("Error : ".mysqli_error());
 					echo "<center><br/><b><font color=\"green\">\n";
 					echo format_string(__("The new record %id_record has been successfully registered"),array('id_record' => htmlspecialchars($id)))."</b></font>\n";
 					echo "<br/><br/><br/><a href=\"list.php?table=status\">".__("Back to the order steps list")."</a></center>\n";

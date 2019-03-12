@@ -197,6 +197,7 @@ CREATE TABLE IF NOT EXISTS `status` (
   `trash` tinyint(1) DEFAULT NULL,
   `color` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `special` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `anonymize` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`),
   KEY `special` (`special`)

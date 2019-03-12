@@ -72,6 +72,7 @@ if (!empty($_COOKIE['illinkid'])){
                 $trash = $enreg['trash'];
                 $special = $enreg['special'];
                 $color = $enreg['color'];
+                $anonymize = $enreg['anonymize'];
                 echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"fiche\" id=\"fiche\">\n";
                 echo "<input name=\"table\" type=\"hidden\" value=\"status\">\n";
                 echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($statusid)."\">\n";
@@ -106,6 +107,18 @@ if (!empty($_COOKIE['illinkid'])){
                 if ($trash==1)
                     echo " checked";
                 echo "></td></tr>\n";
+                if ($config_dataprotection_retention_policy > -1) {
+                    echo "<tr><td><b>";
+                    if ($config_dataprotection_retention_policy > 1) {
+                        echo sprintf(__("Anonymize orders with this status after %s years"), $config_dataprotection_retention_policy);
+                    } else {
+                        echo sprintf(__("Anonymize orders with this status after %s year"), $config_dataprotection_retention_policy);
+                    }
+                    echo "</b></td><td><input name=\"anonymize\" value=\"1\" type=\"checkbox\"";
+                    if ($anonymize==1)
+                        echo " checked";
+                    echo "></td></tr>\n";
+                }
                 echo "<tr><td><b>".__("Add special status flag")."</b></td><td>";
                 echo "<select name=\"special\">\n";
                 echo "<option value=\"\"></option>\n";

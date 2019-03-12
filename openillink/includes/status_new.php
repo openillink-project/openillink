@@ -65,6 +65,15 @@ if (!empty($_COOKIE['illinkid'])){
         echo "<tr><td class=\"odd\"><b>".__("Display orders with this status in the IN listing")."</b></td><td class=\"odd\"><input name=\"in\" value=\"1\" type=\"checkbox\"></td></tr>\n";
         echo "<tr><td><b>".__("Display orders with this status in the OUT listing")."</b></td><td><input name=\"out\" value=\"1\" type=\"checkbox\"></td></tr>\n";
         echo "<tr><td class=\"odd\"><b>".__("Display orders with this status in the TRASH listing")."</b></td><td class=\"odd\"><input name=\"trash\" value=\"1\" type=\"checkbox\"></td></tr>\n";
+        if ($config_dataprotection_retention_policy > -1) {
+            echo "<tr><td class=\"odd\"><b>";
+            if ($config_dataprotection_retention_policy > 1) {
+                echo sprintf(__("Anonymize orders with this status after %s years"), $config_dataprotection_retention_policy);
+            } else {
+                echo sprintf(__("Anonymize orders with this status after %s year"), $config_dataprotection_retention_policy);
+            }
+            echo "</b></td><td class=\"odd\"><input name=\"anonymize\" value=\"1\" type=\"checkbox\"></td></tr>\n";
+        }
         echo "<tr><td><b>".__("Add special status flag")."</b></td><td>";
         echo "<select name=\"special\">\n";
         echo "<option value=\"\"></option>\n";

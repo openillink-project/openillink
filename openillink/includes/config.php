@@ -453,5 +453,7 @@ $config_dataprotection_consent_conditionsofuse_url["es"] = "";
 // current privacy policy document shown to the users. Max 255 chars
 $config_dataprotection_consent_version = "v1";
 // How many accounting years data should be kept before being anonymized?
+// Set to -1 to prevent anonymization
 $config_dataprotection_retention_policy = 10;
+
 ?>

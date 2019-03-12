@@ -54,7 +54,26 @@ if (!empty($_COOKIE['illinkid'])){
 		} else {
 			$retention_period_string = sprintf(__("%s accounting year"), $config_dataprotection_retention_policy);
 		}
-		if ($action == "anonymize_confirmed"){
+		$status_label_to_anonymize = array();
+		$status_code_to_anonymize = array();
+		$status_result = dbquery("SELECT code, title1, title2, title3, title4, title5 FROM status WHERE anonymize = 1");
+		$nb_status_to_anonymize = iimysqli_num_rows($status_result);
+		for ($i=0 ; $i<$nb_status_to_anonymize ; $i++){
+			$status_row = iimysqli_result_fetch_array($status_result);
+			$status_code_to_anonymize[] = $status_row['code'];
+			if ($lang == "fr") {
+				$status_label_to_anonymize[] = $status_row['title1'];
+			} else if ($lang == "en") {
+				$status_label_to_anonymize[] = $status_row['title2'];
+			} else if ($lang == "de") {
+				$status_label_to_anonymize[] = $status_row['title3'];
+			} else if ($lang == "it") {
+				$status_label_to_anonymize[] = $status_row['title4'];
+			} else if ($lang == "es") {
+				$status_label_to_anonymize[] = $status_row['title5'];
+			}
+		}
+		if ($action == "anonymize_confirmed" && $config_dataprotection_retention_policy > -1 && $nb_status_to_anonymize > 0){
 			echo '<div class="has-text-info has-text-centered" style="display:none" id="anonymizationprogressinfo">';
 			echo '<span class="icon is-large">
 					<i class="fas fa-spinner fa-pulse fa-3x"></i>
@@ -68,9 +87,9 @@ if (!empty($_COOKIE['illinkid'])){
 			$query = "";
 			// For MySQL >= 5.6.3, we could use INET6_ATON(saisie_par) IS NOT NULL to match IPs
 			$date_limit = date("Y", strtotime('-'.$config_dataprotection_retention_policy.' years')) . "-01-01";
-			$query_1 = "UPDATE orders SET historique = REPLACE(REPLACE(historique, ip, '***'), saisie_par, '***'), saisie_par = '***', ip = '***' WHERE anonymized = 0 AND date < '" . $date_limit . "' AND (saisie_par REGEXP '^[A-Z0-9._-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$' OR saisie_par REGEXP '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|((([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}((b((25[0-5])|(1d{2})|(2[0-4]d)|(d{1,2}))b).){3}(b((25[0-5])|(1d{2})|(2[0-4]d)|(d{1,2}))b))|(([0-9A-Fa-f]{1,4}:){0,5}:((b((25[0-5])|(1d{2})|(2[0-4]d)|(d{1,2}))b).){3}(b((25[0-5])|(1d{2})|(2[0-4]d)|(d{1,2}))b))|(::([0-9A-Fa-f]{1,4}:){0,5}((b((25[0-5])|(1d{2})|(2[0-4]d)|(d{1,2}))b).){3}(b((25[0-5])|(1d{2})|(2[0-4]d)|(d{1,2}))b))|([0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})|(::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){1,7}:))$')";
+			$query_1 = "UPDATE orders SET historique = REPLACE(REPLACE(historique, ip, '***'), saisie_par, '***'), saisie_par = '***', ip = '***' WHERE anonymized = 0 AND stade IN (". implode(',', $status_code_to_anonymize).") AND date < '" . $date_limit . "' AND (saisie_par REGEXP '^[A-Z0-9._-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$' OR saisie_par REGEXP '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|((([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}((b((25[0-5])|(1d{2})|(2[0-4]d)|(d{1,2}))b).){3}(b((25[0-5])|(1d{2})|(2[0-4]d)|(d{1,2}))b))|(([0-9A-Fa-f]{1,4}:){0,5}:((b((25[0-5])|(1d{2})|(2[0-4]d)|(d{1,2}))b).){3}(b((25[0-5])|(1d{2})|(2[0-4]d)|(d{1,2}))b))|(::([0-9A-Fa-f]{1,4}:){0,5}((b((25[0-5])|(1d{2})|(2[0-4]d)|(d{1,2}))b).){3}(b((25[0-5])|(1d{2})|(2[0-4]d)|(d{1,2}))b))|([0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})|(::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){1,7}:))$')";
 			$result_1 = dbquery($query_1);
-			$query_2 = "UPDATE orders SET nom = '***', prenom = '***', mail = '', tel = '***', adresse = '***', code_postal = '***', localite = '***', historique = concat(historique, '<br />', '" . sprintf(__("Order anonymized after exceeding the maximum personal data retention period (%s)"), $retention_period_string) . "',  ' (', CURRENT_TIMESTAMP(), ')'), anonymized=1 WHERE date < '" . $date_limit . "' AND anonymized = 0;";
+			$query_2 = "UPDATE orders SET nom = '***', prenom = '***', mail = '', tel = '***', adresse = '***', code_postal = '***', localite = '***', historique = concat(historique, '<br />', '" . sprintf(__("Order anonymized after exceeding the maximum personal data retention period (%s)"), $retention_period_string) . "',  ' (', CURRENT_TIMESTAMP(), ')'), anonymized=1 WHERE date < '" . $date_limit . "' AND anonymized = 0 AND stade IN (". implode(',', $status_code_to_anonymize).");";
 			$result_2 = dbquery($query_2);
 			echo '<script>document.getElementById("anonymizationprogressinfo").style.display="none";</script>';
 			if ($query_1 && $result_2){
@@ -84,7 +103,7 @@ if (!empty($_COOKIE['illinkid'])){
 			echo "<br/><br/><br/><a href=\"list.php?table=orders\">". __("Return to the orders list") ."</a></center>\n";
 			echo "</center>\n";
 			echo "\n";
-		} else {
+		} else if ($config_dataprotection_retention_policy > -1 && $nb_status_to_anonymize > 0){
 			//echo "<center><br/><br/><br/><b><font color=\"red\">\n";
 			echo '<div class="container">
 	<div class="columns is-centered">
@@ -94,6 +113,8 @@ if (!empty($_COOKIE['illinkid'])){
 			echo "<strong><p>";
 			echo sprintf(__("Do you really want to anonymize personal data in orders older than the configured retention period (%s)?"), $retention_period_string);
 			echo "</p></strong>";
+			echo "<br/>";
+			echo sprintf(__("Only orders with the following status will be anonymized: %s"), '<ul class="is-family-monospace"><li>'.implode("</li><li>", $status_label_to_anonymize)."</li></ul>");
 			echo "<br/>";
 			echo __("This cannot be undone.");
 			echo "<br/>";
@@ -119,6 +140,26 @@ if (!empty($_COOKIE['illinkid'])){
 			echo "<br/><br/><br/><a href=\"list.php?table=orders\">". __("Return to the orders list") ."</a></center>\n";
 			//echo "</center>\n";
 			echo "\n";
+		} else if ($config_dataprotection_retention_policy <= -1){
+			echo '<div class="container">
+	<div class="columns is-centered">
+	 <div class="column is-two-fifths">
+	<article class="message is-danger">
+  <div class="message-body has-text-centered">';
+			echo __("Order anonymization is not configured. Please check OpenILLink configuration.");
+			echo '</div>
+</article>';
+			echo '</div></div></div>';
+		} else if ($nb_status_to_anonymize == 0){
+echo '<div class="container">
+	<div class="columns is-centered">
+	 <div class="column is-two-fifths">
+	<article class="message is-danger" id="alertanonymize">
+  <div class="message-body has-text-centered">';
+			echo __("No status is configured for anonymization. Please check order steps administration interface.");
+			echo '</div>
+</article>';
+			echo '</div></div></div>';
 		}
 		require ("includes/footer.php");
 	} else {

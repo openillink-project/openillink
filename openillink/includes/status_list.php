@@ -72,6 +72,7 @@ if (!empty($_COOKIE['illinkid'])){
         // echo "<th scope=\"col\">title5</th>\n";
         echo "<th scope=\"col\">".__("Display in listing")."</th>\n";
         echo "<th scope=\"col\">".__("Add special status flag")."</th>\n";
+        echo "<th scope=\"col\">".__("Anonymize?")."</th>\n";
         echo "<th scope=\"col\">".__("Edit")."</th>\n";
         echo "</tr>\n";
         echo "</thead>\n";
@@ -91,6 +92,7 @@ if (!empty($_COOKIE['illinkid'])){
             $statustrash = $enreg['trash'];
             $statusspecial = $enreg['special'];
             $statuscolor = $enreg['color'];
+			$statusanonymize = $enreg['anonymize'];
             $monseparateur = "";
             echo "<tr>\n";
             echo "<td><b>" . htmlspecialchars($statuscode) . "</b></td>\n";
@@ -111,6 +113,11 @@ if (!empty($_COOKIE['illinkid'])){
             }
             echo "</td><td>\n";
             echo $statusspecial;
+            echo "</td>\n";
+            echo "</td><td>\n";
+            if ($statusanonymize == 1) {
+				echo '<i class="fas fa-mask"></i>';
+			}
             echo "</td>\n";
             // echo "<td>".$statustitle2."</td>\n";
             // echo "<td>".$statustitle3."</td>\n";

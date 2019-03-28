@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenILLink\n"
-"POT-Creation-Date: 2019-03-12 15:07+0100\n"
-"PO-Revision-Date: 2019-03-12 15:08+0100\n"
+"POT-Creation-Date: 2019-03-28 13:34+0100\n"
+"PO-Revision-Date: 2019-03-28 13:34+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -257,9 +257,140 @@ msgstr ""
 msgid "Contact us by email for more information (pricing, billing, etc.)"
 msgstr ""
 
+#: includes/config.php:460 includes/config.php:461 includes/config.php:462
+#: includes/config.php:463 includes/config.php:464
+msgid "Hello,"
+msgstr ""
+
+#: includes/config.php:460 includes/config.php:461 includes/config.php:462
+#: includes/config.php:463 includes/config.php:464
+msgid "thank you for your order:"
+msgstr ""
+
+#: includes/config.php:466 includes/config.php:467 includes/config.php:468
+#: includes/config.php:469 includes/config.php:470
+msgid "Check the current status of your orders online at:"
+msgstr ""
+
+#: includes/config.php:472 includes/config.php:473 includes/config.php:474
+#: includes/config.php:475 includes/config.php:476
+msgid ""
+"In accordance with copyright laws, the attached document is for your own use "
+"only, for the sole purpose of scientific research. It cannot be copied or "
+"shared."
+msgstr ""
+
+#: includes/config.php:478 includes/config.php:479 includes/config.php:480
+#: includes/config.php:481 includes/config.php:482
+msgid "Best regards"
+msgstr ""
+
+#: includes/config.php:484 includes/config.php:485 includes/config.php:486
+#: includes/config.php:487 includes/config.php:488
+msgid "Your Interlibrary loan service."
+msgstr ""
+
 #: includes/connect.php:31
 #, php-format
 msgid "Impossible to connect to %database"
+msgstr ""
+
+#: includes/email.php:53 includes/orders_new.php:442
+#: includes/orders_update.php:200
+msgid "Order"
+msgstr "Auftrag"
+
+#: includes/email.php:59 includes/folders_list.php:67
+#: includes/folders_new.php:57 includes/orders_detail.php:175
+#: includes/orders_edit.php:832 includes/orders_new.php:466
+#: includes/orders_update.php:223 includes/ordertop.php:94 index.php:938
+msgid "Title"
+msgstr "Titel"
+
+#: includes/email.php:61 includes/orders_detail.php:177
+#: includes/orders_edit.php:845 includes/orders_list.php:283
+#: includes/orders_list.php:285 includes/ordertop.php:96
+#: includes/searchform.php:132 includes/searchform.php:265
+#: includes/searchform.php:388 index.php:951
+msgid "Author(s)"
+msgstr "Autor(en)"
+
+#: includes/email.php:63
+msgid "Source"
+msgstr ""
+
+#: includes/email.php:65 includes/orders_detail.php:196
+#: includes/orders_list.php:283 includes/orders_list.php:285
+#: includes/orders_new.php:484 includes/orders_update.php:241
+#: includes/ordertop.php:115
+msgid "Volume"
+msgstr "Volumen"
+
+#: includes/email.php:67 includes/orders_detail.php:198
+#: includes/orders_edit.php:798 includes/orders_list.php:283
+#: includes/orders_list.php:285 includes/ordertop.php:117 index.php:904
+msgid "Issue"
+msgstr ""
+
+#: includes/email.php:69 includes/orders_detail.php:200
+#: includes/orders_edit.php:808 includes/orders_list.php:283
+#: includes/orders_list.php:285 includes/orders_new.php:492
+#: includes/orders_update.php:249 index.php:914
+msgid "Suppl."
+msgstr ""
+
+#: includes/email.php:71 includes/orders_detail.php:202
+#: includes/orders_edit.php:818 includes/orders_list.php:283
+#: includes/orders_list.php:285 includes/orders_new.php:496
+#: includes/orders_update.php:253 includes/ordertop.php:119 index.php:924
+msgid "Pages"
+msgstr "Seiten"
+
+#: includes/email.php:73 includes/orders_detail.php:204
+#: includes/orders_edit.php:778 includes/orders_list.php:283
+#: includes/orders_list.php:285 includes/orders_new.php:480
+#: includes/orders_update.php:237 includes/ordertop.php:121 index.php:884
+msgid "Year"
+msgstr "Jahr"
+
+#: includes/email.php:75 includes/orders_list.php:283
+#: includes/orders_list.php:285
+msgid "ISSN"
+msgstr ""
+
+#: includes/email.php:77 includes/orders_list.php:283
+#: includes/orders_list.php:285
+msgid "ISBN"
+msgstr ""
+
+#: includes/email.php:79 includes/orders_list.php:283
+#: includes/orders_list.php:285
+msgid "PMID"
+msgstr ""
+
+#: includes/email.php:81
+msgid "Ordered by"
+msgstr ""
+
+#: includes/email.php:83 includes/orders_detail.php:247
+#: includes/searchform.php:140 includes/searchform.php:273
+#: includes/searchform.php:396
+msgid "Internal library ref."
+msgstr ""
+
+#: includes/email.php:89 includes/loginfail.php:49
+#: includes/orders_detail.php:249 includes/users_edit.php:109
+#: includes/users_list.php:67 includes/users_new.php:56 login.php:237
+msgid "Username"
+msgstr "Benutzername"
+
+#: includes/email.php:90 includes/loginfail.php:57
+#: includes/orders_detail.php:249 includes/users_new.php:89 login.php:245
+msgid "Password"
+msgstr "Passwort"
+
+#: includes/email.php:100
+msgid "Send a message with the attached document to the user"
 msgstr ""
 
 #: includes/folders.php:40
@@ -385,12 +516,6 @@ msgstr ""
 #: includes/folders_list.php:57
 msgid "filters found"
 msgstr ""
-
-#: includes/folders_list.php:67 includes/folders_new.php:57
-#: includes/orders_edit.php:832 includes/orders_new.php:466
-#: includes/orders_update.php:223 includes/ordertop.php:94 index.php:938
-msgid "Title"
-msgstr "Titel"
 
 #: includes/folders_list.php:69 includes/searchform.php:58
 msgid "Search"
@@ -1164,17 +1289,6 @@ msgstr ""
 msgid "Log in"
 msgstr ""
 
-#: includes/loginfail.php:49 includes/orders_detail.php:249
-#: includes/users_edit.php:109 includes/users_list.php:67
-#: includes/users_new.php:56 login.php:237
-msgid "Username"
-msgstr "Benutzername"
-
-#: includes/loginfail.php:57 includes/orders_detail.php:249
-#: includes/users_new.php:89 login.php:245
-msgid "Password"
-msgstr "Passwort"
-
 #: includes/loginfail.php:73 login.php:268
 #, php-format
 msgid ""
@@ -1284,50 +1398,11 @@ msgstr "Dokumenttyp"
 msgid "Search for orders from this title"
 msgstr ""
 
-#: includes/orders_detail.php:177 includes/orders_edit.php:845
-#: includes/orders_list.php:283 includes/orders_list.php:285
-#: includes/ordertop.php:96 includes/searchform.php:132
-#: includes/searchform.php:265 includes/searchform.php:388 index.php:951
-msgid "Author(s)"
-msgstr "Autor(en)"
-
 #: includes/orders_detail.php:180 includes/orders_detail.php:182
 #: includes/orders_new.php:474 includes/orders_update.php:231
 #: includes/ordertop.php:99 includes/ordertop.php:101
 msgid "Journal"
 msgstr "Zeitschrift"
-
-#: includes/orders_detail.php:196 includes/orders_list.php:283
-#: includes/orders_list.php:285 includes/orders_new.php:484
-#: includes/orders_update.php:241 includes/ordertop.php:115
-msgid "Volume"
-msgstr "Volumen"
-
-#: includes/orders_detail.php:198 includes/orders_edit.php:798
-#: includes/orders_list.php:283 includes/orders_list.php:285
-#: includes/ordertop.php:117 index.php:904
-msgid "Issue"
-msgstr ""
-
-#: includes/orders_detail.php:200 includes/orders_edit.php:808
-#: includes/orders_list.php:283 includes/orders_list.php:285
-#: includes/orders_new.php:492 includes/orders_update.php:249 index.php:914
-msgid "Suppl."
-msgstr ""
-
-#: includes/orders_detail.php:202 includes/orders_edit.php:818
-#: includes/orders_list.php:283 includes/orders_list.php:285
-#: includes/orders_new.php:496 includes/orders_update.php:253
-#: includes/ordertop.php:119 index.php:924
-msgid "Pages"
-msgstr "Seiten"
-
-#: includes/orders_detail.php:204 includes/orders_edit.php:778
-#: includes/orders_list.php:283 includes/orders_list.php:285
-#: includes/orders_new.php:480 includes/orders_update.php:237
-#: includes/ordertop.php:121 index.php:884
-msgid "Year"
-msgstr "Jahr"
 
 #: includes/orders_detail.php:215 includes/orders_detail.php:217
 msgid "Other identifier"
@@ -1379,11 +1454,6 @@ msgstr ""
 
 #: includes/orders_detail.php:245
 msgid "Provider ref."
-msgstr ""
-
-#: includes/orders_detail.php:247 includes/searchform.php:140
-#: includes/searchform.php:273 includes/searchform.php:396
-msgid "Internal library ref."
 msgstr ""
 
 #: includes/orders_detail.php:249
@@ -1644,23 +1714,11 @@ msgid "Journal or book title"
 msgstr ""
 
 #: includes/orders_list.php:283 includes/orders_list.php:285
-msgid "ISBN"
-msgstr ""
-
-#: includes/orders_list.php:283 includes/orders_list.php:285
-msgid "ISSN"
-msgstr ""
-
-#: includes/orders_list.php:283 includes/orders_list.php:285
 msgid "e-ISSN"
 msgstr ""
 
 #: includes/orders_list.php:283 includes/orders_list.php:285
 msgid "DOI"
-msgstr ""
-
-#: includes/orders_list.php:283 includes/orders_list.php:285
-msgid "PMID"
 msgstr ""
 
 #: includes/orders_list.php:283
@@ -1716,10 +1774,6 @@ msgstr ""
 #: includes/orders_new.php:438
 msgid "Your order has been successfully registered and will be processed soon"
 msgstr ""
-
-#: includes/orders_new.php:442 includes/orders_update.php:200
-msgid "Order"
-msgstr "Auftrag"
 
 #: includes/orders_new.php:463 includes/orders_update.php:220
 msgid "Document"

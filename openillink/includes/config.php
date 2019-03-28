@@ -456,4 +456,34 @@ $config_dataprotection_consent_version = "v1";
 // Set to -1 to prevent anonymization
 $config_dataprotection_retention_policy = 10;
 
+// Customize email message sent to users
+$emailTxt['fr']['start'] = __("Hello,"). "\r\n\r\n". __("thank you for your order:");
+$emailTxt['en']['start'] = __("Hello,"). "\r\n\r\n". __("thank you for your order:");
+$emailTxt['de']['start'] = __("Hello,"). "\r\n\r\n". __("thank you for your order:");
+$emailTxt['it']['start'] = __("Hello,"). "\r\n\r\n". __("thank you for your order:");
+$emailTxt['es']['start'] = __("Hello,"). "\r\n\r\n". __("thank you for your order:");
+
+$emailTxt['fr']['infoservice'] = __("Check the current status of your orders online at:");
+$emailTxt['en']['infoservice'] = __("Check the current status of your orders online at:");
+$emailTxt['de']['infoservice'] = __("Check the current status of your orders online at:");
+$emailTxt['it']['infoservice'] = __("Check the current status of your orders online at:");
+$emailTxt['es']['infoservice'] = __("Check the current status of your orders online at:");
+
+$emailTxt['fr']['copyrightWarning'] = __("In accordance with copyright laws, the attached document is for your own use only, for the sole purpose of scientific research. It cannot be copied or shared.");
+$emailTxt['en']['copyrightWarning'] = __("In accordance with copyright laws, the attached document is for your own use only, for the sole purpose of scientific research. It cannot be copied or shared.");
+$emailTxt['de']['copyrightWarning'] = __("In accordance with copyright laws, the attached document is for your own use only, for the sole purpose of scientific research. It cannot be copied or shared.");
+$emailTxt['it']['copyrightWarning'] = __("In accordance with copyright laws, the attached document is for your own use only, for the sole purpose of scientific research. It cannot be copied or shared.");
+$emailTxt['es']['copyrightWarning'] = __("In accordance with copyright laws, the attached document is for your own use only, for the sole purpose of scientific research. It cannot be copied or shared.");
+
+$emailTxt['fr']['greetings'] = __("Best regards");
+$emailTxt['en']['greetings'] = __("Best regards");
+$emailTxt['de']['greetings'] = __("Best regards");
+$emailTxt['it']['greetings'] = __("Best regards");
+$emailTxt['es']['greetings'] = __("Best regards");
+
+$emailTxt['fr']['signature'] = __("Your Interlibrary loan service.");
+$emailTxt['en']['signature'] = __("Your Interlibrary loan service.");
+$emailTxt['de']['signature'] = __("Your Interlibrary loan service.");
+$emailTxt['it']['signature'] = __("Your Interlibrary loan service.");
+$emailTxt['es']['signature'] = __("Your Interlibrary loan service.");
 ?>

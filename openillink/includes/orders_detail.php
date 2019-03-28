@@ -157,7 +157,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "<br /><b>". __("E-mail") ." : </b><a href=\"list.php?folder=search&champ=email&term=".htmlspecialchars(urlencode($mail))."\" title=\"". __("Search for orders from this email") ."\">".htmlspecialchars($mail)."</a>\n";
                 $monhost = "http://" . $_SERVER['SERVER_NAME'];
                 $monuri = $monhost . rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . "/";
-                displayMailText($monaut, $monuri, $enreg, $emailTxt, $titreart, $titreper, $nom, $maillog, $passwordg, $mail, $library_signature);
+                displayMailText($monaut, $monuri, $enreg, $emailTxt, $titreart, $titreper, $nom, $maillog, $passwordg, $mail, $library_signature, $lang);
             }
             if ($enreg['adresse'])
                 echo "<br /><b>". __("Address") ." : </b>".htmlspecialchars($adresse);
@@ -172,7 +172,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "<br /><b>". __("Document type") ." : </b>".htmlspecialchars($enreg['type_doc']);
             echo "<br />\n";
             if ($enreg['titre_article'])
-                echo "<b>Titre : </b><a href=\"list.php?folder=search&champ=atitle&term=".htmlspecialchars(urlencode ($enreg['titre_article']))."\" title=\"". __("Search for orders from this title") ."\">".htmlspecialchars($enreg['titre_article'])."</a><br />\n";
+                echo "<b>". __("Title") ." : </b><a href=\"list.php?folder=search&champ=atitle&term=".htmlspecialchars(urlencode ($enreg['titre_article']))."\" title=\"". __("Search for orders from this title") ."\">".htmlspecialchars($enreg['titre_article'])."</a><br />\n";
             if ($enreg['auteurs'])
                 echo "<b>". __("Author(s)") ." : </b>".htmlspecialchars($enreg['auteurs'])."<br />\n";
             if ($enreg['titre_periodique']){

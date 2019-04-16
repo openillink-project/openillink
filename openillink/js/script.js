@@ -1,6 +1,6 @@
 ﻿/* 
    This file is part of OpenILLink software.
-   Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
+   Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
    Original author(s): Pablo Iriarte <pablo@iriarte.ch>
    Other contributors are listed in the AUTHORS file at the top-level directory of this distribution.
    
@@ -1555,6 +1555,11 @@ function remplirauto(openillink_config_email) {
                 document.commande["uid_"+item_index].value = 'pmid:' + get_url_parameter("meduid");
             if (get_url_parameter("doi"))
                 document.commande["uid_"+item_index].value = 'doi:' + get_url_parameter("doi");
+            if (get_url_parameter("id", "", "rft_") && get_url_parameter("rfr_id").includes('webofscience')) {
+                document.commande["uid_"+item_index].value = 'doi:' + get_url_parameter("id", "", "rft_").replace('info:doi/','');
+                document.commande["uids_"+item_index].value = get_url_parameter("id", "", "rft_").replace('info:doi/','');
+                document.commande["tid_"+item_index].value = "doi";
+            }
         }
         if (get_url_parameter("genre", "", "rft."))
             document.commande["genre_"+item_index].value = get_url_parameter("genre", "", "rft.");

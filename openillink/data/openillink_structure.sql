@@ -278,6 +278,35 @@ CREATE TABLE `folders` (
   KEY `active` (`active`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `resolver_cache`
+--
+
+DROP TABLE IF EXISTS `resolver_cache`;
+CREATE TABLE `resolver_cache` (
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `params` varchar(512) NOT NULL,
+  `cache` text NOT NULL,
+  INDEX `params` (`params`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `resolver_cache`
+--
+
+DROP TABLE IF EXISTS `resolver_log`;
+CREATE TABLE `resolver_log` (
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `package` varchar(512) NOT NULL,
+  `params` varchar(512) NOT NULL,
+  `referer` varchar(255) NOT NULL,
+  `auth_level` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

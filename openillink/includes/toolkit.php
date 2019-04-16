@@ -463,4 +463,161 @@ function update_folders_item_count($only_if_necessary = false) {
 			$success = dbquery($reqFolderCount, array($folderId) , 'i');
 	}
 }
+
+function startsWith($haystack, $needle)
+{
+     $length = strlen($needle);
+     return (substr($haystack, 0, $length) === $needle);
+}
+
+function endsWith($haystack, $needle)
+{
+    $length = strlen($needle);
+    if ($length == 0) {
+        return true;
+    }
+
+    return (substr($haystack, -$length) === $needle);
+}
+
+function resolve_link($pmid, $mms_id, $doi, $genre, $atitle, $title, $year, $volume, $issue, $suppl, $pages, $author, $issn_isbn, $edition, $user_ip) {
+	/*
+	Access the configured resolver to retrieve information about the given document
+	*/
+	
+	$response = array("has_fulltext"=>false,
+					  "services" => array(),
+					  "response" => array());
+	
+	global $config_link_resolver_user_ip_forwarding_mode;
+	global $config_link_resolver_base_openurl;
+	global $config_link_resolver_custom_parameters;
+	if (!empty($config_link_resolver_base_openurl)){
+		$openurl_parameters = array(
+			'svc_dat' => 'CTO',
+		);
+		
+		$openurl_parameters = array_merge ($openurl_parameters, $config_link_resolver_custom_parameters);
+
+		
+		if ($config_link_resolver_user_ip_forwarding_mode == "forward"){
+			$openurl_parameters['user_ip'] = $user_ip;
+		} else if ($config_link_resolver_user_ip_forwarding_mode == "server"){
+			$openurl_parameters['user_ip'] = $_SERVER['SERVER_ADDR'];
+		} else if (!is_null($config_link_resolver_user_ip_forwarding_mode)){
+			if (strpos($config_link_resolver_user_ip_forwarding_mode, ' ') !== false) {
+				// forward user IP if falls within range. Otherwise forward default provided IP
+				$exploded_config_link_resolver_user_ip_forwarding_mode = explode(" ", $config_link_resolver_user_ip_forwarding_mode);
+				if (startsWith($user_ip, $exploded_config_link_resolver_user_ip_forwarding_mode[0])) {
+					$openurl_parameters['user_ip'] = $user_ip;
+				} else {
+					$openurl_parameters['user_ip'] = $exploded_config_link_resolver_user_ip_forwarding_mode[1];
+				}
+			} else {
+				$openurl_parameters['user_ip'] = $config_link_resolver_user_ip_forwarding_mode;
+			}
+		}
+		if (!empty($pmid)) {
+			$openurl_parameters['id'] = "pmid:" . $pmid;
+		}
+		if (!empty($mms_id)) {
+			$openurl_parameters['rft.mms_id'] = $mms_id;
+		}
+		if (!empty($doi)) {
+			$openurl_parameters['rft.doi'] = $doi;
+		}
+		if (!empty($atitle)) {
+			$openurl_parameters['rft.atitle'] = $atitle;
+		}
+		if (!empty($title)) {
+			if ($genre == "book") {
+				$openurl_parameters['rft.btitle'] = $title;
+			} else {
+				$openurl_parameters['rft.jtitle'] = $title;
+			}
+		}
+		if (!empty($genre)) {
+			$openurl_parameters['rft.genre'] = $genre;
+		}
+		if (!empty($year)) {
+			$openurl_parameters['rft.pubyear'] = $year;
+		}
+		if (!empty($volume)) {
+			$openurl_parameters['rft.volume'] = $volume;
+		}
+		if (!empty($issue)) {
+			$openurl_parameters['rft.issue'] = $issue;
+		}
+		/*if (!empty($suppl)) {
+			$openurl_parameters['rft.suppl'] = $suppl;
+		}*/
+		if (!empty($pages)) {
+			//if (strpos($pages, '-') !== false || strpos($pages, ',') !== false) {
+			//	$openurl_parameters['rft.pages'] = $pages;
+			//} else {
+				$openurl_parameters['rft.spage'] = $pages;
+			//}
+		}
+		if (!empty($author)) {
+			$openurl_parameters['rft.au'] = $author;
+		}
+		if (!empty($issn_isbn)) {
+			if ($genre == "book") {
+				$openurl_parameters['rft.isbn'] = $issn_isbn;
+			} else {
+				$openurl_parameters['rft.issn'] = $issn_isbn;
+			}
+		}
+		if (!empty($edition)) {
+			$openurl_parameters['rft.edition'] = $edition;
+		}
+		$openurl_resolver = $config_link_resolver_base_openurl . "?" . http_build_query($openurl_parameters);
+
+		// Resolve and parse
+		$resolved_obj = simplexml_load_file($openurl_resolver);
+		if ($resolved_obj !== false) {
+			// Register namespaces
+			foreach($resolved_obj->getDocNamespaces() as $strPrefix => $strNamespace) {
+				if(strlen($strPrefix)==0) {
+					$strPrefix="a"; 
+				}
+				$resolved_obj->registerXPathNamespace($strPrefix,$strNamespace);
+			}
+			
+
+			$has_fulltext = false;
+			foreach ($resolved_obj->xpath("//a:context_service[@service_type='getFullTxt']") as $service) {
+
+				$service->registerXPathNamespace("b", "http://com/exlibris/urm/uresolver/xmlbeans/u");
+				$is_filtered = count($service -> xpath("b:keys/b:key[@id='Filtered']")) > 0;
+
+				if (!$is_filtered) {
+					$package_display_name = (string)$service -> xpath("b:keys/b:key[@id='package_display_name']")[0];
+					$preferred_link = (int)$service -> xpath("b:keys/b:key[@id='preferred_link']")[0] == 1;
+					$is_free = (int)$service -> xpath("b:keys/b:key[@id='Is_free']")[0] == 1;
+					$resolution_url = (string)$service -> xpath("b:resolution_url")[0];
+					$response['services'][] = array('package_display_name' => $package_display_name,
+													'resolution_url' => $resolution_url,
+													'preferred_link' =>$preferred_link,
+													'is_free' => $is_free);
+					$has_fulltext = true;
+				}
+			};
+			$response['has_fulltext'] = $has_fulltext;
+			$response['response'] = $resolved_obj;
+			// Order by preferred service and then by package name
+			usort($response['services'], function($a, $b)
+										{
+											if ($a['preferred_link'] == $b['preferred_link']) {
+												return strcmp($a['package_display_name'], $b['package_display_name']);
+											} else { 
+												return $b['preferred_link'] - $a['preferred_link'];
+											}
+										});
+		}
+	}
+	return $response;
+	
+}
+
 ?>

@@ -42,8 +42,10 @@ foreach (array('HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR') as $header_key){
 		}
 	}
 }
-if (!empty($_SERVER['HTTP_REFERER'])){
-    $referer=$_SERVER['HTTP_REFERER'];
+if (isset($_POST['referer'])) {
+    $referer = $_POST['referer'];
+} else if (!empty($_SERVER['HTTP_REFERER'])){
+    $referer = $_SERVER['HTTP_REFERER'];
 }
 $sep = ".";
 $ips1 = strtok( $ip, $sep );

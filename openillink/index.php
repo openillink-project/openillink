@@ -47,7 +47,8 @@ $default_order_form = array('tid_code' => "",
 							'issn' => "",
 							'uid' => "",
 							'remarquespub' => "",
-							'need_lookup' => false);
+							'need_lookup' => false,
+							'resolver_search_params' => "");
 
 $uploaded_orders_messages = array(); // array of messages (error_level, msg, title) related to display to the user
 
@@ -115,6 +116,7 @@ if (isset($_POST['tid_0']) || isset($_GET['tid_0'])) {
 		$order_form['issn'] = get_from_post($form_index, 'issn');
 		$order_form['uid'] = get_from_post($form_index, 'uid');
 		$order_form['remarquespub'] = get_from_post($form_index, 'remarquespub');
+		$order_form['resolver_search_params'] = get_from_post($form_index, 'resolver_search_params');
 		array_push($order_form_values, $order_form);
 		$form_index += 1;
 	}
@@ -239,6 +241,7 @@ if (!isset($_POST['add_form'])){
 $mybodyonload .= " remplirauto('".htmlspecialchars($configemail)."');";
 if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     require ("includes/headeradmin.php");
+	echo '<script type="text/javascript">var referer="'. (isset($referer)  ? htmlspecialchars(ltrim(rtrim(json_encode($referer), '"'), '"')) : '').'";</script>';
     echo '<section class="hero">
 			<div class="hero-body">
 				<div class="container has-text-centered">';
@@ -274,7 +277,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     echo "<input name=\"sid\" type=\"hidden\"  value=\"\">\n";
     echo "<input name=\"pid\" type=\"hidden\"  value=\"\">\n";
     if (!empty($referer))
-        echo "<input name=\"referer\" type=\"hidden\" value=\"" . htmlspecialchars(rawurlencode($referer)) . "\">\n";
+        echo "<input name=\"referer\" type=\"hidden\" value=\"" . htmlspecialchars($referer) . "\">\n";
     else
         echo "<input name=\"referer\" type=\"hidden\" value=\"\">\n";
     echo "<input name=\"action\" type=\"hidden\" value=\"saisie\">\n";
@@ -528,6 +531,7 @@ else{
     if ($monaut == "")
         require ("includes/header.php");
 
+	echo '<script type="text/javascript">var referer="'. (isset($referer)  ? htmlspecialchars(ltrim(rtrim(json_encode($referer), '"'), '"')) : '').'";</script>';
 
     echo '<section class="hero">
 			<div class="hero-body">
@@ -551,7 +555,7 @@ else{
     echo "<input name=\"sid\" type=\"hidden\" value=\"\">\n";
     echo "<input name=\"pid\" type=\"hidden\" value=\"\">\n";
     if (!empty($referer))
-        echo "<input name=\"referer\" type=\"hidden\" value=\"" . htmlspecialchars(rawurlencode($referer)) . "\">\n";
+        echo "<input name=\"referer\" type=\"hidden\" value=\"" . htmlspecialchars($referer) . "\">\n";
     else
         echo "<input name=\"referer\" type=\"hidden\" value=\"\">\n";
     echo "<input name=\"action\" type=\"hidden\" value=\"saisie\">\n";
@@ -766,7 +770,7 @@ echo '
 	<div class="field is-horizontal">
         <div class="control">
          <label class="radio field-label is-normal">
-          <input type="radio" checked id="envoimail" name="envoi" '. (($envoi == "" || $envoi == "mail") ? " checked ": "") .' value="mail"> '.__("Send by e-mail (billed)").'</label>
+          <input type="radio" id="envoimail" name="envoi" '. (($envoi == "" || $envoi == "mail") ? " checked ": "") .' value="mail"> '.__("Send by e-mail (billed)").'</label>
          <label class="radio field-label is-normal">
           <input type="radio" id="envoisurplace" name="envoi" '. ($envoi == "surplace" ? " checked ": "") .' value="surplace"> '.__("Let me know and I come to make a copy (not billed)").'</label>
         </div>
@@ -794,10 +798,11 @@ echo '
 
 	</div>
 	</div>
+  </div>
 </section>';
 
-function get_document_form($lookupuid, $doctypesmessage, $doctypes,  $periodical_title_search_url, $can_remove_orders, $form_index=0, $tid_code="", $uids="", $genre_code="", $title="", $date="", $volume="", $issue="", $suppl="", $pages="", $atitle="", $auteurs="", $edition="", $issn="", $uid="", $remarquespub="") {
-	global $configemail;
+function get_document_form($lookupuid, $doctypesmessage, $doctypes,  $periodical_title_search_url, $can_remove_orders, $form_index=0, $tid_code="", $uids="", $genre_code="", $title="", $date="", $volume="", $issue="", $suppl="", $pages="", $atitle="", $auteurs="", $edition="", $issn="", $uid="", $remarquespub="", $resolver_search_params="") {
+	global $configemail, $config_link_resolver_base_openurl;
 	$document_form = "";
 	$document_form .=  "<a id=\"order_nb_".$form_index."\"></a>\n";
 	$document_form .= '
@@ -867,7 +872,7 @@ else
 	</div>
 	<div class="column is-three-quarters">
         <div class="control">
-         <input class="input" id="title_'.$form_index.'" name="title_'.$form_index.'" type="text" value="'.htmlspecialchars($title).'" placeholder='.__("Journal or book title").'>
+         <input class="input" id="title_'.$form_index.'" name="title_'.$form_index.'" type="text" value="'.htmlspecialchars($title).'" onchange="resolve('.$form_index.', 1);" placeholder="'.__("Journal or book title").'">
         </div>
     </div>
 	<div class="column is-2">
@@ -886,7 +891,7 @@ else
 	</div>
 	<div class="column is-1">
         <div class="control">
-         <input class="input" id="date_'.$form_index.'" name="date_'.$form_index.'" type="text" value="'.htmlspecialchars($date).'">
+         <input class="input" id="date_'.$form_index.'" name="date_'.$form_index.'" type="text" value="'.htmlspecialchars($date).'" onchange="resolve('.$form_index.', 1);">
         </div>
     </div>
      <div class="column is-1">
@@ -896,7 +901,7 @@ else
 	</div>
 	<div class="column is-1">
         <div class="control">
-         <input class="input" id="volume_'.$form_index.'" name="volume_'.$form_index.'" type="text" value="'.htmlspecialchars($volume).'">
+         <input class="input" id="volume_'.$form_index.'" name="volume_'.$form_index.'" type="text" value="'.htmlspecialchars($volume).'" onchange="resolve('.$form_index.', 1);">
         </div>
     </div>
      <div class="column is-1">
@@ -906,7 +911,7 @@ else
 	</div>
 	<div class="column is-1">
         <div class="control">
-         <input class="input" id="issue_'.$form_index.'" name="issue_'.$form_index.'" type="text" value="'.htmlspecialchars($issue).'">
+         <input class="input" id="issue_'.$form_index.'" name="issue_'.$form_index.'" type="text" value="'.htmlspecialchars($issue).'" onchange="resolve('.$form_index.', 1);">
        </div>
     </div>
      <div class="column is-1">
@@ -916,7 +921,7 @@ else
 	</div>
 	<div class="column is-1">
         <div class="control">
-         <input class="input" id="suppl_'.$form_index.'" name="suppl_'.$form_index.'" type="text" value="'.htmlspecialchars($suppl).'">
+         <input class="input" id="suppl_'.$form_index.'" name="suppl_'.$form_index.'" type="text" value="'.htmlspecialchars($suppl).'" onchange="resolve('.$form_index.', 1);">
        </div>
     </div>
      <div class="column is-1">
@@ -926,7 +931,7 @@ else
 	</div>
 	<div class="column is-1">
         <div class="control">
-         <input class="input" id="pages_'.$form_index.'" name="pages_'.$form_index.'" type="text" value="'.htmlspecialchars($pages).'">
+         <input class="input" id="pages_'.$form_index.'" name="pages_'.$form_index.'" type="text" value="'.htmlspecialchars($pages).'" onchange="resolve('.$form_index.', 1);">
         </div>
        </div>
       </div>
@@ -940,7 +945,7 @@ else
 	</div>
 	<div class="column is-three-quarters">
         <div class="control">
-         <input class="input" id="atitle_'.$form_index.'" name="atitle_'.$form_index.'" type="text" value="'.htmlspecialchars($atitle).'" placeholder="'.__("Article or chapter title").'">
+         <input class="input" id="atitle_'.$form_index.'" name="atitle_'.$form_index.'" type="text" value="'.htmlspecialchars($atitle).'" placeholder="'.__("Article or chapter title").'" onchange="resolve('.$form_index.', 1);">
         </div>
        </div>
       </div>
@@ -953,7 +958,7 @@ else
 	</div>
 	<div class="column is-three-quarters">
         <div class="control">
-         <input class="input" id="auteurs_'.$form_index.'" name="auteurs_'.$form_index.'" type="text" value="'.htmlspecialchars($auteurs).'">
+         <input class="input" id="auteurs_'.$form_index.'" name="auteurs_'.$form_index.'" type="text" value="'.htmlspecialchars($auteurs).'" onchange="resolve('.$form_index.', 1);">
         </div>
        </div>
       </div>
@@ -966,7 +971,7 @@ else
 	</div>
 	<div class="column is-2">
         <div class="control">
-         <input class="input" id="edition_'.$form_index.'" name="edition_'.$form_index.'" type="text" value="'.htmlspecialchars($edition).'" placeholder="'.__("(for books)").'">
+         <input class="input" id="edition_'.$form_index.'" name="edition_'.$form_index.'" type="text" value="'.htmlspecialchars($edition).'" placeholder="'.__("(for books)").'" onchange="resolve('.$form_index.', 1);">
         </div>
     </div>
      <div class="column is-2">
@@ -976,7 +981,7 @@ else
 	</div>
 	<div class="column is-2">
         <div class="control">
-         <input class="input" id="issn_'.$form_index.'" name="issn_'.$form_index.'" type="text"  value="'.htmlspecialchars($issn).'">
+         <input class="input" id="issn_'.$form_index.'" name="issn_'.$form_index.'" type="text"  value="'.htmlspecialchars($issn).'" onchange="resolve('.$form_index.', 1);">
 		</div>
     </div>
      <div class="column is-1">
@@ -986,7 +991,7 @@ else
 	</div>
 	<div class="column is-2">
         <div class="control">
-         <input class="input" id="uid_'.$form_index.'" name="uid_'.$form_index.'" type="text" value="'.htmlspecialchars($uid).'">
+         <input class="input" id="uid_'.$form_index.'" name="uid_'.$form_index.'" type="text" value="'.htmlspecialchars($uid).'" onchange="resolve('.$form_index.', 1);">
         </div>
        </div>
       </div>
@@ -1003,7 +1008,24 @@ else
         </div>
        </div>
       </div>
-';
+  
+  ';
+    // Resolved block, if enabled
+	if (isset($config_link_resolver_base_openurl) && $config_link_resolver_base_openurl != ''){
+		// check if resolved links exist in cache
+		$resolved_block_content = "";
+		$resolved_block_style = 'display:none';
+		$query = "SELECT cache FROM `resolver_cache` WHERE params=? LIMIT 1";
+		$res = dbquery($query, array($resolver_search_params), 's');
+		if (iimysqli_num_rows($res) > 0) {
+			$resolved_block_content = json_decode(iimysqli_result_fetch_array($res)['cache'], true)['msg'];
+			$resolved_block_style = '';
+		}
+		$document_form .= '<div class="columns is-gapless is-columns-form">
+  <input type="hidden" id="resolver_search_params_'. $form_index .'" name="resolver_search_params_'. $form_index .'" value="'.htmlspecialchars($resolver_search_params).'" />
+  <div class="column" id="resolvedurlblock_'. $form_index .'" style="'.$resolved_block_style.'">'.$resolved_block_content.'</div></div>';
+	}
+
 	if ($can_remove_orders) {
 		$document_form .= '<div class="control"><a class="removeLink button is-danger is-outlined" style="cursor:pointer;" onclick="form=document.getElementById(\'orderform\');form.remove_form.value='.$form_index.';form.action=\'index.php#order_nb_'.($form_index-1).'\';form.submit();">'.__("Remove").'</a></div>';
 	}
@@ -1037,7 +1059,7 @@ if (is_privileged_enough($monaut, $enableOrdersUploadForUser) && count($order_fo
 }
 $form_index_to_lookup = array();
 foreach ($order_form_values as $form_index => $value) {
-	echo get_document_form($lookupuid, !empty($doctypesmessage) ? $doctypesmessage : "", $doctypes, $periodical_title_search_url, $can_remove_orders, $form_index, $value['tid_code'], $value['uids'], $value['genre_code'], $value['title'], $value['date'], $value['volume'], $value['issue'], $value['suppl'], $value['pages'], $value['atitle'], $value['auteurs'], $value['edition'], $value['issn'], $value['uid'], $value['remarquespub']);
+	echo get_document_form($lookupuid, !empty($doctypesmessage) ? $doctypesmessage : "", $doctypes, $periodical_title_search_url, $can_remove_orders, $form_index, $value['tid_code'], $value['uids'], $value['genre_code'], $value['title'], $value['date'], $value['volume'], $value['issue'], $value['suppl'], $value['pages'], $value['atitle'], $value['auteurs'], $value['edition'], $value['issn'], $value['uid'], $value['remarquespub'], $value['resolver_search_params']);
 	if ($value['need_lookup']) {
 		$form_index_to_lookup[]=$form_index;
 	}

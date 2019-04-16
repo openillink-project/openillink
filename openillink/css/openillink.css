@@ -2,7 +2,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -246,4 +246,11 @@ label.required:after {
     line-height: 4.5em;
     height: 2.25em;
     white-space: nowrap;
+}
+
+#illinks button.delete, #illinks .resolver_msg_header {
+  display: none;
+}
+#illinks .notification {
+  padding: 0.5rem 0 0.5rem 0 !important;
 }

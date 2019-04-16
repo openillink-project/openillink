@@ -38,6 +38,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
         $result = dbquery($req, array($id), 'i');
         $nb = iimysqli_num_rows($result);
         require ("headeradmin.php");
+		echo '<script type="text/javascript">var referer="";</script>';
         for ($i=0 ; $i<$nb ; $i++){
             $enreg = iimysqli_result_fetch_array($result);
             $id = $enreg['illinkid'];
@@ -573,7 +574,7 @@ echo '</span>
 		<div class="field is-horizontal">
 		<label class="label field-label is-normal" for="tel">';
 				echo __("Tel.") . "</label>\n";
-				echo '</label>
+				echo '
 		</div>
 	</div>
 	<div class="column is-one-quarter">
@@ -670,6 +671,7 @@ echo '</span>
 
 	</div>
 	</div>
+  </div>
 </section>';
                 // END User Fields
                 // START Document Fields
@@ -761,7 +763,7 @@ echo '</span>
 	  </div>
 	</div>	<div class="column is-three-quarters">
         <div class="control">
-         <input class="input" id="title_0" name="title_0" type="text" value="'.htmlspecialchars($enreg['titre_periodique']).'" placeholder="Journal or book title" onchange="textchanged(\'titre_periodique\')">
+         <input class="input" id="title_0" name="title_0" type="text" value="'.htmlspecialchars($enreg['titre_periodique']).'" placeholder="'.__("Journal or book title").'" onchange="textchanged(\'titre_periodique\');resolve(0, 1);">
         </div>
     </div>
 	<div class="column is-2">
@@ -780,7 +782,7 @@ echo '</span>
 	</div>
 	<div class="column is-1">
         <div class="control">
-         <input class="input" id="date_0" name="date_0" type="text" value="'.htmlspecialchars($enreg['annee']).'" onchange="textchanged(\'date\')">
+         <input class="input" id="date_0" name="date_0" type="text" value="'.htmlspecialchars($enreg['annee']).'" onchange="textchanged(\'date\');resolve(0, 1);">
         </div>
     </div>
      <div class="column is-1">
@@ -790,7 +792,7 @@ echo '</span>
 	</div>
 	<div class="column is-1">
         <div class="control">
-         <input class="input" id="volume_0" name="volume_0" type="text" value="'.htmlspecialchars($enreg['volume']).'" onchange="textchanged(\'volume\')">
+         <input class="input" id="volume_0" name="volume_0" type="text" value="'.htmlspecialchars($enreg['volume']).'" onchange="textchanged(\'volume\');resolve(0, 1);">
         </div>
     </div>
 	     <div class="column is-1">
@@ -800,7 +802,7 @@ echo '</span>
 	</div>
 	<div class="column is-1">
         <div class="control">
-         <input class="input" id="issue_0" name="issue_0" type="text" value="'.htmlspecialchars($enreg['numero']).'" onchange="textchanged(\'numero\')">
+         <input class="input" id="issue_0" name="issue_0" type="text" value="'.htmlspecialchars($enreg['numero']).'" onchange="textchanged(\'numero\');resolve(0, 1);">
        </div>
     </div>
      <div class="column is-1">
@@ -810,7 +812,7 @@ echo '</span>
 	</div>
 	<div class="column is-1">
         <div class="control">
-         <input class="input" id="suppl_0" name="suppl_0" type="text" value="'.htmlspecialchars($enreg['supplement']).'" onchange="textchanged(\'suppl\')">
+         <input class="input" id="suppl_0" name="suppl_0" type="text" value="'.htmlspecialchars($enreg['supplement']).'" onchange="textchanged(\'suppl\');resolve(0, 1);">
        </div>
     </div>
      <div class="column is-1">
@@ -820,7 +822,7 @@ echo '</span>
 	</div>
 	<div class="column is-1">
         <div class="control">
-         <input class="input" id="pages_0" name="pages_0" type="text" value="'.htmlspecialchars($enreg['pages']).'" onchange="textchanged(\'pages\')">
+         <input class="input" id="pages_0" name="pages_0" type="text" value="'.htmlspecialchars($enreg['pages']).'" onchange="textchanged(\'pages\');resolve(0, 1);">
         </div>
        </div>
       </div>
@@ -834,7 +836,7 @@ echo '</span>
 	</div>
 	<div class="column is-three-quarters">
         <div class="control">
-         <input class="input" id="atitle_0" name="atitle_0" type="text" value="'.htmlspecialchars($enreg['titre_article']).'" placeholder="'.__("Article or chapter title").'" onchange="textchanged(\'titre_article\')">
+         <input class="input" id="atitle_0" name="atitle_0" type="text" value="'.htmlspecialchars($enreg['titre_article']).'" placeholder="'.__("Article or chapter title").'" onchange="textchanged(\'titre_article\');resolve(0, 1);">
         </div>
        </div>
       </div>
@@ -847,7 +849,7 @@ echo '</span>
 	</div>
 	<div class="column is-three-quarters">
         <div class="control">
-         <input class="input" id="auteurs_0" name="auteurs_0" type="text" value="'.htmlspecialchars($enreg['auteurs']).'" onchange="textchanged(\'auteurs\')">
+         <input class="input" id="auteurs_0" name="auteurs_0" type="text" value="'.htmlspecialchars($enreg['auteurs']).'" onchange="textchanged(\'auteurs\');resolve(0, 1);">
         </div>
        </div>
       </div>
@@ -870,7 +872,7 @@ echo '</span>
 	</div>
 	<div class="column is-2">
         <div class="control">
-         <input class="input" id="issn_0" name="issn_0" type="text"  value="'. ($enreg['isbn']!="" ? htmlspecialchars($enreg['isbn']) : $enreg['issn'] . ($enreg['eissn']!="" ? ",".htmlspecialchars($enreg['eissn']) : "")).'" onchange="textchanged(\'issn\')">
+         <input class="input" id="issn_0" name="issn_0" type="text"  value="'. ($enreg['isbn']!="" ? htmlspecialchars($enreg['isbn']) : $enreg['issn'] . ($enreg['eissn']!="" ? ",".htmlspecialchars($enreg['eissn']) : "")).'" onchange="textchanged(\'issn\');resolve(0, 1);">
 		</div>
     </div>
      <div class="column is-1">
@@ -880,7 +882,7 @@ echo '</span>
 	</div>
 	<div class="column is-2">
         <div class="control">
-         <input class="input" id="uid_0" name="uid_0" type="text" value="'.htmlspecialchars($enreg['uid']).'" onchange="textchanged(\'uid\')">
+         <input class="input" id="uid_0" name="uid_0" type="text" value="'.htmlspecialchars($enreg['uid']).'" onchange="textchanged(\'uid\');resolve(0, 1);">
         </div>
        </div>
       </div>
@@ -896,8 +898,26 @@ echo '</span>
          <textarea id="remarquespub_0" name="remarquespub_0" class="textarea" placeholder="" rows="2" onchange="textchanged(\'remarquespub\')">'.htmlspecialchars($enreg['remarquespub']).'</textarea>
         </div>
        </div>
-      </div>
-	  </div>
+	</div>
+	';
+	// Resolved block, if enabled
+	if (isset($config_link_resolver_base_openurl) && $config_link_resolver_base_openurl != ''){
+		// check if resolved links exist in cache
+		$resolver_search_params = "pmid=" . urlencode($enreg['PMID']) . "&mms_id=" . urlencode(($tid == "renouvaudmms_swissbib" ? $uids : "")) . "&doi=" . urlencode($enreg['doi']) . "&genre=" . urlencode($enreg['type_doc']) . "&atitle=" . urlencode($enreg['titre_article']) . "&title=" . urlencode($enreg['titre_periodique']) . "&date=" . urlencode($enreg['annee']) . "&volume=" . urlencode($enreg['volume']) . "&issue=" . urlencode($enreg['numero']) . "&suppl=" . urlencode($enreg['supplement']) . "&pages=" . urlencode($enreg['pages']) . "&author=" . urlencode($enreg['auteurs']) . "&issn_isbn=" . urlencode(($enreg['isbn'] != "" ? $enreg['isbn'] : ($enreg['issn'] != "" ? $enreg['issn'] : ($enreg['eissn'] != "" ? $enreg['eissn'] : "")))) . "&edition=" . urlencode($enreg['edition']);
+		$resolved_block_content = "";
+		$resolved_block_style = 'display:none';
+		$query = "SELECT cache FROM `resolver_cache` WHERE params=? LIMIT 1";
+		$res = dbquery($query, array($resolver_search_params), 's');
+		if (iimysqli_num_rows($res) > 0) {
+			$resolved_block_content = json_decode(iimysqli_result_fetch_array($res)['cache'], true)['msg'];
+			$resolved_block_style = '';
+		}
+		echo '<div class="columns is-gapless is-columns-form">
+  <input type="hidden" id="resolver_search_params_0" name="resolver_search_params_0" value="'.htmlspecialchars($resolver_search_params).'" />
+  <div class="column" id="resolvedurlblock_0" style="'.$resolved_block_style.'">'.$resolved_block_content.'</div></div>';
+	}
+
+	 echo ' </div>
 	</section>';
 
 

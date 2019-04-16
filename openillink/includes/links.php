@@ -285,6 +285,48 @@ if ($nblinks > 0){
     echo "</ul>\n";
 }
 
+/* Link resolver (at the end of the page since length is not known in advance
+   and might make content after this block "jumps" after link is resolved.
+*/
+if (isset($config_link_resolver_base_openurl) && $config_link_resolver_base_openurl != ''){
+	// purge old cache
+	$query = "DELETE FROM `resolver_cache` WHERE date < NOW() - INTERVAL 30 MINUTE";
+	$res = dbquery($query);
+	
+	// TODO: only check if still in inbox?
+	echo "<b>".__("Link resolver")."</b>\n";
+
+	$tid = "";
+	if (strpos($enreg['uid'], ":") !== false) {
+		$tid = explode(":", $enreg['uid'], 2)[0];
+		if ($tid == "MMS") {
+			$tid = "renouvaudmms_swissbib";
+		}
+	}
+	$resolver_search_params = "pmid=" . urlencode($enreg['PMID']) . "&mms_id=" . urlencode(($tid == "MMS" ? $enreg['uids'] : "")) . "&doi=" . urlencode($enreg['doi']) . "&l=" . urlencode($lang) . "&genre=" . urlencode($enreg['type_doc']) . "&title=" . urlencode($enreg['titre_periodique']) . "&date=" . urlencode($enreg['annee']) . "&volume=" . urlencode($enreg['volume']) . "&issue=" . urlencode($enreg['numero']) . "&suppl=" . urlencode($enreg['supplement']) . "&pages=" . urlencode($enreg['pages']) . "&author=" . urlencode($enreg['auteurs']) . "&issn_isbn=" . urlencode(($enreg['isbn'] != "" ? $enreg['isbn'] : ($enreg['issn'] != "" ? $enreg['issn'] : ($enreg['eissn'] != "" ? $enreg['eissn'] : "")))) . "&edition=" . urlencode($enreg['edition']) . "&atitle=" . urlencode($enreg['titre_article']);
+	$resolved_block_content = '<i class="fas fa-spinner fa-pulse"></i>';
+	$resolved_block_style = '';
+	// check if resolved links exist in cache
+	$query = "SELECT cache FROM `resolver_cache` WHERE params=? LIMIT 1";
+	$res = dbquery($query, array($resolver_search_params), 's');
+	if (iimysqli_num_rows($res) > 0) {
+		$resolved_result = json_decode(iimysqli_result_fetch_array($res)['cache'], true);
+		if ($resolved_result['nb'] > 0) {
+			$resolved_block_content = $resolved_result['msg'];
+			$resolved_block_content = str_replace('is-warning' , 'is-success', $resolved_block_content);
+
+		} else {
+			$resolved_block_content = "<ul><li>". __("No result found via link resolver") . "</li></ul>";
+		}
+		$resolved_block_style = '';
+	}
+	echo '<script type="text/javascript">var referer="";</script>';
+	echo '<input type="hidden" id="resolver_search_params_0" name="resolver_search_params_0" value="'.htmlspecialchars($resolver_search_params).'" />';
+	echo '<div class="columns is-gapless is-columns-form">
+  <div class="column" id="resolvedurlblock_0" style="'.$resolved_block_style.'">'.$resolved_block_content.'</div></div>';
+	echo '<script type="text/javascript">resolve(0, 1, '.json_encode($tid).', \'\', '.json_encode($enreg['type_doc']).', '.json_encode($enreg['titre_periodique']).', '.json_encode($enreg['annee']).', '.json_encode($enreg['volume']).', '.json_encode($enreg['numero']).', '.json_encode($enreg['supplement']).', '.json_encode($enreg['pages']).', '.json_encode($enreg['titre_article']).', '.json_encode($enreg['auteurs']).', '.json_encode($enreg['edition']).', '.json_encode($enreg['issn']).', '.json_encode($enreg['uid']).', \'orders_detail\');</script>';
+}
+
 echo "<br /></div></div>\n";
 echo "</div>\n";
 ?>

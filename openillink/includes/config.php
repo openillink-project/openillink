@@ -486,4 +486,28 @@ $emailTxt['en']['signature'] = __("Your Interlibrary loan service.");
 $emailTxt['de']['signature'] = __("Your Interlibrary loan service.");
 $emailTxt['it']['signature'] = __("Your Interlibrary loan service.");
 $emailTxt['es']['signature'] = __("Your Interlibrary loan service.");
+
+// Base URL to a supported link resolver which will be used to provide immediate
+// access to the requested document if available (via subscription, openaccess, etc.)
+$config_link_resolver_base_openurl = "";
+// Should user IP be forwarded to the link resolver (if available), via "user_ip" URL argument?
+// Possible values:
+// - null: do not specify any IP
+// - "forward": forward end user IP
+// - "server": use server IP
+// - custom value (IP): forward the provided custom IP (value as string, in single/double quotes)
+// - custom value (IP range): this mode forwards the IP of the end user if it starts 
+//   with the provided value. Otherwise it forwards a default specified as second value. 
+//   For eg. with "123.  123.255.123.255" the IP of the end user is forwarded if it starts with
+//   "123.", otherwise the value "123.255.123.255" is forwarded instead
+$config_link_resolver_user_ip_forwarding_mode = null;
+// Array of custom url parameters to enrich the $config_link_resolver_base_openurl
+$config_link_resolver_custom_parameters = array();
+// Message displayed when one or several documents have been resolved.
+$config_link_resolver_msg_result['fr'] = htmlspecialchars(__("The requested document might be immediately available online here (within the institutional network):"));
+$config_link_resolver_msg_result['en'] = htmlspecialchars(__("The requested document might be immediately available online here (within the institutional network):"));
+$config_link_resolver_msg_result['de'] = htmlspecialchars(__("The requested document might be immediately available online here (within the institutional network):"));
+$config_link_resolver_msg_result['it'] = htmlspecialchars(__("The requested document might be immediately available online here (within the institutional network):"));
+$config_link_resolver_msg_result['es'] = htmlspecialchars(__("The requested document might be immediately available online here (within the institutional network):"));
+
 ?>

@@ -103,6 +103,7 @@ echo '
 <script type="text/javascript" src="'.$configSiteUrl.'/js/calendar.js"></script>
 ';
 
+echo '<script type="text/javascript">var resolver_enabled='.((isset($config_link_resolver_base_openurl) && $config_link_resolver_base_openurl != '') ? 'true': 'false' ).';</script>';
 
 if ($config_dataprotection_banner_enable) {
 	echo '

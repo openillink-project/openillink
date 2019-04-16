@@ -69,8 +69,200 @@ function cleanIllForm(item_index){
     }
 }
 
+var resolved_data = {};
+function resolve(item_index, max_retry, tid, uids, genre, title, date, volume, issue, suppl, pages, atitle, author, edition, issn, uid, src_page) {
+    /* Retrieve location where requested document can be accessed.
+       Resolves using based on provided parameters (tid, uids, genre, title, date, volume, issue, suppl, pages, atitle, author, edition, issn, uid) or based on values in form at given 'item_index'.
+    
+    */
+    // TODO: only try to resolve if enough data provided ? Only resolve if article-level resolution is possible (pages or pmid or doi provided)?
+    var http = getHTTPObject();
+    var url = "resolve.php";
+    if (http && resolver_enabled) {
+        url_parameters = {}
+        if (tid === undefined) {
+            _tid_code = document.commande["tid_"+item_index].value.trim();
+            if (_tid_code != "") {
+                url_parameters['tid'] = _tid_code;
+            }
+        } else {
+            url_parameters['tid'] = tid;
+        }
+        if (uids === undefined) {
+            _uids = document.commande["uids_"+item_index].value.trim();
+            if (_uids != "") {
+                url_parameters['uids'] = _uids;
+            }
+        } else {
+            url_parameters['uids'] = uids;
+        }
+        if (genre === undefined) {
+            _genre = document.commande["genre_"+item_index].value.trim();
+            if (_genre != "") {
+                url_parameters['genre'] = _genre;
+            }
+        } else {
+            url_parameters['genre'] = genre;
+        }
+        if (title === undefined) {
+            _title = document.commande["title_"+item_index].value.trim();
+            if (_title != "") {
+                url_parameters['title'] = _title;
+            }
+        } else {
+            url_parameters['title'] = title;
+        }
+        if (date === undefined) {
+            _date = document.commande["date_"+item_index].value.trim();
+            if (_date != "") {
+                url_parameters['date'] = _date;
+            }
+        } else {
+            url_parameters['date'] = date;
+        }
+         if (volume === undefined) {
+            _volume = document.commande["volume_"+item_index].value.trim();
+            if (_volume != "") {
+                url_parameters['volume'] = _volume;
+            }
+        } else {
+            url_parameters['volume'] = volume;
+        }
+        if (issue === undefined) {
+            _issue = document.commande["issue_"+item_index].value.trim();
+            if (_issue != "") {
+                url_parameters['issue'] = _issue;
+            }
+        } else {
+            url_parameters['issue'] = issue;
+        }
+        if (suppl === undefined) {
+            _suppl = document.commande["suppl_"+item_index].value.trim();
+            if (_suppl != "") {
+                url_parameters['suppl'] = _suppl;
+            }
+        } else {
+            url_parameters['suppl'] = suppl;
+        }
+        if (pages === undefined) {
+            _pages = document.commande["pages_"+item_index].value.trim();
+            if (_pages != "") {
+                url_parameters['pages'] = _pages;
+            }
+        } else {
+            url_parameters['pages'] = pages;
+        }
+        if (atitle === undefined) {
+            _atitle = document.commande["atitle_"+item_index].value.trim();
+            if (_atitle != "") {
+                url_parameters['atitle'] = _atitle;
+            }
+        } else {
+            url_parameters['atitle'] = atitle;
+        }
+        if (author === undefined) {
+            _author = document.commande["auteurs_"+item_index].value.trim();
+            if (_author != "") {
+                url_parameters['auteurs'] = _author;
+            }
+        } else {
+            url_parameters['auteurs'] = author;
+        }
+        if (edition === undefined) {
+            _edition = document.commande["edition_"+item_index].value.trim();
+            if (_edition != "") {
+                url_parameters['edition'] = _edition;
+            }
+        } else {
+            url_parameters['edition'] = edition;
+        }
+        if (issn === undefined) {
+            _issn_isbn = document.commande["issn_"+item_index].value.trim();
+            if (_issn_isbn != "") {
+                url_parameters['issn'] = _issn_isbn;
+            }
+        } else {
+            url_parameters['issn'] = issn;
+        }
+        if (uid === undefined) {
+            _uid = document.commande["uid_"+item_index].value.trim();
+            if (_uid != "") {
+                url_parameters['uid'] = _uid;
+            }
+        } else {
+            url_parameters['uid'] = uid;
+        }
+        var sorted_keys = Object.keys(url_parameters).sort(); 
+        var sorted_url_parameters = [];
+        for (var i = 0; i < sorted_keys.length; i++) {
+            sorted_url_parameters.push(encodeURIComponent(sorted_keys[i]) + '=' + encodeURIComponent(url_parameters[sorted_keys[i]]));
+        }
+        /*var url_parameters_string = Object.keys(url_parameters).sort().map(key => {
+                                        return encodeURIComponent(key) + '=' + encodeURIComponent(url_parameters[key])
+                                    }).join('&');*/
+        var url_parameters_string = sorted_url_parameters.join('&');
+        if (item_index in resolved_data && 'cache' in resolved_data[item_index] && url_parameters_string in resolved_data[item_index]['cache']) {
+            handle_resolve_response(null, item_index, 0, url_parameters_string, resolved_data[item_index]['cache'][url_parameters_string], src_page);
+        } else {
+            http.open("GET", url + "?" + url_parameters_string + "&referer=" + encodeURIComponent(referer), true);
+            http.onreadystatechange = function(){handle_resolve_response(http, item_index, max_retry, url_parameters_string, null, src_page)};
+            http.send(null);
+        }
+    }
+}
+
+function handle_resolve_response(http, item_index, max_retry, url_parameters_string, cached, src_page){
+    if (src_page === undefined) {
+        src_page = '';
+    }
+    if ((typeof cached !== 'undefined') && cached != null){
+        cached_html = cached['msg'];
+        if (cached['nb'] > 0) {
+            document.getElementById("resolvedurlblock_" + item_index).style.display="";
+        } else if (src_page != 'orders_detail') {
+            document.getElementById("resolvedurlblock_" + item_index).style.display="none";
+        }
+        if (src_page == 'orders_detail'){
+            cached_html = cached_html.replace("is-warning", "is-success");
+        }
+        document.getElementById("resolvedurlblock_" + item_index).innerHTML = cached_html;
+    } else {
+        if (http.readyState == 4) {
+            if (http.status === 200) {
+                var response = JSON.parse(http.responseText);
+                if (response['nb'] > 0) {
+                    document.getElementById("resolvedurlblock_" + item_index).style.display="";
+                } else if (src_page != 'orders_detail') {
+                    document.getElementById("resolvedurlblock_" + item_index).style.display="none";
+                }
+                var response_msg = response['msg'];
+                if (src_page == 'orders_detail'){
+                    response_msg = response_msg.replace("is-warning", "is-success");
+                }
+                document.getElementById("resolvedurlblock_" + item_index).innerHTML = response_msg;
+                document.getElementById("resolver_search_params_" + item_index).value = response['search_params'];
+                // cache for later reuse
+                if (!(item_index in resolved_data)) {
+                    resolved_data[item_index] = {};
+                }
+                if (!('cache' in resolved_data[item_index])) {
+                    resolved_data[item_index]['cache'] = {};
+                }
+                resolved_data[item_index]['cache'][url_parameters_string] = response;
+
+            } else if (http.status === 429) {
+                // retry later
+                setTimeout(function () {resolve(item_index, max_retry - 1);}, 1000);
+            }
+        }
+    }
+}
+
 function lookupid(item_index, openillink_config_email) {
     /* Fill in order form at given index. item_index can be an index too in case all items must be looked up by PMID */
+    // reset resolver message, if any
+    document.getElementById("resolvedurlblock_" + item_index).style.display="none";
+    document.getElementById("resolvedurlblock_" + item_index).innerHTML = "";
     // si la valeur du champ uids est vide
     if (document.commande["uids_"+item_index].value == ""){
         // message d'alerte
@@ -196,6 +388,7 @@ function handle_pubmed_response(http, pmids_to_item_index, openillink_config_ema
                         document.commande["pages_"+item_index].value = pages;
                         document.commande["issn_"+item_index].value = issn;
                         document.commande["uid_"+item_index].value = "pmid:" + document.commande["uids_"+item_index].value;
+                        resolve(item_index, 1);
                     }
                 }
             }
@@ -301,6 +494,7 @@ function handleHttpResponse(item_index) {
             document.commande["issn_"+item_index].value = unescape_string(issn);
             document.commande["uid_"+item_index].value = "pmid:" + document.commande["uids_"+item_index].value;
             isWorking[item_index] = false;
+            resolve(item_index, 1);
         }
         else {
             isWorking[item_index] = false;
@@ -465,6 +659,7 @@ function handleHttpResponse2(item_index) {
             document.commande["issn_"+item_index].value = unescape_string(issn);
             document.commande["uid_"+item_index].value = "RERO:" + document.commande["uids_"+item_index].value;
             isWorking2[item_index] = false;
+            resolve(item_index, 1);
         }
         else {
             alert("Aucun resultat pour la recherche effectuée");
@@ -576,6 +771,7 @@ function handleHttpResponse3(item_index) {
             document.commande["issn_"+item_index].value = unescape_string(issn);
             document.commande["uid_"+item_index].value = "ISBN:" + document.commande["uids_"+item_index].value;
             isWorking3[item_index] = false;
+            resolve(item_index, 1);
         }
         else {
             isWorking3[item_index] = false;
@@ -728,6 +924,7 @@ function handleHttpResponse4(item_index) {
             document.commande["issn_"+item_index].value = unescape_string(issn);
             document.commande["uid_"+item_index].value = "DOI:" + document.commande["uids_"+item_index].value;
             isWorking4[item_index] = false;
+            resolve(item_index, 1);
         }
         else {
             isWorking4[item_index] = false;
@@ -864,6 +1061,7 @@ function handleHttpResponse5(item_index) {
     document.commande["uid_"+item_index].value = "WOSUT:" + document.commande["uids_"+item_index].value;
     document.commande["remarquespub_"+item_index].value = notesn;
     isWorking5[item_index] = false;
+    resolve(item_index, 1);
     // entryForm.submit();
   }
   // Message d'erreur si le WOSID n'est pas valable
@@ -1051,6 +1249,7 @@ function handleHttpResponse6(item_index) {
 		document.commande["issn_"+item_index].value = issn;
 		document.commande["uid_"+item_index].value = "ISBN:" + document.commande["uids_"+item_index].value;
 		isWorking6[item_index] = false;
+        resolve(item_index, 1);
     // entryForm.submit();
   }
   // Message d'erreur si le ISBN n'est pas valable
@@ -1247,6 +1446,7 @@ function handleHttpResponse7(item_index) {
 		document.commande["issn_"+item_index].value = issn;
 		document.commande["uid_"+item_index].value = "MMS:" + document.commande["uids_"+item_index].value.trim();
 		isWorking7[item_index] = false;
+        resolve(item_index, 1);
     // entryForm.submit();
   }
   // Message d'erreur si l'identifiant n'est pas valable
@@ -1577,6 +1777,7 @@ function remplirauto(openillink_config_email) {
 			document.commande["tid_"+item_index].value = "pmid";
 			lookupid(item_index, openillink_config_email);
 		}
+        resolve(item_index, 1);
     }
 }
 

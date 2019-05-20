@@ -195,6 +195,10 @@ if (!empty($_FILES['order_file']) && $_FILES['order_file']['size'] > 0 && is_pri
 				$order_form['tid_code'] = 'pmid';
 				$order_form['uids'] = $reference['accession-num'];
 				$order_form['uid'] = 'pmid:' . $reference['accession-num'];
+				if ($lib->driver->driverName == "PMIDS") {
+					// the file was just a list of pmids: we need to look them up
+					$order_form['need_lookup'] = true;
+				}
 			}
 		} else if (!empty($reference['doi'])) {
 			$order_form['tid_code'] = 'doi';

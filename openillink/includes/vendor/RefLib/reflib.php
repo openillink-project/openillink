@@ -137,7 +137,8 @@ class RefLib {
 			'endnotexml' => 'EndNote XML',
 			'ris' => 'RIS',
 			'csv' => 'CSV - Excel Export',
-			'nbib'=> 'MEDLINE (nbib)'
+			'nbib'=> 'MEDLINE (nbib)',
+			'pmids'=> 'PubMed IDs'
 		);
 	}
 
@@ -161,6 +162,8 @@ class RefLib {
 				case 'medline':
 				case 'nbib':
 					return 'medline';
+				case 'pmids':
+					return 'pmids';
 				default: // General file
 					if (is_file($type)) {
 						if ( function_exists('mime_content_type') && $mime = mime_content_type($type) ) {
@@ -175,6 +178,8 @@ class RefLib {
 							return 'ris';
 						if (preg_match('/^PMID- /ms', $preview))
 							return 'medline';
+						if (preg_match('/[\d,]+/ms', $preview))
+							return 'pmids';
 					}
 			}
 		}

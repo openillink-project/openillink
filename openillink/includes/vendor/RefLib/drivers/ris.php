@@ -143,6 +143,11 @@ class RefLib_ris {
 			}
 
 			// }}}
+			// PMID {{{
+			if (isset($rawref['U1']) && strlen($rawref['U1']) > 6 && substr_compare($rawref['U1'], "[pmid]", strlen($rawref['U1']) - 6, 6)) {
+				$ref['accession-num'] = substr($rawref['U1'], 0, -7);
+			}
+			// }}}
 			// Pages {{{
 			if (isset($rawref['SP']) && isset($rawref['EP'])) {
 				$ref['pages'] = "{$rawref['SP']}-{$rawref['EP']}";

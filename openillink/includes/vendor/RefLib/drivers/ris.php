@@ -155,16 +155,29 @@ class RefLib_ris {
 				$ref['pages'] = $rawref['SP'];
 			// }}}
 			// Dates {{{
-			if (isset($rawref['PY']))
-				if (substr($rawref['PY'], 0, 10) == 'undefined/') {
+			if (isset($rawref['PY']) || isset($rawref['Y1'])) {
+				if (isset($rawref['PY'])) {
+					$this_date = $rawref['PY'];
+				} elseif (isset($rawref['Y1'])) {
+					$this_date = $rawref['Y1'];
+				}
+				if (substr($this_date, 0, 10) == 'undefined/') {
 					// Pass
-				} elseif (preg_match('!([0-9]{4})///!', $rawref['PY'], $date)) { // Just year
+				} elseif (preg_match('!([0-9]{4})///!', $this_date, $date)) { // Just year
 					$ref['year'] = $date[1];
-				} elseif (preg_match('!([0-9]{4})/([0-9]{1,2})//!', $rawref['PY'], $date)) { // Just month
+				} elseif (preg_match('!([0-9]{4})!', $this_date, $date)) { // Just year
+					$ref['year'] = $date[1];
+				} elseif (preg_match('!([0-9]{4})/([0-9]{1,2})//!', $this_date, $date)) { // Just month
 					$ref['date'] = strtotime("{$date[1]}-{$date[2]}-01");
-				} elseif (preg_match('!([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/!', $rawref['PY'], $date)) // Full date
-					$ref['date'] = strtotime("{$date[1]}-{$date[2]}-{$date[1]}");
-
+					$ref['year'] = $date[1];
+				} elseif (preg_match('!([0-9]{4})/([0-9]{1,2})/!', $this_date, $date)) { // Just month
+					$ref['date'] = strtotime("{$date[1]}-{$date[2]}-01");
+					$ref['year'] = $date[1];
+				} elseif (preg_match('!([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/!', $this_date, $date)){ // Full date
+					$ref['date'] = strtotime("{$date[1]}-{$date[2]}-{$date[3]}");
+					$ref['year'] = $date[1];
+				}
+			}
 			// Append to $this->parent->refs {{{
 			if (!$this->parent->refId) { // Use indexed array
 				$this->parent->refs[] = $ref;

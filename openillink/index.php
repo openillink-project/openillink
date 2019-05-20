@@ -1053,6 +1053,7 @@ if (is_privileged_enough($monaut, $enableOrdersUploadForUser) && count($order_fo
 	echo '<ul><li>' . htmlspecialchars(__('EndNote XML (created via "File" → "Export" → Type "XML")'));
 	echo '</li><li>'. htmlspecialchars(__('RIS'));
 	echo '</li><li>'. htmlspecialchars(__('MEDLINE/PubMed (.nbib files created via "Send to" → "Citation Manager")'));
+	echo '</li><li>'. htmlspecialchars(__('List of PubMed identifiers (comma-separated PMIDs)'));
 	echo '</ul>';
 	echo sprintf(__('Maximum file size: %s MB'), round(min(parse_size_str(ini_get('upload_max_filesize')), parse_size_str(ini_get('post_max_size'))) / (1024*1024), 0, PHP_ROUND_HALF_DOWN)) . "<br/>";
 	echo sprintf(__('Maximum number of references: %s'), $maxSimultaneousOrders);

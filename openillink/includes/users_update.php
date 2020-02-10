@@ -35,7 +35,7 @@ require_once ("toolkit.php");
 
 $validActionSet = array('new', 'update', 'delete', 'deleteok', 'updateprofile');
 if (!empty($_COOKIE['illinkid'])){
-    $id=$_POST['id'];
+
 
 	// Fetch current user id to compare with input if needed
 	$reqlogin = "SELECT user_id FROM users WHERE users.login = ?";
@@ -46,6 +46,10 @@ if (!empty($_COOKIE['illinkid'])){
     $action = ((!empty($_GET['action'])) && isValidInput($_GET['action'],15,'s',false,$validActionSet))? $_GET['action']:NULL;
     if (empty($action)){
         $action = ((!empty($_POST['action'])) && isValidInput($_POST['action'],15,'s',false,$validActionSet))? $_POST['action']:NULL;
+    }
+    $id = "";
+    if ($action == "update" || $action == "updateprofile") {
+        $id=$_POST['id'];
     }
     if (($monaut == "admin")||($monaut == "sadmin")||(($monaut == "user" && $id == $myId)&&($action == "updateprofile"))){
 /*
@@ -71,11 +75,14 @@ if (!empty($_COOKIE['illinkid'])){
 			$resultlogin = dbquery($reqlogin,array($login), 's');
             $nblogin = iimysqli_num_rows($resultlogin);
             $enreglogin = iimysqli_result_fetch_array($resultlogin);
-            $idlogin = $enreglogin['user_id'];
             if (($nblogin == 1)&&($action == "new"))
                 $mes = $mes . "<br/>".format_string(__("The login %login already exists in database. Please choose another one."), array('login' => htmlspecialchars($login)));
-            if (($nblogin == 1)&&($action != "new")&&($idlogin != $id))
-                $mes = $mes . "<br/>".format_string(__("The login %login is already attributed to another user. Please choose another one."), array('login' => htmlspecialchars($login)));
+            if (($nblogin == 1)&&($action != "new")) {
+                $idlogin = $enreglogin['user_id'];
+                if ($idlogin != $id) {
+                    $mes = $mes . "<br/>".format_string(__("The login %login is already attributed to another user. Please choose another one."), array('login' => htmlspecialchars($login)));
+                }
+            }
             if (empty($name) && ($action != "updateprofile"))
                 $mes = $mes . "<br/>le nom est obligatoire";
             if (empty($login) && ($action != "updateprofile"))

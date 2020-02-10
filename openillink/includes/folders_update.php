@@ -4,7 +4,7 @@
 // ***************************************************************************
 // This file is part of OpenILLink software.
 // Copyright (C) 2017 UNIGE.
-// Copyright (C) 2017, 2018 CHUV.
+// Copyright (C) 2017, 2018, 2020 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -34,7 +34,6 @@ require_once ("toolkit.php");
 
 if (!empty($_COOKIE['illinkid'])){
 	$id = ((!empty($_POST['id'])) && isValidInput($_POST['id'],11,'i',false))?$_POST['id']:NULL;
-	$ip = $_SERVER['REMOTE_ADDR'];
 	$validActionSet = array('new', 'update', 'delete', 'deleteok');
 	$action = ((!empty($_GET['action'])) && isValidInput($_GET['action'],10,'s',false, $validActionSet)) ? $_GET['action'] : NULL;
 

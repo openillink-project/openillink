@@ -32,6 +32,7 @@
 
 require_once ("connexion.php");
 require_once ("toolkit.php");
+require_once ("authip.php");
 
 $mes="";
 //$doi="";
@@ -41,7 +42,7 @@ $mes="";
 //$eissn="";
 $userid = $monnom;
 if (empty($userid)){
-    $userid = ((!empty($_SERVER['REMOTE_ADDR'])) && isValidInput($_SERVER['REMOTE_ADDR'],50,'s',false))?$_SERVER['REMOTE_ADDR']:NULL;
+    $userid = $ip;
 }
 
 $referer=(!empty($_POST['referer']))? $_POST['referer'] :'';
@@ -311,7 +312,7 @@ else{
     // END public vars
 }
 
-$ip=$_SERVER['REMOTE_ADDR'];
+
 $historique= format_string(__("Order entered by %user_id on the %date"), array('user_id' => $userid, 'date' => $date2));
 if (empty($nom))
     $mes= __("name required");

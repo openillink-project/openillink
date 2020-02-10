@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -29,6 +29,7 @@
 
 require_once ("config.php");
 require_once ("authcookie.php");
+require_once ("authip.php");
 require_once ("connexion.php");
 require_once ("toolkit.php");
 
@@ -42,7 +43,6 @@ if (!empty($_COOKIE['illinkid'])){
     $enreglogin = iimysqli_result_fetch_array($resultlogin);
 	$myId = $enreglogin['user_id'];
 
-    $ip = $_SERVER['REMOTE_ADDR'];
     $action = ((!empty($_GET['action'])) && isValidInput($_GET['action'],15,'s',false,$validActionSet))? $_GET['action']:NULL;
     if (empty($action)){
         $action = ((!empty($_POST['action'])) && isValidInput($_POST['action'],15,'s',false,$validActionSet))? $_POST['action']:NULL;

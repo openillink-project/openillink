@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2020 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -28,7 +28,8 @@
 //
 
 require_once ('connexion.php');
-require_once ("includes/toolkit.php");
+require_once ("toolkit.php");
+require_once ("authip.php");
 
 $id = ((!empty($_GET['id'])) && isValidInput($_GET['id'],8,'s',false)) ? $_GET['id'] : NULL;
 $validActionSet = array('update', 'delete', 'deleteok');
@@ -164,7 +165,7 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
             $remarques=((!empty($_POST['remarques'])) && isValidInput($_POST['remarques'],4000, 's', false))? $_POST['remarques']:NULL;
             $remarquespub=((!empty($_POST['remarquespub_0'])) && isValidInput($_POST['remarquespub_0'],4000, 's', false))? $_POST['remarquespub_0']:NULL;
             $modifs=((!empty($_POST['modifs'])) && isValidInput($_POST['modifs'],4000, 's', false))? $_POST['modifs']:NULL;
-            $ip=$_SERVER['REMOTE_ADDR'];
+
             $historique=(((!empty($_POST['historique'])) && isValidInput($_POST['historique'],4000, 's', false))?$_POST['historique']:'').'<br /> Commande modifiée par ' . $monnom . ' le ' . $date2;
             if ($modifs)
                 $historique=$historique.' ['.$modifs.']';

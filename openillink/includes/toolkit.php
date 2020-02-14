@@ -597,10 +597,16 @@ function resolve_link($pmid, $mms_id, $doi, $genre, $atitle, $title, $year, $vol
 					$preferred_link = (int)$service -> xpath("b:keys/b:key[@id='preferred_link']")[0] == 1;
 					$is_free = (int)$service -> xpath("b:keys/b:key[@id='Is_free']")[0] == 1;
 					$resolution_url = (string)$service -> xpath("b:resolution_url")[0];
+                    $public_note = "";
+                    $public_note_nodes = $service -> xpath("b:keys/b:key[@id='public_note']");
+                    if (count($public_note_nodes) > 0) {
+                        $public_note = (string)$public_note_nodes[0];
+                    }
 					$response['services'][] = array('package_display_name' => $package_display_name,
 													'resolution_url' => $resolution_url,
 													'preferred_link' =>$preferred_link,
-													'is_free' => $is_free);
+													'is_free' => $is_free,
+                                                    'public_note' => $public_note);
 					$has_fulltext = true;
 				}
 			};

@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2019 CHUV.
+// Copyright (C) 2019, 2020 CHUV.
 // Original author(s): Jérôme Zbinden <jerome.zbinden@chuv.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -93,7 +93,11 @@ function resolve($ip) {
 		//}
 		$links_list = array();
 		foreach ($resolved_services['services'] as $service) {
-			$links_list[] = '<a target="_blank" href="resolve.php?go='.htmlspecialchars(urlencode($service['resolution_url'])).'&r='. htmlspecialchars(urlencode($referer)) .'&p='.htmlspecialchars(urlencode($search_params)).'&pkg='.htmlspecialchars(urlencode($service['package_display_name'])).'">'.$service['package_display_name'].'</a>';
+			$service_html_output = '<a target="_blank" href="resolve.php?go='.htmlspecialchars(urlencode($service['resolution_url'])).'&r='. htmlspecialchars(urlencode($referer)) .'&p='.htmlspecialchars(urlencode($search_params)).'&pkg='.htmlspecialchars(urlencode($service['package_display_name'])).'">'.$service['package_display_name'].'</a>';
+            if ($service['public_note'] != "") {
+                $service_html_output .= '<ul class="resolved_service_public_note"><li>' . htmlspecialchars($service['public_note']) . '</li></ul>';
+            }
+            $links_list[] = $service_html_output;
 		}
 		$html_output =  '
 <div class="notification is-warning">

@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -590,8 +590,9 @@ function resolve_link($pmid, $mms_id, $doi, $genre, $atitle, $title, $year, $vol
 
 				$service->registerXPathNamespace("b", "http://com/exlibris/urm/uresolver/xmlbeans/u");
 				$is_filtered = count($service -> xpath("b:keys/b:key[@id='Filtered']")) > 0;
+                $is_related_service = $service -> xpath("b:keys/b:key[@id='is_related_service']")[0] == "true";
 
-				if (!$is_filtered) {
+				if (!$is_filtered && !$is_related_service) {
 					$package_display_name = (string)$service -> xpath("b:keys/b:key[@id='package_display_name']")[0];
 					$preferred_link = (int)$service -> xpath("b:keys/b:key[@id='preferred_link']")[0] == 1;
 					$is_free = (int)$service -> xpath("b:keys/b:key[@id='Is_free']")[0] == 1;

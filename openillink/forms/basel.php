@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2020 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -72,7 +72,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     $article = $enreg['titre_article'];
     $commentaire = "Ref interne:".$enreg['illinkid'];
     echo "<h2>Envoi de la commande au réseau Bâle/Berne</h2>\n";
-    echo "<FORM method=\"post\" name=\"ILL\" action=\"https://www.ub.unibas.ch/cgi-bin/sfx_dod_m.pl\">\n";
+    echo "<FORM method=\"post\" name=\"ILL\" action=\"https://ub.unibas.ch/cgi-bin/sfx_dod_m.pl\">\n";
     echo "<INPUT TYPE=\"hidden\" NAME=\"action\" value=\"submit\">\n";
     echo "<INPUT TYPE=\"hidden\" NAME=\"uid\" VALUE=\"".htmlspecialchars($customerCode)."\">\n";
     echo "<INPUT TYPE=\"hidden\" NAME=\"pwd\" VALUE=\"".htmlspecialchars($customerPassword)."\">\n";

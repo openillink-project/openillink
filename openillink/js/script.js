@@ -1,6 +1,6 @@
 ﻿/* 
    This file is part of OpenILLink software.
-   Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
+   Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020 CHUV.
    Original author(s): Pablo Iriarte <pablo@iriarte.ch>
    Other contributors are listed in the AUTHORS file at the top-level directory of this distribution.
    
@@ -298,6 +298,14 @@ function lookupid(item_index, openillink_config_email) {
         cleanIllForm(item_index);
         updateIllform7(item_index);
     }
+    if ((document.commande["uids_"+item_index].value != "") && (document.commande["tid_"+item_index].value == "sru_marcxml_isbn")){
+        cleanIllForm(item_index);
+        updateIllform8(item_index, 'sru-marcxml-isbn');
+    }
+    if ((document.commande["uids_"+item_index].value != "") && (document.commande["tid_"+item_index].value == "sru_marcxml_mms")){
+        cleanIllForm(item_index);
+        updateIllform8(item_index, 'sru-marcxml-mms');
+    }
 }
 
 var http_objects = [];
@@ -311,7 +319,33 @@ function get_http_obj(http_type, item_index) {
     return http_objects[http_type][item_index];
 }
 
-function get_node_name_value(root, nodeName, defaultValue, concatenate) {
+function get_node_name_value(root, nodeName, defaultValue, concatenate, attribute_condition, attribute_condition_value) {
+    /*
+    Return the value of the given nodeName in the tree.
+    if concatenate is false, return only first node value. Else use value of concatenate parameter as string to join all values.
+    
+    if 'attribute_condition' and 'attribute_condition_value' are specified, only nodes that also match the given attribute and value are returned
+    */
+    var nodes = root.getElementsByTagName(nodeName);
+    if (nodes.length > 0) {
+        var values = [];
+        for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].childNodes.length > 0) {
+                if (typeof attribute_condition === 'undefined' || nodes[i].getAttribute(attribute_condition) == attribute_condition_value) {
+                    if (concatenate === false) {
+                        return nodes[i].childNodes[0].nodeValue;
+                    } else {
+                        values.push(nodes[i].childNodes[0].nodeValue);
+                    }
+                }
+            }
+        }
+        return values.join(concatenate);
+    }
+    return "";
+}
+
+function get_node_name_value_old(root, nodeName, defaultValue, concatenate) {
     /*
     Return the value of the given nodeName in the tree.
     if concatenate is false, return only first node value. Else use value of concatenate parameter as string to join all values
@@ -1483,6 +1517,123 @@ function updateIllform7(item_index) {
 //
 // ********************************************************************************************************
 //
+//
+// START SRU retrieval (marcxml format)
+//
+
+function updateIllform8(item_index, lookup_index) {
+    var http = getHTTPObject();
+    var url = "lookup.php?" + lookup_index + "="
+    if (http) {
+        var identifier = document.commande["uids_"+item_index].value
+        http.open("GET", url + encodeURI(identifier), true);
+        http.onreadystatechange = function(){handleHttpResponse8(http, item_index, lookup_index)};
+        http.send(null);
+    }
+}
+
+function handleHttpResponse8(http, item_index, lookup_index){
+    if (http.readyState == 4) {
+        if (http.status === 200) {
+            var xmlDoc = http.responseXML;
+            var nb_results = xmlDoc.getElementsByTagName('numberOfRecords');
+            if (nb_results.length > 0 && parseInt(nb_results[0].textContent)>0) {
+                var datafields = xmlDoc.getElementsByTagName('datafield');
+                var docType = "book";
+                var title = "";
+                var article = "";
+                var publisher = "";
+                var edition = "";
+                var authors = "";
+                var journal = "";
+                var year = "";
+                var vol = "";
+                var no = "";
+                var pages = "";
+                var issn = "";
+                for (i = 0; i <datafields.length; i++) {
+                    var datafield = datafields[i];
+                    var tag = datafield.getAttribute("tag");
+                    var ind1 = datafield.getAttribute("ind1");
+                    var ind2 = datafield.getAttribute("ind2");
+                    switch(tag){
+                        case '020':
+                            issn = get_node_name_value(datafield, "subfield", issn, false, 'code', 'a');
+                            break;
+                        case '245':
+                            title = get_node_name_value(datafield, "subfield", title, false, 'code', 'a');
+                            title2 = get_node_name_value(datafield, "subfield", "", false, 'code', 'b');
+                            if (title != "" && title2 != "") {title += " ";}
+                            title += title2;
+                            title3 = get_node_name_value(datafield, "subfield", "", false, 'code', 'c');
+                            if (title != "" && title3 != "") {title += " ";}
+                            title += title3;
+                            break;
+                        case '100':
+                        case '700':
+                            if (authors != "") {authors += ", ";}
+                            authors += get_node_name_value(datafield, "subfield", "", false, 'code', 'a');
+                            break;
+                        case '260':
+                        case '264':
+                            year = get_node_name_value(datafield, "subfield", year, false, 'code', 'c').replace(".", "");
+                            publisher = get_node_name_value(datafield, "subfield", publisher, false, 'code', 'b');
+                            break;
+                        case '250':
+                            edition = get_node_name_value(datafield, "subfield", edition, false, 'code', 'a');
+                            break;
+                        case '580':
+                            journal = get_node_name_value(datafield, "subfield", journal, false, 'code', 'a');
+                            article = title;
+                            title = journal;
+                            docType = "article";
+                            break;
+                    }
+                }
+                if (edition && publisher) {
+                    edition += " - ";
+                }
+                if (year == "") {
+                    var controlfield_008 = xmlDoc.querySelectorAll("controlfield[tag='008']");
+                    if (controlfield_008.length > 0) {
+                        var controlfield_008_node = controlfield_008[0];
+                        var controlfield_008_text = controlfield_008_node.textContent;
+                        var year_from_controlfield = controlfield_008_text.substring(7, 11);
+                        if (!isNaN(year_from_controlfield)) {
+                            year = year_from_controlfield;
+                        }
+                    }
+                }
+               
+                var controlfield_001 = xmlDoc.querySelectorAll("controlfield[tag='001']");
+                var mms_identifier = controlfield_001[0].textContent;
+                if (lookup_index == 'sru-marcxml-mms') {
+                    uid_prefix = 'MMS';
+                } else {
+                    uid_prefix = 'ISBN';
+                }
+                document.commande["genre_"+item_index].value = docType;
+                document.commande["title_"+item_index].value = title;
+                document.commande["atitle_"+item_index].value = article;
+                document.commande["auteurs_"+item_index].value = authors;
+                document.commande["date_"+item_index].value = year;
+                document.commande["edition_"+item_index].value = edition + publisher;
+                document.commande["issn_"+item_index].value = issn;
+                document.commande["uid_"+item_index].value = uid_prefix+":" + document.commande["uids_"+item_index].value.trim();
+                resolve(item_index, 1);
+            } else {
+                alert("Identifier not found, please check your reference");
+            }
+        } else {;
+            alert("Could not perform auto-fill: remote service has not replied");
+        }
+    }
+}
+//
+// END SRU retrieval (marcxml format)
+//
+//
+// ********************************************************************************************************
 //
 // START OTHER FUNCTIONS
 //

@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2020 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -59,6 +59,31 @@ if(isset($swissbib_renouvaud_identifier) && !empty($swissbib_renouvaud_identifie
 	//  $url = $_SERVER['QUERY_STRING'];
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_exec($ch);
+    curl_close($ch);
+}
+
+$sru_marcxml_isbn = !empty($_GET['sru-marcxml-isbn']) ? $_GET['sru-marcxml-isbn'] : null;
+/* Retrieve with ISBN via SRU protocol */
+if(isset($sru_marcxml_isbn) && !empty($sru_marcxml_isbn) && isset($sru_marcxml_isbn_url) && !empty($sru_marcxml_isbn_url)){
+    $sru_marcxml_isbn = (isset($sru_marcxml_isbn) &&  isValidInput($sru_marcxml_isbn,50,'s',false))?trim($sru_marcxml_isbn):NULL;
+    $url = str_replace('_OPENILLINK_ISBN_', $sru_marcxml_isbn, $sru_marcxml_isbn_url);
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    header("Content-type: text/xml");
+    curl_exec($ch);
+    curl_close($ch);
+}
+
+$sru_marcxml_mms = !empty($_GET['sru-marcxml-mms']) ? $_GET['sru-marcxml-mms'] : null;
+/* Retrieve with MMS via SRU protocol. MMS ID can be 8 to 19 digits long */
+if(isset($sru_marcxml_mms) && !empty($sru_marcxml_mms) && isset($sru_marcxml_mms_url) && !empty($sru_marcxml_mms_url)){
+	$sru_marcxml_mms = preg_replace('/[^0-9.]+/', '', $sru_marcxml_mms);
+    $sru_marcxml_mms = (isset($sru_marcxml_mms) &&  isValidInput($sru_marcxml_mms,19,'s',false))?trim($sru_marcxml_mms):NULL;
+    $url = str_replace('_OPENILLINK_MMS_', $sru_marcxml_mms, $sru_marcxml_mms_url);
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    header("Content-type: text/xml");
     curl_exec($ch);
     curl_close($ch);
 }

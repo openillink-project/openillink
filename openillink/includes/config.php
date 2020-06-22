@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -191,8 +191,20 @@ $lookupuid = array(
 			  array('name' => "ISBN (swissbib)", 'code' => "isbn_swissbib"),
 			  array('name' => "RERO ID", 'code' => "reroid"),
 			  array('name' => "WoS ID", 'code' => "wosid"),
-			  //array('name' => "Renouvaud MMS", 'code' => "renouvaudmms_swissbib"),
+			  //array('name' => "MMS", 'code' => "sru_marcxml_mms"),
+              //array('name' => "ISBN", 'code' => "sru_marcxml_isbn"),
 			);
+
+
+// URL to sru server used to autofill orders from an ISBN.
+// Server must return MARCXML metadata. 
+// Keyword '_OPENILLINK_ISBN_' specified in the url below is replaced with the actual ISBN.
+$sru_marcxml_isbn_url = "";
+
+// URL to sru server used to autofill orders from an MMS.
+// Server must return MARCXML metadata. 
+// Keyword '_OPENILLINK_MMS_' specified in the url below is replaced with the actual MMS.
+$sru_marcxml_mms_url = ""; 
 
 // Enable the upload of orders files (in EndNote XML, RIS or MEDLINE/PubMed format).
 // Define the minimum privilege required to upload file:

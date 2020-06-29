@@ -56,7 +56,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             echo "document.commande.modifs.value = document.commande.modifs.value + champ + ' - ';\n";
             echo "}\n";
             echo "</script>\n";
-            echo "<form action=\"update.php\" method=\"POST\" enctype=\"x-www-form-encoded\" name=\"commande\">\n";
+            echo "<form action=\"update.php\" method=\"POST\" enctype=\"multipart/form-data\" name=\"commande\">\n";
             echo '<section class="message">
 	<div class="message-body orderEditAttributedLibraryBox">';
 			echo "<input name=\"id\" type=\"hidden\"  value=\"".htmlspecialchars($id)."\">\n";

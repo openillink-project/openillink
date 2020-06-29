@@ -541,6 +541,7 @@ function resolve_link($pmid, $mms_id, $doi, $genre, $atitle, $title, $year, $vol
 		}
 		if (!empty($year)) {
 			$openurl_parameters['rft.pubyear'] = $year;
+			$openurl_parameters['rft.date'] = $year;
 		}
 		if (!empty($volume)) {
 			$openurl_parameters['rft.volume'] = $volume;

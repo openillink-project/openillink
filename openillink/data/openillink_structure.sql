@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `stade` (`stade`),
   KEY `volume` (`volume`),
   KEY `ui` (`uid`,`doi`,`PMID`),
-  FULLTEXT KEY `titre_periodique` (`titre_periodique`)
+  KEY `titre_periodique` (`titre_periodique`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=160000 ;
 
 -- --------------------------------------------------------

@@ -65,7 +65,7 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
                 for ($i=0 ; $i<$nb ; $i++){
                     $enreg = iimysqli_result_fetch_array($result);
                     $statuscoderenew = $enreg['code'];
-                    if (($stade==$statuscoderenew) && ($renouveler=='0000-00-00'))
+                    if (($stade==$statuscoderenew) && ($renouveler=='0000-00-00' || empty($renouveler)))
                         $renouveler = date("Y-m-d", mktime(0, 0, 0, date("m")+1, date("d"), date("Y")));
                 }
             }

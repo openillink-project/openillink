@@ -275,14 +275,14 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
     if(empty($date))
         $date=date("Y-m-d");
     $date2=date("d/m/Y H:i:s");
-    $envoye=((!empty($_POST['envoye'])) && validateDate($_POST['envoye']))?$_POST['envoye']:'';
-    $facture=((!empty($_POST['facture'])) && validateDate($_POST['facture']))?$_POST['facture']:'';
-    $renouveler=((!empty($_POST['renouveler'])) && validateDate($_POST['renouveler']))?$_POST['renouveler']:'';
+    $envoye=((!empty($_POST['envoye'])) && validateDate($_POST['envoye']))?$_POST['envoye']:NULL;
+    $facture=((!empty($_POST['facture'])) && validateDate($_POST['facture']))?$_POST['facture']:NULL;
+    $renouveler=((!empty($_POST['renouveler'])) && validateDate($_POST['renouveler']))?$_POST['renouveler']:NULL;
     $reqstatus="SELECT code FROM status WHERE status.special = ?";
     $resultstatus = dbquery($reqstatus,array('renew'), 's');
     while ($rowstatus = iimysqli_result_fetch_array($resultstatus)){
         $codestatus = $rowstatus["code"];
-        if (($stade==$codestatus) && ($renouveler=='')){
+        if (($stade==$codestatus) && empty($renouveler)){
             $renouveler = date("Y-m-d", mktime(0, 0, 0, date("m")+1, date("d"), date("Y")));
         }
     }
@@ -416,7 +416,7 @@ else{
 		}
 		else{
 			$query ="INSERT INTO `orders` (`illinkid`, `stade`, `localisation`, `date`, `envoye`, `facture`, `renouveler`, `prix`, `prepaye`, `ref`, `arrivee`, `nom`, `prenom`, `service`, `cgra`, `cgrb`, `mail`, `tel`, `adresse`, `code_postal`, `localite`, `type_doc`, `urgent`, `envoi_par`, `titre_periodique`, `annee`, `volume`, `numero`, `supplement`, `pages`, `titre_article`, `auteurs`, `edition`, `isbn`, `issn`, `eissn`, `doi`, `uid`, `remarques`, `remarquespub`, `historique`, `saisie_par`, `bibliotheque`, `refinterbib`, `PMID`, `ip`, `referer`, `user_consent`, `sid`, `pid`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			$params = array('', !empty($stade) ? $stade : '', $localisation, $date, '' , '', '', '', '', '', $source, $nom, $prenom, $service, $cgra, $cgrb, $mail, $tel, $adresse, $postal, $localite, $order_form['genre_code'], '2', $envoi, $order_form['title'], $order_form['date'], $order_form['volume'], $order_form['issue'], $order_form['suppl'], $order_form['pages'], $order_form['atitle'], $order_form['auteurs'], $order_form['edition'], $order_form['isbn'], $order_form['issn'], $order_form['eissn'], $order_form['doi'], $order_form['uid'], $order_form['remarques'], $order_form['remarquespub'], $historique, $userid, $bibliotheque, '', $order_form['pmid'], $ip, $referer, $consent, $sid, $pid);
+			$params = array('', !empty($stade) ? $stade : '', $localisation, $date, NULL , NULL, NULL, '', '', '', $source, $nom, $prenom, $service, $cgra, $cgrb, $mail, $tel, $adresse, $postal, $localite, $order_form['genre_code'], '2', $envoi, $order_form['title'], $order_form['date'], $order_form['volume'], $order_form['issue'], $order_form['suppl'], $order_form['pages'], $order_form['atitle'], $order_form['auteurs'], $order_form['edition'], $order_form['isbn'], $order_form['issn'], $order_form['eissn'], $order_form['doi'], $order_form['uid'], $order_form['remarques'], $order_form['remarquespub'], $historique, $userid, $bibliotheque, '', $order_form['pmid'], $ip, $referer, $consent, $sid, $pid);
 			$monno = dbquery($query, $params, 'ssssssssssssssssssssssssssssssssssssssssssssssssss') or die("Error : ".mysqli_error(dbconnect()));
 			update_folders_item_count();
 		}

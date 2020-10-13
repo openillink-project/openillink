@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `localisation` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `sid` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pid` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `date` date NOT NULL DEFAULT '0000-00-00',
+  `date` date NOT NULL DEFAULT NULL,
   `envoye` date DEFAULT NULL,
   `facture` date DEFAULT NULL,
   `renouveler` date DEFAULT NULL,

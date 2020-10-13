@@ -219,6 +219,7 @@ $debugOn = (!empty($configdebuglogging)) && in_array($configdebuglogging, array(
 		prof_flag("Before first query");
 	// Fetch orders ID for current page
 	$result2 = dbquery($req2,NULL,NULL,NULL,$debugOn);
+    $nb_orders_counts = iimysqli_num_rows($result2);
 	if ($debugOn)
 		prof_flag("After first query");
 
@@ -230,7 +231,7 @@ $debugOn = (!empty($configdebuglogging)) && in_array($configdebuglogging, array(
 	if($total_results > 0){
 		$total_pages = ceil($total_results / $max_results);
 
-		for ($i=0 ; $i<$total_results ; $i++){
+		for ($i=0 ; $i<$nb_orders_counts ; $i++){
 			$currOrder = iimysqli_result_fetch_array($result2);
 			$orderListId[] = mysqli_real_escape_string($link, $currOrder['illinkid']);
 		}

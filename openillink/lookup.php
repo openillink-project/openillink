@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2020 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2020, 2023 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -68,6 +68,18 @@ $sru_marcxml_isbn = !empty($_GET['sru-marcxml-isbn']) ? $_GET['sru-marcxml-isbn'
 if(isset($sru_marcxml_isbn) && !empty($sru_marcxml_isbn) && isset($sru_marcxml_isbn_url) && !empty($sru_marcxml_isbn_url)){
     $sru_marcxml_isbn = (isset($sru_marcxml_isbn) &&  isValidInput($sru_marcxml_isbn,50,'s',false))?trim($sru_marcxml_isbn):NULL;
     $url = str_replace('_OPENILLINK_ISBN_', $sru_marcxml_isbn, $sru_marcxml_isbn_url);
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    header("Content-type: text/xml");
+    curl_exec($ch);
+    curl_close($ch);
+}
+
+$sru_marcxml_isbn2 = !empty($_GET['sru-marcxml-isbn2']) ? $_GET['sru-marcxml-isbn2'] : null;
+/* Retrieve with ISBN via SRU protocol, 2nd option */
+if(isset($sru_marcxml_isbn2) && !empty($sru_marcxml_isbn2) && isset($sru_marcxml_isbn_url2) && !empty($sru_marcxml_isbn_url2)){
+    $sru_marcxml_isbn2 = (isset($sru_marcxml_isbn2) &&  isValidInput($sru_marcxml_isbn2,50,'s',false))?trim($sru_marcxml_isbn2):NULL;
+    $url = str_replace('_OPENILLINK_ISBN_', $sru_marcxml_isbn2, $sru_marcxml_isbn_url2);
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     header("Content-type: text/xml");
@@ -143,14 +155,21 @@ if(isset($doi) && !empty($doi)){
 }
 
 $ut = !empty($_GET['wosid']) ? $_GET['wosid'] : null;
-if (isset($ut) && !empty($ut)){
+if (isset($ut) && !empty($ut) && isset($configWOSLiteRestAPIKey)){
     $ut = (isset($ut) &&  isValidInput($ut,100,'s',false))?trim($ut):NULL;
-    $ut = trim($ut);
-    $url = "https://www2.unil.ch/openillink/openlinker/isi/wos.php?ut=".$ut;
-    $ch = curl_init($url);
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
-    curl_exec($ch);
+    $parameters = array(
+          'databaseId' => 'WOS',
+          'count' => '1',
+          'firstRecord' => '1'
+        );
+    $url = 'https://wos-api.clarivate.com/api/woslite/id/' . $ut . "?" . http_build_query($parameters);
+    
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER,
+                    ['X-ApiKey: ' . $configWOSLiteRestAPIKey,
+                     'Accept: application/json']);
+    $result = curl_exec($ch);
     curl_close($ch);
 }
 ?>

@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2023 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -140,6 +140,10 @@ $configBaselName = 'BASEL_SPECIFIC_NAME';
 // See https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/
 $configNCBIAPIKey = '';
 
+// WoS Lite Rest API key
+// Used server-side to retrieve metadata from WoS APIs when auto-filling via WosID.
+$configWOSLiteRestAPIKey = '';
+
 // authentication levels
 $auth_sadmin = "1";
 $auth_admin = "2";
@@ -200,6 +204,12 @@ $lookupuid = array(
 // Server must return MARCXML metadata. 
 // Keyword '_OPENILLINK_ISBN_' specified in the url below is replaced with the actual ISBN.
 $sru_marcxml_isbn_url = "";
+
+// URL to a second sru server used to autofill orders from an ISBN.
+// Server must return MARCXML metadata. 
+// Keyword '_OPENILLINK_ISBN_' specified in the url below is replaced with the actual ISBN.
+$sru_marcxml_isbn_url2 = "";
+
 
 // URL to sru server used to autofill orders from an MMS.
 // Server must return MARCXML metadata. 

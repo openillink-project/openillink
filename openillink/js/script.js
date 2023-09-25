@@ -1,19 +1,19 @@
-﻿/* 
+﻿/*
    This file is part of OpenILLink software.
-   Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020 CHUV.
+   Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2023 CHUV.
    Original author(s): Pablo Iriarte <pablo@iriarte.ch>
    Other contributors are listed in the AUTHORS file at the top-level directory of this distribution.
-   
+
    OpenILLink is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-   
+
    OpenILLink is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
    along with OpenILLink.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -73,7 +73,7 @@ var resolved_data = {};
 function resolve(item_index, max_retry, tid, uids, genre, title, date, volume, issue, suppl, pages, atitle, author, edition, issn, uid, src_page) {
     /* Retrieve location where requested document can be accessed.
        Resolves using based on provided parameters (tid, uids, genre, title, date, volume, issue, suppl, pages, atitle, author, edition, issn, uid) or based on values in form at given 'item_index'.
-    
+
     */
     // TODO: only try to resolve if enough data provided ? Only resolve if article-level resolution is possible (pages or pmid or doi provided)?
     var http = getHTTPObject();
@@ -192,7 +192,7 @@ function resolve(item_index, max_retry, tid, uids, genre, title, date, volume, i
         } else {
             url_parameters['uid'] = uid;
         }
-        var sorted_keys = Object.keys(url_parameters).sort(); 
+        var sorted_keys = Object.keys(url_parameters).sort();
         var sorted_url_parameters = [];
         for (var i = 0; i < sorted_keys.length; i++) {
             sorted_url_parameters.push(encodeURIComponent(sorted_keys[i]) + '=' + encodeURIComponent(url_parameters[sorted_keys[i]]));
@@ -272,9 +272,9 @@ function lookupid(item_index, openillink_config_email) {
         // alors on remplit automatiquement le formulaire, ceci écrase ce qui est inscrit dans le formulaire normal et l'envoie
         cleanIllForm(item_index);
         lookup_pmids([item_index], openillink_config_email, 3);
-        
+
     }
-    if ((document.commande["uids_"+item_index].value != "") && (document.commande["tid_"+item_index].value == "reroid")){    
+    if ((document.commande["uids_"+item_index].value != "") && (document.commande["tid_"+item_index].value == "reroid")){
         cleanIllForm(item_index);
         updateIllform2(item_index);
     }
@@ -302,6 +302,10 @@ function lookupid(item_index, openillink_config_email) {
         cleanIllForm(item_index);
         updateIllform8(item_index, 'sru-marcxml-isbn');
     }
+    if ((document.commande["uids_"+item_index].value != "") && (document.commande["tid_"+item_index].value == "sru_marcxml_isbn2")){
+        cleanIllForm(item_index);
+        updateIllform8(item_index, 'sru-marcxml-isbn2');
+    }
     if ((document.commande["uids_"+item_index].value != "") && (document.commande["tid_"+item_index].value == "sru_marcxml_mms")){
         cleanIllForm(item_index);
         updateIllform8(item_index, 'sru-marcxml-mms');
@@ -323,7 +327,7 @@ function get_node_name_value(root, nodeName, defaultValue, concatenate, attribut
     /*
     Return the value of the given nodeName in the tree.
     if concatenate is false, return only first node value. Else use value of concatenate parameter as string to join all values.
-    
+
     if 'attribute_condition' and 'attribute_condition_value' are specified, only nodes that also match the given attribute and value are returned
     */
     var nodes = root.getElementsByTagName(nodeName);
@@ -446,8 +450,8 @@ var url = 'lookup.php?pmid=';
 function handleHttpResponse(item_index) {
     var http = get_http_obj(1, item_index);
     if (http.readyState == 4) {
-        if ((http.responseText.indexOf('<!-- Error>XML not found for id') == -1) 
-        && (http.responseText.indexOf('<ERROR>Empty id list') == -1) 
+        if ((http.responseText.indexOf('<!-- Error>XML not found for id') == -1)
+        && (http.responseText.indexOf('<ERROR>Empty id list') == -1)
         && (http.responseText.indexOf('<ERROR>Invalid uid') == -1)){
             //alert(http.responseText);
             var xmlDocument = http.responseText;
@@ -995,13 +999,12 @@ function handleHttpResponse5(item_index) {
     var http5 = get_http_obj(5, item_index);
     if (http5.readyState == 4) {
         try {
-  console.log(http5.responseText);
             result = JSON.parse(http5.responseText.trim());
         } catch (e) {
-            console.error("Parsing error:", e); 
-            console.error("Response", http5.responseText); 
+            console.error("Parsing error:", e);
+            console.error("Response", http5.responseText);
         }
-        if (result && result.hasOwnProperty("return") && result.return.hasOwnProperty("recordsFound") && result.return.recordsFound != "0") {
+        if (result && result.hasOwnProperty("Data") && result.QueryResult.hasOwnProperty("RecordsFound") && result.QueryResult.RecordsFound != 0) {
             // initialisation des variables target
             var atitle = '';
             var authorsf = '';
@@ -1016,99 +1019,85 @@ function handleHttpResponse5(item_index) {
             var doi = '';
             var notesn = '';
             // fin initialisation
-            if (result.return.records.hasOwnProperty("title")) {
-                atitle = result.return.records.title.value;
+            if (result.Data[0].hasOwnProperty("Title")) {
+                atitle = result.Data[0].Title.Title.join("; ");
             }
-            if(result.return.records.hasOwnProperty("doctype")){
-                    doctype = result.return.records.doctype.value;
-                    if (Array.isArray(doctype)) {
-                        doctype = doctype.join("; ");
-                    }
-                    doctype = doctype.toLowerCase();
-            }
-            if (result.return.records.hasOwnProperty("authors")) {
-                console.log(typeof result.return.records.authors.value);
-                if(Array.isArray(result.return.records.authors.value)){
-                    authorsf = result.return.records.authors.value.join("; ");
-                }
-                else{
-                    authorsf = result.return.records.authors.value;
+            if(result.Data[0].hasOwnProperty("Doctype")){
+                if(result.Data[0].Doctype.hasOwnProperty("Doctype")){
+                  doctype = result.Data[0].Doctype.Doctype[0];
+                  doctype = doctype.toLowerCase();
                 }
             }
-            if (result.return.records.hasOwnProperty("source")) {
-                var inode;
-            for (var i in result.return.records.source) {
-            inode = result.return.records.source[i];
-            switch(inode.label) {
-                case "Volume":
-                    vol = inode.value;
-                    break;
-                case "Issue":
-                    no = inode.value;
-                    break;
-                case "Pages":
-                    pages = inode.value;
-                    break;
-                case "SourceTitle":
-                    journal = inode.value;
-                    break;
-                case "Published.BiblioYear":
-                    annee = inode.value;
-                    break;
+            if (result.Data[0].hasOwnProperty("Author")) {
+                if (result.Data[0].Author.hasOwnProperty("Authors")) {
+                    authorsf = result.Data[0].Author.Authors.join("; ");
+                } else if (result.Data[0].Author.hasOwnProperty("BookAuthors")) {
+                    authorsf = result.Data[0].Author.BookAuthors.join("; ");
+                } else if (result.Data[0].Author.hasOwnProperty("BookGroupAuthors")) {
+                    authorsf = result.Data[0].Author.BookGroupAuthors.join("; ");
+                }
             }
-        }
-    }
+            if (result.Data[0].hasOwnProperty("Source")) {
+                if (result.Data[0].Source.hasOwnProperty("Volume")) {
+                    vol = result.Data[0].Source.Volume.join("; ");
+                }
+                if (result.Data[0].Source.hasOwnProperty("Issue")) {
+                    no = result.Data[0].Source.Issue.join("; ");
+                }
+                if (result.Data[0].Source.hasOwnProperty("Pages")) {
+                    pages = result.Data[0].Source.Pages.join("; ");
+                }
+                if (result.Data[0].Source.hasOwnProperty("SourceTitle")) {
+                    journal = result.Data[0].Source.SourceTitle.join("; ");
+                }
+                if (result.Data[0].Source.hasOwnProperty("Published.BiblioYear")) {
+                    annee = result.Data[0].Source["Published.BiblioYear"].join("; ");
+                }
+            }
+            if (result.Data[0].hasOwnProperty("Other")) {
+                if (result.Data[0].Other.hasOwnProperty("Identifier.Doi")) {
+                    doi = result.Data[0].Other["Identifier.Doi"].join("; ");
+                }
+                if (result.Data[0].Other.hasOwnProperty("Identifier.Issn")) {
+                    issn = result.Data[0].Other["Identifier.Issn"].join("; ");
+                } else if (result.Data[0].Other.hasOwnProperty("Identifier.Eissn")) {
+                    issn = result.Data[0].Other["Identifier.Eissn"].join("; ");
+                }
+                if (result.Data[0].Other.hasOwnProperty("Identifier.Ids")) {
+                    isiid = result.Data[0].Other["Identifier.Ids"].join("; ");
+                }
+            }
+            if (doi !== '')
+            {
+                notesn = "DOI:" + doi;
+            }
 
-    if (result.return.records.hasOwnProperty("other"))
-    {
-        for (var i in result.return.records.other) {
-           inode = result.return.records.other[i];
-           switch(inode.label)
-           {
-               case "Identifier.Doi":
-                   doi = inode.value;
-                   break;
-               case "Identifier.Issn":
-                   issn = inode.value;
-                   break;
-               case "Identifier.Ids":
-                   isiid = inode.value;
-                   break;
-           }
-        }
-    }
-
-    if (doi !== '')
-    {
-        notesn = "DOI:" + doi;
-    }
-
-    document.commande["genre_"+item_index].value = doctype;
-    document.commande["atitle_"+item_index].value = atitle;
-    document.commande["title_"+item_index].value = journal;
-    document.commande["auteurs_"+item_index].value = authorsf;
-    document.commande["date_"+item_index].value = annee;
-    document.commande["volume_"+item_index].value = vol;
-    document.commande["issue_"+item_index].value = no;
-    document.commande["pages_"+item_index].value = pages;
-    document.commande["issn_"+item_index].value = issn;
-    document.commande["uid_"+item_index].value = "WOSUT:" + document.commande["uids_"+item_index].value;
-    document.commande["remarquespub_"+item_index].value = notesn;
-    isWorking5[item_index] = false;
-    resolve(item_index, 1);
-    // entryForm.submit();
-  }
-  // Message d'erreur si le WOSID n'est pas valable
-  else 
-      if ( result && result.hasOwnProperty("return") && result.return.hasOwnProperty("recordsFound") && result.return.recordsFound == "0") {
-          alert('WOS ID not found, please check your reference');
-    isWorking5[item_index] = false;
-  }
-  else
-  {
-    alert("La recherche n'a pas abouti: le service distant n'a pas repondu");
-    isWorking5[item_index] = false;
-  }
+            document.commande["genre_"+item_index].value = doctype;
+            document.commande["atitle_"+item_index].value = atitle;
+            document.commande["title_"+item_index].value = journal;
+            document.commande["auteurs_"+item_index].value = authorsf;
+            document.commande["date_"+item_index].value = annee;
+            document.commande["volume_"+item_index].value = vol;
+            document.commande["issue_"+item_index].value = no;
+            document.commande["pages_"+item_index].value = pages;
+            document.commande["issn_"+item_index].value = issn;
+            document.commande["uid_"+item_index].value = "WOSUT:" + document.commande["uids_"+item_index].value;
+            document.commande["remarquespub_"+item_index].value = notesn;
+            isWorking5[item_index] = false;
+            resolve(item_index, 1);
+            // entryForm.submit();
+      }
+      // Message d'erreur si le WOSID n'est pas valable
+      else
+          if ( result && result.hasOwnProperty("QueryResult") && result.QueryResult.hasOwnProperty("RecordsFound") && result.QueryResult.RecordsFound == 0) {
+              alert('WOS ID not found, please check your reference');
+        isWorking5[item_index] = false;
+      }
+      else
+      {
+        alert("La recherche n'a pas abouti: le service distant n'a pas repondu");
+        isWorking5[item_index] = false;
+      }
   }
 }
 
@@ -1536,7 +1525,11 @@ function handleHttpResponse8(http, item_index, lookup_index){
     if (http.readyState == 4) {
         if (http.status === 200) {
             var xmlDoc = http.responseXML;
-            var nb_results = xmlDoc.getElementsByTagName('numberOfRecords');
+            try {
+                var nb_results = xmlDoc.getElementsByTagName('numberOfRecords');
+            } catch (error){
+                var nb_results = 0;
+            }
             if (nb_results.length > 0 && parseInt(nb_results[0].textContent)>0) {
                 var datafields = xmlDoc.getElementsByTagName('datafield');
                 var docType = "book";
@@ -1604,7 +1597,7 @@ function handleHttpResponse8(http, item_index, lookup_index){
                         }
                     }
                 }
-               
+
                 var controlfield_001 = xmlDoc.querySelectorAll("controlfield[tag='001']");
                 var mms_identifier = controlfield_001[0].textContent;
                 if (lookup_index == 'sru-marcxml-mms') {
@@ -1621,6 +1614,9 @@ function handleHttpResponse8(http, item_index, lookup_index){
                 document.commande["issn_"+item_index].value = issn;
                 document.commande["uid_"+item_index].value = uid_prefix+":" + document.commande["uids_"+item_index].value.trim();
                 resolve(item_index, 1);
+            } else if (lookup_index == 'sru-marcxml-isbn') {
+                // lookup using second method
+                updateIllform8(item_index, 'sru-marcxml-isbn2');
             } else {
                 alert("Identifier not found, please check your reference");
             }
@@ -1643,7 +1639,7 @@ function directory(urlpass) {
     if  ((document.commande.nom.value != "") || (document.commande.prenom.value != "")) {
         monurl = urlpass.replace('XNAMEX',document.commande.nom.value);
         monurl = monurl.replace('XFIRSTNAMEX',document.commande.prenom.value);
-        window.open(monurl); 
+        window.open(monurl);
     }
     else
         alert("Rentrez un nom d'abord")
@@ -1850,7 +1846,7 @@ function remplirauto(openillink_config_email) {
 	var url_parameters = new QueryData();
 
 	function get_url_parameter(key, defaultvalue, optional_prefix){
-		/* Helper function to retrieve data from array 
+		/* Helper function to retrieve data from array
 		   'optional_prefix' allows to search for a key that might be prefixed
 		*/
 		   if(defaultvalue === undefined) {
@@ -2033,6 +2029,6 @@ function showSimpleSearch() {
     document.getElementById("searchtype").value="simple";
     /* Reset form element */
     document.getElementsByName('term2')[0].value="";
-    document.getElementsByName('term3')[0].value=""; 
+    document.getElementsByName('term3')[0].value="";
     document.getElementsByName('match')[0].value="starts";
 }

@@ -452,10 +452,20 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 	<div class="column is-2">
 	<div class="field is-horizontal">
    <span class="buttons label field-label is-normal has-text-left" style=""> &nbsp;';
-if ($directoryurl1 != "")
-	echo " <a href=\"javascript:directory('$directoryurl1')\" class=\"is-light\" title=\"" . __("Search the name in the directory of the hospital") . "\"><span class=\"directoryurl1\"><i aria-hidden=\"true\" class=\"fa fa-address-book fa-lg\"></i></span></a>\n";
-if ($directoryurl2 != "")
-	echo "&nbsp;<a href=\"javascript:directory('$directoryurl2')\" class=\"is-light\" title=\"" . __("Search the name in the directory of the university") . "\"><span class=\"directoryurl2\"><i aria-hidden=\"true\" class=\"fa fa-address-book fa-lg\"></i></span></a>\n";
+if ($directoryurl1 != "") {
+    $directoryurl_post_data1_param = "{}";
+    if (isset($directoryurl_post_data1) && !empty($directoryurl_post_data1)) {
+         $directoryurl_post_data1_param = htmlspecialchars(json_encode($directoryurl_post_data1));
+    }
+	echo " <a href=\"javascript:directory('$directoryurl1', $directoryurl_post_data1_param)\" class=\"is-light\" title=\"" . __("Search the name in the directory of the hospital") . "\"><span class=\"directoryurl1\"><i aria-hidden=\"true\" class=\"fa fa-address-book fa-lg\"></i></span></a>\n";
+}
+if ($directoryurl2 != ""){
+    $directoryurl_post_data2_param = "{}";
+    if (isset($directoryurl_post_data2) && !empty($directoryurl_post_data2)) {
+         $directoryurl_post_data2_param = htmlspecialchars(json_encode($directoryurl_post_data2));
+    }
+	echo "&nbsp;<a href=\"javascript:directory('$directoryurl2', $directoryurl_post_data2_param)\" class=\"is-light\" title=\"" . __("Search the name in the directory of the university") . "\"><span class=\"directoryurl2\"><i aria-hidden=\"true\" class=\"fa fa-address-book fa-lg\"></i></span></a>\n";
+}
 echo '</span>
 	</div>
       </div>

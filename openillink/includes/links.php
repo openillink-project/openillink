@@ -38,14 +38,22 @@ echo __("Edit order")."</font></a></b></li>\n";
 if ($directoryurl1 != ""){
    $mydirectory1search = str_replace("XNAMEX", urlencode($enreg['nom']),$directoryurl1);
    $mydirectory1search = str_replace("XFIRSTNAMEX",urlencode ($enreg['prenom']),$mydirectory1search);
-   echo "<li><a href=\"" . htmlspecialchars($mydirectory1search) . "\" target=_blank title=\"" . __("Search the name in the directory of the hospital") . "\">\n";
+   if (isset($directoryurl_post_data1) && !empty($directoryurl_post_data1)) {
+       echo "<li><a href=\"javascript:window_open_post('" . htmlspecialchars($mydirectory1search) . "', " . htmlspecialchars(str_replace("XFIRSTNAMEX", $enreg['prenom'],str_replace("XNAMEX", $enreg['nom'], json_encode($directoryurl_post_data1)))) . ")\" title=\"" . __("Search the name in the directory of the hospital") . "\">\n";
+   } else {
+       echo "<li><a href=\"" . htmlspecialchars($mydirectory1search) . "\" target=_blank title=\"" . __("Search the name in the directory of the hospital") . "\">\n";
+   }
    echo $directoryname1 . "</a></li>\n";
 }
 
 if ($directoryurl2 != ""){
    $mydirectory2search = str_replace("XNAMEX",urlencode ($enreg['nom']),$directoryurl2);
    $mydirectory2search = str_replace("XFIRSTNAMEX",urlencode ($enreg['prenom']),$mydirectory2search);
-   echo "<li><a href=\"" . htmlspecialchars($mydirectory2search) . "\" target=_blank title=\"" . __("Search the name in the directory of the university") . "\">\n";
+   if (isset($directoryurl_post_data2) && !empty($directoryurl_post_data2)) {
+       echo "<li><a href=\"javascript:window_open_post('" . htmlspecialchars($mydirectory2search) . "', " . htmlspecialchars(str_replace("XFIRSTNAMEX", $enreg['prenom'],str_replace("XNAMEX", $enreg['nom'], json_encode($directoryurl_post_data2)))) . ")\" title=\"" . __("Search the name in the directory of the hospital") . "\">\n";
+   } else {
+       echo "<li><a href=\"" . htmlspecialchars($mydirectory2search) . "\" target=_blank title=\"" . __("Search the name in the directory of the university") . "\">\n";
+   }
    echo $directoryname2 . "</a></li>\n";
 }
 echo "</ul>\n";

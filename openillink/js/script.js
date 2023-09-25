@@ -1635,16 +1635,42 @@ function handleHttpResponse8(http, item_index, lookup_index){
 //
 
 
-function directory(urlpass) {
+function directory(urlpass, post_parameters={}) {
     if  ((document.commande.nom.value != "") || (document.commande.prenom.value != "")) {
         monurl = urlpass.replace('XNAMEX',document.commande.nom.value);
         monurl = monurl.replace('XFIRSTNAMEX',document.commande.prenom.value);
-        window.open(monurl);
+        if (Object.keys(post_parameters).length == 0) {
+            window.open(monurl);
+        } else {
+            for (var index in post_parameters) {
+                post_parameters[index] = post_parameters[index].replace('XNAMEX', document.commande.nom.value).replace('XFIRSTNAMEX', document.commande.prenom.value)
+            };
+            window_open_post(monurl, post_parameters);
+        }
     }
     else
         alert("Rentrez un nom d'abord")
 }
 
+function window_open_post(urlpass, post_parameters) {
+    var form = document.createElement("form");
+    form.target = "_blank";
+    form.action = urlpass;
+    form.method = "POST";
+    form.style.display = "none";
+
+    for (var key in post_parameters) {
+        var input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = post_parameters[key];
+        form.appendChild(input);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+}
 
 
 function openlist(urlbase, item_index) {

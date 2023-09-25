@@ -177,11 +177,14 @@ $displayFormOrderSourceField = true;
 
 // Define the name and search URL of directories used to make the home page links
 // to determine your URLs make a search with firstname "XFIRSTNAMEX" (without quotes) and name "XNAMEX", then copy the URL of the results page
-// if your directory allows only POST request, you can create a form imitating the search form and place on the forms folder
+// if your directory allows only POST request, you can create a form imitating the search form and place on the forms folder,
+// or you can specify an array that is going to be posted if not empty (directoryurl_post_data1 and directoryurl_post_data2).
 $directoryname1 = "Univ. directory";
 $directoryurl1 = "http://www.univxyz.com/directory?ln=XNAMEX&fn=XFIRSTNAMEX";
+$directoryurl_post_data1 = array();
 $directoryname2 = "Hosp. directory";
 $directoryurl2 = "http://www.univabc.com/ldap?nom=XNAMEX&prenom=XFIRSTNAMEX";
+$directoryurl_post_data2 = array();
 
 // Define URL to periodicals database in order to let user search it from
 // the order submission form.

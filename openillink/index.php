@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2023 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -95,6 +95,9 @@ $refinterbib = !empty($_POST['refinterbib']) ? $_POST['refinterbib'] : '';
 $remarques = !empty($_POST['remarques']) ? $_POST['remarques'] : '';
 
 $order_form_values = array();
+
+$config_display_delivery_choice = isset($config_display_delivery_choice) ? $config_display_delivery_choice : true;
+$config_display_cgr_fields = isset($config_display_cgr_fields) ? $config_display_cgr_fields : false;
 
 if (isset($_POST['tid_0']) || isset($_GET['tid_0'])) {
 	// load from $POST
@@ -708,7 +711,7 @@ echo '
        </div>
       </div>
 ';
-if ($ip1 == 1){
+if ($ip1 == 1 && $config_display_cgr_fields){
 	echo '
 	<div class="columns is-gapless is-columns-form">
     <div class="column is-2">
@@ -772,26 +775,29 @@ echo '
         </div>
     </div>
     </div>
-
-
-	<div class="columns is-gapless is-columns-form">
-    <div class="column is-3">
-	  <div class="field is-horizontal">
-      <label class="label field-label is-normal" for="envoi">'.__("If available at the library:").'</label>
-	  </div>
-	</div>
-	<div class="column is-9">
-	<div class="field is-horizontal">
-        <div class="control">
-         <label class="radio field-label is-normal">
-          <input type="radio" id="envoimail" name="envoi" '. (($envoi == "" || $envoi == "mail") ? " checked ": "") .' value="mail"> '.__("Send by e-mail (billed)").'</label>
-         <label class="radio field-label is-normal">
-          <input type="radio" id="envoisurplace" name="envoi" '. ($envoi == "surplace" ? " checked ": "") .' value="surplace"> '.__("Let me know and I come to make a copy (not billed)").'</label>
+';
+if ($config_display_delivery_choice) {
+    echo '
+        <div class="columns is-gapless is-columns-form">
+        <div class="column is-3">
+          <div class="field is-horizontal">
+          <label class="label field-label is-normal" for="envoi">'.__("If available at the library:").'</label>
+          </div>
         </div>
-       </div>
-	  </div>
-      </div>
-
+        <div class="column is-9">
+        <div class="field is-horizontal">
+            <div class="control">
+             <label class="radio field-label is-normal">
+              <input type="radio" id="envoimail" name="envoi" '. (($envoi == "" || $envoi == "mail") ? " checked ": "") .' value="mail"> '.__("Send by e-mail (billed)").'</label>
+             <label class="radio field-label is-normal">
+              <input type="radio" id="envoisurplace" name="envoi" '. ($envoi == "surplace" ? " checked ": "") .' value="surplace"> '.__("Let me know and I come to make a copy (not billed)").'</label>
+            </div>
+           </div>
+          </div>
+          </div>
+    ';
+}
+echo '
 	<div class="columns is-gapless is-columns-form">
     <div class="column is-2">
 		&nbsp;

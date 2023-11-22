@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2023 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -44,6 +44,8 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 		$locListArray = getLibraryLocalizationCodes($monbib);
 		$servListArray = getLibraryUnitCodes($monbib);
 		$library_signature = getLibrarySignature($monbib);
+        $config_display_delivery_choice = isset($config_display_delivery_choice) ? $config_display_delivery_choice : true;
+        $config_display_cgr_fields = isset($config_display_cgr_fields) ? $config_display_cgr_fields : false;
 
         $req = "SELECT orders.*, status.title1 AS statusname, status.help1 AS statushelp, status.special AS statusspecial, status.color AS statuscolor, libraries.name1 AS libname, localizations.name1 AS locname, units.name1 AS unitname ".
         "FROM orders LEFT JOIN status ON orders.stade = status.code LEFT JOIN libraries ON orders.bibliotheque = libraries.code LEFT JOIN localizations ON orders.localisation = localizations.code LEFT JOIN units ON orders.service = units.code ".
@@ -217,10 +219,12 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 					echo "\n<br /><b>". __("Other identifier") ." : </b>".htmlspecialchars($enreg['uid']);
 				}
 			}
-            if ($enreg['cgra'])
-                echo "\n<br /><b>". __("Management Code A") ." : </b>".htmlspecialchars($enreg['cgra']);
-            if ($enreg['cgrb'])
-                echo "\n<br /><b>". __("Management Code B") ." : </b>".htmlspecialchars($enreg['cgrb']);
+            if ($config_display_cgr_fields){
+                if ($enreg['cgra'])
+                    echo "\n<br /><b>". __("Management Code A") ." : </b>".htmlspecialchars($enreg['cgra']);
+                if ($enreg['cgrb'])
+                    echo "\n<br /><b>". __("Management Code B") ." : </b>".htmlspecialchars($enreg['cgrb']);
+            }
             if ($enreg['tel'])
                 echo "\n<br /><b>". __("Tel. number") ." : </b>".htmlspecialchars($enreg['tel']);
             if ($enreg['saisie_par'])
@@ -231,12 +235,14 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "\n<br /><b>". __("Provenance URL") ." : </b>".htmlspecialchars(rawurldecode($enreg['referer']));
             if ($enreg['arrivee'])
                 echo "\n<br /><b>". __("Arrival by") ." : </b>".htmlspecialchars($enreg['arrivee']);
-            if ($enreg['envoi_par'])
-                echo "\n<br /><b>". __("Send by") ." : </b>";
-            if ($enreg['envoi_par'] == 'surplace')
-                echo "<b><font color=\"red\">". __("Inform the reader if available on site") ."</font></b>";
-            else
-                echo htmlspecialchars($enreg['envoi_par']);
+            if ($config_display_delivery_choice) {
+                if ($enreg['envoi_par'])
+                    echo "\n<br /><b>". __("Send by") ." : </b>";
+                if ($enreg['envoi_par'] == 'surplace')
+                    echo "<b><font color=\"red\">". __("Inform the reader if available on site") ."</font></b>";
+                else
+                    echo htmlspecialchars($enreg['envoi_par']);
+            }
             if ($enreg['prix'])
                 echo "\n<br /><b>". __("Price") ." : </b>".htmlspecialchars($enreg['prix']);
             if ($enreg['prepaye'])

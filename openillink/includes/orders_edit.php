@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2020 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2020, 2023 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -38,6 +38,8 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
         $result = dbquery($req, array($id), 'i');
         $nb = iimysqli_num_rows($result);
         require ("headeradmin.php");
+        $config_display_delivery_choice = isset($config_display_delivery_choice) ? $config_display_delivery_choice : true;
+        $config_display_cgr_fields = isset($config_display_cgr_fields) ? $config_display_cgr_fields : false;
 		echo '<script type="text/javascript">var referer="";</script>';
         for ($i=0 ; $i<$nb ; $i++){
             $enreg = iimysqli_result_fetch_array($result);
@@ -534,7 +536,7 @@ echo '</span>
                 echo " </div>
     </div>
 	</div>";
-                if ($ip1 == 1){
+                if ($ip1 == 1 && $config_display_cgr_fields){
 					echo '<div class="columns is-gapless is-columns-form">
     <div class="column is-2">
 	  <div class="field is-horizontal">
@@ -634,8 +636,9 @@ echo '</span>
                 echo '</div>
     </div>
     </div>
-
-
+';
+if ($config_display_delivery_choice) {
+    echo'
 	<div class="columns is-gapless is-columns-form">
     <div class="column is-3">
 	  <div class="field is-horizontal">
@@ -661,6 +664,7 @@ echo '</span>
        </div>
 	   </div>
       </div>';
+}
 	  echo '<div class="columns is-gapless is-columns-form">
     <div class="column is-2">
 		&nbsp;

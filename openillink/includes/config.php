@@ -271,6 +271,12 @@ $doctypes = array(
 // add dependency on jQuery.
 $config_units_search_enabled = 1;
 
+// Is choice for delivery option (pickup / delivery) displayed on order form?
+$config_display_delivery_choice = true;
+
+// Are CGRA/B fields displayed on order form?
+$config_display_cgr_fields = false;
+
 // Shibboleth authentication (0 inactive, 1 active)
 $config_shibboleth_enabled = 0;
 

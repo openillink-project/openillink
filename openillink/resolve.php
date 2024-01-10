@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2019, 2020 CHUV.
+// Copyright (C) 2019, 2020, 2024 CHUV.
 // Original author(s): Jérôme Zbinden <jerome.zbinden@chuv.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -33,8 +33,8 @@ require_once ("includes/toolkit.php");
 require_once ("includes/connexion.php");
 
 function resolve($ip) {
-	global $config_link_resolver_msg_result, $lang;
-	
+	global $config_link_resolver_msg_result, $lang, $config_secure_secret_key;
+
 	$tid_code = !empty($_GET['tid'])? $_GET['tid'] : '';
 	$uids = !empty($_GET['uids'])? $_GET['uids'] : '';
 	$genre = !empty($_GET['genre'])? $_GET['genre'] : '';
@@ -50,7 +50,7 @@ function resolve($ip) {
 	$issn_isbn = !empty($_GET['issn'])? $_GET['issn'] : '';
 	$uid = !empty($_GET['uid'])? $_GET['uid'] : '';
 	$referer = !empty($_GET['referer'])? $_GET['referer'] : '';
-	
+
 	$pmid = null;
 	$mms_id = null;
 	$doi = null;
@@ -65,14 +65,14 @@ function resolve($ip) {
 	} else if (($tid_code == "renouvaudmms_swissbib" || $tid_code == "mms") && !empty($uids)) {
 		$mms_id = trim($uids);
 	}
-	
+
 	if (startsWith(trim(strtolower($uid)), 'doi:')) {
 		$doi = trim(substr($uid, 4));
 	} else if ($tid_code == "doi"  && !empty($uids)) {
 		$doi = trim($uids);
 	}
 	$search_params = "pmid=" . urlencode($pmid) . "&mms_id=" . urlencode($mms_id) . "&doi=" . urlencode($doi) . "&l=" . urlencode($lang) . "&genre=" . urlencode($genre) . "&title=" . urlencode($title) . "&date=" . urlencode($date) . "&volume=" . urlencode($volume) . "&issue=" . urlencode($issue) . "&suppl=" . urlencode($suppl) . "&pages=" . urlencode($pages) . "&author=" . urlencode($author) . "&issn_isbn=" . urlencode($issn_isbn) . "&edition=" . urlencode($edition) . "&atitle=" . urlencode($atitle);
-	
+
 	// purge old cache
 	$query = "DELETE FROM `resolver_cache` WHERE date < NOW() - INTERVAL 30 MINUTE";
 	$res = dbquery($query);
@@ -93,7 +93,16 @@ function resolve($ip) {
 		//}
 		$links_list = array();
 		foreach ($resolved_services['services'] as $service) {
-			$service_html_output = '<a target="_blank" href="resolve.php?go='.htmlspecialchars(urlencode($service['resolution_url'])).'&r='. htmlspecialchars(urlencode($referer)) .'&p='.htmlspecialchars(urlencode($search_params)).'&pkg='.htmlspecialchars(urlencode($service['package_display_name'])).'">'.$service['package_display_name'].'</a>';
+			if ($config_secure_secret_key != '' && !empty($config_secure_secret_key)) {
+				// We can sign request and collect stats
+				$req_timestamp = time();
+				$resolved_service_signature = hash_hmac("sha256", $service['resolution_url'].$req_timestamp, $config_secure_secret_key);
+
+				$service_html_output = '<a target="_blank" href="resolve.php?go='.htmlspecialchars(urlencode($service['resolution_url'])).'&r='. htmlspecialchars(urlencode($referer)) .'&p='.htmlspecialchars(urlencode($search_params)).'&pkg='.htmlspecialchars(urlencode($service['package_display_name'])).'&sig='.htmlspecialchars(urlencode($resolved_service_signature)).'&t='.htmlspecialchars(urlencode(strval($req_timestamp))).'">'.$service['package_display_name'].'</a>';
+			} else {
+				// We cannot sign request, and will not collect stats
+				$service_html_output = '<a target="_blank" href="'.htmlspecialchars($service['resolution_url']).'">'.$service['package_display_name'].'</a>';
+			}
             if ($service['public_note'] != "") {
                 $service_html_output .= '<ul class="resolved_service_public_note"><li>' . htmlspecialchars($service['public_note']) . '</li></ul>';
             }
@@ -107,9 +116,9 @@ function resolve($ip) {
 	} else {
 		$html_output = "<ul><li>". __("No result found via link resolver") . "</li></ul>";
 	}
-	
+
 	$response = json_encode(array('nb'=> count($resolved_services['services']), 'msg'=>$html_output, 'search_params' => $search_params));
-	// cache 
+	// cache
 	$query = "INSERT INTO `resolver_cache` (`params`, `cache`) VALUES (?, ?)";
 	$params = array($search_params, $response);
 	$res = dbquery($query, $params, 'ss');
@@ -122,15 +131,23 @@ function resolve($ip) {
 header('Content-type: application/json');
 if (isset($config_link_resolver_base_openurl) && $config_link_resolver_base_openurl != ''){
 	$go_to_url = !empty($_GET['go'])? $_GET['go'] : '';
+    $url_signature = !empty($_GET['sig'])? $_GET['sig'] : '';
+    $req_timestamp = (!empty($_GET['t']) && is_numeric($_GET['t']))? intval($_GET['t']) : 0;
 	$selected_package = !empty($_GET['pkg'])? $_GET['pkg'] : '';
 	$search_params = !empty($_GET['p'])? $_GET['p'] : '';
 	$local_referer = !empty($_GET['r'])? $_GET['r'] : '';
-	if ($go_to_url != '') {
-		$query = "INSERT INTO `resolver_log` (`package`, `params`, `referer`, `auth_level`) VALUES (?, ?, ?, ?)";
-		$params = array($selected_package, $search_params, $local_referer, $monaut);
-		$res = dbquery($query, $params, 'ssss');
-		header('Location: ' . $go_to_url);
-		exit();		
+	if ($go_to_url != '' && $config_secure_secret_key != '' && !empty($config_secure_secret_key) && $req_timestamp != 0 && $url_signature != '') {
+		$signature_check = hash_hmac("sha256", $go_to_url.$req_timestamp, $config_secure_secret_key);
+		if (hash_equals($signature_check, $url_signature) && ((time() - $req_timestamp )) < 60*60 ) {
+			// Signature is valid, and request is not expired (validity: 1 hour)
+			$query = "INSERT INTO `resolver_log` (`package`, `params`, `referer`, `auth_level`) VALUES (?, ?, ?, ?)";
+			$params = array($selected_package, $search_params, $local_referer, $monaut);
+			$res = dbquery($query, $params, 'ssss');
+			header('Location: ' . $go_to_url);
+			exit();
+		} else {
+			die();
+		}
 	} else {
 		echo resolve($ip);
 	}

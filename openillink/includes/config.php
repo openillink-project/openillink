@@ -113,6 +113,10 @@ $secure_string_guest_login = "HYGWGMII?gsSC9mX0X#&ydfgrZç%&467";
 // Secret string added to secure admin level on cookies
 $secure_string_cookie = "HYdfhrtznvcw354AETte5üPO!äP236%ç";
 
+// Define a custom secret key used to sign some requests. If not provided (empty string),
+// some features are not enabled.
+$config_secure_secret_key = "";
+
 // Define the number of results per page 
 $max_results = 25;
 

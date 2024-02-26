@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -86,7 +86,9 @@ $localite=((!empty($_POST['localite'])) && isValidInput($_POST['localite'],50, '
 $envoi=((!empty($_POST['envoi'])) && isValidInput($_POST['envoi'],50, 's', false))?$_POST['envoi']:'';
 
 $typeDocValidSet = array('article','preprint','book','bookitem','thesis','journal','proceeding','conference','other');
-
+$validation_field = ((!empty($_POST['adresscompl'])) && isValidInput($_POST['adresscompl'],255 ,'s' ,false))?$_POST['adresscompl']:'';
+$timestamp = ((!empty($_POST['timestamp'])) && isValidInput($_POST['timestamp'],25 ,'i' ,false))? intval($_POST['timestamp']):0;
+$timestamp_signature = ((!empty($_POST['timesignat'])) && isValidInput($_POST['timesignat'],255 ,'s' ,false))?$_POST['timesignat']:'';
 
 $consent = ((!empty($_POST['consent'])) && isValidInput($_POST['consent'],1024, 's', false, array($config_dataprotection_consent_version))) ? $_POST['consent'] : null;
 
@@ -293,6 +295,7 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
     $urgent=((!empty($_POST['urgent'])) && isValidInput($_POST['urgent'],3, 's', false))?$_POST['urgent']:'';
     $ref=((!empty($_POST['ref'])) && isValidInput($_POST['ref'],50, 's', false))?$_POST['ref']:'';
     $refinterbib=((!empty($_POST['refinterbib'])) && isValidInput($_POST['refinterbib'],50, 's', false))?$_POST['refinterbib']:'';
+    $is_valid_timestamp_check = true; # always valid when authenticated
     // END admin vars
 }
 else{
@@ -309,6 +312,21 @@ else{
 			$localisation =  $rowlibdefault["code"];
 		}
 	}
+    $is_valid_timestamp_check = true;
+    if ($ipwww == 1 && $config_secure_secret_key != '' && !empty($config_secure_secret_key)) {
+        // outside institution IP range
+        $current_timestamp = time();
+        $checked_timestamp_signature = hash_hmac("sha256", strval($timestamp), $config_secure_secret_key);
+        if (!hash_equals($checked_timestamp_signature, $timestamp_signature)) {
+            $is_valid_timestamp_check = false;
+        } else if (($current_timestamp - $timestamp) < $config_min_form_filling_time) {
+            // Form was filled in too quickly (less than configured).
+            $is_valid_timestamp_check = false;
+        } else if (($current_timestamp - $timestamp) > 60 * 60 * 24 ) {
+            // Form was filled in too slow (more 24 hours).
+            $is_valid_timestamp_check = false;
+        } 
+    }
     // END public vars
 }
 
@@ -355,6 +373,9 @@ if ($mes){
 // Error message
 }
 else{
+    
+    
+    if ($validation_field == "" && $is_valid_timestamp_check) { // Silently (more or less) ignore otherwise
     // No errors, searching duplicates
     // Recherche de doublons par PMID ou par volume année et pages
 	$order_index = 0;
@@ -420,7 +441,14 @@ else{
 			$monno = dbquery($query, $params, 'ssssssssssssssssssssssssssssssssssssssssssssssssss') or die("Error : ".mysqli_error(dbconnect()));
 			update_folders_item_count();
 		}
-	}
+    }
+    $success_message = __("Your order has been successfully registered and will be processed soon");
+    $success_color = "green";
+	} else {
+        $monno = "0";
+        $success_message = format_string(__("Your order has NOT been successfully registered. Please contact the library at %x_configemaildelivery to place your order"), array('x_configemaildelivery' => $configemaildelivery));
+        $success_color = "red";
+    }
 	if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
 		require ("headeradmin.php");
 	} else {
@@ -436,7 +464,7 @@ if ($debugOn){
 }
 echo "<br/>\n";
 echo "\n";
-    echo "<center><b><font color=\"green\">".__("Your order has been successfully registered and will be processed soon")."</b></center></font>\n";
+    echo "<center><b><font color=\"".$success_color."\">".$success_message."</b></center></font>\n";
     echo "<div class=\"hr\"><hr></div>\n";
     echo "<table class=\"table is-striped\" align=\"center\">\n";
     echo "</td></tr>\n";

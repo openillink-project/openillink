@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2023 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2023, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -93,6 +93,7 @@ $avance = !empty($_POST['avance']) ? $_POST['avance'] : '';
 $ref = !empty($_POST['ref']) ? $_POST['ref'] : '';
 $refinterbib = !empty($_POST['refinterbib']) ? $_POST['refinterbib'] : '';
 $remarques = !empty($_POST['remarques']) ? $_POST['remarques'] : '';
+$adresscompl = !empty($_POST['adresscompl']) ? $_POST['adresscompl'] : '';
 
 $order_form_values = array();
 
@@ -797,6 +798,11 @@ if ($config_display_delivery_choice) {
           </div>
     ';
 }
+$timestamp = time();
+$timestamp_signature = "";
+if ($config_secure_secret_key != '' && !empty($config_secure_secret_key)) {
+    $timestamp_signature = hash_hmac("sha256", strval($timestamp), $config_secure_secret_key);
+}
 echo '
 	<div class="columns is-gapless is-columns-form">
     <div class="column is-2">
@@ -813,9 +819,16 @@ echo '
         </label>
         </div>
        </div>
+       <div class="field is-hidden">
+        <div class="control">
+         <input id="adresscompl" name="adresscompl" class="input" type="text" value="'.htmlspecialchars($adresscompl).'" autocomplete="off">
+         <input id="timestamp" name="timestamp" type="hidden" value="'.htmlspecialchars($timestamp).'" autocomplete="off" readonly>
+         <input id="timesignat" name="timesignat" type="hidden" value="'.htmlspecialchars($timestamp_signature).'" autocomplete="off" readonly>
+        </div>
+        <label class="label" for="adresscompl">'. _("This field should remain unchanged") .'</label>
+       </div>
       </div>
 	  </div>
-
 	</div>
 	</div>
   </div>

@@ -117,6 +117,11 @@ $secure_string_cookie = "HYdfhrtznvcw354AETte5üPO!äP236%ç";
 // some features are not enabled.
 $config_secure_secret_key = "";
 
+// Define minimum duration (unit: seconds) needed by a user to fill in the order form.
+// Orders submitted in less than configured seconds will be disregarded, to avoir automated.
+// Set to 0 to disable check
+$config_min_form_filling_time = 4;
+
 // Define the number of results per page 
 $max_results = 25;
 

@@ -12,7 +12,7 @@ OpenILLink is a web based Inter Library Loan and document delivery management sy
 
 ## Requirements
 
- * PHP >= 5.2
+ * PHP >= 5.6
  * MySQL >= 5.1
  * Apache
 

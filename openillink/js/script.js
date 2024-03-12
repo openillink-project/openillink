@@ -1,6 +1,6 @@
 ﻿/*
    This file is part of OpenILLink software.
-   Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2023 CHUV.
+   Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2023, 2024 CHUV.
    Original author(s): Pablo Iriarte <pablo@iriarte.ch>
    Other contributors are listed in the AUTHORS file at the top-level directory of this distribution.
 
@@ -1808,10 +1808,12 @@ cookie expires in one year (actually, 365 days)
         var envois = document.commande.envoi;
         var envoi = "";
         var envoipos = 0;
-        for(var i = 0; i < envois.length; i++){
-            if(envois[i].checked){
-                envoi = envois[i].value;
-                envoipos = i;
+        if (typeof envois !== 'undefined') {
+            for(var i = 0; i < envois.length; i++){
+                if(envois[i].checked){
+                    envoi = envois[i].value;
+                    envoipos = i;
+                }
             }
         }
         setCookie("nom", nom, now);

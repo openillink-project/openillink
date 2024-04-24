@@ -1867,7 +1867,7 @@ function remplirauto(openillink_config_email) {
         document.commande.postal.value = getCookie("cp");
     if (getCookie("ville") != null)
         document.commande.localite.value = getCookie("ville");
-    if (getCookie("envoi") != null)
+    if (getCookie("envoi") != null && (typeof document.commande.envoi !== 'undefined'))
         document.commande.envoi[getCookie("envoipos")].checked = true;
 
 	// Retrieve parameters from URL

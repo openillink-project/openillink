@@ -215,32 +215,34 @@ function handle_resolve_response(http, item_index, max_retry, url_parameters_str
     if (src_page === undefined) {
         src_page = '';
     }
+    resolver_block = document.getElementById("resolvedurlblock_" + item_index);
+    resolver_search_params = document.getElementById("resolver_search_params_" + item_index);
     if ((typeof cached !== 'undefined') && cached != null){
         cached_html = cached['msg'];
         if (cached['nb'] > 0) {
-            document.getElementById("resolvedurlblock_" + item_index).style.display="";
+            if (resolver_block) {resolver_block.style.display="";}
         } else if (src_page != 'orders_detail') {
-            document.getElementById("resolvedurlblock_" + item_index).style.display="none";
+            if (resolver_block) {resolver_block.style.display="none"};
         }
         if (src_page == 'orders_detail'){
             cached_html = cached_html.replace("is-warning", "is-success");
         }
-        document.getElementById("resolvedurlblock_" + item_index).innerHTML = cached_html;
+        if (resolver_block) {resolver_block.innerHTML = cached_html};
     } else {
         if (http.readyState == 4) {
             if (http.status === 200) {
                 var response = JSON.parse(http.responseText);
                 if (response['nb'] > 0) {
-                    document.getElementById("resolvedurlblock_" + item_index).style.display="";
+                    if (resolver_block) {resolver_block.style.display="";}
                 } else if (src_page != 'orders_detail') {
-                    document.getElementById("resolvedurlblock_" + item_index).style.display="none";
+                    if (resolver_block) {resolver_block.style.display="none";}
                 }
                 var response_msg = response['msg'];
                 if (src_page == 'orders_detail'){
                     response_msg = response_msg.replace("is-warning", "is-success");
                 }
-                document.getElementById("resolvedurlblock_" + item_index).innerHTML = response_msg;
-                document.getElementById("resolver_search_params_" + item_index).value = response['search_params'];
+                if (resolver_block) {resolver_block.innerHTML = response_msg;}
+                if (resolver_search_params) {resolver_search_params.value = response['search_params'];}
                 // cache for later reuse
                 if (!(item_index in resolved_data)) {
                     resolved_data[item_index] = {};
@@ -261,8 +263,11 @@ function handle_resolve_response(http, item_index, max_retry, url_parameters_str
 function lookupid(item_index, openillink_config_email) {
     /* Fill in order form at given index. item_index can be an index too in case all items must be looked up by PMID */
     // reset resolver message, if any
-    document.getElementById("resolvedurlblock_" + item_index).style.display="none";
-    document.getElementById("resolvedurlblock_" + item_index).innerHTML = "";
+    resolver_block = document.getElementById("resolvedurlblock_" + item_index);
+    if (resolver_block) {
+        resolver_block.style.display="none";
+        resolver_block.innerHTML = "";
+    }
     // si la valeur du champ uids est vide
     if (document.commande["uids_"+item_index].value == ""){
         // message d'alerte

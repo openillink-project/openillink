@@ -203,30 +203,29 @@ $periodical_title_search_url = "../openlist/search.php?search=simple&q=";
 $lookupuid = array(
 			  array('name' => "PMID", 'code' => "pmid"),
 			  array('name' => "DOI", 'code' => "doi"),
-			  array('name' => "ISBN (RERO)", 'code' => "isbn"),
-			  array('name' => "ISBN (swissbib)", 'code' => "isbn_swissbib"),
-			  array('name' => "RERO ID", 'code' => "reroid"),
 			  array('name' => "WoS ID", 'code' => "wosid"),
 			  //array('name' => "MMS", 'code' => "sru_marcxml_mms"),
               //array('name' => "ISBN", 'code' => "sru_marcxml_isbn"),
+              array('name' => "MMS (Renouvaud)", 'code' => "sru_marcxml_mms"),
+              array('name' => "ISBN (Renouvaud+SLSP)", 'code' => "sru_marcxml_isbn"),
 			);
 
 
 // URL to sru server used to autofill orders from an ISBN.
 // Server must return MARCXML metadata. 
 // Keyword '_OPENILLINK_ISBN_' specified in the url below is replaced with the actual ISBN.
-$sru_marcxml_isbn_url = "";
+$sru_marcxml_isbn_url = "https://eu01.alma.exlibrisgroup.com/view/sru/41BCULAUSA_NETWORK?version=1.2&operation=searchRetrieve&recordSchema=marcxml&query=alma.isbn=_OPENILLINK_ISBN_";
 
 // URL to a second sru server used to autofill orders from an ISBN.
 // Server must return MARCXML metadata. 
 // Keyword '_OPENILLINK_ISBN_' specified in the url below is replaced with the actual ISBN.
-$sru_marcxml_isbn_url2 = "";
+$sru_marcxml_isbn_url2 = "https://swisscovery.slsp.ch/view/sru/41SLSP_NETWORK?version=1.2&operation=searchRetrieve&recordSchema=marcxml&query=alma.isbn=_OPENILLINK_ISBN_";
 
 
 // URL to sru server used to autofill orders from an MMS.
 // Server must return MARCXML metadata. 
 // Keyword '_OPENILLINK_MMS_' specified in the url below is replaced with the actual MMS.
-$sru_marcxml_mms_url = ""; 
+$sru_marcxml_mms_url = "https://eu01.alma.exlibrisgroup.com/view/sru/41BCULAUSA_NETWORK?version=1.2&operation=searchRetrieve&recordSchema=marcxml&query=alma.mms_id=_OPENILLINK_MMS_"; 
 
 // Enable the upload of orders files (in EndNote XML, RIS or MEDLINE/PubMed format).
 // Define the minimum privilege required to upload file:

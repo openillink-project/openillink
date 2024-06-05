@@ -23,21 +23,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `folders`
---
-
-CREATE TABLE IF NOT EXISTS `folders` (
-  `id` int(11) NOT NULL,
-  `title` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `description` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `query` text COLLATE utf8_unicode_ci,
-  `user` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `library` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `active` tinyint(1) DEFAULT NULL,
-  `position` int(5) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
 -- Contenu de la table `folders`
 --
 
@@ -47,29 +32,3 @@ INSERT INTO `folders` (`id`, `title`, `description`, `query`, `user`, `library`,
 (5, 'Out XYZ', 'Out of the library XYZ', '(bibliotheque  LIKE ''LIB6'' ) AND (stade LIKE ''3''  OR stade LIKE ''1''  OR stade LIKE ''11'' )', 'sadmin', NULL, 1, 2),
 (6, 'Test', 'Folder test inactif', '(bibliotheque  LIKE ''LIB2''  OR bibliotheque  LIKE ''LIB5'' ) AND (stade LIKE ''10''  OR stade LIKE ''1''  OR stade LIKE ''4'' )', 'sadmin', NULL, 0, 1),
 (7, 'Test', 'Test de filtre pour PI', '(bibliotheque  LIKE ''CMU'' ) AND (stade LIKE ''1''  OR stade LIKE ''4'' )', 'iriarte', NULL, 1, 1);
-
---
--- Index pour les tables exportées
---
-
---
--- Index pour la table `folders`
---
-ALTER TABLE `folders`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `title` (`title`),
-  ADD KEY `user` (`user`),
-  ADD KEY `library` (`library`);
-
---
--- AUTO_INCREMENT pour les tables exportées
---
-
---
--- AUTO_INCREMENT pour la table `folders`
---
-ALTER TABLE `folders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

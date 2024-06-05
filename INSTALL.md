@@ -1,28 +1,39 @@
 # OpenILLink Installation Guide
-_This version has been tested in Lausanne and Geneva medical libraries_
 
 ## Install
-You can install the system easily from Github, which works fine on a server with PHP >= 5.2. Here you are the main install steps :
+Here are the main steps to install and configure OpenILLink:
  
-1. Create a MySQL database and import the file with the test data "openillink.sql" that you will find on "data" folder. This import make at the same time the structure and the different tables of the database.
+1. Download the OpenILLink files from the GitHub repository 
  
-2. Edit the file "includes/config.php" and change the access codes to your MySQL database
+2. Create a MySQL database and import the file `data/openillink_structure.sql`.
+   It is recommended to initially import default users, configuration and test data:
+    - openillink_data_libraries.sql
+    - openillink_data_users.sql
+    - openillink_data_units.sql
+    - openillink_data_localizations.sql
+    - openillink_data_links.sql
+    - openillink_data_folders.sql
+    - openillink_data_status.sql
+    - openillink_data_orders.sql
+
+3. Edit the file `includes/config.php` to change parameters to your MySQL database: 
+    - `$configmysqldb` = database name
+    - `$configmysqlhost` = hostname
+    - `$configmysqllogin` = username (with read/write access to configured `$configmysqldb`)
+    - `$configmysqlpwd` = password
  
-3. Modify all the personal variables on "config.php" with your values (name of the library, address, e-mail, security codes, IP addresses, etc. If you don't want to use some parameters (second IP range for example) you must declare those variables with an empty value (="")
- 
-4. Modify the translations that you will find on "includes/translations.php". At the moment, only the main page is multilingual, for the other pages it's on the to-do list but you can translate directly the code
- 
-5. Modify the text of the preconfigured e-mails on "includes/email.php"
- 
-6. Copy all files and folders on your server without the "data" folder (needed only to build the database at the step 1)
+4. Configure other variables in `includes/config.php` with your own settings (name of the library, address, e-mail, security codes, IP addresses, etc.) If you don't want to use some parameters (second IP range for example) you can leave those values empty (read each config description for details)
+
+5. Optionnally, adapt the (S)CSS to customize the look of the user interface. OpenILLink uses the [Bulma framework](https://bulma.io). See https://github.com/openillink-project/openillink-bulma/wiki for more information
+
+5. Copy all files and directories to your server (excpted the `data` directory, only needed to build the database)
  
 ## Log In
-You can connect to the admin interface with these default credentials :
+You can connect to the admin interface with these default credentials, if you have imported them from openillink_data_users.sql :
  
 * Superadmin
   * Login : sadmin
   * Pwd : sadmin
-
  
 * Administrator
   * Login : admin
@@ -32,33 +43,36 @@ You can connect to the admin interface with these default credentials :
   * Login : user
   * Pwd : user
  
-Those credentials allow you to test the interface, normally you will find 20 orders preconfigured. Before deploying to a production site you should change the login/pwd.
+Those credentials allow you to test the interface. Before deploying to a production site you must change all logins and passwords.
  
-Talking about rights, only the superadmin can create admins and so on. The "user" login allows you to work with orders and modify them but not to delete them. Administrators has plenty rights and they can add/modify users but they can't add/modify other administrators or superadministratos. The administrators can "see" only the orders of their own library. Superadmins could "see" all the orders of the database.
+Note that only the "superadmin" can create admins. The "user" login allows you to work with orders and modify them but not to delete them. Administrators can add/modify users (other than administrators or superadministratos). The administrators can "see" only the orders of their own library. Superadmins could "see" all the orders of the database.
 
 ## Configure
 
-Administrators and superadministrators have access to the 6 linked tables :
+Administrators and superadministrators have access to the following areas:
  
-1.        Libraries (Bibliothèques) : The different libraries of your network. The system can manage a library network where each library "see" only their orders and could "send" orders to others, but you can also use a single library if you want.
-2.        Places (Localisations) : The different localizations for the documents of each library.
-3.        Users : The users of the back office. You don't need to manage users for the end users, only the ILL professionals of the library.
-4.        Units / Groups (Unités / Services) : The different units listed on the menu of the order form. They are linked to the libraries defined below and to the IP ranges so you can choose to display some units only for the users of your network and others for the external users. If you check the field "A valider" then the orders of the collaborators of this unit enter the system with the status "to be validate" rather than "new order".
-5.        Order steps (status) : The different status of the orders that you want to differentiate. There are no limits but you will find 5 "special status" with the important values that I recommend to not be removed or reused. Those status are important because they are used by other pieces of the system. Each status determines the folder where the orders could be found : IN (new orders addressed to my library by users or the others libraries), OUT (orders pushed to suppliers or to the others libraries) and TRASH (to be deleted). Two exceptions : the "rejected" orders are showed always on the IN folder of the both libraries requester and responder, and the status "to be renewed" disappears from the IN folder and appears only when the renewal date comes.
-6.        Links : The different links displayed on the details of the order. They are used to search external databases and to push the order into the external document delivery systems. I've included all the links that we use now at our library, but sometimes you must modify the link with your own codes on the places marked by "[]" (codes for Subito for example). You can create your own links easily using this codes (near to the OpenURL 0.1) that will be replaced contextually with the values of the order displayed :
-    * doi : XDOIX
-    * pmid (PubMed identifier) : XPMIDX
-    * genre (Document Type) : XGENREX
-    * aulast (Authors names) : XAULASTX
-    * issn : XISSNX
-    * eissn : XEISSNX
-    * isbn : XISBNX
-    * title (Journal name) : XTITLEX
-    * atitle (Article/chapter title) : XATITLEX
-    * volume : XVOLUMEX
-    * issue : XISSUEX
-    * pages : XPAGESX
-    * date : XDATEX
-    * end user name : XNAMEX
+1. **Libraries** : The different libraries of your network. The system can manage a library network where each library "see" only their orders and could "send" orders to others, but you can also use a single library if you want.
+2. **Locations** : The different localizations for the documents of each library.
+3. **Users** : The users of the back office (library professionals). You don't need to manage end users ("customers").
+4. **Units / Groups** : The different units listed on the menu of the order form. They are linked to the existing libraries and to the IP ranges, so you can choose to display some units only for the users of your network and others for the external users. If you check the box "Need validation", then the orders of the customers of this unit are created with an order status set to "tobevalidated" rather than "new order".
+5. **Order steps (status)** : The different status of the orders that you want to differentiate. There are no limits but you will find 5 "special status" with the important values that I recommend to not be removed or reused. Those status are important because they are used by other pieces of the system. Each status determines the folder where the orders could be found : IN (new orders addressed to my library by users or the others libraries), OUT (orders pushed to suppliers or to the others libraries) and TRASH (to be deleted). Two exceptions : the "rejected" orders are showed always on the IN folder of the both libraries requester and responder, and the status "to be renewed" disappears from the IN folder and appears only when the renewal date comes.
+6. **Outgoing links** : The different links displayed on the details of the order. They are used to search external databases and to submit the order into external document delivery systems. In some case you must modify the default links with your own codes in places marked by "[]" (codes for Subito for example). You can create your own links easily using this codes (near to the OpenURL 0.1) that will be replaced contextually with the values of the order displayed :
+    * doi : `XDOIX`
+    * pmid (PubMed identifier) : `XPMIDX`
+    * genre (Document Type) : `XGENREX`
+    * aulast (Authors names) : `XAULASTX`
+    * issn : `XISSNX`
+    * eissn : `XEISSNX`
+    * isbn : `XISBNX`
+    * title (Journal name) : `XTITLEX`
+    * atitle (Article/chapter title) : `XATITLEX`
+    * volume : `XVOLUMEX`
+    * issue : `XISSUEX`
+    * pages : `XPAGESX`
+    * date : `XDATEX`
+    * end user name : `XNAMEX`
+    
+    Sometimes the external order forms requires data to be submitted via POST methods and they don't allow the GET equivalent. For those cases you have to recreate the whole form to imitate the POST request. You can find such sample insiide the `forms` directory. 
 
-For example, you can search the database that you want to include with those codes as search criteria, "XISSNX" on the field ISSN and so on, then you can copy the l'URL generated by the database and paste into your link. Sometimes the external sites use POST forms and they don't allow the GET equivalent. For those cases we have to recreate the whole form to imitate the POST request. You will find some forms like that on the "forms" folder, with the examples of the forms used by the NLM or at Basel university library. You can see those forms and copy theme in order to make new ones. Then you can save your form on this folder and create a new link with the name of the target and check the field "formulaire interne" (internal form). 
+7. **Filters** : (*experimental*) manage "folders" available for users in the top menu. For the moment, you might need to set up the queries diretly in the database.
+8. **Anonymize old orders** : remove personal information from old orders

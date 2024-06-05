@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `localisation` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `sid` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pid` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `date` date NOT NULL DEFAULT NULL,
+  `date` date NOT NULL,
   `envoye` date DEFAULT NULL,
   `facture` date DEFAULT NULL,
   `renouveler` date DEFAULT NULL,
@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `ip` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `referer` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_consent` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `anonymized` TINYINT NOT NULL DEFAULT '0' AFTER `user_consent`,
+  `anonymized` TINYINT NOT NULL DEFAULT '0',
   PRIMARY KEY (`illinkid`),
   KEY `annee` (`annee`),
   KEY `bibliotheque` (`bibliotheque`),
@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `volume` (`volume`),
   KEY `ui` (`uid`,`doi`,`PMID`),
   KEY `titre_periodique` (`titre_periodique`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=160000 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

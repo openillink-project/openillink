@@ -144,7 +144,7 @@ function iimysqli_result_fetch_array(&$result) {
     }
     $stmt = $result->stmt;
     
-    $stmt->store_result();
+    //$stmt->store_result();
     $resultkeys = array();
     $thisName = "";
     $meta = $result->stmt->result_metadata();
@@ -155,7 +155,7 @@ function iimysqli_result_fetch_array(&$result) {
         $variables[$field->name] = &$ret[$field->name]; // pass by reference
     }
 
-    call_user_func_array(array($stmt, 'bind_result'), refValues($variables));
+    call_user_func_array(array($stmt, 'bind_result'), array_values(refValues($variables)));
     // This should advance the "$stmt" cursor.
     if (!$stmt->fetch ()) { 
         //mysqli_stmt_close($sql_stmt);   // FIXME?

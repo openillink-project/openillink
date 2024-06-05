@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -85,16 +85,16 @@ if (!empty($_COOKIE['illinkid'])){
                 echo "<tr><td><b>".__("Code")." *</b></td><td>\n";
                 echo "<input name=\"code\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($statuscode) . "\"></td></tr>\n";
                 echo "</td></tr>\n";
-                echo "<tr><td class=\"odd\"><b>".__("Name in French")." *</b></td><td class=\"odd\"><input name=\"title1\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["fr"]) . "\"></td></tr>\n";
-                echo "<tr><td><b>".__("Help in French")."</b></td><td><input name=\"help1\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($help["fr"]) . "\"></td></tr>\n";
-                echo "<tr><td class=\"odd\"><b>".__("Name in English")."</b></td><td class=\"odd\"><input name=\"title2\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["en"]) . "\"></td></tr>\n";
-                echo "<tr><td><b>".__("Help in English")."</b></td><td><input name=\"help2\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($help["en"]) . "\"></td></tr>\n";
-                echo "<tr><td class=\"odd\"><b>".__("Name in German")."</b></td><td class=\"odd\"><input name=\"title3\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["de"]) . "\"></td></tr>\n";
-                echo "<tr><td><b>".__("Help in German")."</b></td><td><input name=\"help3\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($help["de"]) . "\"></td></tr>\n";
-                echo "<tr><td class=\"odd\"><b>".__("Name in Italian")."</b></td><td class=\"odd\"><input name=\"title4\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["it"]) . "\"></td></tr>\n";
-                echo "<tr><td><b>".__("Help in Italian")."</b></td><td><input name=\"help4\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($help["it"]) . "\"></td></tr>\n";
-                echo "<tr><td class=\"odd\"><b>".__("Name in Spanish")."</b></td><td class=\"odd\"><input name=\"title5\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["es"]) . "\"></td></tr>\n";
-                echo "<tr><td><b>".__("Help in Spanish")."</b></td><td><input name=\"help5\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($help["es"]) . "\"></td></tr>\n";
+                echo "<tr><td class=\"odd\"><b>".__("Name in French")." *</b></td><td class=\"odd\"><input name=\"title1\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["fr"] ? $name["fr"]:"") . "\"></td></tr>\n";
+                echo "<tr><td><b>".__("Help in French")."</b></td><td><input name=\"help1\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($help["fr"]? $help["fr"]: "") . "\"></td></tr>\n";
+                echo "<tr><td class=\"odd\"><b>".__("Name in English")."</b></td><td class=\"odd\"><input name=\"title2\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["en"]?$name["en"]:"") . "\"></td></tr>\n";
+                echo "<tr><td><b>".__("Help in English")."</b></td><td><input name=\"help2\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($help["en"]?$help["en"]:"") . "\"></td></tr>\n";
+                echo "<tr><td class=\"odd\"><b>".__("Name in German")."</b></td><td class=\"odd\"><input name=\"title3\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["de"]?$name["de"]:"") . "\"></td></tr>\n";
+                echo "<tr><td><b>".__("Help in German")."</b></td><td><input name=\"help3\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($help["de"]?$help["de"]:"") . "\"></td></tr>\n";
+                echo "<tr><td class=\"odd\"><b>".__("Name in Italian")."</b></td><td class=\"odd\"><input name=\"title4\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["it"]?$name["it"]:"") . "\"></td></tr>\n";
+                echo "<tr><td><b>".__("Help in Italian")."</b></td><td><input name=\"help4\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($help["it"]?$help["it"]:"") . "\"></td></tr>\n";
+                echo "<tr><td class=\"odd\"><b>".__("Name in Spanish")."</b></td><td class=\"odd\"><input name=\"title5\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($name["es"]?$name["es"]:"") . "\"></td></tr>\n";
+                echo "<tr><td><b>".__("Help in Spanish")."</b></td><td><input name=\"help5\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($help["es"]?$help["es"]:"") . "\"></td></tr>\n";
                 echo "<tr><td class=\"odd\"><b>".__("Display orders with this status in the IN listing")."</b></td><td class=\"odd\"><input name=\"in\" value=\"1\" type=\"checkbox\"";
                 if ($in==1)
                     echo " checked";
@@ -152,7 +152,7 @@ if (!empty($_COOKIE['illinkid'])){
                 echo ">".__("Order to be validated (tobevalidated)")."</option>\n";
                 echo "</select>\n";
                 echo "</td></tr>\n";
-                echo "<tr><td><b>".__("Color (.CSS valid value is expected)")."</b></td><td><input name=\"color\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($color) . "\"></td></tr>\n";
+                echo "<tr><td><b>".__("Color (.CSS valid value is expected)")."</b></td><td><input name=\"color\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($color ? $color : "") . "\"></td></tr>\n";
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
                 echo "<tr><td></td><td><div class=\"field is-grouped\"><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save changes")."\">\n";
                 echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=status'\">\n";

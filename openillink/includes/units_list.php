@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -97,8 +97,8 @@ $unitname3 = $enreg['name3'];
 $unitname4 = $enreg['name4'];
 $unitname5 = $enreg['name5'];
 $unitlibrary = $enreg['library'];
-$unitdepartment = $enreg['department'];
-$unitfaculty = $enreg['faculty'];
+$unitdepartment = $enreg['department'] ? $enreg['department'] : "";
+$unitfaculty = $enreg['faculty'] ? $enreg['faculty']: "";
 $unitip1 = $enreg['internalip1display'];
 $unitip2 = $enreg['internalip2display'];
 $unitipext = $enreg['externalipdisplay'];

@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -150,7 +150,7 @@ if (!empty($_COOKIE['illinkid'])){
 							$query = $query . " WHERE user_id=?";
 							array_push($params, $id);
 							$param_types .= "i";
-                            $resultupdate = dbquery($query, $params, $param_types) or die("Error : ".mysqli_error());
+                            $resultupdate = dbquery($query, $params, $param_types) or die("Error : ".mysqli_error(dbconnect()));
                             echo "<center><br/><b><font color=\"green\">\n";
                             if ($id != $myId) {
 								echo __("The user has been successfully modified")."</b></font>\n";
@@ -183,9 +183,9 @@ if (!empty($_COOKIE['illinkid'])){
                 if ($action == "new"){
                     require ("headeradmin.php");
                     $myhtmltitle = "commandes de " . $configinstitution[$lang] . " : ".__("new user");
-					$query ="INSERT INTO `users` (`user_id`, `name`, `email`, `login`, `status`, `admin`, `password`, `created_ip`, `created_on`, `library`) VALUES ('', ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					$query ="INSERT INTO `users` (`name`, `email`, `login`, `status`, `admin`, `password`, `created_ip`, `created_on`, `library`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 					$params = array($name, $email, $login, $status, $admin, $password, $ip, $date, $library);
-					$id = dbquery($query, $params,'sssiissss') or die("Error : ".mysqli_error());
+					$id = dbquery($query, $params,'sssiissss') or die("Error : ".mysqli_error(dbconnect()));
                     echo "<center><br/><b><font color=\"green\">\n";
                     echo format_string(__("The new record %id_record has been successfully registered"),array('id_record' => htmlspecialchars($id)))."</b></font>\n";
                     echo "<br/><br/><br/><a href=\"list.php?table=users\">".__("Back to the users list")."</a></center>\n";
@@ -219,7 +219,7 @@ if (!empty($_COOKIE['illinkid'])){
             $myhtmltitle = $configname[$lang] . " : ".__("Delete a user");
             require ("headeradmin.php");
             $query = "DELETE FROM users WHERE users.user_id = ?";
-			$result = dbquery($query, array($id), 'i') or die("Error : ".mysqli_error());
+			$result = dbquery($query, array($id), 'i') or die("Error : ".mysqli_error(dbconnect()));
             echo "<center><br/><b><font color=\"green\">\n";
             echo format_string(__("The record %id has been successfully deleted"),array('id' => htmlspecialchars($id)))."</b></font>\n";
             echo "<br/><br/><br/><a href=\"list.php?table=users\">".__("Back to the users list")."</a></center>\n";

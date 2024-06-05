@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2016, 2017 CHUV.
+// Copyright (C) 2016, 2017, 2024 CHUV.
 // Original author(s): Jerome Zbinden <jerome.zbinden@chuv.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -150,6 +150,7 @@ function iimysqli_result_fetch_array(&$result) {
     $meta = $result->stmt->result_metadata();
 
     $ret = array();
+    $variables = array();
 
     while( $field = $meta->fetch_field()){
         $variables[$field->name] = &$ret[$field->name]; // pass by reference

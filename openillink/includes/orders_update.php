@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2020 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2020, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -77,7 +77,7 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
                 for ($i=0 ; $i<$nb ; $i++){
                     $enreg = iimysqli_result_fetch_array($result);
                     $statuscodesent = $enreg['code'];
-                    if (($stade==$statuscodesent) && ($envoye=='0000-00-00')){
+                    if (($stade==$statuscodesent) && ($envoye=='0000-00-00' || empty($envoye) )){
                         $envoye=date("Y-m-d");
                     }
                 }
@@ -90,7 +90,7 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
                 for ($i=0 ; $i<$nb ; $i++){
                     $enreg = iimysqli_result_fetch_array($result);
                     $statuscodepaid = $enreg['code'];
-                    if (($stade==$statuscodepaid) && ($facture=='0000-00-00')){
+                    if (($stade==$statuscodepaid) && ($facture=='0000-00-00' || empty($facture) )){
                         $facture=date("Y-m-d");
                     }
                 }
@@ -186,9 +186,9 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
             else{
                 $query ="UPDATE orders ".
                 "SET stade=?, localisation=?, date=?, envoye=?, facture=?, renouveler=?, prix=?, prepaye=?, ref=?, arrivee=?, nom=?, prenom=?, service=?, cgra=?, cgrb=?, mail=?, tel=?, adresse=?, code_postal=?, localite=?, type_doc=?, urgent=?, envoi_par=?, titre_periodique=?, annee=?, volume=?, numero=?, supplement=?, pages=?, titre_article=?, auteurs=?, edition=?, isbn=?, issn=?, eissn=?, doi=?, uid=?, remarques=?, remarquespub=?, historique=?, saisie_par=?, bibliotheque=?, refinterbib=?, PMID=?, ip=? WHERE illinkid=?";
-                $params = array($stade, $localisation, $date, $envoye, $facture, $renouveler, $prix, $prepaye, $ref, $source, $nom, $prenom, $service, $cgra, $cgrb, $mail, $tel, $adresse, $postal, $localite, $typedoc, $urgent, $envoi, $journal, $annee, $vol, $no, $suppl, $pages, $titre, $auteurs, $edition, $isbn, $issn, $eissn, $doi, $uid, $remarques, $remarquespub,$historique, $userid, $bibliotheque, $refinterbib, $pmid, $ip, $id);
+                $params = array(($stade ? $stade : 0), $localisation, $date, $envoye, $facture, $renouveler, $prix, $prepaye, $ref, $source, $nom, $prenom, $service, $cgra, $cgrb, $mail, $tel, $adresse, $postal, $localite, $typedoc, $urgent, $envoi, $journal, $annee, $vol, $no, $suppl, $pages, $titre, $auteurs, $edition, $isbn, $issn, $eissn, $doi, $uid, $remarques, $remarquespub,$historique, $userid, $bibliotheque, $refinterbib, $pmid, $ip, $id);
                 $typeparams = 'sssssssssssssssssssssssssssssssssssssssssssssi';
-                $result = dbquery($query,$params,$typeparams) or die("Error : ".mysqli_error());
+                $result = dbquery($query,$params,$typeparams) or die("Error : ".mysqli_error(dbconnect()));
 				update_folders_item_count();
                 require ("headeradmin.php");
                 echo "\n";
@@ -331,7 +331,7 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
             $id = ((!empty($_POST['id'])) && isValidInput($_POST['id'],8,'i',false)) ? $_POST['id'] : NULL;
             $myhtmltitle = format_string(__("%institution_name : deletion of the order %order_id"), array('institution_name' => $configname[$lang], 'order_id' => $id));
             $query = "DELETE FROM orders WHERE orders.illinkid = ?";
-            $result = dbquery($query, array($id), 's') or die("Error : ".mysqli_error());
+            $result = dbquery($query, array($id), 's') or die("Error : ".mysqli_error(dbconnect()));
 			update_folders_item_count();
 			require ("headeradmin.php");
             echo "<center><br/><b><font color=\"green\">\n";

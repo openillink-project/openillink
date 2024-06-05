@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -96,8 +96,8 @@ if (!empty($_COOKIE['illinkid'])){
             $monseparateur = "";
             echo "<tr>\n";
             echo "<td><b>" . htmlspecialchars($statuscode) . "</b></td>\n";
-            echo "<td><font color=\"".htmlspecialchars($statuscolor)."\"><b>".htmlspecialchars($statustitle1)."</b></font></td>\n";
-            echo "<td>".htmlspecialchars($statushelp1)."</td>\n";
+            echo "<td><font color=\"".htmlspecialchars($statuscolor ? $statuscolor: "")."\"><b>".htmlspecialchars($statustitle1 ? $statustitle1: "")."</b></font></td>\n";
+            echo "<td>".htmlspecialchars($statushelp1 ? $statushelp1: "")."</td>\n";
             echo "<td>\n";
             if ($statusin == 1){
                 echo $monseparateur . "IN";

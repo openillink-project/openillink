@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -36,8 +36,9 @@ if (!empty($_COOKIE['illinkid'])){
         $illinkid = ((!empty($_GET['intId'])))?safeSetInput($_GET['intId'],8,'s',NULL,false):NULL;
         $myform = (!empty($_GET['form']))?safeSetInput($_GET['form'],20,'s',NULL,false):NULL;
         $redirect = (!empty($_GET['redirect']))?safeSetInput($_GET['redirect'],1,'s',NULL):0;
-        if ((!empty($illinkid)) && (!empty($myform))){
-            $myform = "forms/" . $myform . ".php";
+        $myform_cleaned = basename(realpath("forms/" . $myform . ".php"), ".php");
+        $myform_path = "forms/" . $myform_cleaned . ".php";
+        if ((!empty($illinkid)) && (!empty($myform)) && file_exists($myform_path)){
             $req = "select * from orders where illinkid = ?";
 			$result = dbquery($req, array($illinkid), 'i');
             $nb = iimysqli_num_rows($result);
@@ -57,12 +58,12 @@ if (!empty($_COOKIE['illinkid'])){
                         $issue2 = "suppl. " . $enreg['supplement'];
                 }
                 if ($redirect!=1)
-                    require ($myform);
+                    require ($myform_path);
             }
             if ($redirect!=1)
                 echo "</body></html>";
             else 
-                include ($myform);
+                include ($myform_path);
         }
         else{
             echo "<br/><br/><center><b>".__("Missing id or form parameters")."</b></center><br/><br/><br/><br/>\n";

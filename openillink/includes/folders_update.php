@@ -4,7 +4,7 @@
 // ***************************************************************************
 // This file is part of OpenILLink software.
 // Copyright (C) 2017 UNIGE.
-// Copyright (C) 2017, 2018, 2020 CHUV.
+// Copyright (C) 2017, 2018, 2020, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -433,7 +433,7 @@ if (!empty($_COOKIE['illinkid'])){
 							'WHERE folders.id=?';
 							$params = array($foldertitle, $folderdescription, $folderqueryedit, $folderuser, $folderlibrary, $folderactive, $folderposition, $id);
 							$typeParam = 'sssssiii';
-							$resultupdate = dbquery($query, $params, $typeParam) or die(__("Error")." : ".mysqli_error());
+							$resultupdate = dbquery($query, $params, $typeParam) or die(__("Error")." : ".mysqli_error(dbconnect()));
 							echo "<center><br/><b><font color=\"green\">\n";
 							echo format_string(__("The modification of the record %id_record has been successfully registered"),array('id_record' => htmlspecialchars($id)))."</b></font>\n";
 							echo "<br/><br/><br/><a href=\"list.php?table=folders\">".__("Back to the filters list")."</a></center>\n";
@@ -463,7 +463,7 @@ if (!empty($_COOKIE['illinkid'])){
 					require ("headeradmin.php");
 					$query = "INSERT INTO `folders` (`title`, `description`, `query`, `user`, `library`, `active`, `position`) VALUES (?, ?, ?, ?, ?, ?, ?)";
 					$params = array($foldertitle, $folderdescription, $folderquery, $folderuser, $folderlibrary, $folderactive, $folderposition);
-					$id = dbquery($query, $params, 'sssssii') or die("Error : ".mysqli_error());
+					$id = dbquery($query, $params, 'sssssii') or die("Error : ".mysqli_error(dbconnect()));
 					echo "<center><br/><b><font color=\"green\">\n";
 					echo format_string(__("The new record %id_record has been successfully registered"),array('id_record' => htmlspecialchars($id)))."</b></font>\n";
 					echo "<br/><br/><br/><a href=\"list.php?table=folders\">".__("Back to the filters list")."</a></center>\n";
@@ -498,7 +498,7 @@ if (!empty($_COOKIE['illinkid'])){
 			$myhtmltitle = $configname[$lang] . " : ".__("Delete a filter")." ";
 			require ("headeradmin.php");
 			$query = "DELETE FROM folders WHERE folders.id = ?";
-			$result = dbquery($query, array($id), 'i') or die("Error : ".mysqli_error());
+			$result = dbquery($query, array($id), 'i') or die("Error : ".mysqli_error(dbconnect()));
 			echo "<center><br/><b><font color=\"green\">\n";
 			echo format_string(__("The record %id_record has been successfully deleted"),array('id_record' => htmlspecialchars($id)))."</b></font>\n";
 			echo "<br/><br/><br/><a href=\"list.php?table=folders\">".__("Back to the filters list")."</a></center>\n";

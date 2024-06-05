@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -24,6 +24,18 @@
 // ***************************************************************************
 // ***************************************************************************
 // ***************************************************************************
+
+function null_to_empty_string($param) {
+    /*
+    Return empty string ("") if $param is null, else return $param
+    */
+    if (is_null($param)) {
+        return "";
+    } else {
+        return $param;
+    }
+}
+
 // Links displayed on the order details
 //
 // MDV - function to replace url placeholders
@@ -60,63 +72,63 @@ function replaceExistingPlaceHolders(
 
     $urlWithRealVal = $url;
 
-    $illinkidUrl = $urlencoded? utf8_decode($currEnreg['illinkid']) : $currEnreg['illinkid'];
-    $urlWithRealVal = str_replace("XPIDX", urlencode($illinkidUrl), $urlWithRealVal);
+    $illinkidUrl = $urlencoded? utf8_to_iso8859_1($currEnreg['illinkid']) : $currEnreg['illinkid'];
+    $urlWithRealVal = str_replace("XPIDX", urlencode(null_to_empty_string($illinkidUrl)), $urlWithRealVal);
 
-    $doiUrl = $urlencoded? utf8_decode($currEnreg['doi']) : $currEnreg['doi'];
-    $urlWithRealVal = str_replace("XDOIX", urlencode($doiUrl), $urlWithRealVal);
+    $doiUrl = $urlencoded? utf8_to_iso8859_1($currEnreg['doi']) : $currEnreg['doi'];
+    $urlWithRealVal = str_replace("XDOIX", urlencode(null_to_empty_string($doiUrl)), $urlWithRealVal);
 
-    $pmidUrl = $urlencoded? utf8_decode($currEnreg['PMID']) : $currEnreg['PMID'];
-    $urlWithRealVal = str_replace("XPMIDX", urlencode($pmidUrl),$urlWithRealVal);
+    $pmidUrl = $urlencoded? utf8_to_iso8859_1($currEnreg['PMID']) : $currEnreg['PMID'];
+    $urlWithRealVal = str_replace("XPMIDX", urlencode(null_to_empty_string($pmidUrl)),$urlWithRealVal);
 
-    $genreUrl = $urlencoded? utf8_decode($currEnreg['type_doc']) : $currEnreg['type_doc'];
-    $urlWithRealVal = str_replace("XGENREX", urlencode($genreUrl), $urlWithRealVal);
+    $genreUrl = $urlencoded? utf8_to_iso8859_1($currEnreg['type_doc']) : $currEnreg['type_doc'];
+    $urlWithRealVal = str_replace("XGENREX", urlencode(null_to_empty_string($genreUrl)), $urlWithRealVal);
 
-    $auteursUrl = $urlencoded? utf8_decode($currEnreg['auteurs']) : $currEnreg['auteurs'];
-    $urlWithRealVal = str_replace("XAULASTX", urlencode($auteursUrl), $urlWithRealVal);
+    $auteursUrl = $urlencoded? utf8_to_iso8859_1($currEnreg['auteurs']) : $currEnreg['auteurs'];
+    $urlWithRealVal = str_replace("XAULASTX", urlencode(null_to_empty_string($auteursUrl)), $urlWithRealVal);
 
-    $issnUrl = $urlencoded? utf8_decode($currEnreg['issn']) : $currEnreg['issn'];
-    $urlWithRealVal = str_replace("XISSNX", urlencode($issnUrl), $urlWithRealVal);
+    $issnUrl = $urlencoded? utf8_to_iso8859_1($currEnreg['issn']) : $currEnreg['issn'];
+    $urlWithRealVal = str_replace("XISSNX", urlencode(null_to_empty_string($issnUrl)), $urlWithRealVal);
 
-    $eissnUrl = $urlencoded? utf8_decode($currEnreg['eissn']) : $currEnreg['eissn'];
-    $urlWithRealVal = str_replace("XEISSNX", urlencode($eissnUrl), $urlWithRealVal);
+    $eissnUrl = $urlencoded? utf8_to_iso8859_1($currEnreg['eissn']) : $currEnreg['eissn'];
+    $urlWithRealVal = str_replace("XEISSNX", urlencode(null_to_empty_string($eissnUrl)), $urlWithRealVal);
 
-    $isbnUrl = $urlencoded? utf8_decode($currEnreg['isbn']) : $currEnreg['isbn'];
-    $urlWithRealVal = str_replace("XISBNX", urlencode($isbnUrl), $urlWithRealVal);
+    $isbnUrl = $urlencoded? utf8_to_iso8859_1($currEnreg['isbn']) : $currEnreg['isbn'];
+    $urlWithRealVal = str_replace("XISBNX", urlencode(null_to_empty_string($isbnUrl)), $urlWithRealVal);
 
-    $titleUrl = $urlencoded? utf8_decode($stitleclean): $stitleclean;
-    $urlWithRealVal = str_replace("XTITLEX", urlencode($titleUrl), $urlWithRealVal);
+    $titleUrl = $urlencoded? utf8_to_iso8859_1($stitleclean): $stitleclean;
+    $urlWithRealVal = str_replace("XTITLEX", urlencode(null_to_empty_string($titleUrl)), $urlWithRealVal);
 
-    $atitleUrl = $urlencoded? utf8_decode($currEnreg['titre_article']) : $currEnreg['titre_article'];
-    $urlWithRealVal = str_replace("XATITLEX", urlencode($atitleUrl), $urlWithRealVal);
+    $atitleUrl = $urlencoded? utf8_to_iso8859_1($currEnreg['titre_article']) : $currEnreg['titre_article'];
+    $urlWithRealVal = str_replace("XATITLEX", urlencode(null_to_empty_string($atitleUrl)), $urlWithRealVal);
 
-    $volumeUrl = $urlencoded? utf8_decode($currEnreg['volume']) : $currEnreg['volume'];
-    $urlWithRealVal = str_replace("XVOLUMEX", urlencode($volumeUrl), $urlWithRealVal);
+    $volumeUrl = $urlencoded? utf8_to_iso8859_1($currEnreg['volume']) : $currEnreg['volume'];
+    $urlWithRealVal = str_replace("XVOLUMEX", urlencode(null_to_empty_string($volumeUrl)), $urlWithRealVal);
 
-    $numeroUrl = $urlencoded? utf8_decode($currEnreg['numero']) : $currEnreg['numero'];
-    $urlWithRealVal = str_replace("XISSUEX", urlencode($numeroUrl), $urlWithRealVal);
+    $numeroUrl = $urlencoded? utf8_to_iso8859_1($currEnreg['numero']) : $currEnreg['numero'];
+    $urlWithRealVal = str_replace("XISSUEX", urlencode(null_to_empty_string($numeroUrl)), $urlWithRealVal);
 
-    $pagesUrl = $urlencoded? utf8_decode($currEnreg['pages']) : $currEnreg['pages'];
-    $urlWithRealVal = str_replace("XPAGESX", urlencode($pagesUrl), $urlWithRealVal);
+    $pagesUrl = $urlencoded? utf8_to_iso8859_1($currEnreg['pages']) : $currEnreg['pages'];
+    $urlWithRealVal = str_replace("XPAGESX", urlencode(null_to_empty_string($pagesUrl)), $urlWithRealVal);
 
-    $anneeUrl = $urlencoded? utf8_decode($currEnreg['annee']) : $currEnreg['annee'];
-    $urlWithRealVal = str_replace("XDATEX", urlencode($anneeUrl), $urlWithRealVal);
+    $anneeUrl = $urlencoded? utf8_to_iso8859_1($currEnreg['annee']) : $currEnreg['annee'];
+    $urlWithRealVal = str_replace("XDATEX", urlencode(null_to_empty_string($anneeUrl)), $urlWithRealVal);
 
-    $fullnameUrl = $urlencoded? utf8_decode($currEnreg['nom'] . ", " . $currEnreg['prenom']) : ($currEnreg['nom'] . ", " . $currEnreg['prenom']);
-    $urlWithRealVal = str_replace("XNAMEX", urlencode($fullnameUrl), $urlWithRealVal);
+    $fullnameUrl = $urlencoded? utf8_to_iso8859_1($currEnreg['nom'] . ", " . $currEnreg['prenom']) : ($currEnreg['nom'] . ", " . $currEnreg['prenom']);
+    $urlWithRealVal = str_replace("XNAMEX", urlencode(null_to_empty_string($fullnameUrl)), $urlWithRealVal);
     //TODO nouveau placeholder à valider avec Pablo
 
-    $nomUrl = $urlencoded? utf8_decode($currEnreg['nom']) : $currEnreg['nom'];
-    $urlWithRealVal = str_replace("XNOMX", urlencode($nomUrl), $urlWithRealVal);
+    $nomUrl = $urlencoded? utf8_to_iso8859_1($currEnreg['nom']) : $currEnreg['nom'];
+    $urlWithRealVal = str_replace("XNOMX", urlencode(null_to_empty_string($nomUrl)), $urlWithRealVal);
     //TODO nouveau placeholder à valider avec Pablo
 
 
-    $prenomUrl = $urlencoded? utf8_decode($currEnreg['prenom']) : $currEnreg['prenom'];
-    $urlWithRealVal = str_replace("XPRENOMX", urlencode($prenomUrl), $urlWithRealVal);
+    $prenomUrl = $urlencoded? utf8_to_iso8859_1($currEnreg['prenom']) : $currEnreg['prenom'];
+    $urlWithRealVal = str_replace("XPRENOMX", urlencode(null_to_empty_string($prenomUrl)), $urlWithRealVal);
     //TODO nouveau placeholder à valider avec Pablo
 
-    $uidUrl = $urlencoded? utf8_decode($currEnreg['uid']) : $currEnreg['uid'];
-    $urlWithRealVal = str_replace("XUIDX", urlencode($uidUrl), $urlWithRealVal);
+    $uidUrl = $urlencoded? utf8_to_iso8859_1($currEnreg['uid']) : $currEnreg['uid'];
+    $urlWithRealVal = str_replace("XUIDX", urlencode(null_to_empty_string($uidUrl)), $urlWithRealVal);
     /*
     if ($urlencoded){
         $urlWithRealVal = urlencode(htmlentities($urlWithRealVal));
@@ -626,6 +638,42 @@ function resolve_link($pmid, $mms_id, $doi, $genre, $atitle, $title, $year, $vol
 	}
 	return $response;
 	
+}
+
+function utf8_to_iso8859_1($string) {
+    /* 
+    Convert from UTF-8 to ISO-8859-1
+    Replacement for deprecated function "utf8_decode" in PHP9.
+    Copied from Symfony package:
+    https://github.com/symfony/polyfill-php72/blob/v1.26.0/Php72.php#L40-65
+    
+    */
+    $s = (string) $string;
+    $len = \strlen($s);
+
+    for ($i = 0, $j = 0; $i < $len; ++$i, ++$j) {
+        switch ($s[$i] & "\xF0") {
+            case "\xC0":
+            case "\xD0":
+                $c = (\ord($s[$i] & "\x1F") << 6) | \ord($s[++$i] & "\x3F");
+                $s[$j] = $c < 256 ? \chr($c) : '?';
+                break;
+
+            case "\xF0":
+                ++$i;
+                // no break
+
+            case "\xE0":
+                $s[$j] = '?';
+                $i += 2;
+                break;
+
+            default:
+                $s[$j] = $s[$i];
+        }
+    }
+
+    return substr($s, 0, $j);
 }
 
 ?>

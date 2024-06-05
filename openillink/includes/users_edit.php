@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -104,7 +104,7 @@ if (!empty($_COOKIE['illinkid'])){
                     if (($monaut == "admin")||($monaut == "sadmin")){
                         echo "<tr><td class=\"odd\"><b>".__("Name")." *</b></td><td class=\"odd\"><input name=\"name\" type=\"text\" size=\"60\" value=\"".htmlspecialchars($name)."\"></td></tr>\n";
                     }
-                    echo "<tr><td><b>".__("E-Mail")."</b></td><td><input name=\"email\" type=\"text\" size=\"60\" value=\"".htmlspecialchars($email)."\"></td></tr>\n";
+                    echo "<tr><td><b>".__("E-Mail")."</b></td><td><input name=\"email\" type=\"text\" size=\"60\" value=\"".htmlspecialchars($email ? $email : "")."\"></td></tr>\n";
                     if (($monaut == "admin")||($monaut == "sadmin")){
                         echo "<tr><td class=\"odd\"><b>".__("Username")." *</b></td><td class=\"odd\"><input name=\"login\" type=\"text\" size=\"60\" value=\"".htmlspecialchars($login)."\"></td></tr>\n";
                     }

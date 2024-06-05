@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2020 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2020, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -69,11 +69,15 @@ if (!empty($_COOKIE['illinkid'])){
         $resultcode = dbquery($reqcode, array($code), 's');
         $nbcode = iimysqli_num_rows($resultcode);
         $enregcode = iimysqli_result_fetch_array($resultcode);
-        $idcode = $enregcode['id'];
-        if (($nbcode == 1)&&($action == "new"))
-			$mes = $mes . "<br/>".format_string(__("The code %code already exists in database. Please choose another one."), array('code' => htmlspecialchars($code)));
-        if (($nbcode == 1)&&($action != "new")&&($idcode != $id))
-          $mes = $mes . "<br/>".format_string(__("The code %code is already attributed to a library. Please choose another one."), array('code' => htmlspecialchars($code)));
+        if ($nbcode > 0) {
+            $idcode = $enregcode['id'];
+            if (($nbcode == 1)&&($action == "new")){
+                $mes = $mes . "<br/>".format_string(__("The code %code already exists in database. Please choose another one."), array('code' => htmlspecialchars($code)));
+            }
+            if (($nbcode == 1)&&($action != "new")&&($idcode != $id)){
+                $mes = $mes . "<br/>".format_string(__("The code %code is already attributed to a library. Please choose another one."), array('code' => htmlspecialchars($code)));
+            }
+        }
         if ($name1 == "")
           $mes = $mes . "<br/>".__("name1 is required");
         if ($code == "")
@@ -100,7 +104,7 @@ if (!empty($_COOKIE['illinkid'])){
                 $enregid = iimysqli_result_fetch_array($resultid);
                 $query = "UPDATE libraries SET libraries.name1=?, libraries.name2=?, libraries.name3=?, libraries.name4=?, libraries.name5=?, libraries.default=?, libraries.code=?, libraries.has_shared_ordres=?, libraries.signature=? WHERE libraries.id=?";
                 $params = array($name1, $name2, $name3, $name4, $name5, $default, $code, $hasSharedOrders, $signature, $id);
-                $resultupdate = dbquery($query, $params, 'sssssisisi') or die(__("Error")." : ".mysqli_error());
+                $resultupdate = dbquery($query, $params, 'sssssisisi') or die(__("Error")." : ".mysqli_error(dbconnect()));
                 echo "<center><br/><b><font color=\"green\">\n";
                 echo format_string(__("The modification of the record %id_record has been successfully registered"),array('id_record' => htmlspecialchars($id)))."</b></font>\n";
                 echo "<br/><br/><br/><a href=\"list.php?table=libraries\">".__("Back to the libraries list")."</a></center>\n";
@@ -127,9 +131,9 @@ if (!empty($_COOKIE['illinkid'])){
         if ($action == "new") {
           require ("headeradmin.php");
           $myhtmltitle = $configname[$lang] . " : ".__("new filter");
-          $query ="INSERT INTO `libraries` (`id`, `name1`, `name2`, `name3`, `name4`, `name5`, `code`, `default`,`has_shared_ordres`, `signature`) VALUES ('', ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+          $query ="INSERT INTO `libraries` (`name1`, `name2`, `name3`, `name4`, `name5`, `code`, `default`,`has_shared_ordres`, `signature`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
           $params = array($name1, $name2, $name3, $name4, $name5, $code, $default, $hasSharedOrders, $signature);
-          $id = dbquery($query, $params, 'ssssssisi') or die("Error : ".mysqli_error());
+          $id = dbquery($query, $params, 'ssssssisi') or die("Error : ".mysqli_error(dbconnect()));
           echo "<center><br/><b><font color=\"green\">\n";
           echo format_string(__("The new record %id_record has been successfully registered"),array('id_record' => htmlspecialchars($id)))."</b></font>\n";
           echo "<br/><br/><br/><a href=\"list.php?table=libraries\">".__("Back to the libraries list")."</a></center>\n";
@@ -163,7 +167,7 @@ if (!empty($_COOKIE['illinkid'])){
       $myhtmltitle = $configname[$lang] . " : ".__("Delete a library");
       require ("headeradmin.php");
       $query = "DELETE FROM libraries WHERE libraries.id = ?";
-      $result = dbquery($query, array($id), 'i') or die("Error : ".mysqli_error());
+      $result = dbquery($query, array($id), 'i') or die("Error : ".mysqli_error(dbconnect()));
       echo "<center><br/><b><font color=\"green\">\n";
       echo format_string(__("The record %id_record has been successfully deleted"),array('id_record' => htmlspecialchars($id)))."</b></font>\n";
       echo "<br/><br/><br/><a href=\"list.php?table=libraries\">".__("Back to the libraries list")."</a></center>\n";

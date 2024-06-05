@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2020, 2023 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2020, 2023, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -34,14 +34,14 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
     $id= ((!empty($_GET['id'])) && isValidInput($_GET['id'],8,'s',false)) ? $_GET['id'] : NULL;
     $myhtmltitle = format_string(__("%institution_name: order %order_id edition"), array('institution_name' => $configinstitution[$lang], 'order_id' => $id));
     if ($id){
-        $req = "select * from orders where illinkid like ? order by illinkid desc";
+        $req = "select * from orders where illinkid = ? order by illinkid desc";
         $result = dbquery($req, array($id), 'i');
         $nb = iimysqli_num_rows($result);
         require ("headeradmin.php");
         $config_display_delivery_choice = isset($config_display_delivery_choice) ? $config_display_delivery_choice : true;
         $config_display_cgr_fields = isset($config_display_cgr_fields) ? $config_display_cgr_fields : false;
 		echo '<script type="text/javascript">var referer="";</script>';
-        for ($i=0 ; $i<$nb ; $i++){
+        for ($num_result=0 ; $num_result<$nb ; $num_result++){
             $enreg = iimysqli_result_fetch_array($result);
             $id = $enreg['illinkid'];
             echo "<script type=\"text/javascript\">\n";
@@ -304,7 +304,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             echo '</div></div>
 	 <div class="column is-3">';
 			echo '<div class="control has-icons-left">';
-			echo "<input class=\"input tcal\" autocomplete=\"off\" name=\"datesaisie\" id=\"datesaisie\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['date'])."\" class=\"tcal\" onchange=\"textchanged('datesaisie')\">\n";
+			echo "<input class=\"input tcal\" autocomplete=\"off\" name=\"datesaisie\" id=\"datesaisie\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['date'] ? $enreg['date'] : "")."\" class=\"tcal\" onchange=\"textchanged('datesaisie')\">\n";
 			echo '<div class="icon is-small is-left">
       <i class="fas fa-download"></i>
     </div>';
@@ -316,7 +316,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 			echo '</div></div>
 	 <div class="column is-3">';
 			echo '<div class="control has-icons-left">';
-            echo "<input class=\"input tcal\" name=\"envoye\" id=\"envoye\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['envoye'])."\" class=\"tcal\" onchange=\"textchanged('envoye')\">\n";
+            echo "<input class=\"input tcal\" name=\"envoye\" id=\"envoye\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['envoye'] ? $enreg['envoye'] : "")."\" class=\"tcal\" onchange=\"textchanged('envoye')\">\n";
             echo '<div class="icon is-small is-left">
       <i class="fas fa-upload"></i>
     </div>';
@@ -330,7 +330,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             echo '</div></div>
 	 <div class="column is-3">';
 	echo '<div class="control has-icons-left">';
-			echo "<input class=\"input tcal\" autocomplete=\"off\" name=\"facture\" id=\"facture\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['facture'])."\"  onchange=\"textchanged('facture')\">\n";
+			echo "<input class=\"input tcal\" autocomplete=\"off\" name=\"facture\" id=\"facture\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['facture'] ? $enreg['facture'] : "")."\"  onchange=\"textchanged('facture')\">\n";
             echo '<div class="icon is-small is-left">
       <i class="fas fa-piggy-bank"></i>
     </div>';
@@ -343,7 +343,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             echo '</div></div>
 	 <div class="column is-3">';
 			echo '<div class="control has-icons-left">';
-			echo "<input class=\"input tcal\" autocomplete=\"off\" name=\"renouveler\" id=\"renouveler\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['renouveler'])."\" onchange=\"textchanged('renouveler')\">\n";
+			echo "<input class=\"input tcal\" autocomplete=\"off\" name=\"renouveler\" id=\"renouveler\" type=\"text\" size=\"10\" value=\"".htmlspecialchars($enreg['renouveler'] ? $enreg['renouveler'] : "")."\" onchange=\"textchanged('renouveler')\">\n";
 			echo '<div class="icon is-small is-left">
       <i class="fas fa-bell"></i>
     </div>';
@@ -358,7 +358,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             echo '</div></div>
 	 <div class="column is-3">';
 			echo '<div class="control has-icons-left">';
-			echo "<input class=\"input\" name=\"prix\" id=\"prix\" type=\"text\" size=\"5\" value=\"".htmlspecialchars($enreg['prix'])."\" onchange=\"textchanged('prix')\">\n";
+			echo "<input class=\"input\" name=\"prix\" id=\"prix\" type=\"text\" size=\"5\" value=\"".htmlspecialchars($enreg['prix'] ? $enreg['prix'] : "")."\" onchange=\"textchanged('prix')\">\n";
             echo '<div class="icon is-small is-left">
       <i class="far fa-money-bill-alt"></i>
     </div></div>';
@@ -379,7 +379,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             echo '</div></div>
 	 <div class="column is-3">';
 			echo '<div class="control has-icons-left">';
-			echo "<input class=\"input\" name=\"ref\" id=\"ref\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($enreg['ref'])."\" onchange=\"textchanged('ref fournisseur')\">\n";
+			echo "<input class=\"input\" name=\"ref\" id=\"ref\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($enreg['ref'] ? $enreg['ref'] : "")."\" onchange=\"textchanged('ref fournisseur')\">\n";
 			echo '<div class="icon is-small is-left">
       <i class="fas fa-barcode"></i>
     </div>';
@@ -392,12 +392,12 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 				echo '</div></div>
 	 <div class="column is-3">';
 				echo '<div class="control has-icons-left">';
-				echo "<input class=\"input\" name=\"refinterbib\" id=\"refinterbib\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($enreg['refinterbib'])."\" onchange=\"textchanged('ref interne')\">\n";
+				echo "<input class=\"input\" name=\"refinterbib\" id=\"refinterbib\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($enreg['refinterbib'] ? $enreg['refinterbib'] : "")."\" onchange=\"textchanged('ref interne')\">\n";
 				echo '<div class="icon is-small is-left">
       <i class="fas fa-tag"></i>
     </div></div></div>';
 			} else {
-				echo "<input name=\"refinterbib\" id=\"refinterbib\" type=\"hidden\" value=\"".htmlspecialchars($enreg['refinterbib'])."\" >\n";
+				echo "<input name=\"refinterbib\" id=\"refinterbib\" type=\"hidden\" value=\"".htmlspecialchars($enreg['refinterbib'] ? $enreg['refinterbib'] : "")."\" >\n";
 			}
             // END Price Field and Internal references
             // Start Private Notes
@@ -411,7 +411,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             echo '</div></div>
 	 <div class="column is-9">';
 			echo '<div class="control">';
-			echo "<textarea class=\"textarea\" name=\"remarques\" id=\"remarques\" rows=\"2\" cols=\"68\" valign=\"bottom\" onchange=\"textchanged('remarques')\">".htmlspecialchars($enreg['remarques'])."</textarea>\n";
+			echo "<textarea class=\"textarea\" name=\"remarques\" id=\"remarques\" rows=\"2\" cols=\"68\" valign=\"bottom\" onchange=\"textchanged('remarques')\">".htmlspecialchars($enreg['remarques'] ? $enreg['remarques'] : "")."</textarea>\n";
             // END Private Notes
 			echo '</div></div>';
 			echo '</div>'; // end columns
@@ -531,7 +531,7 @@ echo '</span>
         <div class="control">';
                 echo "<input name=\"servautre\" class=\"input\" id=\"servautre\" type=\"text\" size=\"30\" value=\"";
                 if ($unitsok == 0)
-                    echo htmlspecialchars($enreg['service']);
+                    echo htmlspecialchars($enreg['service'] ? $enreg['service'] : "");
                 echo "\" onchange=\"textchanged('service autre')\">\n";
                 echo " </div>
     </div>
@@ -546,7 +546,7 @@ echo '</span>
 	</div>
 	<div class="column is-one-quarter">
         <div class="control">';
-                    echo "<input name=\"cgra\" id=\"cgra\" class=\"input\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['cgra'])."\" onchange=\"textchanged('cgra')\">\n";
+                    echo "<input name=\"cgra\" id=\"cgra\" class=\"input\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['cgra'] ? $enreg['cgra'] : "")."\" onchange=\"textchanged('cgra')\">\n";
 
 					echo '</div>
     </div>
@@ -558,14 +558,14 @@ echo '</span>
 	</div>
 	<div class="column is-one-quarter">
         <div class="control">';
-					echo "<input name=\"cgrb\"  class=\"input\" id=\"cgrb\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['cgrb'])."\" onchange=\"textchanged('cgrb')\">\n";
+					echo "<input name=\"cgrb\"  class=\"input\" id=\"cgrb\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['cgrb'] ? $enreg['cgrb'] : "")."\" onchange=\"textchanged('cgrb')\">\n";
 					echo '        </div>
     </div>
     </div>';
 				}
                 else{
-                    echo "<input name=\"cgra\" type=\"hidden\"  value=\"".htmlspecialchars($enreg['cgra'])."\">\n";
-                    echo "<input name=\"cgrb\" type=\"hidden\"  value=\"".htmlspecialchars($enreg['cgrb'])."\">\n";
+                    echo "<input name=\"cgra\" type=\"hidden\"  value=\"".htmlspecialchars($enreg['cgra'] ? $enreg['cgra'] : "")."\">\n";
+                    echo "<input name=\"cgrb\" type=\"hidden\"  value=\"".htmlspecialchars($enreg['cgrb'] ? $enreg['cgrb'] : "")."\">\n";
                 }
 				echo '	<div class="columns is-gapless is-columns-form">
     <div class="column is-2">
@@ -576,7 +576,7 @@ echo '</span>
 	</div>
 	<div class="column is-one-quarter">
         <div class="control has-icons-left">';
-                echo "<input name=\"mail\" id=\"mail\" class=\"input\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['mail'])."\" onchange=\"textchanged('email')\">\n";
+                echo "<input name=\"mail\" id=\"mail\" class=\"input\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['mail'] ? $enreg['mail'] : "")."\" onchange=\"textchanged('email')\">\n";
                 echo '<span class="icon is-small is-left">
 			<i class="fas fa-envelope"></i>
          </span>
@@ -591,7 +591,7 @@ echo '</span>
 	</div>
 	<div class="column is-one-quarter">
         <div class="control has-icons-left">';
-                echo "<input name=\"tel\" class=\"input\" id=\"tel\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['tel'])."\" onchange=\"textchanged('tel')\">\n";
+                echo "<input name=\"tel\" class=\"input\" id=\"tel\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['tel'] ? $enreg['tel'] : "")."\" onchange=\"textchanged('tel')\">\n";
                 echo '<span class="icon is-small is-left">
 			<i class="fas fa-phone"></i>
          </span>
@@ -607,7 +607,7 @@ echo '</span>
 	</div>
 	<div class="column is-one-quarter">
         <div class="control has-icons-left">';
-				echo "<input name=\"adresse\" class=\"input\" id=\"adresse\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['adresse'])."\" onchange=\"textchanged('adresse')\">\n";
+				echo "<input name=\"adresse\" class=\"input\" id=\"adresse\" type=\"text\" size=\"30\" value=\"".htmlspecialchars($enreg['adresse'] ? $enreg['adresse'] : "")."\" onchange=\"textchanged('adresse')\">\n";
                 echo '<span class="icon is-small is-left">
 			<i class="fas fa-home"></i>
          </span>
@@ -621,7 +621,7 @@ echo '</span>
 	</div>
 	<div class="column is-1">
         <div class="control">';
-                echo "<input name=\"postal\" id=\"postal\" class=\"input\" type=\"text\" size=\"5\" value=\"".htmlspecialchars($enreg['code_postal'])."\" onchange=\"textchanged('code postal')\">\n";
+                echo "<input name=\"postal\" id=\"postal\" class=\"input\" type=\"text\" size=\"5\" value=\"".htmlspecialchars($enreg['code_postal'] ? $enreg['code_postal'] : "")."\" onchange=\"textchanged('code postal')\">\n";
                 echo '</div>
     </div>
     <div class="column is-narrow">
@@ -632,7 +632,7 @@ echo '</span>
 	</div>
 	<div class="column is-2">
         <div class="control">';
-                echo "<input name=\"localite\" id=\"localite\"  class=\"input\" type=\"text\" size=\"7\" value=\"".htmlspecialchars($enreg['localite'])."\" onchange=\"textchanged('localite')\">\n";
+                echo "<input name=\"localite\" id=\"localite\"  class=\"input\" type=\"text\" size=\"7\" value=\"".htmlspecialchars($enreg['localite'] ? $enreg['localite'] : "")."\" onchange=\"textchanged('localite')\">\n";
                 echo '</div>
     </div>
     </div>

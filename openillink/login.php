@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -149,7 +149,7 @@ if ((!empty($log))&&(!empty($pwd))){
 		if (!$password_hash_matched_p && hash_equals(md5($pwd), $enreg['password'])) {
 			# old hashing technique still stored in DB for user, update password hash now
 			$query = "UPDATE users SET password=? WHERE user_id=?";
-			dbquery($query, array(password_hash($pwd, PASSWORD_DEFAULT), $enreg['user_id']), 'si') or die("Error : ".mysqli_error());
+			dbquery($query, array(password_hash($pwd, PASSWORD_DEFAULT), $enreg['user_id']), 'si') or die("Error : ".mysqli_error(dbconnect()));
 			$password_hash_matched_p = true;
 		}
 		if ($password_hash_matched_p) {

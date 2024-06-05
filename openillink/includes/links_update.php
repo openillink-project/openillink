@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2020 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2020, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -32,7 +32,7 @@ require_once ("connexion.php");
 require_once ("toolkit.php");
 
 if (!empty($_COOKIE['illinkid'])){
-    $id=$_POST['id'];
+    $id=!empty($_POST['id'])? (isValidInput($_POST['id'],11,'i',false)?$_POST['id']:'') : "";
     
     $validActionSet = array('new', 'update', 'delete', 'deleteok');
     $action = ((!empty($_GET['action'])) && isValidInput($_GET['action'],10,'s',false, $validActionSet)) ? $_GET['action'] : NULL;
@@ -119,7 +119,7 @@ if (!empty($_COOKIE['illinkid'])){
                             'WHERE links.id=?';
                             $params = array($linktitle, $linkurl, $linksearch_issn, $linksearch_isbn, $linksearch_ptitle, $linksearch_btitle, $linksearch_atitle, $linkorder_ext, $linkorder_form, $linkopenurl, $linklibrary, $linkactive, $linkordonnancement, $linkurl_encode, $linkskip_words, $linkskip_txt_after_mark, $id);
                             $typeParam = 'ssiiiiiiiisiiiiii';
-                            $resultupdate = dbquery($query, $params, $typeParam) or die("Error : ".mysqli_error());
+                            $resultupdate = dbquery($query, $params, $typeParam) or die("Error : ".mysqli_error(dbconnect()));
                             echo "<center><br/><b><font color=\"green\">\n";
                             echo format_string(__("The modification of the record %id_record has been successfully registered"),array('id_record' => htmlspecialchars($id)))."</b></font>\n";
                             echo "<br/><br/><br/><a href=\"list.php?table=links\">Retour à la liste de liens</a></center>\n";
@@ -146,11 +146,11 @@ if (!empty($_COOKIE['illinkid'])){
 				if ($action == "new"){
 					require ("headeradmin.php");
 					$myhtmltitle = $configname[$lang] . " : nouveau lien ";
-					$query = "INSERT INTO `links` (`id`, `title`, `url`, `search_issn`, `search_isbn`, `search_ptitle`, `search_btitle`, `search_atitle`, `order_ext`, `order_form`, `openurl`, `library`, `active`, `ordonnancement`, `url_encoded`, `skip_words`, `skip_txt_after_mark`) ".
-					"VALUES ('', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					$query = "INSERT INTO `links` (`title`, `url`, `search_issn`, `search_isbn`, `search_ptitle`, `search_btitle`, `search_atitle`, `order_ext`, `order_form`, `openurl`, `library`, `active`, `ordonnancement`, `url_encoded`, `skip_words`, `skip_txt_after_mark`) ".
+					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 					$params = array($linktitle, $linkurl, $linksearch_issn, $linksearch_isbn, $linksearch_ptitle, $linksearch_btitle, $linksearch_atitle, $linkorder_ext, $linkorder_form, $linkopenurl,$linklibrary,$linkactive, $linkordonnancement, $linkurl_encode, $linkskip_words, $linkskip_txt_after_mark);
 					$paramstypes = 'ssiiiiiiiissiiii';
-					$id = dbquery($query, $params, $paramstypes) or die("Error : ".mysqli_error());
+					$id = dbquery($query, $params, $paramstypes) or die("Error : ".mysqli_error(dbconnect()));
 					echo "<center><br/><b><font color=\"green\">\n";
 					echo format_string(__("The new record %id_record has been successfully registered"),array('id_record' => htmlspecialchars($id)))."</b></font>\n";
 					echo "<br/><br/><br/><a href=\"list.php?table=links\">".__("Back to the links list")."</a></center>\n";
@@ -184,7 +184,7 @@ if (!empty($_COOKIE['illinkid'])){
             $myhtmltitle = $configname[$lang] . " : ".__("Delete a library");
             require ("headeradmin.php");
             $query = "DELETE FROM links WHERE links.id = ?";
-            $result = dbquery($query, array($id), 'i') or die("Error : ".mysqli_error());
+            $result = dbquery($query, array($id), 'i') or die("Error : ".mysqli_error(dbconnect()));
             echo "<center><br/><b><font color=\"green\">\n";
             echo format_string(__("The record %id_record has been successfully deleted"),array('id_record' => htmlspecialchars($id)))."</b></font>\n";
             echo "<br/><br/><br/><a href=\"list.php?table=links\">".__("Back to the libraries list")."</a></center>\n";

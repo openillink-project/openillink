@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -63,7 +63,7 @@ echo '
   <div class="control">
 	<div class="select  is-fullwidth">
 ';
-echo "<select name=\"champ\" onchange=\"if(this.value=='id'){document.getElementById('advancedsearchmatchfieldone').style.display='none'}else if(document.getElementById('searchtype').value=='advanced'){document.getElementById('advancedsearchmatchfieldone').style.display=''}\">\n";
+echo "<select name=\"champ\" id=\"champ\"  onchange=\"if(this.value=='id'){document.getElementById('advancedsearchmatchfieldone').style.display='none'}else if(document.getElementById('searchtype').value=='advanced'){document.getElementById('advancedsearchmatchfieldone').style.display=''}\">\n";
 echo "<option value=\"id\"";
 if ((!empty($champ)) && ($champ=='id') )
     echo " selected";
@@ -196,7 +196,7 @@ echo '
   <div class="control">
 	<div class="select  is-fullwidth">
 ';
-echo "<select name=\"champ2\" onchange=\"if(this.value=='id'){document.getElementById('advancedsearchmatchfieldtwo').style.display='none'}else if(document.getElementById('searchtype').value=='advanced'){document.getElementById('advancedsearchmatchfieldtwo').style.display=''}\">\n";
+echo "<select name=\"champ2\" id=\"champ2\" onchange=\"if(this.value=='id'){document.getElementById('advancedsearchmatchfieldtwo').style.display='none'}else if(document.getElementById('searchtype').value=='advanced'){document.getElementById('advancedsearchmatchfieldtwo').style.display=''}\">\n";
 echo "<option value=\"id\"";
 if ((!empty($champ2)) && ($champ2=='id') )
     echo " selected";
@@ -319,7 +319,7 @@ echo '
   <div class="control">
 	<div class="select  is-fullwidth">
 ';
-echo "<select name=\"champ3\" onchange=\"if(this.value=='id'){document.getElementById('advancedsearchmatchfieldthree').style.display='none'}else if(document.getElementById('searchtype').value=='advanced'){document.getElementById('advancedsearchmatchfieldthree').style.display=''}\">\n";
+echo "<select name=\"champ3\" id=\"champ3\" onchange=\"if(this.value=='id'){document.getElementById('advancedsearchmatchfieldthree').style.display='none'}else if(document.getElementById('searchtype').value=='advanced'){document.getElementById('advancedsearchmatchfieldthree').style.display=''}\">\n";
 echo "<option value=\"id\"";
 if ((!empty($champ3)) && ($champ3=='id') )
     echo " selected";
@@ -444,7 +444,7 @@ echo '</div>
 		<div class="field is-narrow">
 			<div class="control">
 				<div class="select is-fullwidth">';
-echo "<select name=\"statuscode\">\n";
+echo "<select name=\"statuscode\" id=\"statuscode\">\n";
 echo '<option value="0"></option>';
 foreach ($allStatus as $status){
     $labelStatus = $status['title1'];

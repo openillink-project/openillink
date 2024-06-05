@@ -4,7 +4,7 @@
 // ***************************************************************************
 // This file is part of OpenILLink software.
 // Copyright (C) 2017 UNIGE.
-// Copyright (C) 2017, 2018 CHUV.
+// Copyright (C) 2017, 2018, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -85,8 +85,8 @@ if (!empty($_COOKIE['illinkid'])){
 				$folderurls = substr($folderurl, 0, 40) . "[...]";
 			else
 				$folderurls = $folderurl;
-			$folderuser = $enreg['user'];
-			$folderlibrary = $enreg['library'];
+			$folderuser = $enreg['user'] ? $enreg['user'] : "";
+			$folderlibrary = $enreg['library'] ? $enreg['library'] : "";
 			$folderposition = $enreg['position'];
 			$folderactive = $enreg['active'];
 			echo "<tr>\n";

@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -74,11 +74,15 @@ if (!empty($_COOKIE['illinkid'])){
             $resultcode = dbquery($reqcode,array($code), 'i');
             $nbcode = iimysqli_num_rows($resultcode);
             $enregcode = iimysqli_result_fetch_array($resultcode);
-            $idcode = $enregcode['id'];
-            if (($nbcode == 1)&&($action == "new"))
-                $mes = $mes . "<br/>".format_string(__("The code %code already exists in database. Please choose another one."), array('code' => htmlspecialchars($code)));
-            if (($nbcode == 1)&&($action != "new")&&($idcode != $id))
-                $mes = $mes . "<br/>".format_string(__("The code %code is already attributed to a localization. Please choose another one."), array('code' => htmlspecialchars($code)));
+            if ($nbcode > 0){
+                $idcode = $enregcode['id'];
+                if (($nbcode == 1)&&($action == "new")){
+                    $mes = $mes . "<br/>".format_string(__("The code %code already exists in database. Please choose another one."), array('code' => htmlspecialchars($code)));
+                }
+                if (($nbcode == 1)&&($action != "new")&&($idcode != $id)){
+                    $mes = $mes . "<br/>".format_string(__("The code %code is already attributed to a localization. Please choose another one."), array('code' => htmlspecialchars($code)));
+                }
+            }
             if ($title1 == "")
                 $mes = $mes . "<br/>".__("name1 is required");
             if ($code == "")
@@ -103,7 +107,7 @@ if (!empty($_COOKIE['illinkid'])){
                             $enregid = iimysqli_result_fetch_array($resultid);
                             $query = "UPDATE status SET status.title1=?, status.title2=?, status.title3=?, status.title4=?, status.title5=?, status.help1=?, status.help2=?, status.help3=?, status.help4=?, status.help5=?, status.in=?, status.out=?, status.trash=?, status.special=?, status.color=?, status.code=?, status.anonymize=? WHERE status.id=?";
                             $params = array($title1, $title2, $title3, $title4, $title5, $help1, $help2, $help3, $help4, $help5, $in, $out, $trash, $special, $color, $code, $anonymize, $id);
-                            $resultupdate = dbquery($query, $params,'ssssssssssiiissiii') or die("Error : ".mysqli_error());
+                            $resultupdate = dbquery($query, $params,'ssssssssssiiissiii') or die("Error : ".mysqli_error(dbconnect()));
                             echo "<center><br/><b><font color=\"green\">\n";
                             echo __("Your order has been successfully modified")."</b></font>\n";
                             echo "<br/><br/><br/><a href=\"list.php?table=status\">".__("Back to the order steps")."</a></center>\n";
@@ -130,9 +134,9 @@ if (!empty($_COOKIE['illinkid'])){
 				if ($action == "new"){
 					require ("headeradmin.php");
 					$myhtmltitle = $configname[$lang] . " : nouvelle status";
-					$query ="INSERT INTO `status` (`id`, `title1`, `title2`, `title3`, `title4`, `title5`, `help1`, `help2`, `help3`, `help4`, `help5`, `code`, `in`, `out`, `trash`, `special`, `color`, `anonymize`) VALUES ('', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					$query ="INSERT INTO `status` (`title1`, `title2`, `title3`, `title4`, `title5`, `help1`, `help2`, `help3`, `help4`, `help5`, `code`, `in`, `out`, `trash`, `special`, `color`, `anonymize`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 					$params = array($title1, $title2, $title3, $title4, $title5, $help1, $help2, $help3, $help4, $help5, $code, $in, $out, $trash, $special, $color, $anonymize);
-					$id = dbquery($query, $params,'ssssssssssiiiissi') or die("Error : ".mysqli_error());
+					$id = dbquery($query, $params,'ssssssssssiiiissi') or die("Error : ".mysqli_error(dbconnect()));
 					echo "<center><br/><b><font color=\"green\">\n";
 					echo format_string(__("The new record %id_record has been successfully registered"),array('id_record' => htmlspecialchars($id)))."</b></font>\n";
 					echo "<br/><br/><br/><a href=\"list.php?table=status\">".__("Back to the order steps list")."</a></center>\n";
@@ -166,7 +170,7 @@ if (!empty($_COOKIE['illinkid'])){
             $myhtmltitle = $configname[$lang] . " : ".__("Delete an order step");
             require ("headeradmin.php");
             $query = "DELETE FROM status WHERE status.id = ?";
-            $result = dbquery($query, array($id), 'i') or die("Error : ".mysqli_error());
+            $result = dbquery($query, array($id), 'i') or die("Error : ".mysqli_error(dbconnect()));
             echo "<center><br/><b><font color=\"green\">\n";
             echo format_string(__("The record %id_record has been successfully deleted"),array('id_record' => htmlspecialchars($id)))."</b></font>\n";
             echo "<br/><br/><br/><a href=\"list.php?table=status\">".__("Back to the order steps list")."</a></center>\n";

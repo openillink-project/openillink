@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2020 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2020, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -93,7 +93,7 @@ if (!empty($_COOKIE['illinkid'])){
 				echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
 				echo '<tr><td colspan="2">';
 				echo '<b><label for="signature">'.__("Signature (for emails sent to users)"). '</label></b><br/>';
-				echo '<textarea id="signature" name="signature" rows="5" cols="80">'. htmlspecialchars($signature) . '</textarea>';
+				echo '<textarea id="signature" name="signature" rows="5" cols="80">'. htmlspecialchars($signature ? $signature : "") . '</textarea>';
 				echo '</td></tr>';
                 echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
                 echo "<tr><td></td><td><div class=\"field is-grouped\"><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save changes")."\">\n";

@@ -4,7 +4,7 @@
 // ***************************************************************************
 // This file is part of OpenILLink software.
 // Copyright (C) 2007, 2008, 2009, 2010, 2011, 2012, 2013 UNIGE.
-// Copyright (C) 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017 CHUV.
+// Copyright (C) 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2024 CHUV.
 // Original author(s): Jan Krause <pro@jankrause.net>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -54,7 +54,7 @@ function prepareLine($values, $delimiter, $separator, $replacements){
   $values = str_replace(array_keys($replacements), array_values($replacements), $values);
   if (! is_array($values))
     // values is actually a single value: the whole line consists of the value surrounded by delimiters
-    $line = prepareValue($value, $delimiter, $separator);
+    $line = prepareValue($values, $delimiter, $separator);
   else{
     $line = $delimiter.implode($delimiter.$separator.$delimiter, $values).$delimiter;
   }
@@ -128,7 +128,7 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 	  " from orders where".
 	  " (envoye between ? and ?) or ( date between ? and ? )".
 	  " order by date, envoye DESC";
-	  $result2 = dbquery($req,array($datedu, $dateau, $datedu, $dateau), 'ssss') or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error()." ".$req);
+	  $result2 = dbquery($req,array($datedu, $dateau, $datedu, $dateau), 'ssss') or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error(dbconnect())." ".$req);
 	  $total_results = iimysqli_num_rows($result2);
 
 	  for ($i=0 ; $i<$total_results ; $i++) { 
@@ -157,7 +157,7 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 	  $req = $req0 . $req1 . $req2 . $req3; 
 	  //echo $req;
 	  
-	  $result2 = dbquery($req,array($rec_invoice_st, $monbib, $datedu, $dateau, $datedu, $dateau),'ssssss') or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error()." ".$req);
+	  $result2 = dbquery($req,array($rec_invoice_st, $monbib, $datedu, $dateau, $datedu, $dateau),'ssssss') or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error(dbconnect())." ".$req);
 	  $total_results = iimysqli_num_rows($result2);
 	  for ($i=0 ; $i<$total_results ; $i++){ 
 		$enreg = iimysqli_result_fetch_array($result2);
@@ -179,7 +179,7 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 		." group by service, cgra";
 		$params = array($rec_invoice_st, $monbib, $monbib, $datedu, $dateau, $datedu, $dateau);
 		$typeparams = 'sssssss';
-		$result2 = dbquery($req, $params, $typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error()." ".$req);
+		$result2 = dbquery($req, $params, $typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error(dbconnect())." ".$req);
 		$total_results = iimysqli_num_rows($result2);
 		for ($i=0 ; $i<$total_results ; $i++) { 
 			$enreg = iimysqli_result_fetch_array($result2);
@@ -201,7 +201,7 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 		"and ((envoye between ? and ?) or (date between ? and ?))";
 		$params = array($new_st, $ordered_st, $rec_invoice_st, $paid_st, $abbandon_st, $rejected_st, $renew_st,$validated_st, $circulating_st, $processing_st, $toValidate_st, $suppressed_st, $monbib, $datedu, $dateau, $datedu, $dateau);
 		$typeparams = 'sssssssssssssssss';
-		$res = dbquery($req,$params,$typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error()." ".$req);
+		$res = dbquery($req,$params,$typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error(dbconnect())." ".$req);
 		$enreg = iimysqli_result_fetch_array($res);
 		$resu = $enreg['resu'];
 		$totals = (int)$resu;
@@ -214,7 +214,7 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 		"and ((envoye between ? and ?) or (date between ? and ?))";
 		$params = array($new_st,$ordered_st,$renew_st,$processing_st,$toValidate_st,$validated_st,$circulating_st, $monbib,$datedu,$dateau,$datedu,$dateau);
 		$paramtype = 'ssssssssssss';
-		$res = dbquery($req,$params,$paramtype) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error()." ".$req);
+		$res = dbquery($req,$params,$paramtype) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error(dbconnect())." ".$req);
 		$enreg = iimysqli_result_fetch_array($res);
 		$resu = $enreg['resu'];
 		$recues = (int)$resu;
@@ -229,7 +229,7 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 		$req = "select count(*) as resu from orders where (stade = ?) and bibliotheque like ? and ((envoye between ? and ?) or (date between ? and ?))";
 		$params = array($rec_invoice_st, $monbib, $datedu, $dateau, $datedu, $dateau);
 		$typeparams = 'ssssss';
-		$res = dbquery($req, $params, $typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error()." ".$req);
+		$res = dbquery($req, $params, $typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error(dbconnect())." ".$req);
 		$enreg = iimysqli_result_fetch_array($res);
 		$resu = $enreg['resu'];
 		$recues = (int)$resu;
@@ -246,7 +246,7 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 		"and ((envoye between ? and ?) or (date between ? and ?))";
 		$params = array($paid_st, $monbib, $datedu, $dateau, $datedu, $dateau);
 		$typeparams = 'ssssss';
-		$res = dbquery($req,$params,$typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error()." ".$req);
+		$res = dbquery($req,$params,$typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error(dbconnect())." ".$req);
 		$enreg = iimysqli_result_fetch_array($res);
 		$resu = $enreg['resu'];
 		$satis = (int)$resu;
@@ -261,7 +261,7 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 		$req = "select count(*) as resu from orders where (stade = ?) and bibliotheque like ? and ((envoye between ? and ?) or (date between ? and ?))";
 		$params = array($abbandon_st,$monbib,$datedu,$dateau,$datedu,$dateau);
 		$typeparams = 'ssssss';
-		$res = dbquery($req,$params,$typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error()." ".$req);
+		$res = dbquery($req,$params,$typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error(dbconnect())." ".$req);
 		$enreg = iimysqli_result_fetch_array($res);
 		$resu = $enreg['resu'];
 		$refus = (int)$resu;
@@ -276,7 +276,7 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 		$req = "select count(*) as resu from orders where (stade = ?) and bibliotheque like ? and ((envoye between ? and ?) or (date between ? and ?))";
 		$params = array($rejected_st, $monbib, $datedu, $dateau, $datedu, $dateau);
 		$typeparams = 'ssssss';
-		$res = dbquery($req,$params,$typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error()." ".$req);
+		$res = dbquery($req,$params,$typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error(dbconnect())." ".$req);
 		$enreg = iimysqli_result_fetch_array($res);
 		$resu = $enreg['resu'];
 		$rejet = (int)$resu;
@@ -291,7 +291,7 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 		$req = "select count(*) as resu from orders where (stade = ?) and bibliotheque like ? and ((envoye between ? and ?) or (date between ? and ?))";
 		$params = array($suppressed_st, $monbib, $datedu,$dateau,$datedu,$dateau);
 		$typeparams = 'ssssss';
-		$res = dbquery($req,$params,$typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error()." ".$req);
+		$res = dbquery($req,$params,$typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error(dbconnect())." ".$req);
 		$enreg = iimysqli_result_fetch_array($res);
 		$resu = $enreg['resu'];
 		$rejet = (int)$resu;
@@ -314,7 +314,7 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 		"and ((envoye between ? and ?) or (date between ? and ?))";
 		$params = array($paid_st, $monbib, 'AutreEtranger', 'SUBITO', 'NLM', 'BritishLibrary', $datedu, $dateau, $datedu, $dateau);
 		$typeparams = 'ssssssssss';
-		$res = dbquery($req,$params,$typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error()." ".$req);
+		$res = dbquery($req,$params,$typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error(dbconnect())." ".$req);
 		$enreg = iimysqli_result_fetch_array($res);
 		$resu = $enreg['resu'];
 		$etranger = (int)$resu;
@@ -338,7 +338,7 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 		"group by localisation";
 		$params = array($rec_invoice_st, $monbib, $datedu, $dateau, $datedu, $dateau);
 		$typeparams = 'ssssss';
-		$result2 = dbquery($req,$params,$typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error()." ".$req);
+		$result2 = dbquery($req,$params,$typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error(dbconnect())." ".$req);
 		$total_results = iimysqli_num_rows($result2);
 		echo $quote."Commandes envoyées pas facturées:".$quote."\n";
 		for ($i=0 ; $i<$total_results ; $i++) { 
@@ -367,7 +367,7 @@ function do_report($datedu, $dateau, $type, $format, $stade, $monbib) {
 		"group by localisation";
 		$params = array($paid_st, $monbib, $datedu, $dateau, $datedu, $dateau);
 		$typeparams = 'ssssss';
-		$result2 = dbquery($req,$params,$typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error()." ".$req);
+		$result2 = dbquery($req,$params,$typeparams) or die("Erreur exécution de la requête SQL. Contacter l'administrateur. ". mysqli_error(dbconnect())." ".$req);
 		$total_results = iimysqli_num_rows($result2);
 		echo $quote."Commandes facturées:".$quote."\n";
 		for ($i=0 ; $i<$total_results ; $i++){ 

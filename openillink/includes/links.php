@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -262,22 +262,22 @@ if ($nblinks > 0){
             else
                 $linkurl = $linkurl . "&" . $openurlsid;
             if ($enreg['doi']!='')
-                $linkurl .= "&id=doi:" . urlencode ($enreg['doi']);
+                $linkurl .= "&id=doi:" . urlencode ($enreg['doi'] ? $enreg['doi'] : "");
             if ($enreg['PMID']!='')
-                $linkurl .= "&id=pmid:" . urlencode ($enreg['PMID']);
+                $linkurl .= "&id=pmid:" . urlencode ($enreg['PMID'] ? $enreg['PMID']: "");
             // if ($enreg['uid']!='')
             // $linkurl .= "&id=" . urlencode ($enreg['uid'];
-            $linkurl .= "&genre=" . urlencode ($enreg['type_doc']);
-            $linkurl .= "&aulast=" . urlencode ($enreg['auteurs']);
-            $linkurl .= "&issn=" . urlencode ($enreg['issn']);
-            $linkurl .= "&eissn=" . urlencode ($enreg['eissn']);
-            $linkurl .= "&isbn=" . urlencode ($enreg['isbn']);
-            $linkurl .= "&title=" . urlencode ($stitleclean);
-            $linkurl .= "&atitle=" . urlencode ($enreg['titre_article']);
-            $linkurl .= "&volume=" . urlencode ($enreg['volume']);
-            $linkurl .= "&issue=" . urlencode ($issue2);
-            $linkurl .= "&pages=" . urlencode ($enreg['pages']);
-            $linkurl .= "&date=" . urlencode ($enreg['annee']);
+            $linkurl .= "&genre=" . urlencode ($enreg['type_doc'] ?  $enreg['type_doc'] : "");
+            $linkurl .= "&aulast=" . urlencode ($enreg['auteurs'] ? $enreg['auteurs'] : "");
+            $linkurl .= "&issn=" . urlencode ($enreg['issn'] ? $enreg['issn'] : "");
+            $linkurl .= "&eissn=" . urlencode ($enreg['eissn'] ? $enreg['eissn'] : "");
+            $linkurl .= "&isbn=" . urlencode ($enreg['isbn'] ? $enreg['isbn'] : "");
+            $linkurl .= "&title=" . urlencode ($stitleclean ? $stitleclean : "");
+            $linkurl .= "&atitle=" . urlencode ($enreg['titre_article'] ? $enreg['titre_article'] : "");
+            $linkurl .= "&volume=" . urlencode ($enreg['volume'] ? $enreg['volume'] : "");
+            $linkurl .= "&issue=" . urlencode ($issue2 ? $issue2 : "");
+            $linkurl .= "&pages=" . urlencode ($enreg['pages'] ? $enreg['pages']: "");
+            $linkurl .= "&date=" . urlencode ($enreg['annee'] ? $enreg['annee'] : "");
         }
         if ($linkorder_form == 1)
             $linkurl = $linkurl . "&intId=" . $enreg['illinkid'];

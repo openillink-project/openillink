@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2023 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2023, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -284,6 +284,10 @@ $config_display_delivery_choice = true;
 
 // Are CGRA/B fields displayed on order form?
 $config_display_cgr_fields = false;
+
+// List order form names that are enabled (from "forms" subdirectory) for outgoing links.
+// Eg: array ("basel", "rpvz");
+$config_enabled_internal_order_forms = array ();
 
 // Shibboleth authentication (0 inactive, 1 active)
 $config_shibboleth_enabled = 0;

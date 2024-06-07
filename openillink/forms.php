@@ -34,39 +34,46 @@ require_once ("includes/toolkit.php");
 if (!empty($_COOKIE['illinkid'])){
     if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
         $illinkid = ((!empty($_GET['intId'])))?safeSetInput($_GET['intId'],8,'s',NULL,false):NULL;
+        
+        $config_enabled_internal_order_forms = isset($config_enabled_internal_order_forms) ? $config_enabled_internal_order_forms : array();
         $myform = (!empty($_GET['form']))?safeSetInput($_GET['form'],20,'s',NULL,false):NULL;
         $redirect = (!empty($_GET['redirect']))?safeSetInput($_GET['redirect'],1,'s',NULL):0;
-        $myform_cleaned = basename(realpath("forms/" . $myform . ".php"), ".php");
-        $myform_path = "forms/" . $myform_cleaned . ".php";
-        if ((!empty($illinkid)) && (!empty($myform)) && file_exists($myform_path)){
-            $req = "select * from orders where illinkid = ?";
-			$result = dbquery($req, array($illinkid), 'i');
-            $nb = iimysqli_num_rows($result);
-            //require ("includes/headeradmin.php");
-            if ($redirect!=1)
-                echo "<html> <head/> ".
-                "<body "."onload=\" document.forms['ILL'].submit();\"".">";
-            for ($i=0 ; $i<$nb ; $i++){
-                $enreg = iimysqli_result_fetch_array($result);
-                $illinkid = $enreg['illinkid'];
-                // Add suppl. to issue 
-                $issue2 = $enreg['numero'];
-                if ($enreg['supplement']!=''){
-                    if ($enreg['numero']!='')
-                        $issue2 = $issue2 . " suppl. " . $enreg['supplement'];
-                    else
-                        $issue2 = "suppl. " . $enreg['supplement'];
+        if (in_array($myform, $config_enabled_internal_order_forms)) {
+            $myform_cleaned = basename(realpath("forms/" . $myform . ".php"), ".php");
+            $myform_path = "forms/" . $myform_cleaned . ".php";
+            if ((!empty($illinkid)) && (!empty($myform)) && file_exists($myform_path)){
+                $req = "select * from orders where illinkid = ?";
+                $result = dbquery($req, array($illinkid), 'i');
+                $nb = iimysqli_num_rows($result);
+                //require ("includes/headeradmin.php");
+                if ($redirect!=1)
+                    echo "<html> <head/> ".
+                    "<body "."onload=\" document.forms['ILL'].submit();\"".">";
+                for ($i=0 ; $i<$nb ; $i++){
+                    $enreg = iimysqli_result_fetch_array($result);
+                    $illinkid = $enreg['illinkid'];
+                    // Add suppl. to issue 
+                    $issue2 = $enreg['numero'];
+                    if ($enreg['supplement']!=''){
+                        if ($enreg['numero']!='')
+                            $issue2 = $issue2 . " suppl. " . $enreg['supplement'];
+                        else
+                            $issue2 = "suppl. " . $enreg['supplement'];
+                    }
+                    if ($redirect!=1)
+                        require ($myform_path);
                 }
                 if ($redirect!=1)
-                    require ($myform_path);
+                    echo "</body></html>";
+                else 
+                    include ($myform_path);
             }
-            if ($redirect!=1)
-                echo "</body></html>";
-            else 
-                include ($myform_path);
-        }
-        else{
-            echo "<br/><br/><center><b>".__("Missing id or form parameters")."</b></center><br/><br/><br/><br/>\n";
+            else{
+                echo "<br/><br/><center><b>".__("Missing id or form parameters")."</b></center><br/><br/><br/><br/>\n";
+                require ("includes/footer.php");
+            }
+        } else{
+            echo "<br/><br/><center><b>".__("Invalid form parameters")."</b></center><br/><br/><br/><br/>\n";
             require ("includes/footer.php");
         }
     }

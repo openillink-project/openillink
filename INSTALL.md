@@ -72,7 +72,7 @@ Administrators and superadministrators have access to the following areas:
     * date : `XDATEX`
     * end user name : `XNAMEX`
     
-    Sometimes the external order forms requires data to be submitted via POST methods and they don't allow the GET equivalent. For those cases you have to recreate the whole form to imitate the POST request. You can find such sample insiide the `forms` directory. 
+    Sometimes the external order forms requires data to be submitted via POST methods and they don't allow the GET equivalent. For those cases you have to recreate the whole form to imitate the POST request. You can find such sample insiide the `forms` directory. Those forms must be explicitely enabled with config `$config_enabled_internal_order_forms`
 
 7. **Filters** : (*experimental*) manage "folders" available for users in the top menu. For the moment, you might need to set up the queries diretly in the database.
 8. **Anonymize old orders** : remove personal information from old orders

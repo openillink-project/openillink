@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenILLink\n"
-"POT-Creation-Date: 2024-03-04 08:03+0100\n"
-"PO-Revision-Date: 2024-03-04 08:05+0100\n"
+"POT-Creation-Date: 2024-06-07 14:40+0200\n"
+"PO-Revision-Date: 2024-06-07 14:40+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -205,93 +205,97 @@ msgstr ""
 msgid "Confirm deleting orders in the trash by clicking here"
 msgstr ""
 
-#: forms.php:68
+#: forms.php:72
 msgid "Missing id or form parameters"
 msgstr ""
 
-#: includes/config.php:268
+#: forms.php:76
+msgid "Invalid form parameters"
+msgstr ""
+
+#: includes/config.php:267
 msgid "Article"
 msgstr "Artikel"
 
-#: includes/config.php:269
+#: includes/config.php:268
 msgid "Preprint"
 msgstr ""
 
-#: includes/config.php:270 includes/orders_detail.php:186
+#: includes/config.php:269 includes/orders_detail.php:186
 #: includes/ordertop.php:103
 msgid "Book"
 msgstr "Buch"
 
-#: includes/config.php:271
+#: includes/config.php:270
 msgid "Book chapter"
 msgstr "Buchkapitel"
 
-#: includes/config.php:272 includes/orders_detail.php:188
+#: includes/config.php:271 includes/orders_detail.php:188
 #: includes/ordertop.php:105
 msgid "Thesis"
 msgstr "These"
 
-#: includes/config.php:273
+#: includes/config.php:272
 msgid "Journal issue"
 msgstr ""
 
-#: includes/config.php:274
+#: includes/config.php:273
 msgid "Conference proceedings"
 msgstr "Konferenzveranstaltungen"
 
-#: includes/config.php:275
+#: includes/config.php:274
 msgid "Conference paper"
 msgstr "Konferenzpapier"
 
-#: includes/config.php:276
+#: includes/config.php:275
 msgid "Other"
 msgstr "Andere"
 
-#: includes/config.php:444 includes/config.php:445 includes/config.php:446
-#: includes/config.php:447 includes/config.php:448
+#: includes/config.php:447 includes/config.php:448 includes/config.php:449
+#: includes/config.php:450 includes/config.php:451
 msgid "Please note, all orders are subject to a financial contribution"
 msgstr ""
 
-#: includes/config.php:444 includes/config.php:445 includes/config.php:446
-#: includes/config.php:447 includes/config.php:448
+#: includes/config.php:447 includes/config.php:448 includes/config.php:449
+#: includes/config.php:450 includes/config.php:451
 msgid "Contact us by email for more information (pricing, billing, etc.)"
 msgstr ""
 
-#: includes/config.php:504 includes/config.php:505 includes/config.php:506
-#: includes/config.php:507 includes/config.php:508
+#: includes/config.php:507 includes/config.php:508 includes/config.php:509
+#: includes/config.php:510 includes/config.php:511
 msgid "Hello,"
 msgstr ""
 
-#: includes/config.php:504 includes/config.php:505 includes/config.php:506
-#: includes/config.php:507 includes/config.php:508
+#: includes/config.php:507 includes/config.php:508 includes/config.php:509
+#: includes/config.php:510 includes/config.php:511
 msgid "thank you for your order:"
 msgstr ""
 
-#: includes/config.php:510 includes/config.php:511 includes/config.php:512
-#: includes/config.php:513 includes/config.php:514
+#: includes/config.php:513 includes/config.php:514 includes/config.php:515
+#: includes/config.php:516 includes/config.php:517
 msgid "Check the current status of your orders online at:"
 msgstr ""
 
-#: includes/config.php:516 includes/config.php:517 includes/config.php:518
-#: includes/config.php:519 includes/config.php:520
+#: includes/config.php:519 includes/config.php:520 includes/config.php:521
+#: includes/config.php:522 includes/config.php:523
 msgid ""
 "In accordance with copyright laws, the attached document is for your own use "
 "only, for the sole purpose of scientific research. It cannot be copied or "
 "shared."
 msgstr ""
 
-#: includes/config.php:522 includes/config.php:523 includes/config.php:524
-#: includes/config.php:525 includes/config.php:526
+#: includes/config.php:525 includes/config.php:526 includes/config.php:527
+#: includes/config.php:528 includes/config.php:529
 msgid "Best regards"
 msgstr ""
 
-#: includes/config.php:528 includes/config.php:529 includes/config.php:530
-#: includes/config.php:531 includes/config.php:532
+#: includes/config.php:531 includes/config.php:532 includes/config.php:533
+#: includes/config.php:534 includes/config.php:535
 msgid "Your Interlibrary loan service."
 msgstr ""
 
-#: includes/config.php:551 includes/config.php:552 includes/config.php:553
-#: includes/config.php:554 includes/config.php:555
+#: includes/config.php:554 includes/config.php:555 includes/config.php:556
+#: includes/config.php:557 includes/config.php:558
 msgid ""
 "The requested document might be immediately available online here (within "
 "the institutional network):"
@@ -396,7 +400,7 @@ msgstr "Benutzername"
 msgid "Password"
 msgstr "Passwort"
 
-#: includes/email.php:100
+#: includes/email.php:102
 msgid "Send a message with the attached document to the user"
 msgstr ""
 
@@ -485,10 +489,10 @@ msgstr ""
 
 #: includes/folders_edit.php:146 includes/folders_edit.php:162
 #: includes/folders_update.php:446 includes/libraries_edit.php:109
-#: includes/libraries_edit.php:118 includes/libraries_update.php:112
+#: includes/libraries_edit.php:118 includes/libraries_update.php:116
 #: includes/links_edit.php:174 includes/links_edit.php:183
 #: includes/links_update.php:131 includes/localizations_edit.php:115
-#: includes/localizations_edit.php:124 includes/localizations_update.php:94
+#: includes/localizations_edit.php:124 includes/localizations_update.php:98
 #: includes/status_edit.php:167 includes/status_edit.php:176
 #: includes/units_edit.php:189 includes/units_edit.php:198
 #: includes/users_edit.php:186 includes/users_edit.php:195
@@ -549,10 +553,10 @@ msgid "Add a new filter"
 msgstr ""
 
 #: includes/folders_list.php:116 includes/folders_update.php:514
-#: includes/libraries_list.php:117 includes/libraries_update.php:179
+#: includes/libraries_list.php:117 includes/libraries_update.php:183
 #: includes/links_list.php:155 includes/links_update.php:200
-#: includes/localizations_update.php:161 includes/status_update.php:182
-#: includes/units_update.php:184 includes/users_update.php:234
+#: includes/localizations_update.php:165 includes/status_update.php:186
+#: includes/units_update.php:186 includes/users_update.php:234
 msgid "Your rights are insufficient to edit this page"
 msgstr ""
 
@@ -687,13 +691,13 @@ msgstr ""
 msgid "edition of the filter record"
 msgstr ""
 
-#: includes/folders_update.php:436 includes/libraries_update.php:103
+#: includes/folders_update.php:436 includes/libraries_update.php:107
 #: index.php:145
 msgid "Error"
 msgstr ""
 
-#: includes/folders_update.php:438 includes/libraries_update.php:105
-#: includes/links_update.php:124 includes/localizations_update.php:87
+#: includes/folders_update.php:438 includes/libraries_update.php:109
+#: includes/links_update.php:124 includes/localizations_update.php:91
 msgid ""
 "The modification of the record %id_record has been successfully registered"
 msgstr ""
@@ -703,36 +707,36 @@ msgstr ""
 msgid "Back to the filters list"
 msgstr ""
 
-#: includes/folders_update.php:445 includes/libraries_update.php:111
-#: includes/links_update.php:130 includes/localizations_update.php:93
+#: includes/folders_update.php:445 includes/libraries_update.php:115
+#: includes/links_update.php:130 includes/localizations_update.php:97
 msgid ""
 "The change was not saved because the identifier of record %id_record was not "
 "found in the database."
 msgstr ""
 
-#: includes/folders_update.php:454 includes/libraries_update.php:120
-#: includes/links_update.php:139 includes/localizations_update.php:102
-#: includes/status_update.php:123 includes/units_update.php:124
+#: includes/folders_update.php:454 includes/libraries_update.php:124
+#: includes/links_update.php:139 includes/localizations_update.php:106
+#: includes/status_update.php:127 includes/units_update.php:126
 #: includes/users_update.php:176
 msgid ""
 "The modification was not saved because it lacks the identifier of the form"
 msgstr ""
 
-#: includes/folders_update.php:455 includes/libraries_update.php:121
-#: includes/links_update.php:140 includes/localizations_update.php:103
-#: includes/status_update.php:115 includes/status_update.php:124
-#: includes/units_update.php:116 includes/units_update.php:125
+#: includes/folders_update.php:455 includes/libraries_update.php:125
+#: includes/links_update.php:140 includes/localizations_update.php:107
+#: includes/status_update.php:119 includes/status_update.php:128
+#: includes/units_update.php:118 includes/units_update.php:127
 #: includes/users_update.php:168 includes/users_update.php:177
 msgid "Please retry your search"
 msgstr ""
 
-#: includes/folders_update.php:462 includes/libraries_update.php:129
+#: includes/folders_update.php:462 includes/libraries_update.php:133
 msgid "new filter"
 msgstr ""
 
-#: includes/folders_update.php:468 includes/libraries_update.php:134
-#: includes/links_update.php:155 includes/localizations_update.php:117
-#: includes/status_update.php:137 includes/units_update.php:139
+#: includes/folders_update.php:468 includes/libraries_update.php:138
+#: includes/links_update.php:155 includes/localizations_update.php:121
+#: includes/status_update.php:141 includes/units_update.php:141
 #: includes/users_update.php:190
 msgid "The new record %id_record has been successfully registered"
 msgstr ""
@@ -741,16 +745,16 @@ msgstr ""
 msgid "Confirmation for deleting a filter "
 msgstr ""
 
-#: includes/folders_update.php:484 includes/libraries_update.php:149
-#: includes/links_update.php:170 includes/localizations_update.php:131
-#: includes/status_update.php:152 includes/units_update.php:154
+#: includes/folders_update.php:484 includes/libraries_update.php:153
+#: includes/links_update.php:170 includes/localizations_update.php:135
+#: includes/status_update.php:156 includes/units_update.php:156
 #: includes/users_update.php:205
 msgid "Do you really want to delete the record %id_record ?"
 msgstr ""
 
-#: includes/folders_update.php:490 includes/libraries_update.php:155
-#: includes/links_update.php:176 includes/localizations_update.php:137
-#: includes/status_update.php:158 includes/units_update.php:160
+#: includes/folders_update.php:490 includes/libraries_update.php:159
+#: includes/links_update.php:176 includes/localizations_update.php:141
+#: includes/status_update.php:162 includes/units_update.php:162
 #: includes/users_update.php:211
 msgid "Confirm the deletion of the record %id_record by clicking here"
 msgstr ""
@@ -759,9 +763,9 @@ msgstr ""
 msgid "Delete a filter"
 msgstr ""
 
-#: includes/folders_update.php:503 includes/libraries_update.php:168
-#: includes/links_update.php:189 includes/localizations_update.php:150
-#: includes/status_update.php:171
+#: includes/folders_update.php:503 includes/libraries_update.php:172
+#: includes/links_update.php:189 includes/localizations_update.php:154
+#: includes/status_update.php:175
 msgid "The record %id_record has been successfully deleted"
 msgstr ""
 
@@ -956,48 +960,48 @@ msgstr ""
 msgid "Main library"
 msgstr ""
 
-#: includes/libraries_update.php:74 includes/localizations_update.php:58
-#: includes/status_update.php:79 includes/units_update.php:79
+#: includes/libraries_update.php:75 includes/localizations_update.php:59
+#: includes/status_update.php:80 includes/units_update.php:80
 #, php-format
 msgid "The code %code already exists in database. Please choose another one."
 msgstr ""
 
-#: includes/libraries_update.php:76
+#: includes/libraries_update.php:78
 #, php-format
 msgid ""
 "The code %code is already attributed to a library. Please choose another one."
 msgstr ""
 
-#: includes/libraries_update.php:78 includes/localizations_update.php:62
-#: includes/status_update.php:83 includes/units_update.php:83
+#: includes/libraries_update.php:82 includes/localizations_update.php:66
+#: includes/status_update.php:87 includes/units_update.php:85
 msgid "name1 is required"
 msgstr ""
 
-#: includes/libraries_update.php:80 includes/localizations_update.php:64
+#: includes/libraries_update.php:84 includes/localizations_update.php:68
 msgid "code is required"
 msgstr ""
 
-#: includes/libraries_update.php:86 includes/links_update.php:97
-#: includes/localizations_update.php:69 includes/status_update.php:90
-#: includes/units_update.php:91 includes/users_update.php:114
+#: includes/libraries_update.php:90 includes/links_update.php:97
+#: includes/localizations_update.php:73 includes/status_update.php:94
+#: includes/units_update.php:93 includes/users_update.php:114
 msgid "Back to the form"
 msgstr ""
 
-#: includes/libraries_update.php:95
+#: includes/libraries_update.php:99
 msgid "Edition of the library record %id_record"
 msgstr ""
 
-#: includes/libraries_update.php:106 includes/libraries_update.php:135
-#: includes/libraries_update.php:157 includes/libraries_update.php:169
+#: includes/libraries_update.php:110 includes/libraries_update.php:139
+#: includes/libraries_update.php:161 includes/libraries_update.php:173
 #: includes/links_update.php:190
 msgid "Back to the libraries list"
 msgstr ""
 
-#: includes/libraries_update.php:146
+#: includes/libraries_update.php:150
 msgid "Confirmation for deleting a library "
 msgstr ""
 
-#: includes/libraries_update.php:163 includes/links_update.php:184
+#: includes/libraries_update.php:167 includes/links_update.php:184
 msgid "Delete a library"
 msgstr ""
 
@@ -1272,28 +1276,28 @@ msgstr ""
 msgid "Save the new location"
 msgstr ""
 
-#: includes/localizations_update.php:60 includes/status_update.php:81
-#: includes/units_update.php:81
+#: includes/localizations_update.php:62 includes/status_update.php:83
+#: includes/units_update.php:82
 #, php-format
 msgid ""
 "The code %code is already attributed to a localization. Please choose "
 "another one."
 msgstr ""
 
-#: includes/localizations_update.php:78
+#: includes/localizations_update.php:82
 msgid "Edition of the localization record %id_record"
 msgstr ""
 
-#: includes/localizations_update.php:88 includes/localizations_update.php:118
-#: includes/localizations_update.php:139 includes/localizations_update.php:151
+#: includes/localizations_update.php:92 includes/localizations_update.php:122
+#: includes/localizations_update.php:143 includes/localizations_update.php:155
 msgid "Back to the localizations list"
 msgstr ""
 
-#: includes/localizations_update.php:128
+#: includes/localizations_update.php:132
 msgid "Confirmation for deleting a localization"
 msgstr ""
 
-#: includes/localizations_update.php:145
+#: includes/localizations_update.php:149
 msgid "Delete a localization"
 msgstr ""
 
@@ -1838,8 +1842,8 @@ msgstr ""
 msgid "CSV (separator: semi-colons)"
 msgstr ""
 
-#: includes/orders_update.php:197 includes/status_update.php:108
-#: includes/units_update.php:109
+#: includes/orders_update.php:197 includes/status_update.php:112
+#: includes/units_update.php:111
 msgid "Your order has been successfully modified"
 msgstr ""
 
@@ -2016,7 +2020,7 @@ msgstr ""
 msgid "Status management"
 msgstr ""
 
-#: includes/status_edit.php:41 includes/status_update.php:99
+#: includes/status_edit.php:41 includes/status_update.php:103
 msgid "%institution_name : edition of the order step %order_id"
 msgstr ""
 
@@ -2154,31 +2158,31 @@ msgstr ""
 msgid "Code (number)"
 msgstr ""
 
-#: includes/status_update.php:85
+#: includes/status_update.php:89
 msgid "Code is required (and must be a number)"
 msgstr ""
 
-#: includes/status_update.php:109
+#: includes/status_update.php:113
 msgid "Back to the order steps"
 msgstr ""
 
-#: includes/status_update.php:114
+#: includes/status_update.php:118
 #, php-format
 msgid ""
 "The change was not saved because the identifier of record  %order_id was not "
 "found in the database."
 msgstr ""
 
-#: includes/status_update.php:138 includes/status_update.php:160
-#: includes/status_update.php:172 includes/units_update.php:140
+#: includes/status_update.php:142 includes/status_update.php:164
+#: includes/status_update.php:176 includes/units_update.php:142
 msgid "Back to the order steps list"
 msgstr ""
 
-#: includes/status_update.php:149
+#: includes/status_update.php:153
 msgid "Confirmation for deleting an order step"
 msgstr ""
 
-#: includes/status_update.php:166
+#: includes/status_update.php:170
 msgid "Delete an order step"
 msgstr ""
 
@@ -2278,41 +2282,41 @@ msgstr ""
 msgid "Save new unit"
 msgstr ""
 
-#: includes/units_update.php:85
+#: includes/units_update.php:87
 msgid "Code is required"
 msgstr ""
 
-#: includes/units_update.php:100
+#: includes/units_update.php:102
 msgid "%institution_name : edition of the unit %id"
 msgstr ""
 
-#: includes/units_update.php:110
+#: includes/units_update.php:112
 msgid "Back to the units"
 msgstr ""
 
-#: includes/units_update.php:115 includes/users_update.php:167
+#: includes/units_update.php:117 includes/users_update.php:167
 msgid ""
 "The change was not saved because the identifier of record  %id was not found "
 "in the database."
 msgstr ""
 
-#: includes/units_update.php:133
+#: includes/units_update.php:135
 msgid "new unit"
 msgstr ""
 
-#: includes/units_update.php:151
+#: includes/units_update.php:153
 msgid "Confirmation for deleting an unit"
 msgstr ""
 
-#: includes/units_update.php:162 includes/units_update.php:174
+#: includes/units_update.php:164 includes/units_update.php:176
 msgid "Back to the units list"
 msgstr ""
 
-#: includes/units_update.php:168
+#: includes/units_update.php:170
 msgid "Delete an unit"
 msgstr ""
 
-#: includes/units_update.php:173 includes/users_update.php:224
+#: includes/units_update.php:175 includes/users_update.php:224
 msgid "The record %id has been successfully deleted"
 msgstr ""
 

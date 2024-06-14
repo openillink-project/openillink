@@ -4,7 +4,7 @@
 // ***************************************************************************
 // This file is part of OpenILLink software.
 // Copyright (C) 2017 UNIGE.
-// Copyright (C) 2017, 2018 CHUV.
+// Copyright (C) 2017, 2018, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -378,14 +378,14 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "</td></tr>\n";
 
 
-		echo "<tr><td><b>AND ".__("Account")." 1</b></td><td>\n";
+		/*echo "<tr><td><b>AND ".__("Account")." 1</b></td><td>\n";
 		echo "<select name=\"compte1\">\n";
 		echo "<option value=\"\"></option>\n";
 		echo "<option value=\"empty\">Vide</option>";
 		echo "<option value=\"full\">Rempli</option>";
 		echo "</select>\n";
 		echo "</td></tr>\n";
-
+        */
 
 		echo "<tr><td><b>AND ".__("Renewal date")." 1 </b></td><td>\n";
 		echo "<select name=\"renewdate1\">\n";
@@ -408,7 +408,7 @@ if (!empty($_COOKIE['illinkid'])){
 		echo __("Combine with the previous one:")." <select name=\"bool1\">\n";
 		echo "<option value=\"AND\">AND</option>";
 		echo "<option value=\"OR\">OR</option>";
-		echo "<option value=\"NOT\">NOT</option>";
+		echo "<option value=\"AND NOT\">NOT</option>";
 		echo "</select>\n";
 
 		echo "<table class=\"table is-striped\" id=\"hor-zebra\">\n";
@@ -668,14 +668,14 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "</td></tr>\n";
 
 
-		echo "<tr><td><b>AND ".__("Account")." 2</b></td><td>\n";
+		/*echo "<tr><td><b>AND ".__("Account")." 2</b></td><td>\n";
 		echo "<select name=\"compte2\">\n";
 		echo "<option value=\"\"></option>\n";
 		echo "<option value=\"empty\">Vide</option>";
 		echo "<option value=\"full\">Rempli</option>";
 		echo "</select>\n";
 		echo "</td></tr>\n";
-
+        */
 
 		echo "<tr><td><b>AND ".__("Renewal date")." 2 </b></td><td>\n";
 		echo "<select name=\"renewdate2\">\n";
@@ -698,7 +698,7 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "Combiner au précedent avec : <select name=\"bool2\">\n";
 		echo "<option value=\"AND\">AND</option>";
 		echo "<option value=\"OR\">OR</option>";
-		echo "<option value=\"NOT\">NOT</option>";
+		echo "<option value=\"AND NOT\">NOT</option>";
 		echo "</select>\n";
 
 		echo "<table class=\"table is-striped\" id=\"hor-zebra\">\n";
@@ -958,14 +958,14 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "</td></tr>\n";
 
 
-		echo "<tr><td><b>AND ".__("Account")." 3</b></td><td>\n";
+		/*echo "<tr><td><b>AND ".__("Account")." 3</b></td><td>\n";
 		echo "<select name=\"compte3\">\n";
 		echo "<option value=\"\"></option>\n";
 		echo "<option value=\"empty\">Vide</option>";
 		echo "<option value=\"full\">Rempli</option>";
 		echo "</select>\n";
 		echo "</td></tr>\n";
-
+        */
 
 		echo "<tr><td><b>AND ".__("Renewal date")." 3 </b></td><td>\n";
 		echo "<select name=\"renewdate3\">\n";

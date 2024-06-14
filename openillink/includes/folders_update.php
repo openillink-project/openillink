@@ -88,11 +88,11 @@ if (!empty($_COOKIE['illinkid'])){
 		$folderquery1_library4 = ((!empty($_POST['library4'])) && isValidInput($_POST['library4'],100,'s',false))?trim($_POST['library4']):'';
 		$folderquery1_library5 = ((!empty($_POST['library5'])) && isValidInput($_POST['library5'],100,'s',false))?trim($_POST['library5']):'';
 
-		$folderquery1_statuscode1 = ((!empty($_POST['statuscode1'])) && isValidInput($_POST['statuscode1'],10,'i',false))?trim($_POST['statuscode1']):0;
-		$folderquery1_statuscode2 = ((!empty($_POST['statuscode2'])) && isValidInput($_POST['statuscode2'],10,'i',false))?trim($_POST['statuscode2']):0;
-		$folderquery1_statuscode3 = ((!empty($_POST['statuscode3'])) && isValidInput($_POST['statuscode3'],10,'i',false))?trim($_POST['statuscode3']):0;
-		$folderquery1_statuscode4 = ((!empty($_POST['statuscode4'])) && isValidInput($_POST['statuscode4'],10,'i',false))?trim($_POST['statuscode4']):0;
-		$folderquery1_statuscode5 = ((!empty($_POST['statuscode5'])) && isValidInput($_POST['statuscode5'],10,'i',false))?trim($_POST['statuscode5']):0;
+		$folderquery1_statuscode1 = ((isset($_POST['statuscode1'])) && isValidInput($_POST['statuscode1'],10,'i',true))?trim($_POST['statuscode1']):'';
+		$folderquery1_statuscode2 = ((isset($_POST['statuscode2'])) && isValidInput($_POST['statuscode2'],10,'i',true))?trim($_POST['statuscode2']):'';
+		$folderquery1_statuscode3 = ((isset($_POST['statuscode3'])) && isValidInput($_POST['statuscode3'],10,'i',true))?trim($_POST['statuscode3']):'';
+		$folderquery1_statuscode4 = ((isset($_POST['statuscode4'])) && isValidInput($_POST['statuscode4'],10,'i',true))?trim($_POST['statuscode4']):'';
+		$folderquery1_statuscode5 = ((isset($_POST['statuscode5'])) && isValidInput($_POST['statuscode5'],10,'i',true))?trim($_POST['statuscode5']):'';
 
 		$folderquery1_localisation1 = ((!empty($_POST['localisation1'])) && isValidInput($_POST['localisation1'],100,'s',false))?trim($_POST['localisation1']):'';
 		$folderquery1_localisation2 = ((!empty($_POST['localisation2'])) && isValidInput($_POST['localisation2'],100,'s',false))?trim($_POST['localisation2']):'';
@@ -106,7 +106,7 @@ if (!empty($_COOKIE['illinkid'])){
 		$folderquery1_unit4 = ((!empty($_POST['unit4'])) && isValidInput($_POST['unit4'],100,'s',false))?trim($_POST['unit4']):'';
 		$folderquery1_unit5 = ((!empty($_POST['unit5'])) && isValidInput($_POST['unit5'],100,'s',false))?trim($_POST['unit5']):'';
 
-		$folderquery1_compte = ((!empty($_POST['compte1'])) && isValidInput($_POST['compte1'],100,'s',false))?trim($_POST['compte1']):'';
+		//$folderquery1_compte = ((!empty($_POST['compte1'])) && isValidInput($_POST['compte1'],100,'s',false))?trim($_POST['compte1']):'';
 		$folderquery1_renewdate = ((!empty($_POST['renewdate1'])) && isValidInput($_POST['renewdate1'],100,'s',false))?trim($_POST['renewdate1']):'';
 
 
@@ -117,11 +117,11 @@ if (!empty($_COOKIE['illinkid'])){
 		$folderquery2_library4 = ((!empty($_POST['library9'])) && isValidInput($_POST['library9'],100,'s',false))?trim($_POST['library9']):'';
 		$folderquery2_library5 = ((!empty($_POST['library10'])) && isValidInput($_POST['library10'],100,'s',false))?trim($_POST['library10']):'';
 
-		$folderquery2_statuscode1 = ((!empty($_POST['statuscode6'])) && isValidInput($_POST['statuscode6'],10,'i',false))?trim($_POST['statuscode6']):0;
-		$folderquery2_statuscode2 = ((!empty($_POST['statuscode7'])) && isValidInput($_POST['statuscode7'],10,'i',false))?trim($_POST['statuscode7']):0;
-		$folderquery2_statuscode3 = ((!empty($_POST['statuscode8'])) && isValidInput($_POST['statuscode8'],10,'i',false))?trim($_POST['statuscode8']):0;
-		$folderquery2_statuscode4 = ((!empty($_POST['statuscode9'])) && isValidInput($_POST['statuscode9'],10,'i',false))?trim($_POST['statuscode9']):0;
-		$folderquery2_statuscode5 = ((!empty($_POST['statuscode10'])) && isValidInput($_POST['statuscode10'],10,'i',false))?trim($_POST['statuscode10']):0;
+		$folderquery2_statuscode1 = ((isset($_POST['statuscode6'])) && isValidInput($_POST['statuscode6'],10,'i',true))?trim($_POST['statuscode6']):'';
+		$folderquery2_statuscode2 = ((isset($_POST['statuscode7'])) && isValidInput($_POST['statuscode7'],10,'i',true))?trim($_POST['statuscode7']):'';
+		$folderquery2_statuscode3 = ((isset($_POST['statuscode8'])) && isValidInput($_POST['statuscode8'],10,'i',true))?trim($_POST['statuscode8']):'';
+		$folderquery2_statuscode4 = ((isset($_POST['statuscode9'])) && isValidInput($_POST['statuscode9'],10,'i',true))?trim($_POST['statuscode9']):'';
+		$folderquery2_statuscode5 = ((isset($_POST['statuscode10'])) && isValidInput($_POST['statuscode10'],10,'i',true))?trim($_POST['statuscode10']):'';
 
 		$folderquery2_localisation1 = ((!empty($_POST['localisation6'])) && isValidInput($_POST['localisation6'],100,'s',false))?trim($_POST['localisation6']):'';
 		$folderquery2_localisation2 = ((!empty($_POST['localisation7'])) && isValidInput($_POST['localisation7'],100,'s',false))?trim($_POST['localisation7']):'';
@@ -135,9 +135,9 @@ if (!empty($_COOKIE['illinkid'])){
 		$folderquery2_unit4 = ((!empty($_POST['unit9'])) && isValidInput($_POST['unit9'],100,'s',false))?trim($_POST['unit9']):'';
 		$folderquery2_unit5 = ((!empty($_POST['unit10'])) && isValidInput($_POST['unit10'],100,'s',false))?trim($_POST['unit10']):'';
 
-		$folderquery2_compte = ((!empty($_POST['compte2'])) && isValidInput($_POST['compte2'],100,'s',false))?trim($_POST['compte2']):'';
+		//$folderquery2_compte = ((!empty($_POST['compte2'])) && isValidInput($_POST['compte2'],100,'s',false))?trim($_POST['compte2']):'';
 		$folderquery2_renewdate = ((!empty($_POST['renewdate2'])) && isValidInput($_POST['renewdate2'],100,'s',false))?trim($_POST['renewdate2']):'';
-		$folderquery2_bool = ((!empty($_POST['bool1'])) && isValidInput($_POST['bool1'],100,'s',false))?trim($_POST['bool1']):'';
+		$folderquery2_bool = ((!empty($_POST['bool1'])) && isValidInput($_POST['bool1'],100,'s',false, array("AND", "OR", "AND NOT")))?trim($_POST['bool1']):'AND';
 
 
 		// Criteria 3
@@ -147,11 +147,11 @@ if (!empty($_COOKIE['illinkid'])){
 		$folderquery3_library4 = ((!empty($_POST['library14'])) && isValidInput($_POST['library14'],100,'s',false))?trim($_POST['library14']):'';
 		$folderquery3_library5 = ((!empty($_POST['library15'])) && isValidInput($_POST['library15'],100,'s',false))?trim($_POST['library15']):'';
 
-		$folderquery3_statuscode1 = ((!empty($_POST['statuscode11'])) && isValidInput($_POST['statuscode11'],10,'i',false))?trim($_POST['statuscode11']):0;
-		$folderquery3_statuscode2 = ((!empty($_POST['statuscode12'])) && isValidInput($_POST['statuscode12'],10,'i',false))?trim($_POST['statuscode12']):0;
-		$folderquery3_statuscode3 = ((!empty($_POST['statuscode13'])) && isValidInput($_POST['statuscode13'],10,'i',false))?trim($_POST['statuscode13']):0;
-		$folderquery3_statuscode4 = ((!empty($_POST['statuscode14'])) && isValidInput($_POST['statuscode14'],10,'i',false))?trim($_POST['statuscode14']):0;
-		$folderquery3_statuscode5 = ((!empty($_POST['statuscode15'])) && isValidInput($_POST['statuscode15'],10,'i',false))?trim($_POST['statuscode15']):0;
+		$folderquery3_statuscode1 = ((isset($_POST['statuscode11'])) && isValidInput($_POST['statuscode11'],10,'i',true))?trim($_POST['statuscode11']):'';
+		$folderquery3_statuscode2 = ((isset($_POST['statuscode12'])) && isValidInput($_POST['statuscode12'],10,'i',true))?trim($_POST['statuscode12']):'';
+		$folderquery3_statuscode3 = ((isset($_POST['statuscode13'])) && isValidInput($_POST['statuscode13'],10,'i',true))?trim($_POST['statuscode13']):'';
+		$folderquery3_statuscode4 = ((isset($_POST['statuscode14'])) && isValidInput($_POST['statuscode14'],10,'i',true))?trim($_POST['statuscode14']):'';
+		$folderquery3_statuscode5 = ((isset($_POST['statuscode15'])) && isValidInput($_POST['statuscode15'],10,'i',true))?trim($_POST['statuscode15']):'';
 
 		$folderquery3_localisation1 = ((!empty($_POST['localisation11'])) && isValidInput($_POST['localisation11'],100,'s',false))?trim($_POST['localisation11']):'';
 		$folderquery3_localisation2 = ((!empty($_POST['localisation12'])) && isValidInput($_POST['localisation12'],100,'s',false))?trim($_POST['localisation12']):'';
@@ -165,200 +165,221 @@ if (!empty($_COOKIE['illinkid'])){
 		$folderquery3_unit4 = ((!empty($_POST['unit14'])) && isValidInput($_POST['unit14'],100,'s',false))?trim($_POST['unit14']):'';
 		$folderquery3_unit5 = ((!empty($_POST['unit15'])) && isValidInput($_POST['unit15'],100,'s',false))?trim($_POST['unit15']):'';
 
-		$folderquery3_compte = ((!empty($_POST['compte3'])) && isValidInput($_POST['compte3'],100,'s',false))?trim($_POST['compte3']):'';
+		//$folderquery3_compte = ((!empty($_POST['compte3'])) && isValidInput($_POST['compte3'],100,'s',false))?trim($_POST['compte3']):'';
 		$folderquery3_renewdate = ((!empty($_POST['renewdate3'])) && isValidInput($_POST['renewdate3'],100,'s',false))?trim($_POST['renewdate3']):'';
-		$folderquery3_bool = ((!empty($_POST['bool2'])) && isValidInput($_POST['bool2'],100,'s',false))?trim($_POST['bool2']):'';
+		$folderquery3_bool = ((!empty($_POST['bool2'])) && isValidInput($_POST['bool2'],100,'s',false, array("AND", "OR", "AND NOT")))?trim($_POST['bool2']):'AND';
 
-
+        $mysql_link = dbconnect();
+        
+        $folderquery1_library = array();
 		if ($folderquery1_library1 != ""){
-			$folderquery1_library = "bibliotheque LIKE '" . $folderquery1_library1 . "' ";}
+			$folderquery1_library[] = " bibliotheque LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_library1) . "' ";}
 		if ($folderquery1_library2 != ""){
-			$folderquery1_library .= " OR bibliotheque LIKE '" . $folderquery1_library2 . "' ";}
+			$folderquery1_library[] = " bibliotheque LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_library2) . "' ";}
 		if ($folderquery1_library3 != ""){
-			$folderquery1_library .= " OR bibliotheque LIKE '" . $folderquery1_library3 . "' ";}
+			$folderquery1_library[] = " bibliotheque LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_library3) . "' ";}
 		if ($folderquery1_library4 != ""){
-			$folderquery1_library .= " OR bibliotheque LIKE '" . $folderquery1_library4 . "' ";}
+			$folderquery1_library[] = " bibliotheque LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_library4) . "' ";}
 		if ($folderquery1_library5 != ""){
-			$folderquery1_library .= " OR bibliotheque LIKE '" . $folderquery1_library5 . "' ";}
-		if ($folderquery1_library != ""){
-			$folderquery1 = "(" . $folderquery1_library . ")";}
+			$folderquery1_library[] = " bibliotheque LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_library5) . "' ";}
+		if (count($folderquery1_library) > 0){
+			$folderquery1 = "(" . implode(" OR ", $folderquery1_library) . ")";
+        } else {
+            $folderquery1 = "(1)";
+        }
 
+        $folderquery1_statuscode = array();
 		if ($folderquery1_statuscode1 != ""){
-			$folderquery1_statuscode = "stade LIKE '" . $folderquery1_statuscode1 . "' ";}
+			$folderquery1_statuscode[] = "stade LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_statuscode1) . "' ";}
 		if ($folderquery1_statuscode2 != ""){
-			$folderquery1_statuscode .= " OR stade LIKE '" . $folderquery1_statuscode2 . "' ";}
+			$folderquery1_statuscode[] = " stade LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_statuscode2) . "' ";}
 		if ($folderquery1_statuscode3 != ""){
-			$folderquery1_statuscode .= " OR stade LIKE '" . $folderquery1_statuscode3 . "' ";}
+			$folderquery1_statuscode[] = " stade LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_statuscode3) . "' ";}
 		if ($folderquery1_statuscode4 != ""){
-			$folderquery1_statuscode .= " OR stade LIKE '" . $folderquery1_statuscode4 . "' ";}
+			$folderquery1_statuscode[] = " stade LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_statuscode4) . "' ";}
 		if ($folderquery1_statuscode5 != ""){
-			$folderquery1_statuscode .= " OR stade LIKE '" . $folderquery1_statuscode5 . "' ";}
-		if ($folderquery1_statuscode != ""){
-			$folderquery1 .= " AND (" . $folderquery1_statuscode . ")";}
+			$folderquery1_statuscode[] = " stade LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_statuscode5) . "' ";}
+		if (count($folderquery1_statuscode) > 0){
+			$folderquery1 .= " AND (" . implode(" OR ", $folderquery1_statuscode) . ")";}
 
+        $folderquery1_localisation = array();
 		if ($folderquery1_localisation1 != ""){
-			$folderquery1_localisation = "localisation LIKE '" . $folderquery1_localisation1 . "' ";}
+			$folderquery1_localisation[] = "localisation LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_localisation1) . "' ";}
 		if ($folderquery1_localisation2 != ""){
-			$folderquery1_localisation .= " OR localisation LIKE '" . $folderquery1_localisation2 . "' ";}
+			$folderquery1_localisation[] = " localisation LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_localisation2) . "' ";}
 		if ($folderquery1_localisation3 != ""){
-			$folderquery1_localisation .= " OR localisation LIKE '" . $folderquery1_localisation3 . "' ";}
+			$folderquery1_localisation[] = " localisation LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_localisation3) . "' ";}
 		if ($folderquery1_localisation4 != ""){
-			$folderquery1_localisation .= " OR localisation LIKE '" . $folderquery1_localisation4 . "' ";}
+			$folderquery1_localisation[] = " localisation LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_localisation4) . "' ";}
 		if ($folderquery1_localisation5 != ""){
-			$folderquery1_localisation .= " OR localisation LIKE '" . $folderquery1_localisation5 . "' ";}
-		if ($folderquery1_localisation != ""){
-			$folderquery1 .= " AND (" . $folderquery1_localisation . ")";}
+			$folderquery1_localisation[] = " localisation LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_localisation5) . "' ";}
+		if (count($folderquery1_localisation) > 0){
+			$folderquery1 .= " AND (" . implode(" OR ", $folderquery1_localisation) . ")";}
 
+        $folderquery1_unit = array();
 		if ($folderquery1_unit1 != ""){
-			$folderquery1_unit = "service LIKE '" . $folderquery1_unit1 . "' ";}
+			$folderquery1_unit[] = "service LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_unit1) . "' ";}
 		if ($folderquery1_unit2 != ""){
-			$folderquery1_unit .= " OR service LIKE '" . $folderquery1_unit2 . "' ";}
+			$folderquery1_unit[] = " service LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_unit2) . "' ";}
 		if ($folderquery1_unit3 != ""){
-			$folderquery1_unit .= " OR service LIKE '" . $folderquery1_unit3 . "' ";}
+			$folderquery1_unit[] = " service LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_unit3) . "' ";}
 		if ($folderquery1_unit4 != ""){
-			$folderquery1_unit .= " OR service LIKE '" . $folderquery1_unit4 . "' ";}
+			$folderquery1_unit[] = " service LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_unit4) . "' ";}
 		if ($folderquery1_unit5 != ""){
-			$folderquery1_unit .= " OR service LIKE '" . $folderquery1_unit5 . "' ";}
-		if ($folderquery1_unit != ""){
-			$folderquery1 .= " AND (" . $folderquery1_unit . ")";}
+			$folderquery1_unit = " service LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_unit5) . "' ";}
+		if (count($folderquery1_unit) > 0){
+			$folderquery1 .= " AND (" . implode(" OR ", $folderquery1_unit) . ")";}
 
-		if ($folderquery1_compte != ""){
-			$folderquery1 .= " AND (compte LIKE '" . $folderquery1_compte . "')";}
-
+		/*if ($folderquery1_compte != ""){
+			$folderquery1 .= " AND (compte LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_compte) . "')";}
+        */
 		if ($folderquery1_renewdate != ""){
-			$folderquery1 .= " AND (renewdate LIKE '" . $folderquery1_renewdate . "')";}
+			$folderquery1 .= " AND (renewdate LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery1_renewdate) . "')";}
 
 		if ($folderquery1 != ""){
 		$folderquery = $folderquery1;}
 
 
+        $folderquery2_library = array();
 		if ($folderquery2_library1 != ""){
-			$folderquery2_library = "bibliotheque LIKE '" . $folderquery2_library1 . "' ";}
+			$folderquery2_library[] = "bibliotheque LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_library1) . "' ";}
 		if ($folderquery2_library2 != ""){
-			$folderquery2_library .= " OR bibliotheque LIKE '" . $folderquery2_library2 . "' ";}
+			$folderquery2_library[] = " bibliotheque LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_library2) . "' ";}
 		if ($folderquery2_library3 != ""){
-			$folderquery2_library .= " OR bibliotheque LIKE '" . $folderquery2_library3 . "' ";}
+			$folderquery2_library[] = " bibliotheque LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_library3) . "' ";}
 		if ($folderquery2_library4 != ""){
-			$folderquery2_library .= " OR bibliotheque LIKE '" . $folderquery2_library4 . "' ";}
+			$folderquery2_library[] = " bibliotheque LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_library4) . "' ";}
 		if ($folderquery2_library5 != ""){
-			$folderquery2_library .= " OR bibliotheque LIKE '" . $folderquery2_library5 . "' ";}
-		if ($folderquery2_library != ""){
-			$folderquery2 = "(" . $folderquery2_library . ")";}
+			$folderquery2_library[] = " bibliotheque LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_library5) . "' ";}
+		if (count($folderquery2_library) > 0){
+			$folderquery2 = "(" . implode(" OR ", $folderquery2_library) . ")";
+        } else {
+            $folderquery2 = "(1)";
+        }
 
+        $folderquery2_statuscode = array();
 		if ($folderquery2_statuscode1 != ""){
-			$folderquery2_statuscode = "stade LIKE '" . $folderquery2_statuscode1 . "' ";}
+			$folderquery2_statuscode[] = "stade LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_statuscode1) . "' ";}
 		if ($folderquery2_statuscode2 != ""){
-			$folderquery2_statuscode .= " OR stade LIKE '" . $folderquery2_statuscode2 . "' ";}
+			$folderquery2_statuscode[] = " stade LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_statuscode2) . "' ";}
 		if ($folderquery2_statuscode3 != ""){
-			$folderquery2_statuscode .= " OR stade LIKE '" . $folderquery2_statuscode3 . "' ";}
+			$folderquery2_statuscode[] = " stade LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_statuscode3) . "' ";}
 		if ($folderquery2_statuscode4 != ""){
-			$folderquery2_statuscode .= " OR stade LIKE '" . $folderquery2_statuscode4 . "' ";}
+			$folderquery2_statuscode[] = " stade LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_statuscode4) . "' ";}
 		if ($folderquery2_statuscode5 != ""){
-			$folderquery2_statuscode .= " OR stade LIKE '" . $folderquery2_statuscode5 . "' ";}
-		if ($folderquery2_statuscode != ""){
-			$folderquery2 .= " AND (" . $folderquery2_statuscode . ")";}
+			$folderquery2_statuscode[] = " stade LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_statuscode5) . "' ";}
+		if (count($folderquery2_statuscode) > 0){
+			$folderquery2 .= " AND (" . implode(" OR ", $folderquery2_statuscode) . ")";}
 
+        $folderquery2_localisation = array();
 		if ($folderquery2_localisation1 != ""){
-			$folderquery2_localisation = "localisation LIKE '" . $folderquery2_localisation1 . "' ";}
+			$folderquery2_localisation[] = "localisation LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_localisation1) . "' ";}
 		if ($folderquery2_localisation2 != ""){
-			$folderquery2_localisation .= " OR localisation LIKE '" . $folderquery2_localisation2 . "' ";}
+			$folderquery2_localisation[] = " localisation LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_localisation2) . "' ";}
 		if ($folderquery2_localisation3 != ""){
-			$folderquery2_localisation .= " OR localisation LIKE '" . $folderquery2_localisation3 . "' ";}
+			$folderquery2_localisation[] = " localisation LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_localisation3) . "' ";}
 		if ($folderquery2_localisation4 != ""){
-			$folderquery2_localisation .= " OR localisation LIKE '" . $folderquery2_localisation4 . "' ";}
+			$folderquery2_localisation[] = " localisation LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_localisation4) . "' ";}
 		if ($folderquery2_localisation5 != ""){
-			$folderquery2_localisation .= " OR localisation LIKE '" . $folderquery2_localisation5 . "' ";}
-		if ($folderquery2_localisation != ""){
-			$folderquery2 .= " AND (" . $folderquery2_localisation . ")";}
+			$folderquery2_localisation[] = " localisation LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_localisation5) . "' ";}
+		if (count($folderquery2_localisation) > 0){
+			$folderquery2 .= " AND (" . implode(" OR ", $folderquery2_localisation) . ")";}
 
+        $folderquery2_unit = array();
 		if ($folderquery2_unit1 != ""){
-			$folderquery2_unit = "service LIKE '" . $folderquery2_unit1 . "' ";}
+			$folderquery2_unit[] = "service LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_unit1) . "' ";}
 		if ($folderquery2_unit2 != ""){
-			$folderquery2_unit .= " OR service LIKE '" . $folderquery2_unit2 . "' ";}
+			$folderquery2_unit[] = " service LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_unit2) . "' ";}
 		if ($folderquery2_unit3 != ""){
-			$folderquery2_unit .= " OR service LIKE '" . $folderquery2_unit3 . "' ";}
+			$folderquery2_unit[] = " service LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_unit3) . "' ";}
 		if ($folderquery2_unit4 != ""){
-			$folderquery2_unit .= " OR service LIKE '" . $folderquery2_unit4 . "' ";}
+			$folderquery2_unit[] = " service LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_unit4) . "' ";}
 		if ($folderquery2_unit5 != ""){
-			$folderquery2_unit .= " OR service LIKE '" . $folderquery2_unit5 . "' ";}
-		if ($folderquery2_unit != ""){
-			$folderquery2 .= " AND (" . $folderquery2_unit . ")";}
+			$folderquery2_unit[] = " service LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_unit5) . "' ";}
+		if (count($folderquery2_unit) > 0){
+			$folderquery2 .= " AND (" . implode(" OR ", $folderquery2_unit) . ")";}
 
-		if ($folderquery2_compte != ""){
-			$folderquery2 .= " AND (compte LIKE '" . $folderquery2_compte . "')";}
-
+		/*if ($folderquery2_compte != ""){
+			$folderquery2 .= " AND (compte LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_compte) . "')";}
+        */
 		if ($folderquery2_renewdate != ""){
-			$folderquery2 .= " AND (renewdate LIKE '" . $folderquery2_renewdate . "')";}
+			$folderquery2 .= " AND (renewdate LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery2_renewdate) . "')";}
 
 		if ($folderquery2 != ""){
 		$folderquery = "(" . $folderquery;
-		$folderquery .= ") ". $folderquery2_bool . " (" . $folderquery2 . ")";
+		$folderquery .= ") ". mysqli_real_escape_string($mysql_link, $folderquery2_bool) . " (" . $folderquery2 . ")";
 		}
 
 
-
+        $folderquery3_library = array();
 		if ($folderquery3_library1 != ""){
-			$folderquery3_library = "bibliotheque LIKE '" . $folderquery3_library1 . "' ";}
+			$folderquery3_library[] = "bibliotheque LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_library1) . "' ";}
 		if ($folderquery3_library2 != ""){
-			$folderquery3_library .= " OR bibliotheque LIKE '" . $folderquery3_library2 . "' ";}
+			$folderquery3_library[] = " bibliotheque LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_library2) . "' ";}
 		if ($folderquery3_library3 != ""){
-			$folderquery3_library .= " OR bibliotheque LIKE '" . $folderquery3_library3 . "' ";}
+			$folderquery3_library[] = " bibliotheque LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_library3) . "' ";}
 		if ($folderquery3_library4 != ""){
-			$folderquery3_library .= " OR bibliotheque LIKE '" . $folderquery3_library4 . "' ";}
+			$folderquery3_library[] = " bibliotheque LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_library4) . "' ";}
 		if ($folderquery3_library5 != ""){
-			$folderquery3_library .= " OR bibliotheque LIKE '" . $folderquery3_library5 . "' ";}
-		if ($folderquery3_library != ""){
-			$folderquery3 = "(" . $folderquery3_library . ")";}
+			$folderquery3_library[] = " bibliotheque LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_library5) . "' ";}
+		if (count($folderquery3_library) > 0){
+			$folderquery3 = "(" . implode(" OR ", $folderquery3_library) . ")";
+        } else {
+            $folderquery3 = "(1)";
+        }
 
+        $folderquery3_statuscode = array();
 		if ($folderquery3_statuscode1 != ""){
-			$folderquery3_statuscode = "stade LIKE '" . $folderquery3_statuscode1 . "' ";}
+			$folderquery3_statuscode[] = "stade LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_statuscode1) . "' ";}
 		if ($folderquery3_statuscode2 != ""){
-			$folderquery3_statuscode .= " OR stade LIKE '" . $folderquery3_statuscode2 . "' ";}
+			$folderquery3_statuscode[] = " stade LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_statuscode2) . "' ";}
 		if ($folderquery3_statuscode3 != ""){
-			$folderquery3_statuscode .= " OR stade LIKE '" . $folderquery3_statuscode3 . "' ";}
+			$folderquery3_statuscode[] = " stade LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_statuscode3) . "' ";}
 		if ($folderquery3_statuscode4 != ""){
-			$folderquery3_statuscode .= " OR stade LIKE '" . $folderquery3_statuscode4 . "' ";}
+			$folderquery3_statuscode[] = " stade LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_statuscode4) . "' ";}
 		if ($folderquery3_statuscode5 != ""){
-			$folderquery3_statuscode .= " OR stade LIKE '" . $folderquery3_statuscode5 . "' ";}
-		if ($folderquery3_statuscode != ""){
-			$folderquery3 .= " AND (" . $folderquery3_statuscode . ")";}
+			$folderquery3_statuscode[] = " stade LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_statuscode5) . "' ";}
+		if (count($folderquery3_statuscode) > 0){
+			$folderquery3 .= " AND (" . implode(" OR ", $folderquery3_statuscode) . ")";}
 
+        $folderquery3_localisation = array();
 		if ($folderquery3_localisation1 != ""){
-			$folderquery3_localisation = "localisation LIKE '" . $folderquery3_localisation1 . "' ";}
+			$folderquery3_localisation[] = "localisation LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_localisation1) . "' ";}
 		if ($folderquery3_localisation2 != ""){
-			$folderquery3_localisation .= " OR localisation LIKE '" . $folderquery3_localisation2 . "' ";}
+			$folderquery3_localisation[] = " localisation LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_localisation2) . "' ";}
 		if ($folderquery3_localisation3 != ""){
-			$folderquery3_localisation .= " OR localisation LIKE '" . $folderquery3_localisation3 . "' ";}
+			$folderquery3_localisation[] = " localisation LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_localisation3) . "' ";}
 		if ($folderquery3_localisation4 != ""){
-			$folderquery3_localisation .= " OR localisation LIKE '" . $folderquery3_localisation4 . "' ";}
+			$folderquery3_localisation[] = " localisation LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_localisation4) . "' ";}
 		if ($folderquery3_localisation5 != ""){
-			$folderquery3_localisation .= " OR localisation LIKE '" . $folderquery3_localisation5 . "' ";}
-		if ($folderquery3_localisation != ""){
-			$folderquery3 .= " AND (" . $folderquery3_localisation . ")";}
+			$folderquery3_localisation[] = " localisation LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_localisation5) . "' ";}
+		if (count($folderquery3_localisation) > 0){
+			$folderquery3 .= " AND (" . implode(" OR ", $folderquery3_localisation) . ")";}
 
+        $folderquery3_unit = array();
 		if ($folderquery3_unit1 != ""){
-			$folderquery3_unit = "service LIKE '" . $folderquery3_unit1 . "' ";}
+			$folderquery3_unit[] = "service LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_unit1) . "' ";}
 		if ($folderquery3_unit2 != ""){
-			$folderquery3_unit .= " OR service LIKE '" . $folderquery3_unit2 . "' ";}
+			$folderquery3_unit[] = " service LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_unit2) . "' ";}
 		if ($folderquery3_unit3 != ""){
-			$folderquery3_unit .= " OR service LIKE '" . $folderquery3_unit3 . "' ";}
+			$folderquery3_unit[] = " service LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_unit3) . "' ";}
 		if ($folderquery3_unit4 != ""){
-			$folderquery3_unit .= " OR service LIKE '" . $folderquery3_unit4 . "' ";}
+			$folderquery3_unit[] = " service LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_unit4) . "' ";}
 		if ($folderquery3_unit5 != ""){
-			$folderquery3_unit .= " OR service LIKE '" . $folderquery3_unit5 . "' ";}
-		if ($folderquery3_unit != ""){
-			$folderquery3 .= " AND (" . $folderquery3_unit . ")";}
+			$folderquery3_unit[] = " service LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_unit5) . "' ";}
+		if (count($folderquery3_unit) > 0){
+			$folderquery3 .= " AND (" . implode(" OR ", $folderquery3_unit) . ")";}
 
 
-		if ($folderquery3_compte != ""){
-			$folderquery3 .= " AND (compte LIKE '" . $folderquery3_compte . "')";}
-
+		/*if ($folderquery3_compte != ""){
+			$folderquery3 .= " AND (compte LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_compte) . "')";}
+        */
 		if ($folderquery3_renewdate != ""){
-			$folderquery3 .= " AND (renewdate LIKE '" . $folderquery3_renewdate . "')";}
+			$folderquery3 .= " AND (renewdate LIKE '" . mysqli_real_escape_string($mysql_link, $folderquery3_renewdate) . "')";}
 			
 		if ($folderquery3 != ""){
 		$folderquery = "(" . $folderquery;
-		$folderquery .= ") ". $folderquery3_bool . " (" . $folderquery3 . ")";
+		$folderquery .= ") ". mysqli_real_escape_string($mysql_link, $folderquery3_bool) . " (" . $folderquery3 . ")";
 		}
 
 		// Remove the 'AND ' at the begining of query

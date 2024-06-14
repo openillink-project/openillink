@@ -179,7 +179,11 @@ $debugOn = (!empty($configdebuglogging)) && in_array($configdebuglogging, array(
 			$nbfold = iimysqli_num_rows($resultfold);
 			if ($nbfold == 1) {
 				$enreg = iimysqli_result_fetch_array($resultfold);
-				$conditions = "WHERE " . prepare_folder_query($enreg['query']);
+                if (!empty($enreg['query'])) {
+                    $conditions = "WHERE " . prepare_folder_query($enreg['query']);
+                } else {
+                    $conditions = $conditionsParDefauts;
+                }
 			}
 			else {
 				$conditions = $conditionsParDefauts;
@@ -218,16 +222,25 @@ $debugOn = (!empty($configdebuglogging)) && in_array($configdebuglogging, array(
 	if ($debugOn)
 		prof_flag("Before first query");
 	// Fetch orders ID for current page
-	$result2 = dbquery($req2,NULL,NULL,NULL,$debugOn);
-    $nb_orders_counts = iimysqli_num_rows($result2);
+	try {
+        $result2 = dbquery($req2,NULL,NULL,NULL,$debugOn);
+        $nb_orders_counts = iimysqli_num_rows($result2);
+    } catch (mysqli_sql_exception $e) {
+        $nb_orders_counts = 0;
+    }
+    
 	if ($debugOn)
 		prof_flag("After first query");
 
-	$reqCount = "SELECT count(illinkid) AS total FROM orders $conditions";
-	$resCount = dbquery($reqCount);
-	$count = iimysqli_result_fetch_array($resCount);
-	$total_results = $count['total'];
-
+    try {
+        $reqCount = "SELECT count(illinkid) AS total FROM orders $conditions";
+        $resCount = dbquery($reqCount);
+        $count = iimysqli_result_fetch_array($resCount);
+        $total_results = $count['total'];
+    } catch (mysqli_sql_exception $e) {
+        $total_results = 0;
+        echo '<strong style="color:red">' . __("There is an error with the query parameters defined for this folder") . "</strong><br>";
+    }
 	if($total_results > 0){
 		$total_pages = ceil($total_results / $max_results);
 

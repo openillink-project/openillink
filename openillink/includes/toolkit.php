@@ -462,6 +462,9 @@ function update_folders_item_count($only_if_necessary = false) {
 	while ($rowfolders = iimysqli_result_fetch_array($resultfolders)){
 			$folderId = $rowfolders["id"];
 			$queryfolder = $rowfolders["query"];
+            if (empty($queryfolder)) {
+                continue;
+            }
 			$thisFolderCount = $rowfolders["order_count"];
 			$thisFolderCountUpdate = $rowfolders["count_updated"];
 
@@ -472,7 +475,12 @@ function update_folders_item_count($only_if_necessary = false) {
 			$reqFolderCount = "UPDATE folders SET count_updated = NOW(), order_count = (SELECT count(illinkid) as foldercount FROM orders WHERE ";
 			$myfolderquery =  prepare_folder_query($rowfolders["query"]);
 			$reqFolderCount .= $myfolderquery . ") WHERE folders.id = ?";
-			$success = dbquery($reqFolderCount, array($folderId) , 'i');
+            
+            try {
+                $success = dbquery($reqFolderCount, array($folderId) , 'i');
+            } catch (mysqli_sql_exception $e) {
+                continue;
+            }
 	}
 }
 

@@ -137,7 +137,7 @@ while ($form_index <= max($maxSimultaneousOrders, 1) && get_from_post($form_inde
 			$order_form['pmid'] = $order_form['uids'];
 		}
 		elseif ($order_form['tid_code']=='doi'){
-			$order_form['uids'] = get_from_post($form_index, 'uids', 80, 's', false, '');
+			$order_form['uids'] = get_from_post($form_index, 'uids', 255, 's', false, '');
 			$order_form['doi'] = $order_form['uids'];
 		}
 		$order_form['genre_code'] = get_from_post($form_index, 'genre', 50, 's', false, $typeDocValidSet, "");
@@ -151,7 +151,7 @@ while ($form_index <= max($maxSimultaneousOrders, 1) && get_from_post($form_inde
 		$order_form['auteurs'] = get_from_post($form_index, 'auteurs', 255, 's', false, "");
 		$order_form['edition'] = get_from_post($form_index, 'edition', 100, 's', false, "");
 		$order_form['issn'] = get_from_post($form_index, 'issn', 50, 's', false, NULL);
-		$order_form['uid'] = get_from_post($form_index, 'uid', 50, 's', false, NULL);
+		$order_form['uid'] = get_from_post($form_index, 'uid', 255, 's', false, NULL);
 		$order_form['remarquespub'] = get_from_post($form_index, 'remarquespub', 4000, 's', false);
 		
 		if (!empty($order_form['issn'])){
@@ -168,13 +168,17 @@ while ($form_index <= max($maxSimultaneousOrders, 1) && get_from_post($form_inde
 			}
 		}
 
-
-		if($order_form['pmid']==''){
-			if(strpos($order_form['uid'], 'pmid:') !== false) {
-				$order_form['pmid']=str_replace("pmid:","",$order_form['uid']);
+        $parsed_uid = parse_uid_str($order_form['uid']);
+		if($order_form['pmid'] == ''){
+			if(array_key_exists('pmid', $parsed_uid)) {
+				$order_form['pmid'] = $parsed_uid['pmid'];
 			}
 		}
-
+		if($order_form['doi'] == ''){
+			if(array_key_exists('doi', $parsed_uid)) {
+				$order_form['doi'] = $parsed_uid['doi'];
+			}
+		}
 		//$remarquespub=((!empty($_POST['remarquespub'])) && isValidInput($_POST['remarquespub'],4000, 's', false))?$_POST['remarquespub']:'';
 		//$remarquespub=str_replace("<script>","",$remarquespub);
 		//$remarquespub=str_replace("</script>","",$remarquespub);
@@ -396,7 +400,18 @@ else{
 				$param2 = array($order_form['pmid']);
 				$typeparam2 = 's';
 			}
-		}
+		} else if($order_form['doi']!='') {
+			if (($order_form['volume']!='') && ($order_form['date']!='') && ($start_page!='')) {
+				$req2 = "SELECT illinkid FROM orders WHERE DOI LIKE ? OR (annee LIKE ? AND volume LIKE ? AND pages RLIKE ?) ORDER BY illinkid DESC";
+				$param2 = array($order_form['doi'], $order_form['date'], $order_form['volume'], $start_page_regexp);
+				$typeparam2 = 'ssss';
+			}
+			else {
+				$req2 = "SELECT illinkid FROM orders WHERE DOI LIKE ? ORDER BY illinkid DESC";
+				$param2 = array($order_form['doi']);
+				$typeparam2 = 's';
+			}
+        }
 		else{
 			if (($order_form['volume']!='') && ($order_form['date']!='') && ($start_page!='')){
 				$req2 = "SELECT illinkid FROM orders WHERE annee LIKE ? AND volume LIKE ? AND pages RLIKE ? ORDER BY illinkid DESC";

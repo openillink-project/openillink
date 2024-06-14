@@ -418,7 +418,18 @@ function handle_pubmed_response(http, pmids_to_item_index, openillink_config_ema
                 var no = get_node_name_value(documentSummaryNode, "Issue", "-", false);
                 var pages = get_node_name_value(documentSummaryNode, "Pages", "", false);
                 var issn = get_node_name_value(documentSummaryNode, "ISSN", "", false);
-
+                
+                var doi = "";
+                var article_id_nodes = documentSummaryNode.getElementsByTagName("ArticleId");
+                if (article_id_nodes.length > 0) {
+                    for (var j = 0; j < article_id_nodes.length; j++) {
+                        var article_id_type = article_id_nodes[j].getElementsByTagName("IdType");
+                        if (article_id_type.length > 0 && article_id_type[0].textContent == "doi") {
+                            doi = article_id_nodes[j].getElementsByTagName("Value")[0].textContent;
+                            break;
+                        }
+                    }
+                }
                 if (pmid in pmids_to_item_index) {
                     for (j = 0; j <pmids_to_item_index[pmid].length; j++) {
                         item_index = pmids_to_item_index[pmid][j];
@@ -431,6 +442,9 @@ function handle_pubmed_response(http, pmids_to_item_index, openillink_config_ema
                         document.commande["pages_"+item_index].value = pages;
                         document.commande["issn_"+item_index].value = issn;
                         document.commande["uid_"+item_index].value = "pmid:" + document.commande["uids_"+item_index].value;
+                        if (doi) {
+                            document.commande["uid_"+item_index].value += " DOI:" + doi;
+                        }
                         resolve(item_index, 1);
                     }
                 }
@@ -1087,6 +1101,9 @@ function handleHttpResponse5(item_index) {
             document.commande["pages_"+item_index].value = pages;
             document.commande["issn_"+item_index].value = issn;
             document.commande["uid_"+item_index].value = "WOSUT:" + document.commande["uids_"+item_index].value;
+            if (doi) {
+                document.commande["uid_"+item_index].value += " DOI:" + doi;
+            }
             document.commande["remarquespub_"+item_index].value = notesn;
             isWorking5[item_index] = false;
             resolve(item_index, 1);
@@ -1618,6 +1635,9 @@ function handleHttpResponse8(http, item_index, lookup_index){
                 document.commande["edition_"+item_index].value = edition + publisher;
                 document.commande["issn_"+item_index].value = issn;
                 document.commande["uid_"+item_index].value = uid_prefix+":" + document.commande["uids_"+item_index].value.trim();
+                if (uid_prefix == "ISBN" && mms_identifier != "") {
+                    document.commande["uid_"+item_index].value += " MMS:" + mms_identifier;
+                }
                 resolve(item_index, 1);
             } else if (lookup_index == 'sru-marcxml-isbn') {
                 // lookup using second method

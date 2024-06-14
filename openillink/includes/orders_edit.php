@@ -710,18 +710,22 @@ if ($config_display_delivery_choice) {
 				} else if (!empty($enreg['doi'])) {
 					$uids = $enreg['doi'];
 					$tid = "doi";
-				} else if (strpos($enreg['uid'], ":") !== false) {
-					// retrieve value from uid
-					$tid_and_uids = explode(":", $enreg['uid'], 2);
-					$tid = $tid_and_uids[0];
-					if ($tid == "WOSUT") {
-						$tid = "WOSID";
-					}
-					if ($tid == "MMS") {
-						$tid = "renouvaudmms_swissbib";
-					}
-					$uids = $tid_and_uids[1];
-				}
+                } else {
+                    $parsed_uid = parse_uid_str($enreg['uid'], false);
+                    if (array_key_exists('wosut', $parsed_uid)) {
+                        $tid = "WOSID";
+                        $uids = $parsed_uid['wosut'];
+                    } else if (array_key_exists('mms', $parsed_uid)){
+                        $tid = "sru_marcxml_mms";
+                        $uids = $parsed_uid['mms'];
+                    } else if (array_key_exists('isbn', $parsed_uid)){
+                        $tid = "sru_marcxml_isbn";
+                        $uids = $parsed_uid['isbn'];
+                    } else if (count($parsed_uid) > 0) {
+                        $tid = array_keys($parsed_uid)[0];
+                        $uids = $parsed_uid[$tid];
+                    }
+                }
                 $i = 0;
                 while ($lookupuid[$i]["name"]){
 					$selected = "";

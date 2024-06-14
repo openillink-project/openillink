@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2023 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2023, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -212,13 +212,31 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "\n<br /><b>ISBN : </b>".htmlspecialchars($enreg['isbn']);
             if ($enreg['PMID'])
                 echo "\n<br /><b>PMID : </b><a href=\"https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?otool=ichuvlib&cmd=Retrieve&db=pubmed&dopt=citation&list_uids=".htmlspecialchars(urlencode ($enreg['PMID']))."\" target=\"_blank\">".htmlspecialchars($enreg['PMID'])."</a>\n";
+            if ($enreg['doi']){
+                echo "\n<br /><b>DOI : </b><a href=\"https://dx.doi.org/".htmlspecialchars($enreg['doi'])."\" target=\"_blank\">".htmlspecialchars($enreg['doi'])."</a>\n";
+            }
             if ($enreg['uid']){
-				if (substr($enreg['uid'], 0, 4) === "MMS:" && $configMMSdiscoveryurl[$lang] != "") {
-					echo "\n<br /><b>". __("Other identifier") .' : </b><a target="_blank" href="' . str_replace("{MMS_ID}", htmlspecialchars(urlencode(substr($enreg['uid'], 4))), $configMMSdiscoveryurl[$lang]). '">' . htmlspecialchars($enreg['uid']) . '</a>';
-				} else {
-					echo "\n<br /><b>". __("Other identifier") ." : </b>".htmlspecialchars($enreg['uid']);
-				}
-			}
+                $parsed_uid = parse_uid_str($enreg['uid'], false);
+                if (array_key_exists('mms', $parsed_uid)) {
+                    if ($configMMSdiscoveryurl[$lang] != "") {
+                        echo "\n".'<br /><b>MMS : </b><a target="_blank" href="' . str_replace("{MMS_ID}", htmlspecialchars($parsed_uid['mms']), $configMMSdiscoveryurl[$lang]). '">MMS:' . htmlspecialchars($parsed_uid['mms']) . '</a>';
+                    } else {
+                        echo "\n".'<br /><b>MMS : </b>MMS:' . htmlspecialchars($parsed_uid['mms']);
+                    }
+                }
+                if (array_key_exists('wosut', $parsed_uid)) {
+                    echo "\n".'<br /><b>WOSID : </b><a target="_blank" href="https://www.webofscience.com/wos/woscc/full-record/' . htmlspecialchars($parsed_uid['wosut']). '">' . htmlspecialchars($parsed_uid['wosut']) . '</a>';
+                }
+                $other_identifiers = "";
+                foreach ($parsed_uid as $key => $value) {
+                    if ($key != "doi" and $key != "mms" && $key != "pmid" && $key != "wosut") {
+                        $other_identifiers .= htmlspecialchars($key) . ":" . htmlspecialchars($value) . " ";
+                    }
+                }
+                if ($other_identifiers) {
+                    echo "\n<br /><b>". __("Other identifier") ." : </b>".$other_identifiers;
+                }
+            }
             if ($config_display_cgr_fields){
                 if ($enreg['cgra'])
                     echo "\n<br /><b>". __("Management Code A") ." : </b>".htmlspecialchars($enreg['cgra']);

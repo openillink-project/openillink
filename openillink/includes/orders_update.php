@@ -121,7 +121,7 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
             $envoi=((!empty($_POST['envoi'])) && isValidInput($_POST['envoi'],50,'s',false)) ?$_POST['envoi']:NULL;
             $tid = ((!empty($_POST['tid_0'])) && isValidInput($_POST['tid_0'],4,'s',false, array('pmid','doi'))) ?$_POST['tid_0']:NULL;
             $uids = trim($_POST['uids_0']);
-            $uids = ((!empty($uids)) && isValidInput($uids,80,'s',false))?$uids:NULL;
+            $uids = ((!empty($uids)) && isValidInput($uids,255,'s',false))?$uids:NULL;
             if ($tid=='pmid'){
                 $uids = ((!empty($uids)) && isValidInput($uids,20,'s',false)) ?$uids:NULL;
                 $pmid=$uids;
@@ -156,12 +156,19 @@ if ( in_array ($monaut, array('admin', 'sadmin','user'), true)){
                     }
                 }
             }
-            $uid=((!empty($_POST['uid_0'])) && isValidInput($_POST['uid_0'],50, 's', false))?$_POST['uid_0']:NULL;
-            if($pmid==''){
-                if(strpos($uid, 'pmid:') !== false) {
-					$pmid=str_replace("pmid:","",$uid);
-				}
+            $uid=((!empty($_POST['uid_0'])) && isValidInput($_POST['uid_0'],255, 's', false))?$_POST['uid_0']:NULL;
+            $parsed_uid = parse_uid_str($uid);
+            if($pmid == ''){
+                if(array_key_exists('pmid', $parsed_uid)) {
+                    $pmid = $parsed_uid['pmid'];
+                }
             }
+            if($doi == ''){
+                if(array_key_exists('doi', $parsed_uid)) {
+                    $doi = $parsed_uid['doi'];
+                }
+            }
+
             $remarques=((!empty($_POST['remarques'])) && isValidInput($_POST['remarques'],4000, 's', false))? $_POST['remarques']:NULL;
             $remarquespub=((!empty($_POST['remarquespub_0'])) && isValidInput($_POST['remarquespub_0'],4000, 's', false))? $_POST['remarquespub_0']:NULL;
             $modifs=((!empty($_POST['modifs'])) && isValidInput($_POST['modifs'],4000, 's', false))? $_POST['modifs']:NULL;

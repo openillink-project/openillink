@@ -676,4 +676,46 @@ function utf8_to_iso8859_1($string) {
     return substr($s, 0, $j);
 }
 
+function parse_uid_str($uid, $filter_codes=true) {
+    /*
+    Parses the $uid string paramter (eg. "pmid:1234567 DOI:10/12345678" and returns an array:
+    Eg. {'pmid'-> "12345678",
+         'doi' -> "10/12345678",
+         'wosut'  -> "000376516500021",
+         'isbn' -> "9780323640770"}
+         
+     if $filter_codes is true, then only allowed keys are returned
+    */
+    global $lookupuid; // Accessing the global lookup array
+    $result = array(); // Initialize the result array
+
+    $codes_lowercase = array("mms", "wosid", "isbn", "pmid", "doi", "wosut", "rero");
+    
+    foreach ($lookupuid as $entry) {
+        if (isset($entry['code'])) {
+            $codes_lowercase[] = strtolower($entry['code']);
+        }
+    }
+    
+    // Split the input string by spaces
+    $entries = explode(' ', $uid);
+    
+    foreach ($entries as $entry) {
+        // Split each entry by the first colon ":". When no colon, skip
+        if (strpos($entry, ":") === false) {
+            continue;
+        }
+        list($key, $value) = explode(':', $entry, 2);
+        
+        // Normalize the key to lowercase
+        $key = strtolower($key);
+        
+        if (in_array ($key, $codes_lowercase) || !$filter_codes) {
+            $result[$key] = $value;
+        }
+    }
+    
+    return $result;
+}
+
 ?>

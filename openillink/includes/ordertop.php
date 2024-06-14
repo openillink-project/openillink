@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -113,17 +113,24 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut =
     }
     if ($enreg['volume'])
         echo "<b>". __("Volume") ." : </b>".htmlspecialchars($enreg['volume'])."  |  ";
+        $needs_separator = true;
     if ($enreg['numero'])
         echo "<b>". __("Issue") ." : </b>".htmlspecialchars($enreg['numero'])."  |  ";
     if ($enreg['pages'])
         echo "<b>". __("Pages") ." : </b>".htmlspecialchars($enreg['pages'])."  |  ";
     if ($enreg['annee'])
         echo "<b>". __("Year") ." : </b>".htmlspecialchars($enreg['annee']);
+	$needs_separator = false;
+    if ($enreg['volume'] or $enreg['pages'] or $enreg['annee']) {
+		$needs_separator = true;
+	}
     if ($enreg['PMID']) {
-		if ($enreg['volume'] or $enreg['pages'] or $enreg['annee']) {
-			echo "  |  ";
-		}
+        if ($needs_separator) {echo "  |  ";}
 		echo "<b>PMID : </b><a href=\"https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?otool=ichuvlib&cmd=Retrieve&db=pubmed&dopt=citation&list_uids=".htmlspecialchars($enreg['PMID'])."\" target=\"_blank\">".htmlspecialchars($enreg['PMID'])."</a>";
+	}
+    if ($enreg['doi']) {
+        if ($needs_separator) {echo "  |  ";}
+		echo "<b>DOI : </b><a href=\"https://dx.doi.org/".htmlspecialchars($enreg['doi'])."\" target=\"_blank\">".htmlspecialchars($enreg['doi'])."</a>";
 	}
 }
 ?>

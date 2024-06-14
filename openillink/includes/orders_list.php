@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -236,7 +236,7 @@ $debugOn = (!empty($configdebuglogging)) && in_array($configdebuglogging, array(
 			$orderListId[] = mysqli_real_escape_string($link, $currOrder['illinkid']);
 		}
 		if ($export_format == 'html') {
-			$req = "SELECT orders.illinkid, orders.type_doc, orders.date, orders.renouveler, orders.stade, orders.localisation, orders.nom, orders.prenom, orders.mail, orders.code_postal, orders.adresse, orders.localite, orders.bibliotheque, orders.prepaye, orders.remarques, orders.urgent, orders.service, orders.titre_article,  orders.auteurs, orders.titre_periodique, orders.volume , orders.numero, orders.pages , orders.annee , orders.PMID, orders.anonymized";
+			$req = "SELECT orders.illinkid, orders.type_doc, orders.date, orders.renouveler, orders.stade, orders.localisation, orders.nom, orders.prenom, orders.mail, orders.code_postal, orders.adresse, orders.localite, orders.bibliotheque, orders.prepaye, orders.remarques, orders.urgent, orders.service, orders.titre_article,  orders.auteurs, orders.titre_periodique, orders.volume , orders.numero, orders.pages , orders.annee , orders.PMID, orders.doi, orders.anonymized";
 		} else {
 			if (is_privileged_enough($monaut, "user")) {
 				$req = "SELECT orders.illinkid, orders.stade, orders.localisation, orders.date, orders.envoye, orders.facture, orders.renouveler, orders.prix, orders.prepaye, orders.ref, orders.refinterbib, orders.arrivee, orders.nom, orders.prenom, orders.service, orders.cgra, orders.cgrb, orders.mail, orders.tel, orders.adresse, orders.code_postal, orders.localite, orders.urgent, orders.envoi_par, orders.type_doc, orders.titre_periodique, orders.annee, orders.volume, orders.numero, orders.supplement, orders.pages, orders.titre_article, orders.auteurs, orders.edition, orders.isbn, orders.issn, orders.eissn, orders.doi, orders.uid, orders.remarques, orders.remarquespub, orders.historique, orders.saisie_par, orders.bibliotheque, orders.PMID, orders.ip, orders.referer, orders.user_consent, orders.anonymized";

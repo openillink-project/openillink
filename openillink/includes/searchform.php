@@ -30,7 +30,7 @@ require_once('connexion.php');
 require_once('toolkit.php');
 require_once('translations.php');
 
-$controlSet = array('id', 'datecom', 'dateenv', 'datefact', 'date', 'statut', 'localisation', 'bibliotheque', 'nom', 'email', 'service', 'issn', 'pmid', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all', 'myorders');
+$controlSet = array('id', 'datecom', 'dateenv', 'datefact', 'date', 'statut', 'localisation', 'bibliotheque', 'nom', 'email', 'service', 'issn', 'pmid', 'doi', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all', 'myorders');
 $champ = ((!empty($_GET['champ'])) && isValidInput($_GET['champ'],12,'s',false,$controlSet))?$_GET['champ']:'';
 $champ2 = ((!empty($_GET['champ2'])) && isValidInput($_GET['champ2'],12,'s',false,$controlSet))?$_GET['champ2']:'';
 $champ3 = ((!empty($_GET['champ3'])) && isValidInput($_GET['champ3'],12,'s',false,$controlSet))?$_GET['champ3']:'';
@@ -118,6 +118,10 @@ echo "<option value=\"pmid\"";
 if ((!empty($champ))&&($champ=='pmid'))
     echo " selected";
 echo ">PMID</option>\n";
+echo "<option value=\"doi\"";
+if ((!empty($champ))&&($champ=='doi'))
+    echo " selected";
+echo ">DOI</option>\n";
 echo "<option value=\"title\"";
 if ((!empty($champ))&&($champ=='title'))
     echo " selected";
@@ -251,6 +255,10 @@ echo "<option value=\"pmid\"";
 if ((!empty($champ2))&&($champ2=='pmid'))
     echo " selected";
 echo ">PMID</option>\n";
+echo "<option value=\"doi\"";
+if ((!empty($champ2))&&($champ2=='doi'))
+    echo " selected";
+echo ">DOI</option>\n";
 echo "<option value=\"title\"";
 if ((!empty($champ2))&&($champ2=='title'))
     echo " selected";
@@ -374,6 +382,10 @@ echo "<option value=\"pmid\"";
 if ((!empty($champ3))&&($champ3=='pmid'))
     echo " selected";
 echo ">PMID</option>\n";
+echo "<option value=\"doi\"";
+if ((!empty($champ3))&&($champ3=='doi'))
+    echo " selected";
+echo ">DOI</option>\n";
 echo "<option value=\"title\"";
 if ((!empty($champ3))&&($champ3=='title'))
     echo " selected";

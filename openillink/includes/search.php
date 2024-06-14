@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -61,7 +61,7 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
         $statut = isValidInput($statuscode,6,'s',false) || $statuscode == "0" ? $statuscode : '';
         $filtreStatut = "  stade = ".mysqli_real_escape_string($link, $statut)." ";
     }
-    $champValides = array('id', 'datecom', 'dateenv', 'datefact', 'date', 'statut', 'localisation', 'bibliotheque',  'nom', 'email', 'service', 'issn', 'pmid', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all');
+    $champValides = array('id', 'datecom', 'dateenv', 'datefact', 'date', 'statut', 'localisation', 'bibliotheque',  'nom', 'email', 'service', 'issn', 'pmid', 'doi', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all');
     $champ1 = ((!empty($_GET['champ'])) && isValidInput($_GET['champ'], 15, 's', false, $champValides))?$_GET['champ']:'';
 	$champ2 = ((!empty($_GET['champ2'])) && isValidInput($_GET['champ2'], 15, 's', false, $champValides))?$_GET['champ2']:'';
 	$champ2_operator = ((!empty($_GET['op2'])) && isValidInput($_GET['op2'], 3, 's', false, ['AND', 'OR', 'NOT']))?$_GET['op2']:'AND';
@@ -182,6 +182,11 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
 					$pmid = isValidInput($term,50,'s',false)?$term:'';
 					$pmid = $fuzzy_start.$pmid.$fuzzy_end;
 					$conditions .= " PMID ".$match_type_sql." '".mysqli_real_escape_string($link, $pmid)."'";
+				}
+				if($champ == 'doi'){
+					$doi = isValidInput($term,255,'s',false)?$term:'';
+					$doi = $fuzzy_start.$doi.$fuzzy_end;
+					$conditions .= " DOI ".$match_type_sql." '".mysqli_real_escape_string($link, $doi)."'";
 				}
 				if($champ == 'localisation'){
 					$localisation = isValidInput($term,20,'s',false)?$term:'';

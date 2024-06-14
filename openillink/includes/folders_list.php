@@ -106,7 +106,9 @@ if (!empty($_COOKIE['illinkid'])){
 		echo "</table>\n";
 		echo "\n";
 		echo "<br/><br/><ul>\n";
-		echo "<b><a class=\"button is-primary\" href=\"new.php?table=folders\">".__("Add a new filter")."</a></b>\n";
+        if (isset($config_folders_web_administration) && $config_folders_web_administration > 0) {
+            echo "<b><a class=\"button is-primary\" href=\"new.php?table=folders\">".__("Add a new filter")."</a></b>\n";
+        }
 		echo "<br/><br/>\n";
 		echo "</ul>\n";
 		require ("footer.php");

@@ -32,7 +32,7 @@ require_once ("authcookie.php");
 require_once ("connexion.php");
 
 if (!empty($_COOKIE['illinkid'])){
-	if (($monaut == "admin")||($monaut == "sadmin")){
+	if ((($monaut == "admin")||($monaut == "sadmin")) && (isset($config_folders_web_administration) && $config_folders_web_administration > 0)){
 		$myhtmltitle = $configname[$lang] . " : nouveau filtre ";
 		require ("headeradmin.php");
 		echo '<nav class="breadcrumb" aria-label="breadcrumbs">

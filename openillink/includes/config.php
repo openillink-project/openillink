@@ -130,6 +130,12 @@ $max_results = 25;
 // folders menu items (admin interface)
 $config_display_folders_count = true;
 
+// Folders: is folders administration enabled on the web for authorized users?
+// * 0: not possible to add, edit or remove folders from the web interface (only read)
+// * 1: editing is disabled, but adding/removing folders is enabled
+// * 2: editing, adding and removing folders are enabled
+$config_folders_web_administration = 1;
+
 // CrossRef identifiers
 $configcrossrefpid1 = "abc";
 $configcrossrefpid2 = "abc123";

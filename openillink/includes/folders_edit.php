@@ -4,7 +4,7 @@
 // ***************************************************************************
 // This file is part of OpenILLink software.
 // Copyright (C) 2017 UNIGE.
-// Copyright (C) 2017, 2018 CHUV.
+// Copyright (C) 2017, 2018, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -69,10 +69,15 @@ if (!empty($_COOKIE['illinkid'])){
 				echo "<input name=\"id\" type=\"hidden\" value=\"".htmlspecialchars($folderid)."\">\n";
 				echo "<input name=\"action\" type=\"hidden\" value=\"update\">\n";
 				echo "<table class=\"table is-striped\" id=\"hor-zebra\" class=\"genericEditFormOIL\">\n";
-				echo "<tr><td></td><td><div class=\"field is-grouped\"><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save changes")."\">\n";
+                echo "<tr><td></td><td><div class=\"field is-grouped\">";
+                if (isset($config_folders_web_administration) && $config_folders_web_administration > 1) {
+                    echo "<input class=\"button is-primary\" type=\"submit\" value=\"".__("Save changes")."\">\n";
+                }
 				echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=folders'\">\n";
-				echo "&nbsp;&nbsp;<input class=\"button is-danger\" type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=folders&id=" . $folderid . "'\"></div></td></tr>\n";
-				echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
+                if (isset($config_folders_web_administration) && $config_folders_web_administration > 0) {
+                    echo "&nbsp;&nbsp;<input class=\"button is-danger\" type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=folders&id=" . $folderid . "'\">";
+                }
+				echo "</div></td></tr>\n<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
 				echo "<tr><td><b>Titre *</b></td><td>\n";
 				echo "<input name=\"title\" type=\"text\" size=\"60\" value=\"" . htmlspecialchars($foldertitle) . "\"></td></tr>\n";
 				echo "</td></tr>\n";
@@ -133,10 +138,15 @@ if (!empty($_COOKIE['illinkid'])){
 				echo "<textarea name=\"query\" id=\"query\" rows=\"3\" cols=\"60\" valign=\"bottom\">" . htmlspecialchars($folderquery) . "</textarea></td></tr>\n";
 
 				echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>\n";
-				echo "<tr><td></td><td><div class=\"field is-grouped\"><input class=\"button is-primary\" type=\"submit\" value=\"".__("Save changes")."\">\n";
+                echo "<tr><td></td><td><div class=\"field is-grouped\">";
+                if (isset($config_folders_web_administration) && $config_folders_web_administration > 1) {
+                    echo "<input class=\"button is-primary\" type=\"submit\" value=\"".__("Save changes")."\">\n";
+                }
 				echo "&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"".__("Cancel")."\" onClick=\"self.location='list.php?table=folders'\">\n";
-				echo "&nbsp;&nbsp;<input class=\"button is-danger\" type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=folders&id=" . $folderid . "'\"></div></td></tr>\n";
-				echo "</table>\n";
+                if (isset($config_folders_web_administration) && $config_folders_web_administration > 0) {
+				echo "&nbsp;&nbsp;<input class=\"button is-danger\" type=\"button\" value=\"".__("Remove")."\" onClick=\"self.location='update.php?action=delete&table=folders&id=" . $folderid . "'\">";
+                }
+				echo "</div></td></tr>\n</table>\n";
 				echo "</form><br /><br />\n";
 				require ("footer.php");
 			}

@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2019 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2019, 2024 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -53,7 +53,9 @@ if (!empty($_COOKIE['illinkid'])){
             echo "<li><h2 class=\"is-size-5\"><a href=\"list.php?table=links\"><i class=\"fas fa-link\"></i> ". __("Managing outgoings links") ."</a></h2></li>\n";
             echo "<ul><li><h3><a href=\"new.php?table=links\">". __("Create a new outgoing link") ."</a></h2></li></ul>\n";
             echo "<li><h2 class=\"is-size-5\"><a href=\"list.php?table=folders\"><i class=\"far fa-folder-open\"></i> ". __("Filters management") ."</a></h2></li>\n";
-            echo "<ul><li><h3><a href=\"new.php?table=folders\">". __("Create a new filter") ."</a></h2></li></ul>\n";
+            if (isset($config_folders_web_administration) && $config_folders_web_administration > 0) {
+                echo "<ul><li><h3><a href=\"new.php?table=folders\">". __("Create a new filter") ."</a></h2></li></ul>\n";
+            }
             echo "<br/><br/>\n";
             echo "<li><h2 class=\"is-size-5\"><a href=\"anonymizeorders.php\"><i class=\"fas fa-mask\"></i>&nbsp;" . __("Anonymize old orders") . "</a></h2></li>\n";
             echo "<br/>\n";

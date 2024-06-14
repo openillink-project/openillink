@@ -39,7 +39,7 @@ if (!empty($_COOKIE['illinkid'])){
 
 	if (empty($action))
 		$action = ((!empty($_POST['action'])) && isValidInput($_POST['action'],10,'s',false, $validActionSet)) ? $_POST['action'] : '';
-	if (($monaut == "admin")||($monaut == "sadmin")){
+	if (($monaut == "admin")||($monaut == "sadmin") && (isset($config_folders_web_administration) && $config_folders_web_administration > 0)){
 		// Initialiser les variables
 		$foldertitle = "";
 		$folderdescription = "";
@@ -438,7 +438,7 @@ if (!empty($_COOKIE['illinkid'])){
 			}
 			else{
 				// Début de l'édition
-				if ($action == "update"){
+				if ($action == "update" && (isset($config_folders_web_administration) && $config_folders_web_administration > 1)){
 					if ($id != ""){
 						$myhtmltitle = $configname[$lang] . " : ".__("edition of the filter record")." " . htmlspecialchars($id);
 						require ("headeradmin.php");

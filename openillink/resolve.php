@@ -55,23 +55,25 @@ function resolve($ip) {
 	$mms_id = null;
 	$doi = null;
 
-	if (startsWith($uid, 'pmid:')) {
-		$pmid = trim(substr(strtolower($uid), 5));
+    $parsed_uid = parse_uid_str($uid);
+
+    if(array_key_exists('pmid', $parsed_uid)) {
+        $pmid = $parsed_uid['pmid'];
 	} else if ($tid_code == "pmid" && !empty($uids)) {
 		$pmid = trim($uids);
 	}
-	if (startsWith(trim(strtolower($uid)), 'mms:')) {
-		$mms_id = trim(substr($uid, 4));
+    if(array_key_exists('mms', $parsed_uid)) {
+        $mms_id = $parsed_uid['mms'];
 	} else if (($tid_code == "renouvaudmms_swissbib" || $tid_code == "mms") && !empty($uids)) {
 		$mms_id = trim($uids);
 	}
 
-	if (startsWith(trim(strtolower($uid)), 'doi:')) {
-		$doi = trim(substr($uid, 4));
+    if(array_key_exists('doi', $parsed_uid)) {
+        $doi = $parsed_uid['doi'];
 	} else if ($tid_code == "doi"  && !empty($uids)) {
 		$doi = trim($uids);
 	}
-	$search_params = "pmid=" . urlencode($pmid) . "&mms_id=" . urlencode($mms_id) . "&doi=" . urlencode($doi) . "&l=" . urlencode($lang) . "&genre=" . urlencode($genre) . "&title=" . urlencode($title) . "&date=" . urlencode($date) . "&volume=" . urlencode($volume) . "&issue=" . urlencode($issue) . "&suppl=" . urlencode($suppl) . "&pages=" . urlencode($pages) . "&author=" . urlencode($author) . "&issn_isbn=" . urlencode($issn_isbn) . "&edition=" . urlencode($edition) . "&atitle=" . urlencode($atitle);
+	$search_params = "pmid=" . urlencode(null_to_empty_string($pmid)) . "&mms_id=" . urlencode(null_to_empty_string($mms_id)) . "&doi=" . urlencode(null_to_empty_string($doi)) . "&l=" . urlencode($lang) . "&genre=" . urlencode($genre) . "&title=" . urlencode($title) . "&date=" . urlencode($date) . "&volume=" . urlencode($volume) . "&issue=" . urlencode($issue) . "&suppl=" . urlencode($suppl) . "&pages=" . urlencode($pages) . "&author=" . urlencode($author) . "&issn_isbn=" . urlencode($issn_isbn) . "&edition=" . urlencode($edition) . "&atitle=" . urlencode($atitle);
 
 	// purge old cache
 	$query = "DELETE FROM `resolver_cache` WHERE date < NOW() - INTERVAL 30 MINUTE";

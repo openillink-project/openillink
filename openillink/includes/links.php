@@ -305,14 +305,13 @@ if (isset($config_link_resolver_base_openurl) && $config_link_resolver_base_open
 	echo "<b>".__("Link resolver")."</b>\n";
 
 	$tid = "";
-	if (strpos($enreg['uid'], ":") !== false) {
+	if (strpos(null_to_empty_string($enreg['uid']), ":") !== false) {
 		$tid = explode(":", $enreg['uid'], 2)[0];
 		if ($tid == "MMS") {
 			$tid = "renouvaudmms_swissbib";
 		}
 	}
-	$resolver_search_params = "pmid=" . urlencode($enreg['PMID']) . "&mms_id=" . urlencode(($tid == "MMS" ? $enreg['uids'] : "")) . "&doi=" . urlencode($enreg['doi']) . "&l=" . urlencode($lang) . "&genre=" . urlencode($enreg['type_doc']) . "&title=" . urlencode($enreg['titre_periodique']) . "&date=" . urlencode($enreg['annee']) . "&volume=" . urlencode($enreg['volume']) . "&issue=" . urlencode($enreg['numero']) . "&suppl=" . urlencode($enreg['supplement']) . "&pages=" . urlencode($enreg['pages']) . "&author=" . urlencode($enreg['auteurs']) . "&issn_isbn=" . urlencode(($enreg['isbn'] != "" ? $enreg['isbn'] : ($enreg['issn'] != "" ? $enreg['issn'] : ($enreg['eissn'] != "" ? $enreg['eissn'] : "")))) . "&edition=" . urlencode($enreg['edition']) . "&atitle=" . urlencode($enreg['titre_article']);
-	$resolved_block_content = '<i class="fas fa-spinner fa-pulse"></i>';
+	$resolver_search_params = "pmid=" . urlencode(null_to_empty_string($enreg['PMID'])) . "&mms_id=" . urlencode(($tid == "MMS" ? null_to_empty_string($enreg['uids']) : "")) . "&doi=" . urlencode(null_to_empty_string($enreg['doi'])) . "&l=" . urlencode(null_to_empty_string($lang)) . "&genre=" . urlencode(null_to_empty_string($enreg['type_doc'])) . "&title=" . urlencode(null_to_empty_string($enreg['titre_periodique'])) . "&date=" . urlencode(null_to_empty_string($enreg['annee'])) . "&volume=" . urlencode(null_to_empty_string($enreg['volume'])) . "&issue=" . urlencode(null_to_empty_string($enreg['numero'])) . "&suppl=" . urlencode(null_to_empty_string($enreg['supplement'])) . "&pages=" . urlencode(null_to_empty_string($enreg['pages'])) . "&author=" . urlencode(null_to_empty_string($enreg['auteurs'])) . "&issn_isbn=" . urlencode(($enreg['isbn'] != "" ? null_to_empty_string($enreg['isbn']) : ($enreg['issn'] != "" ? null_to_empty_string($enreg['issn']) : ($enreg['eissn'] != "" ? null_to_empty_string($enreg['eissn']) : "")))) . "&edition=" . urlencode(null_to_empty_string($enreg['edition'])) . "&atitle=" . urlencode(null_to_empty_string($enreg['titre_article']));	$resolved_block_content = '<i class="fas fa-spinner fa-pulse"></i>';
 	$resolved_block_style = '';
 	// check if resolved links exist in cache
 	$query = "SELECT cache FROM `resolver_cache` WHERE params=? LIMIT 1";

@@ -134,7 +134,7 @@ if (!empty($_COOKIE['illinkid'])){
             echo "</td>\n";
             /*echo "<td>".$linkopenurl."</td>\n";*/
             echo "<td>".htmlspecialchars($linklibrary)."</td>\n";
-            echo "<td>".htmlspecialchars($linkposition)."</td>\n";
+            echo "<td>".htmlspecialchars(!is_null($linkposition) ? $linkposition : "")."</td>\n";
             echo "<td>".htmlspecialchars($linkactive)."</td>\n";
             if (($monaut == "admin")||($monaut == "sadmin")){
                 echo "<td><a title=\"".__("Edit the link")."\" href=\"edit.php?table=links&amp;id=".htmlspecialchars($linkid)."\"><i class=\"fas fa-edit has-text-primary\"></i></a></td>";

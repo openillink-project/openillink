@@ -26,7 +26,7 @@
 // ***************************************************************************
 // formated e-mail
 //
-
+require_once('toolkit.php');
 /***************************************************/
 /******* encodage et création de l'email ***********/
 /***************************************************/
@@ -46,9 +46,9 @@ function displayMailText($monaut,
 
     if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")||($monaut == "guest"))
     {
-	  $short_titreper = (strlen($titreper) > 100) ? substr($titreper, 0, 90) . "[...]" : $titreper;
-	  $short_titreart = (strlen($titreart) > 110) ? substr($titreart, 0, 100) . "[...]" : $titreart;
-	  $short_auteurs = (strlen($enreg['auteurs']) > 50) ? substr($enreg['auteurs'], 0, 40) . "[...]" : $enreg['auteurs'];
+	  $short_titreper = (strlen(null_to_empty_string($titreper)) > 100) ? substr($titreper, 0, 90) . "[...]" : $titreper;
+	  $short_titreart = (strlen(null_to_empty_string($titreart)) > 110) ? substr($titreart, 0, 100) . "[...]" : $titreart;
+	  $short_auteurs = (strlen(null_to_empty_string($enreg['auteurs'])) > 50) ? substr($enreg['auteurs'], 0, 40) . "[...]" : $enreg['auteurs'];
 
       $subject = rawurlencode(html_entity_decode(__("Order")." (". $enreg['illinkid'].") : ".$short_titreper.".".$enreg['annee'].";".$enreg['volume'].":".$enreg['pages']));
       $finalMailText .= "&nbsp;&nbsp;<a href=\"";

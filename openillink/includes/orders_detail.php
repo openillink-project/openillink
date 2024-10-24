@@ -126,57 +126,57 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                 echo "&nbsp;&nbsp;&nbsp;<img src=\"img/book.png\">";
             echo "<br /><b>".__("Order date")." : </b>".$date;
             if ($enreg['envoye']>0)
-                echo "\n<br /><b>". __("Shipment date") ." : </b>".htmlspecialchars($enreg['envoye']);
+                echo "\n<br /><b>". __("Shipment date") ." : </b>".htmlspecialchars_nullable($enreg['envoye']);
             if ($enreg['facture']>0)
-                echo "\n<br /><b>". __("Billing date") ." : </b>".htmlspecialchars($enreg['facture']);
+                echo "\n<br /><b>". __("Billing date") ." : </b>".htmlspecialchars_nullable($enreg['facture']);
             if ($enreg['renouveler']>0)
-                echo "\n<br /><b>". __("Renewal date") ." : </b>".htmlspecialchars($enreg['renouveler']);
+                echo "\n<br /><b>". __("Renewal date") ." : </b>".htmlspecialchars_nullable($enreg['renouveler']);
             echo "\n<br /><b>". __("Assignment Library") ." : </b>";
 			if (!$is_my_bib) {
-				echo '<span class="notMyBib">'. htmlspecialchars($libname) . " (". htmlspecialchars($libcode).")" . '</span>';
+				echo '<span class="notMyBib">'. htmlspecialchars_nullable($libname) . " (". htmlspecialchars_nullable($libcode).")" . '</span>';
 			} else {
-				echo htmlspecialchars($libname) . " (". htmlspecialchars($libcode).")";
+				echo htmlspecialchars_nullable($libname) . " (". htmlspecialchars_nullable($libcode).")";
 			}
             if ($localisation) {
 				echo "\n<br /><b>". __("Localization") ." : </b>" ;
 				if (!$is_my_localisation) {
-					echo '<span class="notMyLocalisation">'.htmlspecialchars($locname) . " (" . htmlspecialchars($localisation) . ")".'</span>';
+					echo '<span class="notMyLocalisation">'.htmlspecialchars_nullable($locname) . " (" . htmlspecialchars_nullable($localisation) . ")".'</span>';
 				} else {
-					echo htmlspecialchars($locname) . " (" . htmlspecialchars($localisation) . ")";
+					echo htmlspecialchars_nullable($locname) . " (" . htmlspecialchars_nullable($localisation) . ")";
 				}
 			}
             echo "<br /><b>". __("Status") ." : \n";
-            echo "<a href=\"#\" onclick=\"return false\" class=\"statusLink\" title=\"".htmlspecialchars($statushelp)."\"><font color=\"".htmlspecialchars($statuscolor)."\">".htmlspecialchars($statusname)."</font></a></b>";
+            echo "<a href=\"#\" onclick=\"return false\" class=\"statusLink\" title=\"".htmlspecialchars_nullable($statushelp)."\"><font color=\"".htmlspecialchars_nullable($statuscolor)."\">".htmlspecialchars_nullable($statusname)."</font></a></b>";
             if ($statusspecial == "renew"){
                 if ($enreg['renouveler']){
 					echo format_string(__("%document_on_hold_status_label until %date"), array('date' => $enreg['renouveler'], 'document_on_hold_status_label' => ''));
 				}
             }
-            echo "<br /><b>". __("User") ." : </b><a href=\"list.php?folder=search&champ=nom&term=".htmlspecialchars(urlencode ($nom))."\" title=\"". __("Search for orders from this user") ."\">\n";
-            echo htmlspecialchars($nom)."</a>\n";
+            echo "<br /><b>". __("User") ." : </b><a href=\"list.php?folder=search&champ=nom&term=".htmlspecialchars(urlencode_nullable ($nom))."\" title=\"". __("Search for orders from this user") ."\">\n";
+            echo htmlspecialchars_nullable($nom)."</a>\n";
             // formated e-mails
             if ($mail){
-                echo "<br /><b>". __("E-mail") ." : </b><a href=\"list.php?folder=search&champ=email&term=".htmlspecialchars(urlencode($mail))."\" title=\"". __("Search for orders from this email") ."\">".htmlspecialchars($mail)."</a>\n";
+                echo "<br /><b>". __("E-mail") ." : </b><a href=\"list.php?folder=search&champ=email&term=".htmlspecialchars(urlencode_nullable($mail))."\" title=\"". __("Search for orders from this email") ."\">".htmlspecialchars_nullable($mail)."</a>\n";
                 $monhost = "http://" . $_SERVER['SERVER_NAME'];
                 $monuri = $monhost . rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . "/";
                 displayMailText($monaut, $monuri, $enreg, $emailTxt, $titreart, $titreper, $nom, $maillog, $passwordg, $mail, $library_signature, $lang);
             }
             if ($enreg['adresse'])
-                echo "<br /><b>". __("Address") ." : </b>".htmlspecialchars($adresse);
+                echo "<br /><b>". __("Address") ." : </b>".htmlspecialchars_nullable($adresse);
             if ($enreg['service']) {
 				$service_class = "";
 				if (!$is_my_service) {
 					$service_class = ' class="notMyService" ';
 				}
-                echo "<br /><b>". __("Service") ." : </b><a ".$service_class."href=\"list.php?folder=search&champ=service&term=".htmlspecialchars(urlencode($enreg['service']))."\" title=\"". __("Search for orders from this service") ."\">".htmlspecialchars($enreg['service'])."</a>\n";
+                echo "<br /><b>". __("Service") ." : </b><a ".$service_class."href=\"list.php?folder=search&champ=service&term=".htmlspecialchars(urlencode_nullable($enreg['service']))."\" title=\"". __("Search for orders from this service") ."\">".htmlspecialchars_nullable($enreg['service'])."</a>\n";
             }
 			if ($enreg['type_doc'])
-                echo "<br /><b>". __("Document type") ." : </b>".htmlspecialchars($enreg['type_doc']);
+                echo "<br /><b>". __("Document type") ." : </b>".htmlspecialchars_nullable($enreg['type_doc']);
             echo "<br />\n";
             if ($enreg['titre_article'])
-                echo "<b>". __("Title") ." : </b><a href=\"list.php?folder=search&champ=atitle&term=".htmlspecialchars(urlencode ($enreg['titre_article']))."\" title=\"". __("Search for orders from this title") ."\">".htmlspecialchars($enreg['titre_article'])."</a><br />\n";
+                echo "<b>". __("Title") ." : </b><a href=\"list.php?folder=search&champ=atitle&term=".htmlspecialchars(urlencode_nullable ($enreg['titre_article']))."\" title=\"". __("Search for orders from this title") ."\">".htmlspecialchars_nullable($enreg['titre_article'])."</a><br />\n";
             if ($enreg['auteurs'])
-                echo "<b>". __("Author(s)") ." : </b>".htmlspecialchars($enreg['auteurs'])."<br />\n";
+                echo "<b>". __("Author(s)") ." : </b>".htmlspecialchars_nullable($enreg['auteurs'])."<br />\n";
             if ($enreg['titre_periodique']){
                 if (($enreg['type_doc']=='article') || ($enreg['type_doc']=='Article'))
                     echo "<b>". __("Journal") ." : </b>\n";
@@ -192,45 +192,45 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
                     echo "<b>". __("In") ." : </b>\n";
                 if (($enreg['type_doc']=='Congres') || ($enreg['type_doc']=='proceeding') || ($enreg['type_doc']=='conference'))
                     echo "<b>". __("In") ." : </b>\n";
-                echo "</b><a href=\"list.php?folder=search&champ=title&term=".htmlspecialchars(urlencode ($enreg['titre_periodique']))."\" title=\"". __("Search for orders from this title") ."\">".htmlspecialchars($enreg['titre_periodique'])."</a>\n";
+                echo "</b><a href=\"list.php?folder=search&champ=title&term=".htmlspecialchars(urlencode_nullable ($enreg['titre_periodique']))."\" title=\"". __("Search for orders from this title") ."\">".htmlspecialchars_nullable($enreg['titre_periodique'])."</a>\n";
             }
             if ($enreg['volume'])
-                echo "<br /><b>". __("Volume") ." : </b>".htmlspecialchars($enreg['volume']);
+                echo "<br /><b>". __("Volume") ." : </b>".htmlspecialchars_nullable($enreg['volume']);
             if ($enreg['numero'])
-                echo "\n<br /><b>". __("Issue") ." : </b>".htmlspecialchars($enreg['numero']);
+                echo "\n<br /><b>". __("Issue") ." : </b>".htmlspecialchars_nullable($enreg['numero']);
             if ($enreg['supplement'])
-                echo "\n<br /><b>". __("Suppl.") ." : </b>".htmlspecialchars($enreg['supplement']);
+                echo "\n<br /><b>". __("Suppl.") ." : </b>".htmlspecialchars_nullable($enreg['supplement']);
             if ($enreg['pages'])
-                echo "\n<br /><b>". __("Pages") ." : </b>".htmlspecialchars($enreg['pages']);
+                echo "\n<br /><b>". __("Pages") ." : </b>".htmlspecialchars_nullable($enreg['pages']);
             if ($enreg['annee'])
-                echo "\n<br /><b>". __("Year") ." : </b>".htmlspecialchars($enreg['annee']);
+                echo "\n<br /><b>". __("Year") ." : </b>".htmlspecialchars_nullable($enreg['annee']);
             if ($enreg['issn'])
-                echo "\n<br /><b>ISSN : </b>".htmlspecialchars($enreg['issn']);
+                echo "\n<br /><b>ISSN : </b>".htmlspecialchars_nullable($enreg['issn']);
             if ($enreg['eissn'])
-                echo "\n<br /><b>eISSN : </b>".htmlspecialchars($enreg['eissn']);
+                echo "\n<br /><b>eISSN : </b>".htmlspecialchars_nullable($enreg['eissn']);
             if ($enreg['isbn'])
-                echo "\n<br /><b>ISBN : </b>".htmlspecialchars($enreg['isbn']);
+                echo "\n<br /><b>ISBN : </b>".htmlspecialchars_nullable($enreg['isbn']);
             if ($enreg['PMID'])
-                echo "\n<br /><b>PMID : </b><a href=\"https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?otool=ichuvlib&cmd=Retrieve&db=pubmed&dopt=citation&list_uids=".htmlspecialchars(urlencode ($enreg['PMID']))."\" target=\"_blank\">".htmlspecialchars($enreg['PMID'])."</a>\n";
+                echo "\n<br /><b>PMID : </b><a href=\"https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?otool=ichuvlib&cmd=Retrieve&db=pubmed&dopt=citation&list_uids=".htmlspecialchars(urlencode_nullable ($enreg['PMID']))."\" target=\"_blank\">".htmlspecialchars_nullable($enreg['PMID'])."</a>\n";
             if ($enreg['doi']){
-                echo "\n<br /><b>DOI : </b><a href=\"https://dx.doi.org/".htmlspecialchars($enreg['doi'])."\" target=\"_blank\">".htmlspecialchars($enreg['doi'])."</a>\n";
+                echo "\n<br /><b>DOI : </b><a href=\"https://dx.doi.org/".htmlspecialchars_nullable($enreg['doi'])."\" target=\"_blank\">".htmlspecialchars_nullable($enreg['doi'])."</a>\n";
             }
             if ($enreg['uid']){
                 $parsed_uid = parse_uid_str($enreg['uid'], false);
                 if (array_key_exists('mms', $parsed_uid)) {
                     if ($configMMSdiscoveryurl[$lang] != "") {
-                        echo "\n".'<br /><b>MMS : </b><a target="_blank" href="' . str_replace("{MMS_ID}", htmlspecialchars($parsed_uid['mms']), $configMMSdiscoveryurl[$lang]). '">MMS:' . htmlspecialchars($parsed_uid['mms']) . '</a>';
+                        echo "\n".'<br /><b>MMS : </b><a target="_blank" href="' . str_replace("{MMS_ID}", htmlspecialchars_nullable($parsed_uid['mms']), $configMMSdiscoveryurl[$lang]). '">MMS:' . htmlspecialchars_nullable($parsed_uid['mms']) . '</a>';
                     } else {
-                        echo "\n".'<br /><b>MMS : </b>MMS:' . htmlspecialchars($parsed_uid['mms']);
+                        echo "\n".'<br /><b>MMS : </b>MMS:' . htmlspecialchars_nullable($parsed_uid['mms']);
                     }
                 }
                 if (array_key_exists('wosut', $parsed_uid)) {
-                    echo "\n".'<br /><b>WOSID : </b><a target="_blank" href="https://www.webofscience.com/wos/woscc/full-record/' . htmlspecialchars($parsed_uid['wosut']). '">' . htmlspecialchars($parsed_uid['wosut']) . '</a>';
+                    echo "\n".'<br /><b>WOSID : </b><a target="_blank" href="https://www.webofscience.com/wos/woscc/full-record/' . htmlspecialchars_nullable($parsed_uid['wosut']). '">' . htmlspecialchars_nullable($parsed_uid['wosut']) . '</a>';
                 }
                 $other_identifiers = "";
                 foreach ($parsed_uid as $key => $value) {
                     if ($key != "doi" and $key != "mms" && $key != "pmid" && $key != "wosut") {
-                        $other_identifiers .= htmlspecialchars($key) . ":" . htmlspecialchars($value) . " ";
+                        $other_identifiers .= htmlspecialchars_nullable($key) . ":" . htmlspecialchars_nullable($value) . " ";
                     }
                 }
                 if ($other_identifiers) {
@@ -239,46 +239,46 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
             }
             if ($config_display_cgr_fields){
                 if ($enreg['cgra'])
-                    echo "\n<br /><b>". __("Management Code A") ." : </b>".htmlspecialchars($enreg['cgra']);
+                    echo "\n<br /><b>". __("Management Code A") ." : </b>".htmlspecialchars_nullable($enreg['cgra']);
                 if ($enreg['cgrb'])
-                    echo "\n<br /><b>". __("Management Code B") ." : </b>".htmlspecialchars($enreg['cgrb']);
+                    echo "\n<br /><b>". __("Management Code B") ." : </b>".htmlspecialchars_nullable($enreg['cgrb']);
             }
             if ($enreg['tel'])
-                echo "\n<br /><b>". __("Tel. number") ." : </b>".htmlspecialchars($enreg['tel']);
+                echo "\n<br /><b>". __("Tel. number") ." : </b>".htmlspecialchars_nullable($enreg['tel']);
             if ($enreg['saisie_par'])
-                echo "\n<br /><b>". __("Entered by") ." : </b>".htmlspecialchars($enreg['saisie_par']);
+                echo "\n<br /><b>". __("Entered by") ." : </b>".htmlspecialchars_nullable($enreg['saisie_par']);
             if ($enreg['ip'])
-                echo "\n<br /><b>". __("IP adress") ." : </b>".htmlspecialchars($enreg['ip']);
+                echo "\n<br /><b>". __("IP adress") ." : </b>".htmlspecialchars_nullable($enreg['ip']);
             if ($enreg['referer'])
-                echo "\n<br /><b>". __("Provenance URL") ." : </b>".htmlspecialchars(rawurldecode($enreg['referer']));
+                echo "\n<br /><b>". __("Provenance URL") ." : </b>".htmlspecialchars(rawurldecode(null_to_empty_string($enreg['referer'])));
             if ($enreg['arrivee'])
-                echo "\n<br /><b>". __("Arrival by") ." : </b>".htmlspecialchars($enreg['arrivee']);
+                echo "\n<br /><b>". __("Arrival by") ." : </b>".htmlspecialchars_nullable($enreg['arrivee']);
             if ($config_display_delivery_choice) {
                 if ($enreg['envoi_par'])
                     echo "\n<br /><b>". __("Send by") ." : </b>";
                 if ($enreg['envoi_par'] == 'surplace')
                     echo "<b><font color=\"red\">". __("Inform the reader if available on site") ."</font></b>";
                 else
-                    echo htmlspecialchars($enreg['envoi_par']);
+                    echo htmlspecialchars_nullable($enreg['envoi_par']);
             }
             if ($enreg['prix'])
-                echo "\n<br /><b>". __("Price") ." : </b>".htmlspecialchars($enreg['prix']);
+                echo "\n<br /><b>". __("Price") ." : </b>".htmlspecialchars_nullable($enreg['prix']);
             if ($enreg['prepaye'])
                 echo "\n<br /><b><font color=\"green\">". __("Paid in advance") ." : </b>".htmlspecialchars(strtr($enreg['prepaye'], "on", "OK"))." </font>";
             if ($enreg['ref'])
-                echo "\n<br /><b>". __("Provider ref.") ." : </b>".htmlspecialchars($enreg['ref']);
+                echo "\n<br /><b>". __("Provider ref.") ." : </b>".htmlspecialchars_nullable($enreg['ref']);
             if ($enreg['refinterbib'])
-                echo "\n<br /><b>". __("Internal library ref.") ." : </b>".htmlspecialchars($enreg['refinterbib']);
+                echo "\n<br /><b>". __("Internal library ref.") ." : </b>".htmlspecialchars_nullable($enreg['refinterbib']);
             if ($mail && !empty($maillog))
-                echo "\n<br /><b>". __("Guest access code") ." : </b> ". __("Username") .": ".htmlspecialchars($maillog)." | ". __("Password") .": ".htmlspecialchars($passwordg);
+                echo "\n<br /><b>". __("Guest access code") ." : </b> ". __("Username") .": ".htmlspecialchars_nullable($maillog)." | ". __("Password") .": ".htmlspecialchars_nullable($passwordg);
             if ($enreg['remarquespub'])
-                echo "\n<br /><b>". __("Public comment") ." : </b>".nl2br(htmlspecialchars($enreg['remarquespub']));
+                echo "\n<br /><b>". __("Public comment") ." : </b>".nl2br(htmlspecialchars_nullable($enreg['remarquespub']));
             if ($enreg['remarques']){
-				$prepared_remarque_for_html = nl2br(htmlspecialchars($enreg['remarques']));
+				$prepared_remarque_for_html = nl2br(htmlspecialchars_nullable($enreg['remarques']));
 				$prepared_remarque_for_html = str_replace(__("Warning. Possible duplicate of the order."), '<span class="remarkDuplicateOrder">'.__("Warning. Possible duplicate of the order.") . '</span>', $prepared_remarque_for_html);
                 echo "\n<br /><b>". __("Professional comment") ." : </b>". $prepared_remarque_for_html;
 			}
-            echo "\n<br /><br /><b>". __("Order history") ." : </b>\n<br />".str_replace('&lt;br /&gt;', '<br />', htmlspecialchars($enreg['historique']));
+            echo "\n<br /><br /><b>". __("Order history") ." : </b>\n<br />".str_replace('&lt;br /&gt;', '<br />', htmlspecialchars_nullable($enreg['historique']));
 			echo '</div>
 				  <div class="column">';
             require ("links.php");

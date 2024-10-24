@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `arrivee` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `nom` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `prenom` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `service` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `service` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `cgra` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `cgrb` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `mail` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -290,7 +290,7 @@ CREATE TABLE `folders` (
 DROP TABLE IF EXISTS `resolver_cache`;
 CREATE TABLE `resolver_cache` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `params` varchar(512) NOT NULL,
+  `params` text NOT NULL,
   `cache` text NOT NULL,
   INDEX `params` (`params`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -305,7 +305,7 @@ DROP TABLE IF EXISTS `resolver_log`;
 CREATE TABLE `resolver_log` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `package` varchar(512) NOT NULL,
-  `params` varchar(512) NOT NULL,
+  `params` text NOT NULL,
   `referer` varchar(255) NOT NULL,
   `auth_level` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

@@ -65,17 +65,17 @@ function get_from_post($form_index, $key) {
 	}
 }
 
-$nom = !empty($_POST['nom'])? $_POST['nom'] : '';
-$prenom = !empty($_POST['prenom']) ? $_POST['prenom'] : '';
-$service = !empty($_POST['service']) ? $_POST['service'] : '';
-$servautre = !empty($_POST['servautre']) ? $_POST['servautre'] : '';
-$cgra = !empty($_POST['cgra']) ? $_POST['cgra'] : '';
-$cgrb = !empty($_POST['cgrb']) ? $_POST['cgrb'] : '';
-$mail = !empty($_POST['mail']) ? $_POST['mail'] : '';
-$tel = !empty($_POST['tel']) ? $_POST['tel'] : '';
-$adresse = !empty($_POST['adresse']) ? $_POST['adresse'] : '';
-$postal = !empty($_POST['postal']) ? $_POST['postal'] : '';
-$localite = !empty($_POST['localite']) ? $_POST['localite'] : '';
+$nom = !empty($_POST['nom'])? substr($_POST['nom'], 0, 100) : '';
+$prenom = !empty($_POST['prenom']) ? substr($_POST['prenom'], 0, 100) : '';
+$service = !empty($_POST['service']) ? substr($_POST['service'], 0, 20) : '';
+$servautre = !empty($_POST['servautre']) ? substr($_POST['servautre'], 0, 255) : '';
+$cgra = !empty($_POST['cgra']) ? substr($_POST['cgra'], 0, 10) : '';
+$cgrb = !empty($_POST['cgrb']) ? substr($_POST['cgrb'], 0, 10) : '';
+$mail = !empty($_POST['mail']) ? substr($_POST['mail'], 0, 100) : '';
+$tel = !empty($_POST['tel']) ? substr($_POST['tel'], 0, 20) : '';
+$adresse = !empty($_POST['adresse']) ? substr($_POST['adresse'], 0, 255) : '';
+$postal = !empty($_POST['postal']) ? substr($_POST['postal'], 0, 10) : '';
+$localite = !empty($_POST['localite']) ? substr($_POST['localite'], 0, 50) : '';
 $envoi = !empty($_POST['envoi']) ? $_POST['envoi'] : '';
 $cooc = !empty($_POST['cooc']) ? $_POST['cooc'] : '';
 
@@ -88,10 +88,10 @@ $datesaisie = !empty($_POST['datesaisie']) ? $_POST['datesaisie'] : '';
 $envoye = !empty($_POST['envoye']) ? $_POST['envoye'] : '';
 $facture = !empty($_POST['facture']) ? $_POST['facture'] : '';
 $renouveler = !empty($_POST['renouveler']) ? $_POST['renouveler'] : '';
-$prix = !empty($_POST['prix']) ? $_POST['prix'] : '';
+$prix = !empty($_POST['prix']) ? substr($_POST['prix'], 0, 4) : '';
 $avance = !empty($_POST['avance']) ? $_POST['avance'] : '';
-$ref = !empty($_POST['ref']) ? $_POST['ref'] : '';
-$refinterbib = !empty($_POST['refinterbib']) ? $_POST['refinterbib'] : '';
+$ref = !empty($_POST['ref']) ? substr($_POST['ref'], 0, 50) : '';
+$refinterbib = !empty($_POST['refinterbib']) ? substr($_POST['refinterbib'], 0, 50) : '';
 $remarques = !empty($_POST['remarques']) ? $_POST['remarques'] : '';
 $adresscompl = !empty($_POST['adresscompl']) ? $_POST['adresscompl'] : '';
 
@@ -480,7 +480,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 	echo '</div></div>
 	 <div class="column is-3">';
 	echo '<div class="control has-icons-left">';
-    echo "<input class=\"input\" name=\"prix\" id=\"prix\" type=\"text\" size=\"5\" value=\"".htmlspecialchars($prix)."\">\n";
+    echo "<input class=\"input\" name=\"prix\" id=\"prix\" type=\"text\" size=\"5\" value=\"".htmlspecialchars($prix)."\" maxlength=\"4\">\n";
 	echo '<div class="icon is-small is-left">
       <i class="far fa-money-bill-alt"></i>
     </div></div>';
@@ -498,7 +498,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 	echo '</div></div>
 	 <div class="column is-3">';
 	echo '<div class="control has-icons-left">';
-    echo "<input class=\"input\" name=\"ref\" id=\"ref\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($ref)."\">\n";
+    echo "<input class=\"input\" name=\"ref\" id=\"ref\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($ref)."\" maxlength=\"50\">\n";
 	echo '<div class="icon is-small is-left">
       <i class="fas fa-barcode"></i>
     </div>';
@@ -511,7 +511,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 		echo '</div></div>
 	 <div class="column is-3">';
 		echo '<div class="control has-icons-left">';
-		echo "<input class=\"input\" name=\"refinterbib\" id=\"refinterbib\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($refinterbib)."\">";
+		echo "<input class=\"input\" name=\"refinterbib\" id=\"refinterbib\" type=\"text\" size=\"20\" value=\"".htmlspecialchars($refinterbib)."\" maxlength=\"50\">";
 		echo '<div class="icon is-small is-left">
       <i class="fas fa-tag"></i>
     </div></div></div>';
@@ -585,7 +585,7 @@ echo '
 	</div>
 	<div class="column is-one-quarter">
         <div class="control has-icons-left">
-         <input id="nom" name="nom" class="input" type="text" value="'.htmlspecialchars($nom).'" required>
+         <input id="nom" name="nom" class="input" type="text" value="'.htmlspecialchars($nom).'" required maxlength="100">
          <span class="icon is-small is-left">
 			<i class="fas fa-user"></i>
          </span>
@@ -600,7 +600,7 @@ echo '
 	</div>
 	<div class="column is-one-quarter">
         <div class="control">
-         <input id="prenom" name="prenom" class="input" type="text" value="'.htmlspecialchars($prenom).'" required>
+         <input id="prenom" name="prenom" class="input" type="text" value="'.htmlspecialchars($prenom).'" required maxlength="100">
         </div>
 	</div>
 	<div class="column is-2">
@@ -676,7 +676,7 @@ echo '
 	</div>
 	<div class="column is-one-quarter">
         <div class="control">
-         <input id="servautre" name="servautre" class="input" type="text" value="'.htmlspecialchars($servautre).'">
+         <input id="servautre" name="servautre" class="input" type="text" value="'.htmlspecialchars($servautre).'" maxlength="255">
        </div>
     </div>
 	</div>
@@ -689,7 +689,7 @@ echo '
 	</div>
 	<div class="column is-one-quarter">
         <div class="control has-icons-left">
-         <input id="mail" name="mail" class="input" type="email" value="'.htmlspecialchars($mail).'">
+         <input id="mail" name="mail" class="input" type="email" value="'.htmlspecialchars($mail).'" maxlength="100">
          <span class="icon is-small is-left">
 			<i class="fas fa-envelope"></i>
          </span>
@@ -704,7 +704,7 @@ echo '
 	</div>
 	<div class="column is-one-quarter">
         <div class="control has-icons-left">
-         <input id="tel" name="tel" class="input" type="tel"  value="'.htmlspecialchars($tel).'">
+         <input id="tel" name="tel" class="input" type="tel"  value="'.htmlspecialchars($tel).'" maxlength="20">
          <span class="icon is-small is-left">
 			<i class="fas fa-phone"></i>
          </span>
@@ -722,7 +722,7 @@ if ($ip1 == 1 && $config_display_cgr_fields){
 	</div>
 	<div class="column is-one-quarter">
         <div class="control">
-         <input id="cgra" name="cgra" class="input" type="text" value="'.htmlspecialchars($cgra).'" placeholder="'.__("CGR A").'">
+         <input id="cgra" name="cgra" class="input" type="text" value="'.htmlspecialchars($cgra).'" placeholder="'.__("CGR A").'" maxlength="10">
         </div>
     </div>
 	<div class="column is-2">
@@ -732,7 +732,7 @@ if ($ip1 == 1 && $config_display_cgr_fields){
 	</div>
 	<div class="column is-one-quarter">
         <div class="control">
-         <input id="cgrb" name="cgrb" class="input" type="text"  value="'.htmlspecialchars($cgrb).'" placeholder="'.__("CGR B").'" >
+         <input id="cgrb" name="cgrb" class="input" type="text"  value="'.htmlspecialchars($cgrb).'" placeholder="'.__("CGR B").'" maxlength="10">
         </div>
     </div>
     </div>';
@@ -749,7 +749,7 @@ echo '
 	</div>
 	<div class="column is-one-quarter">
         <div class="control has-icons-left">
-         <input id="adresse" name="adresse" class="input" type="text" value="'.htmlspecialchars($adresse).'">
+         <input id="adresse" name="adresse" class="input" type="text" value="'.htmlspecialchars($adresse).'" maxlength="255">
 		 <span class="icon is-small is-left">
 			<i class="fas fa-home"></i>
          </span>
@@ -762,7 +762,7 @@ echo '
 	</div>
 	<div class="column is-1">
         <div class="control">
-         <input id="postal" name="postal" class="input" type="text" value="'.htmlspecialchars($postal).'">
+         <input id="postal" name="postal" class="input" type="text" value="'.htmlspecialchars($postal).'" maxlength="10">
         </div>
     </div>
     <div class="column is-narrow">
@@ -772,7 +772,7 @@ echo '
 	</div>
 	<div class="column is-2">
         <div class="control">
-         <input id="localite" name="localite" class="input" type="text" value="'.htmlspecialchars($localite).'">
+         <input id="localite" name="localite" class="input" type="text" value="'.htmlspecialchars($localite).'" maxlength="50">
         </div>
     </div>
     </div>
@@ -924,7 +924,7 @@ else
 	</div>
 	<div class="column is-1">
         <div class="control">
-         <input class="input" id="date_'.$form_index.'" name="date_'.$form_index.'" type="text" value="'.htmlspecialchars($date).'" onchange="resolve('.$form_index.', 1);">
+         <input class="input" id="date_'.$form_index.'" name="date_'.$form_index.'" type="text" value="'.htmlspecialchars(substr($date, 0, 10)).'" onchange="resolve('.$form_index.', 1);" maxlength="10">
         </div>
     </div>
      <div class="column is-1">
@@ -934,7 +934,7 @@ else
 	</div>
 	<div class="column is-1">
         <div class="control">
-         <input class="input" id="volume_'.$form_index.'" name="volume_'.$form_index.'" type="text" value="'.htmlspecialchars($volume).'" onchange="resolve('.$form_index.', 1);">
+         <input class="input" id="volume_'.$form_index.'" name="volume_'.$form_index.'" type="text" value="'.htmlspecialchars(substr($volume, 0, 50)).'" onchange="resolve('.$form_index.', 1);" maxlength="50">
         </div>
     </div>
      <div class="column is-1">
@@ -944,7 +944,7 @@ else
 	</div>
 	<div class="column is-1">
         <div class="control">
-         <input class="input" id="issue_'.$form_index.'" name="issue_'.$form_index.'" type="text" value="'.htmlspecialchars($issue).'" onchange="resolve('.$form_index.', 1);">
+         <input class="input" id="issue_'.$form_index.'" name="issue_'.$form_index.'" type="text" value="'.htmlspecialchars(substr($issue, 0, 100)).'" onchange="resolve('.$form_index.', 1);" maxlength="100">
        </div>
     </div>
      <div class="column is-1">
@@ -954,7 +954,7 @@ else
 	</div>
 	<div class="column is-1">
         <div class="control">
-         <input class="input" id="suppl_'.$form_index.'" name="suppl_'.$form_index.'" type="text" value="'.htmlspecialchars($suppl).'" onchange="resolve('.$form_index.', 1);">
+         <input class="input" id="suppl_'.$form_index.'" name="suppl_'.$form_index.'" type="text" value="'.htmlspecialchars(substr($suppl, 0, 100)).'" onchange="resolve('.$form_index.', 1);" maxlength="100">
        </div>
     </div>
      <div class="column is-1">
@@ -964,7 +964,7 @@ else
 	</div>
 	<div class="column is-1">
         <div class="control">
-         <input class="input" id="pages_'.$form_index.'" name="pages_'.$form_index.'" type="text" value="'.htmlspecialchars($pages).'" onchange="resolve('.$form_index.', 1);">
+         <input class="input" id="pages_'.$form_index.'" name="pages_'.$form_index.'" type="text" value="'.htmlspecialchars(substr($pages, 0, 50)).'" onchange="resolve('.$form_index.', 1);"  maxlength="50">
         </div>
        </div>
       </div>
@@ -991,7 +991,7 @@ else
 	</div>
 	<div class="column is-three-quarters">
         <div class="control">
-         <input class="input" id="auteurs_'.$form_index.'" name="auteurs_'.$form_index.'" type="text" value="'.htmlspecialchars($auteurs).'" onchange="resolve('.$form_index.', 1);">
+         <input class="input" id="auteurs_'.$form_index.'" name="auteurs_'.$form_index.'" type="text" value="'.htmlspecialchars(substr($auteurs, 0, 255)).'" onchange="resolve('.$form_index.', 1);" maxlength="255">
         </div>
        </div>
       </div>
@@ -1004,7 +1004,7 @@ else
 	</div>
 	<div class="column is-2">
         <div class="control">
-         <input class="input" id="edition_'.$form_index.'" name="edition_'.$form_index.'" type="text" value="'.htmlspecialchars($edition).'" placeholder="'.__("(for books)").'" onchange="resolve('.$form_index.', 1);">
+         <input class="input" id="edition_'.$form_index.'" name="edition_'.$form_index.'" type="text" value="'.htmlspecialchars(substr($edition, 0, 100)).'" placeholder="'.__("(for books)").'" onchange="resolve('.$form_index.', 1);" maxlength="100">
         </div>
     </div>
      <div class="column is-2">
@@ -1014,7 +1014,7 @@ else
 	</div>
 	<div class="column is-2">
         <div class="control">
-         <input class="input" id="issn_'.$form_index.'" name="issn_'.$form_index.'" type="text"  value="'.htmlspecialchars($issn).'" onchange="resolve('.$form_index.', 1);">
+         <input class="input" id="issn_'.$form_index.'" name="issn_'.$form_index.'" type="text"  value="'.htmlspecialchars(substr($issn, 0, 50)).'" onchange="resolve('.$form_index.', 1);" maxlength="50">
 		</div>
     </div>
      <div class="column is-1">
@@ -1024,7 +1024,7 @@ else
 	</div>
 	<div class="column is-2">
         <div class="control">
-         <input class="input" id="uid_'.$form_index.'" name="uid_'.$form_index.'" type="text" value="'.htmlspecialchars($uid).'" onchange="resolve('.$form_index.', 1);">
+         <input class="input" id="uid_'.$form_index.'" name="uid_'.$form_index.'" type="text" value="'.htmlspecialchars(substr($uid, 0, 255)).'" onchange="resolve('.$form_index.', 1);" maxlength="255">
         </div>
        </div>
       </div>

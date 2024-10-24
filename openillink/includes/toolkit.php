@@ -36,6 +36,28 @@ function null_to_empty_string($param) {
     }
 }
 
+function htmlspecialchars_nullable($string, $flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, $encoding = null, $double_encode = true) {
+    /*
+    Calls htmlspecialchars, but transform Null intput to empty string
+    */
+    if (is_null($string)) {
+        return "";
+    } else {
+        return htmlspecialchars($string, $flags, $encoding, $double_encode);
+    }
+}
+
+function urlencode_nullable($string) {
+    /*
+    Calls urlencode, but transform Null intput to empty string
+    */
+    if (is_null($string)) {
+        return "";
+    } else {
+        return urlencode($string);
+    }
+}
+
 // Links displayed on the order details
 //
 // MDV - function to replace url placeholders
@@ -187,7 +209,9 @@ function isValidInput($inputToCheck,
     $isValid = $optional || (!empty($inputToCheck));
     if (isset($inputToCheck) && $isValid){
         $strCopy = strval($inputToCheck);
-        $isValid = (strlen($strCopy) <= $maxSize);
+        if (!is_null($maxSize)) {
+            $isValid = (strlen($strCopy) <= $maxSize);
+        }
         switch ($type) {
             case 'i':
                 $isValid &= is_numeric($inputToCheck);
@@ -706,7 +730,7 @@ function parse_uid_str($uid, $filter_codes=true) {
     }
     
     // Split the input string by spaces
-    $entries = explode(' ', $uid);
+    $entries = explode(' ', null_to_empty_string($uid));
     
     foreach ($entries as $entry) {
         // Split each entry by the first colon ":". When no colon, skip

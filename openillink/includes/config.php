@@ -269,6 +269,7 @@ $config_available_langs = array("fr", "en", "de", "it", "es");
 require_once("translations.php");
 
 // Define the document types (based on OpenURL spec)
+// `code` must not exceed 50 characters
 $doctypes = array(
 			  array('name' => __("Article"), 'code' => "article"),
 			  array('name' => __("Preprint"), 'code' => "preprint"),

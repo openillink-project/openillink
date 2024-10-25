@@ -471,8 +471,27 @@ echo "</select>";
 echo '        </div>
       </div>
     </div>
-  </div>
-  </div>';
+';
+
+echo '
+  <div class="field-label is-normal has-text-left is-flex-wrap-nowrap" style="flex-grow:0;white-space: nowrap">';
+echo "<label class=\"label\" for=\"doctype_code\"><strong>".__("by document type")." </strong></label>";
+echo '</div>
+		<div class="field is-narrow">
+			<div class="control">
+				<div class="select is-fullwidth">';
+echo "<select name=\"doctype_code\" id=\"doctype_code\">\n";
+echo '<option value=""></option>';
+$doctype_code = (isset($_GET['doctype_code']))?$_GET['doctype_code']:'';
+foreach($doctypes as $value) {
+	echo "<option value=\"" . htmlspecialchars($value["code"]) . "\" ".($doctype_code==$value["code"]? 'selected': '')." >" . htmlspecialchars($value["name"]) . "</option>\n";
+}
+echo "</select>";
+echo '        </div>
+      </div>
+    </div>';
+
+  echo '  </div></div>';
 //echo "</p>";
 if ($monaut != 'guest'){
 	echo '<div class="field is-horizontal">

@@ -61,6 +61,13 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
         $statut = isValidInput($statuscode,6,'s',false) || $statuscode == "0" ? $statuscode : '';
         $filtreStatut = "  stade = ".mysqli_real_escape_string($link, $statut)." ";
     }
+    /* Document type filter */
+    $doctype_code = (isset($_GET['doctype_code']))?$_GET['doctype_code']:'';
+    $doctype_filter = '';
+    if (isValidInput($doctype_code,50,'s',false)) {
+        $doctype_filter = "  type_doc = '".mysqli_real_escape_string($link, $doctype_code)."' ";
+    }
+
     $champValides = array('id', 'datecom', 'dateenv', 'datefact', 'date', 'statut', 'localisation', 'bibliotheque',  'nom', 'email', 'service', 'issn', 'pmid', 'doi', 'title', 'atitle', 'auteurs', 'reff', 'refb', 'all');
     $champ1 = ((!empty($_GET['champ'])) && isValidInput($_GET['champ'], 15, 's', false, $champValides))?$_GET['champ']:'';
 	$champ2 = ((!empty($_GET['champ2'])) && isValidInput($_GET['champ2'], 15, 's', false, $champValides))?$_GET['champ2']:'';
@@ -250,12 +257,14 @@ if(in_array ($monaut, array("admin", "sadmin", "user","guest"), true)){
 		}
 		$conditions = 'WHERE '.$conditions;
 		$conditions = $conditions.(empty($filtreStatut)?'':' AND '.$filtreStatut);
+        $conditions = $conditions.(empty($doctype_filter)?'':' AND '.$doctype_filter);
     }
     else{
-        if (!empty($guestFilter) || !empty($filtreStatut)) {
+        if (!empty($guestFilter) || !empty($filtreStatut) || !empty($doctype_filter)) {
             $conditions = '';
             $conditions = (empty($guestFilterAlone)?'':$guestFilterAlone);
-            $conditions .= (empty($filtreStatut)?'':(empty($guestFilterAlone)?'':' AND ').$filtreStatut.' ');
+            $conditions .= (empty($filtreStatut)?'':(empty($conditions)?'':' AND ').$filtreStatut.' ');
+            $conditions .= (empty($doctype_filter)?'':(empty($conditions)?'':' AND ').$doctype_filter.' ');
             $conditions = ' WHERE '.$conditions;
         }
         else {

@@ -252,7 +252,7 @@ if (($monaut == "admin")||($monaut == "sadmin")||($monaut == "user")){
 	echo '<script type="text/javascript">var referer="'. (isset($referer)  ? htmlspecialchars(ltrim(rtrim(json_encode($referer), '"'), '"')) : '').'";</script>';
     echo '<section class="hero">
 			<div class="hero-body">
-				<div class="container has-text-centered">';
+				<div class="has-text-centered">';
 	echo '<h1 class="title">' . __("Document order form to the ") . " <a href=\"" . $configlibraryurl[$lang] . "\" target=\"_blank\">" . $configlibrary[$lang] . "</a></h1>\n";
 	if (isset($secondmessage) && array_key_exists($lang, $secondmessage)) {
 		echo '<h2 class="subtitle">' . $secondmessage[$lang] . "</h2>\n";
@@ -543,7 +543,7 @@ else{
 
     echo '<section class="hero">
 			<div class="hero-body">
-				<div class="container has-text-centered">';
+				<div class="has-text-centered">';
 	echo '<h1 class="title">' . __("Document order form to the ") . " <a href=\"" . $configlibraryurl[$lang] . "\" target=\"_blank\">" . $configlibrary[$lang] . "</a></h1>\n";
 	if (isset($secondmessage) && array_key_exists($lang, $secondmessage)) {
 		echo '<h2 class="subtitle">' . $secondmessage[$lang] . "</h2>\n";

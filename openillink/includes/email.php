@@ -94,10 +94,11 @@ function displayMailText($monaut,
                /*rawurlencode(stripslashes("*****************************************************\r\n")).*/
                rawurlencode($mailAllTexts[$lang]['signature']."\r\n\r\n");
       if ($signature) {
+        if (strlen($body)
 	  	$body .= rawurlencode($signature);
       }
 	  $final_url .= "&amp;body=";
-	  $final_url .= substr ( htmlspecialchars($body), 0 , 2050 - strlen($final_url));
+	  $final_url .= substr ( htmlspecialchars($body), 0 , 2048 - strlen($final_url));
       $finalMailText .= $final_url;
       $finalMailText .= "\" title=\"".htmlspecialchars(__("Send a message with the attached document to the user"))."\"><img src=\"img/email.gif\" height=\"20\"></a>\n";
     }

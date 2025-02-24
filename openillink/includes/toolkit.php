@@ -561,15 +561,15 @@ function resolve_link($pmid, $mms_id, $doi, $genre, $atitle, $title, $year, $vol
 				$openurl_parameters['user_ip'] = $config_link_resolver_user_ip_forwarding_mode;
 			}
 		}
-		if (!empty($pmid)) {
+		/*if (!empty($pmid)) {
 			$openurl_parameters['id'] = "pmid:" . $pmid;
-		}
+		}*/
 		if (!empty($mms_id)) {
 			$openurl_parameters['rft.mms_id'] = $mms_id;
 		}
-		if (!empty($doi)) {
+		/*if (!empty($doi)) {
 			$openurl_parameters['rft.doi'] = $doi;
-		}
+		}*/
 		if (!empty($atitle)) {
 			$openurl_parameters['rft.atitle'] = $atitle;
 		}

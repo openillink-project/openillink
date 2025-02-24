@@ -1,6 +1,6 @@
 ﻿/*
    This file is part of OpenILLink software.
-   Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2023, 2024 CHUV.
+   Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2023, 2024, 2025 CHUV.
    Original author(s): Pablo Iriarte <pablo@iriarte.ch>
    Other contributors are listed in the AUTHORS file at the top-level directory of this distribution.
 
@@ -1023,7 +1023,7 @@ function handleHttpResponse5(item_index) {
             console.error("Parsing error:", e);
             console.error("Response", http5.responseText);
         }
-        if (result && result.hasOwnProperty("Data") && result.QueryResult.hasOwnProperty("RecordsFound") && result.QueryResult.RecordsFound != 0) {
+        if (result && result.hasOwnProperty("uid")) {
             // initialisation des variables target
             var atitle = '';
             var authorsf = '';
@@ -1038,52 +1038,45 @@ function handleHttpResponse5(item_index) {
             var doi = '';
             var notesn = '';
             // fin initialisation
-            if (result.Data[0].hasOwnProperty("Title")) {
-                atitle = result.Data[0].Title.Title.join("; ");
+            if (result.hasOwnProperty("title")) {
+                atitle = result.title;
             }
-            if(result.Data[0].hasOwnProperty("Doctype")){
-                if(result.Data[0].Doctype.hasOwnProperty("Doctype")){
-                  doctype = result.Data[0].Doctype.Doctype[0];
-                  doctype = doctype.toLowerCase();
-                }
+            if(result.hasOwnProperty("types")){
+              doctype = result.types[0];
+              doctype = doctype.toLowerCase();
             }
-            if (result.Data[0].hasOwnProperty("Author")) {
-                if (result.Data[0].Author.hasOwnProperty("Authors")) {
-                    authorsf = result.Data[0].Author.Authors.join("; ");
-                } else if (result.Data[0].Author.hasOwnProperty("BookAuthors")) {
-                    authorsf = result.Data[0].Author.BookAuthors.join("; ");
-                } else if (result.Data[0].Author.hasOwnProperty("BookGroupAuthors")) {
-                    authorsf = result.Data[0].Author.BookGroupAuthors.join("; ");
+            if (result.hasOwnProperty("names")) {
+                if (result.names.hasOwnProperty("authors")) {
+                    authorsf = result.names.authors.map(author => author.displayName).join("; ");
+                } else if (result.names.hasOwnProperty("books")) {
+                    authorsf = result.names.books.map(author => author.displayName).join("; ");
                 }
             }
-            if (result.Data[0].hasOwnProperty("Source")) {
-                if (result.Data[0].Source.hasOwnProperty("Volume")) {
-                    vol = result.Data[0].Source.Volume.join("; ");
+            if (result.hasOwnProperty("source")) {
+                if (result.source.hasOwnProperty("volume")) {
+                    vol = result.source.volume;
                 }
-                if (result.Data[0].Source.hasOwnProperty("Issue")) {
-                    no = result.Data[0].Source.Issue.join("; ");
+                if (result.source.hasOwnProperty("issue")) {
+                    no = result.source.issue;
                 }
-                if (result.Data[0].Source.hasOwnProperty("Pages")) {
-                    pages = result.Data[0].Source.Pages.join("; ");
+                if (result.source.hasOwnProperty("pages")) {
+                    pages = result.source.pages.range;
                 }
-                if (result.Data[0].Source.hasOwnProperty("SourceTitle")) {
-                    journal = result.Data[0].Source.SourceTitle.join("; ");
+                if (result.source.hasOwnProperty("sourceTitle")) {
+                    journal = result.source.sourceTitle;
                 }
-                if (result.Data[0].Source.hasOwnProperty("Published.BiblioYear")) {
-                    annee = result.Data[0].Source["Published.BiblioYear"].join("; ");
+                if (result.source.hasOwnProperty("publishYear")) {
+                    annee = result.source["publishYear"];
                 }
             }
-            if (result.Data[0].hasOwnProperty("Other")) {
-                if (result.Data[0].Other.hasOwnProperty("Identifier.Doi")) {
-                    doi = result.Data[0].Other["Identifier.Doi"].join("; ");
+            if (result.hasOwnProperty("identifiers")) {
+                if (result.identifiers.hasOwnProperty("doi")) {
+                    doi = result.identifiers.doi;
                 }
-                if (result.Data[0].Other.hasOwnProperty("Identifier.Issn")) {
-                    issn = result.Data[0].Other["Identifier.Issn"].join("; ");
-                } else if (result.Data[0].Other.hasOwnProperty("Identifier.Eissn")) {
-                    issn = result.Data[0].Other["Identifier.Eissn"].join("; ");
-                }
-                if (result.Data[0].Other.hasOwnProperty("Identifier.Ids")) {
-                    isiid = result.Data[0].Other["Identifier.Ids"].join("; ");
+                if (result.identifiers.hasOwnProperty("issn")) {
+                    issn = result.identifiers.issn;
+                } else if (result.identifiers.hasOwnProperty("eissn")) {
+                    issn = result.identifiers.eissn;
                 }
             }
             if (doi !== '')

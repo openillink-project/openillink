@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2020, 2023, 2024 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2020, 2023, 2024, 2025 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -155,21 +155,35 @@ if(isset($doi) && !empty($doi)){
 }
 
 $ut = !empty($_GET['wosid']) ? $_GET['wosid'] : null;
-if (isset($ut) && !empty($ut) && isset($configWOSLiteRestAPIKey)){
+if (isset($ut) && !empty($ut) && isset($configWOSStarterRestAPIKey)){
     $ut = (isset($ut) &&  isValidInput($ut,100,'s',false))?trim($ut):NULL;
-    $parameters = array(
-          'databaseId' => 'WOS',
-          'count' => '1',
-          'firstRecord' => '1'
-        );
-    $url = 'https://wos-api.clarivate.com/api/woslite/id/' . urlencode($ut) . "?" . http_build_query($parameters);
+    if (strncmp($ut, "WOS:", 4) != 0) {
+        if (strncmp($ut, "wos:", 4) == 0) {
+            $ut = "WOS:" . substr($ut, 4);
+        } else {
+            $ut = "WOS:" . $ut;
+        }
+    }
+    $url = 'https://api.clarivate.com/apis/wos-starter/v1/documents/' . urlencode(trim($ut));
     
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_HTTPHEADER,
-                    ['X-ApiKey: ' . $configWOSLiteRestAPIKey,
+                    ['X-ApiKey: ' . $configWOSStarterRestAPIKey,
                      'Accept: application/json']);
-    $result = curl_exec($ch);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $res = curl_exec($ch);
+    $http_status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+	header("Content-type: application/json");
+	http_response_code($http_status_code);
+	if (is_string($res)) {
+        $res_json = json_decode($res);
+        if (isset($res_json->citations)) {
+            unset($res_json->citations);
+        }
+        $res =  json_encode($res_json);
+    }
+	echo $res;
 }
 ?>

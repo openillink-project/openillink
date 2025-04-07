@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2024 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2024, 2025 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -331,7 +331,7 @@ if (isset($config_link_resolver_base_openurl) && $config_link_resolver_base_open
 	echo '<input type="hidden" id="resolver_search_params_0" name="resolver_search_params_0" value="'.htmlspecialchars($resolver_search_params).'" />';
 	echo '<div class="columns is-gapless is-columns-form">
   <div class="column" id="resolvedurlblock_0" style="'.$resolved_block_style.'">'.$resolved_block_content.'</div></div>';
-	echo '<script type="text/javascript">resolve(0, 1, '.json_encode($tid).', \'\', '.json_encode($enreg['type_doc']).', '.json_encode($enreg['titre_periodique']).', '.json_encode($enreg['annee']).', '.json_encode($enreg['volume']).', '.json_encode($enreg['numero']).', '.json_encode($enreg['supplement']).', '.json_encode($enreg['pages']).', '.json_encode($enreg['titre_article']).', '.json_encode($enreg['auteurs']).', '.json_encode($enreg['edition']).', '.json_encode($enreg['issn']).', '.json_encode($enreg['uid']).', \'orders_detail\');</script>';
+	echo '<script type="text/javascript">resolve(0, 1, '.json_encode($tid).', \'\', '.json_encode($enreg['type_doc']).', '.json_encode(null_to_empty_string($enreg['titre_periodique'])).', '.json_encode(null_to_empty_string($enreg['annee'])).', '.json_encode(null_to_empty_string($enreg['volume'])).', '.json_encode(null_to_empty_string($enreg['numero'])).', '.json_encode(null_to_empty_string($enreg['supplement'])).', '.json_encode(null_to_empty_string($enreg['pages'])).', '.json_encode(null_to_empty_string($enreg['titre_article'])).', '.json_encode(null_to_empty_string($enreg['auteurs'])).', '.json_encode(null_to_empty_string($enreg['edition'])).', '.json_encode(null_to_empty_string($enreg['issn'])).', '.json_encode(null_to_empty_string($enreg['uid'])).', \'orders_detail\');</script>';
 }
 
 echo "<br /></div></div>\n";

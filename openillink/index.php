@@ -3,7 +3,7 @@
 // ***************************************************************************
 // ***************************************************************************
 // This file is part of OpenILLink software.
-// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2023, 2024 CHUV.
+// Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2023, 2024, 2025 CHUV.
 // Original author(s): Pablo Iriarte <pablo@iriarte.ch>
 // Other contributors are listed in the AUTHORS file at the top-level
 // directory of this distribution.
@@ -210,6 +210,7 @@ if (!empty($_FILES['order_file']) && $_FILES['order_file']['size'] > 0 && is_pri
 			$order_form['uid'] = 'doi:' . $reference['doi'];
 		}
 		$order_form['remarquespub'] = !empty($reference['notes']) ? $reference['notes'] : '';
+        $order_form['remarquespub'] .= !empty($reference['urls']) ? "\n" . implode("\n", $reference['urls']) : '';
 		array_push($order_form_values, $order_form);
 		if (count($order_form_values) >= max($maxSimultaneousOrders, 1)) {
 			array_push($uploaded_orders_messages, get_message_box(sprintf(__("The maximum number of simultaneous orders (%d) has been reached. Remaining references have been ignored."), $maxSimultaneousOrders), 'warning', __("Warning")));

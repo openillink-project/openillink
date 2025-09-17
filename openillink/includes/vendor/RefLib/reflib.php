@@ -281,7 +281,12 @@ class RefLib {
 	function SetContentsFile($filename, $mime = null) {
 		if ($driver = $this->IdentifyDriver(pathinfo($filename, PATHINFO_EXTENSION), $mime, $filename)) {
 			$this->LoadDriver($driver);
-			$this->driver->SetContents(file_get_contents($filename));
+			$content = file_get_contents($filename);
+			if (substr($content, 0, 3) === "\xEF\xBB\xBF") {
+                // Remove BOM header
+				$content = substr($content, 3);
+			}
+			$this->driver->SetContents($content);
 		} else {
 			trigger_error("Unknown driver type for filename '$filename'");
 		}
